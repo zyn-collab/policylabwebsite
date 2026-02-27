@@ -1,0 +1,13 @@
+﻿<!-- Public Policy Lab bar chart icon -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 40" fill="none">
+  <!-- Bar 1: Teal, full height -->
+  <rect x="0" y="0" width="10" height="40" rx="1.5" fill="#46BBB7"/>
+  <!-- Bar 2: Blue, 60% height -->
+  <rect x="10" y="16" width="10" height="24" rx="1.5" fill="#0097B2"/>
+  <!-- Bar 3: Salmon, 60% height -->
+  <rect x="20" y="16" width="10" height="24" rx="1.5" fill="#EC9895"/>
+  <!-- Bar 4: Coral, full height -->
+  <rect x="30" y="0" width="10" height="40" rx="1.5" fill="#F05B4E"/>
+  <!-- Bar 5: Green, 35% height, small gap -->
+  <rect x="42" y="26" width="10" height="14" rx="1.5" fill="#40AD87"/>
+</svg>
