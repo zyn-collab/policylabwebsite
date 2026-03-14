@@ -13,3 +13,9 @@ desktop.ini
 # Local env files (if any added later)
 .env
 .env.local
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
