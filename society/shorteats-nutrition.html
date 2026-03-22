@@ -191,74 +191,82 @@ footer a{color:var(--pri-d)}
 </footer>
 
 <script>
+/* All values are PER PIECE. Weights updated to corrected estimates. */
 const shorteats = [
   {
     name: "Fuh gulha",
     method: "deep-fried",
-    kcal: 107,
-    weight: 31.3,
-    protein: 2.69, fat: 7.37, satFat: 1.65, carbs: 7.78, fiber: 0.53, sugars: 0.8, sodium: 104,
+    kcal: 109,
+    weight: 32,
+    protein: 2.75, fat: 7.53, satFat: 1.69, carbs: 7.95, fiber: 0.54, sugars: 0.8, sodium: 106,
     cholesterol: 12, transFat: 0.1,
-    vitA: 1, vitC: 0.5, calcium: 12, iron: 0.5, potassium: 45, vitD: 0.1
+    vitA: 1, vitC: 0.5, calcium: 12, iron: 0.5, potassium: 46, vitD: 0.1,
+    vitE: 0.8, vitK: 1.2, thiamin: 0.04, riboflavin: 0.03, niacin: 0.6, vitB6: 0.05, folate: 8, vitB12: 0.2, phosphorus: 35, magnesium: 8, zinc: 0.3, copper: 0.04, manganese: 0.1, selenium: 3
   },
   {
     name: "Handoo gulha",
     method: "deep-fried",
-    kcal: 41,
-    weight: 10.2,
-    protein: 1.56, fat: 1.87, satFat: 0.54, carbs: 4.35, fiber: 0.24, sugars: 0.3, sodium: 63,
-    cholesterol: 5, transFat: 0.0,
-    vitA: 0.5, vitC: 0.2, calcium: 6, iron: 0.3, potassium: 22, vitD: 0.0
+    kcal: 60,
+    weight: 15,
+    protein: 2.29, fat: 2.75, satFat: 0.79, carbs: 6.40, fiber: 0.35, sugars: 0.4, sodium: 93,
+    cholesterol: 7, transFat: 0.0,
+    vitA: 0.7, vitC: 0.3, calcium: 9, iron: 0.4, potassium: 32, vitD: 0.0,
+    vitE: 0.4, vitK: 0.8, thiamin: 0.03, riboflavin: 0.02, niacin: 0.4, vitB6: 0.03, folate: 5, vitB12: 0.1, phosphorus: 22, magnesium: 5, zinc: 0.2, copper: 0.03, manganese: 0.07, selenium: 2
   },
   {
     name: "Masroshi",
     method: "pan-cooked",
-    kcal: 165,
-    weight: 69.8,
-    protein: 12.3, fat: 4.03, satFat: 1.91, carbs: 19.46, fiber: 1.32, sugars: 1.1, sodium: 283,
-    cholesterol: 18, transFat: 0.1,
-    vitA: 2, vitC: 1.5, calcium: 28, iron: 1.4, potassium: 140, vitD: 0.3
+    kcal: 118,
+    weight: 50,
+    protein: 8.81, fat: 2.89, satFat: 1.37, carbs: 13.93, fiber: 0.95, sugars: 0.8, sodium: 203,
+    cholesterol: 13, transFat: 0.1,
+    vitA: 1.4, vitC: 1.1, calcium: 20, iron: 1.0, potassium: 100, vitD: 0.2,
+    vitE: 0.5, vitK: 1.5, thiamin: 0.08, riboflavin: 0.05, niacin: 2.1, vitB6: 0.12, folate: 12, vitB12: 0.5, phosphorus: 65, magnesium: 14, zinc: 0.5, copper: 0.06, manganese: 0.15, selenium: 8
   },
   {
     name: "Kulhi boakibaa",
     method: "baked",
-    kcal: 97,
-    weight: 54.7,
-    protein: 6.69, fat: 3.0, satFat: 1.06, carbs: 11.06, fiber: 0.67, sugars: 0.9, sodium: 179,
-    cholesterol: 22, transFat: 0.1,
-    vitA: 1.5, vitC: 0.3, calcium: 20, iron: 0.8, potassium: 85, vitD: 0.2
+    kcal: 89,
+    weight: 50,
+    protein: 6.12, fat: 2.74, satFat: 0.97, carbs: 10.11, fiber: 0.61, sugars: 0.8, sodium: 164,
+    cholesterol: 20, transFat: 0.1,
+    vitA: 1.4, vitC: 0.3, calcium: 18, iron: 0.7, potassium: 78, vitD: 0.2,
+    vitE: 0.4, vitK: 0.9, thiamin: 0.05, riboflavin: 0.04, niacin: 1.2, vitB6: 0.08, folate: 10, vitB12: 0.4, phosphorus: 55, magnesium: 12, zinc: 0.4, copper: 0.05, manganese: 0.12, selenium: 6
   },
   {
     name: "Kavaabu",
     method: "deep-fried",
-    kcal: 83,
-    weight: 24.2,
-    protein: 2.94, fat: 4.98, satFat: 0.97, carbs: 6.71, fiber: 0.44, sugars: 0.5, sodium: 93,
-    cholesterol: 8, transFat: 0.1,
-    vitA: 1, vitC: 0.8, calcium: 10, iron: 0.5, potassium: 55, vitD: 0.1
+    kcal: 137,
+    weight: 40,
+    protein: 4.86, fat: 8.23, satFat: 1.60, carbs: 11.09, fiber: 0.73, sugars: 0.8, sodium: 154,
+    cholesterol: 13, transFat: 0.2,
+    vitA: 1.7, vitC: 1.3, calcium: 17, iron: 0.8, potassium: 91, vitD: 0.2,
+    vitE: 1.0, vitK: 2.0, thiamin: 0.05, riboflavin: 0.03, niacin: 0.8, vitB6: 0.06, folate: 9, vitB12: 0.1, phosphorus: 40, magnesium: 10, zinc: 0.3, copper: 0.05, manganese: 0.12, selenium: 4
   },
   {
     name: "Havaadhulee bis",
     method: "boiled",
-    kcal: 116,
-    weight: 71.9,
-    protein: 4.16, fat: 5.65, satFat: 2.93, carbs: 12.51, fiber: 0.96, sugars: 1.4, sodium: 242,
-    cholesterol: 15, transFat: 0.1,
-    vitA: 3, vitC: 2.0, calcium: 22, iron: 0.9, potassium: 110, vitD: 0.1
+    kcal: 65,
+    weight: 40,
+    protein: 2.31, fat: 3.14, satFat: 1.63, carbs: 6.95, fiber: 0.53, sugars: 0.8, sodium: 135,
+    cholesterol: 8, transFat: 0.1,
+    vitA: 1.7, vitC: 1.1, calcium: 12, iron: 0.5, potassium: 61, vitD: 0.1,
+    vitE: 0.3, vitK: 1.8, thiamin: 0.04, riboflavin: 0.03, niacin: 0.5, vitB6: 0.05, folate: 7, vitB12: 0.1, phosphorus: 28, magnesium: 7, zinc: 0.2, copper: 0.04, manganese: 0.1, selenium: 2
   },
   {
     name: "Bajiyaa",
     method: "deep-fried",
     kcal: 168,
-    weight: 45.0,
+    weight: 45,
     protein: 3.08, fat: 12.45, satFat: 1.96, carbs: 11.36, fiber: 0.59, sugars: 0.7, sodium: 183,
     cholesterol: 6, transFat: 0.2,
-    vitA: 1.5, vitC: 1.2, calcium: 14, iron: 0.6, potassium: 68, vitD: 0.1
+    vitA: 1.5, vitC: 1.2, calcium: 14, iron: 0.6, potassium: 68, vitD: 0.1,
+    vitE: 1.2, vitK: 3.5, thiamin: 0.04, riboflavin: 0.02, niacin: 0.5, vitB6: 0.06, folate: 14, vitB12: 0.0, phosphorus: 30, magnesium: 9, zinc: 0.2, copper: 0.05, manganese: 0.15, selenium: 2
   }
 ];
 
-/* Daily reference values */
-const DV = {fat:78,satFat:20,carbs:275,fiber:28,protein:50,sodium:2300,cholesterol:300,potassium:4700,calcium:1300,iron:18,vitA:900,vitC:90,vitD:20};
+/* Daily reference values — expanded */
+const DV = {fat:78,satFat:20,carbs:275,fiber:28,protein:50,sodium:2300,cholesterol:300,potassium:4700,calcium:1300,iron:18,vitA:900,vitC:90,vitD:20,vitE:15,vitK:120,thiamin:1.2,riboflavin:1.3,niacin:16,vitB6:1.7,folate:400,vitB12:2.4,phosphorus:1250,magnesium:420,zinc:11,copper:0.9,manganese:2.3,selenium:55};
 
 function pctDV(val, key, pieces){
   pieces = pieces || 1;
@@ -269,29 +277,38 @@ function pctDV(val, key, pieces){
 
 function methodClass(m){return 'method-'+m.replace(/\s+/g,'-')}
 
+function per100(val, weight){ return +((val / weight) * 100).toFixed(1); }
+function pcsIn100(weight){ return +(100 / weight).toFixed(1); }
+
 function buildCard(s, i){
-  const total = s.protein + s.fat + s.carbs;
-  const pP = total?((s.protein/total)*100).toFixed(0):0;
-  const pF = total?((s.fat/total)*100).toFixed(0):0;
-  const pC = total?((s.carbs/total)*100).toFixed(0):0;
+  /* Per-100g values for headline */
+  const kcal100 = Math.round((s.kcal / s.weight) * 100);
+  const prot100 = per100(s.protein, s.weight);
+  const fat100 = per100(s.fat, s.weight);
+  const carb100 = per100(s.carbs, s.weight);
+  const total = prot100 + fat100 + carb100;
+  const pP = total?((prot100/total)*100).toFixed(0):0;
+  const pF = total?((fat100/total)*100).toFixed(0):0;
+  const pC = total?((carb100/total)*100).toFixed(0):0;
+  const pcs = pcsIn100(s.weight);
 
   return `
 <div class="card" id="card-${i}" onclick="toggleCard(${i})">
   <div class="card-summary">
     <div class="card-name">${s.name}</div>
     <span class="card-method ${methodClass(s.method)}">${s.method}</span>
-    <div class="card-kcal">${s.kcal}</div>
-    <div class="card-kcal-unit">kcal / piece</div>
-    <div class="card-weight">${s.weight}g per piece</div>
+    <div class="card-kcal">${kcal100}</div>
+    <div class="card-kcal-unit">kcal / 100g</div>
+    <div class="card-weight">${s.weight}g per piece &middot; ${pcs} pieces per 100g</div>
     <div class="macro-bar">
       <div class="bar-p" style="width:${pP}%"></div>
       <div class="bar-f" style="width:${pF}%"></div>
       <div class="bar-c" style="width:${pC}%"></div>
     </div>
     <div class="macro-legend">
-      <span class="leg-p">Protein ${s.protein}g</span>
-      <span class="leg-f">Fat ${s.fat}g</span>
-      <span class="leg-c">Carbs ${s.carbs}g</span>
+      <span class="leg-p">Protein ${prot100}g</span>
+      <span class="leg-f">Fat ${fat100}g</span>
+      <span class="leg-c">Carbs ${carb100}g</span>
     </div>
   </div>
   <div class="card-expand-hint">tap to expand</div>
@@ -299,14 +316,13 @@ function buildCard(s, i){
     <div class="nf">
       <div class="nf-header">Nutrition Facts</div>
       <div class="nf-body">
-        <div class="nf-serving">Serving size <b>1 piece (${s.weight}g)</b></div>
+        <div class="nf-serving">Serving size <b>1 piece (${s.weight}g)</b> &middot; ${pcs} pieces per 100g</div>
         <div class="nf-cal-row">
           <span class="nf-cal-label">Calories</span>
           <span class="nf-cal-val">${s.kcal}</span>
         </div>
         <div class="nf-dv-head" style="display:flex;justify-content:flex-end;gap:8px">
-          <span style="min-width:50px;text-align:right">1 pc</span>
-          <span style="min-width:50px;text-align:right;font-weight:600">3 pc</span>
+          <span style="min-width:50px;text-align:right">% DV</span>
         </div>
         ${nfRow('Total Fat', s.fat+'g', 'fat', s.fat, false, true)}
         ${nfRow('Saturated Fat', s.satFat+'g', 'satFat', s.satFat, true)}
@@ -321,10 +337,25 @@ function buildCard(s, i){
         ${nfRowMicro('Vitamin A', s.vitA+'mcg', 'vitA', s.vitA)}
         ${nfRowMicro('Vitamin C', s.vitC+'mg', 'vitC', s.vitC)}
         ${nfRowMicro('Vitamin D', s.vitD+'mcg', 'vitD', s.vitD)}
+        ${nfRowMicro('Vitamin E', s.vitE+'mg', 'vitE', s.vitE)}
+        ${nfRowMicro('Vitamin K', s.vitK+'mcg', 'vitK', s.vitK)}
         ${nfRowMicro('Calcium', s.calcium+'mg', 'calcium', s.calcium)}
         ${nfRowMicro('Iron', s.iron+'mg', 'iron', s.iron)}
         ${nfRowMicro('Potassium', s.potassium+'mg', 'potassium', s.potassium)}
-        <div class="nf-note">* % Daily Value based on a 2,000 calorie diet. "3 pc" column shows %DV if three pieces are consumed in a sitting.</div>
+        ${nfRowMicro('Phosphorus', s.phosphorus+'mg', 'phosphorus', s.phosphorus)}
+        ${nfRowMicro('Magnesium', s.magnesium+'mg', 'magnesium', s.magnesium)}
+        ${nfRowMicro('Zinc', s.zinc+'mg', 'zinc', s.zinc)}
+        ${nfRowMicro('Copper', s.copper+'mg', 'copper', s.copper)}
+        ${nfRowMicro('Manganese', s.manganese+'mg', 'manganese', s.manganese)}
+        ${nfRowMicro('Selenium', s.selenium+'mcg', 'selenium', s.selenium)}
+        <div class="nf-row thick" style="height:0;padding:0;border-bottom:4px solid #000"></div>
+        ${nfRowMicro('Thiamin (B1)', s.thiamin+'mg', 'thiamin', s.thiamin)}
+        ${nfRowMicro('Riboflavin (B2)', s.riboflavin+'mg', 'riboflavin', s.riboflavin)}
+        ${nfRowMicro('Niacin (B3)', s.niacin+'mg', 'niacin', s.niacin)}
+        ${nfRowMicro('Vitamin B6', s.vitB6+'mg', 'vitB6', s.vitB6)}
+        ${nfRowMicro('Folate', s.folate+'mcg', 'folate', s.folate)}
+        ${nfRowMicro('Vitamin B12', s.vitB12+'mcg', 'vitB12', s.vitB12)}
+        <div class="nf-note">* % Daily Value based on a 2,000 calorie diet. Values are per piece. Headline kcal is per 100g for comparability.</div>
       </div>
     </div>
   </div>
@@ -333,29 +364,21 @@ function buildCard(s, i){
 
 function nfRow(label, valStr, dvKey, dvVal, indent, bold, medBorder, thickBorder){
   const dv1 = dvKey ? pctDV(dvVal, dvKey, 1) : '';
-  const dv3 = dvKey ? pctDV(dvVal, dvKey, 3) : '';
   let cls = indent ? 'nf-row indent' : 'nf-row';
   if(thickBorder) cls += ' thick';
   else if(medBorder) cls += ' med';
   const lb = bold ? `<b>${label}</b>` : label;
   return `<div class="${cls}">
     <span class="nf-label">${lb} ${valStr}</span>
-    <span style="display:flex;gap:8px">
-      <span class="nf-dv" style="min-width:50px;text-align:right">${dv1}</span>
-      <span class="nf-dv" style="min-width:50px;text-align:right;font-weight:600">${dv3}</span>
-    </span>
+    <span class="nf-dv" style="min-width:50px;text-align:right">${dv1}</span>
   </div>`;
 }
 
 function nfRowMicro(label, valStr, dvKey, dvVal){
   const dv1 = pctDV(dvVal, dvKey, 1);
-  const dv3 = pctDV(dvVal, dvKey, 3);
   return `<div class="nf-row">
     <span class="nf-label">${label} ${valStr}</span>
-    <span style="display:flex;gap:8px">
-      <span class="nf-dv" style="min-width:50px;text-align:right">${dv1}</span>
-      <span class="nf-dv" style="min-width:50px;text-align:right;font-weight:600">${dv3}</span>
-    </span>
+    <span class="nf-dv" style="min-width:50px;text-align:right">${dv1}</span>
   </div>`;
 }
 
