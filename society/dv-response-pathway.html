@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Domestic Violence Response Pathway – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
+  --dark: #1C1F2E; --red: #D4726A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(28,31,46,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-l{font-size:13px;font-weight:700;color:rgba(255,255,255,.85)}
+.nav-l span{font-weight:400;color:rgba(255,255,255,.4);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:rgba(255,255,255,.45);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:#fff}
+
+/* ═══════════════════════════════════
+   HERO
+   ═══════════════════════════════════ */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 40px 80px;background:var(--dark);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(179,133,111,.08),transparent)}
+.hero h1{font-family:var(--sans);font-size:clamp(34px,6vw,64px);line-height:1.08;letter-spacing:-.03em;color:#fff;max-width:780px;margin-bottom:28px;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero-intro{font-size:17px;color:rgba(255,255,255,.5);line-height:1.75;max-width:540px;margin-bottom:56px;font-weight:400}
+.hero-scroll{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.1em;text-transform:uppercase;position:relative;z-index:2}
+.hero-scroll::after{content:'';display:block;width:1px;height:48px;background:linear-gradient(rgba(255,255,255,.2),transparent);margin:14px auto 0}
+
+/* ═══════════════════════════════════
+   CONTEXT
+   ═══════════════════════════════════ */
+.context{max-width:620px;margin:0 auto;padding:100px 40px 60px;text-align:center}
+.context p{font-family:var(--serif);font-size:17px;color:var(--body);line-height:1.8;margin-bottom:18px}
+.context .legal-note{font-family:var(--sans);font-size:13px;color:var(--muted);line-height:1.65;border-top:1px solid rgba(0,0,0,.06);padding-top:20px;margin-top:28px}
+
+/* ═══════════════════════════════════
+   SCROLLYTELLING STEP SECTIONS
+   ═══════════════════════════════════ */
+.step-section{
+  min-height:80vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:80px 40px;
+  position:relative;
+  scroll-snap-align:start;
+}
+
+/* The attrition bar */
+.attrition-bar-track{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto 48px;
+  position:relative;
+  height:10px;
+  background:rgba(0,0,0,.04);
+  border-radius:5px;
+  overflow:visible;
+}
+.attrition-bar{
+  height:100%;
+  border-radius:5px;
+  width:0%;
+  transition:width 1.2s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
+.step-section.visible .attrition-bar{
+  /* width set via inline style — the transition animates from 0 to target */
+}
+
+/* Step content container */
+.step-content{
+  max-width:1100px;
+  margin:0 auto;
+  width:100%;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:40px;
+  align-items:start;
+}
+
+/* Large percentage number on the left */
+.step-pct{
+  font-family:var(--sans);
+  font-weight:800;
+  font-size:clamp(64px,10vw,120px);
+  line-height:1;
+  letter-spacing:-.04em;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .8s ease,transform .8s ease;
+  min-width:180px;
+}
+.step-section.visible .step-pct{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Text block on the right */
+.step-text{
+  max-width:560px;
+  padding-top:12px;
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .8s ease .15s,transform .8s ease .15s;
+}
+.step-section.visible .step-text{
+  opacity:1;
+  transform:translateY(0);
+}
+.step-label{
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.step-title{
+  font-family:var(--sans);font-size:clamp(22px,3vw,30px);font-weight:700;
+  line-height:1.2;letter-spacing:-.015em;margin-bottom:14px;
+}
+.step-desc{
+  font-size:15px;color:var(--body);line-height:1.75;margin-bottom:14px;
+}
+.step-note{
+  font-size:13px;color:var(--muted);line-height:1.65;font-style:italic;margin-bottom:14px;
+}
+
+/* Gap callout */
+.gap{
+  background:rgba(212,114,106,.05);border-left:3px solid var(--red);
+  padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0 0;
+}
+.gap-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.gap p{font-size:13.5px;color:var(--body);line-height:1.6}
+
+/* Attrition drop indicator between steps */
+.step-drop{
+  font-size:12px;font-weight:600;color:var(--red);
+  margin-bottom:6px;letter-spacing:.02em;
+}
+
+/* ═══════════════════════════════════
+   STATISTICS SECTION
+   ═══════════════════════════════════ */
+.stats-section{padding:100px 40px;background:var(--dark)}
+.stats-section .sec-tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--warm-lt);margin-bottom:10px;text-align:center}
+.stats-section h2{font-family:var(--sans);font-size:clamp(22px,3vw,30px);font-weight:600;line-height:1.25;letter-spacing:-.01em;color:#fff;text-align:center;margin-bottom:48px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:960px;margin:0 auto}
+.stat-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:32px 26px;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.stat-card.visible{opacity:1;transform:translateY(0)}
+.stat-card .stat-num{font-family:var(--sans);font-size:clamp(30px,4.5vw,44px);font-weight:800;color:var(--warm-lt);line-height:1.1;margin-bottom:10px}
+.stat-card .stat-label{font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.5}
+
+/* ═══════════════════════════════════
+   BARRIERS SECTION
+   ═══════════════════════════════════ */
+.barriers-section{padding:100px 40px;max-width:960px;margin:0 auto}
+.barriers-section .sec-tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--warm);margin-bottom:10px}
+.barriers-section h2{font-family:var(--sans);font-size:clamp(22px,3vw,30px);font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-bottom:14px}
+.barriers-section .barriers-intro{font-size:15px;color:var(--body);line-height:1.7;margin-bottom:40px;max-width:600px}
+.barrier-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.barrier-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:30px 28px;border-top:3px solid var(--red);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.barrier-card.visible{opacity:1;transform:translateY(0)}
+.barrier-card h3{font-family:var(--sans);font-size:16px;font-weight:700;margin-bottom:10px}
+.barrier-card p{font-size:13.5px;color:var(--body);line-height:1.65}
+
+/* ═══════════════════════════════════
+   PROSE SECTIONS
+   ═══════════════════════════════════ */
+.prose-section{padding:60px 40px;max-width:680px;margin:0 auto;border-top:1px solid rgba(0,0,0,.06)}
+.prose-section .sec-tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--warm);margin-bottom:10px}
+.prose-section h2{font-family:var(--sans);font-size:clamp(20px,2.5vw,26px);font-weight:700;line-height:1.25;letter-spacing:-.01em;margin-bottom:16px}
+.prose-section p{font-family:var(--serif);font-size:16px;color:var(--body);line-height:1.78;margin-bottom:16px}
+.prose-section .gap{margin:20px 0}
+
+/* ═══════════════════════════════════
+   SOURCES
+   ═══════════════════════════════════ */
+.sources-section{padding:48px 40px;max-width:680px;margin:0 auto;border-top:1px solid rgba(0,0,0,.06)}
+.sources-section h3{font-size:14px;font-weight:600;margin-bottom:14px}
+.sources-section ul{list-style:none;padding:0}
+.sources-section li{font-size:12.5px;color:var(--muted);line-height:1.6;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.03)}
+.sources-section li:last-child{border-bottom:none}
+
+/* ═══════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════ */
+footer{padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:960px;margin:0 auto}
+footer a{color:var(--pri-d)}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════ */
+@media(max-width:860px){
+  .step-content{grid-template-columns:1fr;gap:16px}
+  .step-pct{min-width:auto;font-size:clamp(52px,14vw,80px)}
+  .step-text{padding-top:0}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .barrier-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .hero{padding:100px 24px 60px}
+  .context,.step-section,.barriers-section,.prose-section,.sources-section{padding-left:20px;padding-right:20px}
+  .stats-section{padding:80px 20px}
+  .stats-grid{grid-template-columns:1fr}
+  nav{padding:12px 16px}
+  .nav-r{gap:14px}
+  footer{padding:24px 20px}
+  .step-section{min-height:auto;padding:60px 20px}
+  .step-pct{font-size:clamp(44px,12vw,64px)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; society</span></a>
+  <div class="nav-r">
+    <a href="index.html">Overview</a>
+    <a href="tools.html">Tools</a>
+    <a href="data.html">Data</a>
+    <a href="/">Main site</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════ -->
+<section class="hero">
+  <h1>What happens <em>after disclosure?</em></h1>
+  <p class="hero-intro">A domestic violence case enters the Maldivian justice system. At every stage, the system loses people. By the end, almost no one is left.</p>
+  <div class="hero-scroll">Scroll to follow the case</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     CONTEXT
+     ════════════════════════════════════════ -->
+<section class="context">
+  <p>The Domestic Violence Prevention Act (2012) created the formal pathway: a survivor discloses, the Family Protection Authority assesses, the courts issue protection orders, police enforce, and prosecutors decide whether to charge. In theory, the system works. In practice, the attrition is catastrophic.</p>
+  <p class="legal-note">The DVPA does not criminalise domestic violence as a standalone offence. It creates a civil framework for protection orders. DV acts that constitute assault or battery are handled under the Penal Code. The "DV cases" tracked by FPA are civil complaint cases, not criminal charges.</p>
+</section>
+
+<!-- ════════════════════════════════════════
+     STEP 1 — DISCLOSURE
+     ════════════════════════════════════════ -->
+<section class="step-section" data-bar-width="100" data-bar-color="#B3856F">
+  <div class="attrition-bar-track">
+    <div class="attrition-bar" style="background:#B3856F" data-width="100"></div>
+  </div>
+  <div class="step-content">
+    <div class="step-pct" style="color:#B3856F">100%</div>
+    <div class="step-text">
+      <div class="step-label" style="color:#B3856F">Step 1</div>
+      <div class="step-title">Disclosure</div>
+      <p class="step-desc">Survivor discloses to an FPA caseworker, or is referred by a mandatory reporter &mdash; a health worker, teacher, police officer, or community member. Reports can also come through the 1421 family issues helpline or the 119 police emergency line.</p>
+      <p class="step-desc">This is the starting point. Every case that enters the formal system begins here.</p>
+      <div class="gap">
+        <div class="gap-label">Underreporting</div>
+        <p>FPA received 696 cases in 2021. Estimated lifetime GBV prevalence across the population is approximately 40,000 women. The formal system captures a fraction of what exists.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     STEP 2 — FPA ASSESSMENT
+     ════════════════════════════════════════ -->
+<section class="step-section" data-bar-width="60" data-bar-color="#C07A6A">
+  <div class="attrition-bar-track">
+    <div class="attrition-bar" style="background:#C07A6A" data-width="60"></div>
+  </div>
+  <div class="step-content">
+    <div class="step-pct" style="color:#C07A6A">~60%</div>
+    <div class="step-text">
+      <div class="step-label" style="color:#C07A6A">Step 2</div>
+      <div class="step-drop">&darr; ~40% lost at intake</div>
+      <div class="step-title">FPA risk assessment and counselling</div>
+      <p class="step-desc">FPA caseworker conducts a risk assessment using a standardised tool. Intake covers the nature and history of violence, immediate safety, children in the household, whether the survivor wants a protection order, economic circumstances, housing, and support network. A safety plan is developed.</p>
+      <p class="step-note">Quality varies with caseworker caseload. The AIM 2022 assessment found intake in Male' rushed and follow-up delayed due to caseload pressures. Three caseworkers serve the entire country.</p>
+      <div class="gap">
+        <div class="gap-label">Geographic barrier</div>
+        <p>FPA's caseworkers are based in Male'. A survivor on an outer island faces days of travel and the costs that come with it. Many never make it to this step.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     STEP 3 — PROTECTION ORDER
+     ════════════════════════════════════════ -->
+<section class="step-section" data-bar-width="30" data-bar-color="#C96E5E">
+  <div class="attrition-bar-track">
+    <div class="attrition-bar" style="background:#C96E5E" data-width="30"></div>
+  </div>
+  <div class="step-content">
+    <div class="step-pct" style="color:#C96E5E">~30%</div>
+    <div class="step-text">
+      <div class="step-label" style="color:#C96E5E">Step 3</div>
+      <div class="step-drop">&darr; ~30% lost before court</div>
+      <div class="step-title">Protection order application</div>
+      <p class="step-desc">If the survivor consents, FPA facilitates an application to the Family Court (Male') or a Magistrate Court (outer atolls). An interim protection order can be issued immediately ex parte if there is immediate danger, valid up to 21 days. A full hearing is scheduled with both parties for a substantive order.</p>
+      <div class="gap">
+        <div class="gap-label">Atoll court gaps</div>
+        <p>On outer atolls, interim orders are severely underused. Magistrate Courts have limited sessions, may lack a resident judge, and staff may be unfamiliar with the procedure. Survivors in acute danger can wait days or weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     STEP 4 — ENFORCEMENT
+     ════════════════════════════════════════ -->
+<section class="step-section" data-bar-width="18" data-bar-color="#D4726A">
+  <div class="attrition-bar-track">
+    <div class="attrition-bar" style="background:#D4726A" data-width="18"></div>
+  </div>
+  <div class="step-content">
+    <div class="step-pct" style="color:#D4726A">~18%</div>
+    <div class="step-text">
+      <div class="step-label" style="color:#D4726A">Step 4</div>
+      <div class="step-drop">&darr; ~12% lost to non-enforcement</div>
+      <div class="step-title">Protection order enforcement</div>
+      <p class="step-desc">The court issues, modifies, or denies the protection order. The order is served on the perpetrator by police. It can prohibit contact, require vacating the shared residence, establish no-contact zones around workplaces and children's schools, and grant temporary custody. Violation is a criminal offence under the DVPA.</p>
+      <div class="gap">
+        <div class="gap-label">Enforcement gap</div>
+        <p>Local police on outer islands rarely have specialised DV training. Island councils may know the perpetrator and face community pressure. The gap between orders issued and orders enforced is substantial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     STEP 5 — CRIMINAL REFERRAL
+     ════════════════════════════════════════ -->
+<section class="step-section" data-bar-width="3" data-bar-color="#B94A42">
+  <div class="attrition-bar-track">
+    <div class="attrition-bar" style="background:#B94A42" data-width="3"></div>
+  </div>
+  <div class="step-content">
+    <div class="step-pct" style="color:#B94A42">~3%</div>
+    <div class="step-text">
+      <div class="step-label" style="color:#B94A42">Step 5</div>
+      <div class="step-drop">&darr; ~97% of police-reported cases never reach prosecution</div>
+      <div class="step-title">Criminal referral</div>
+      <p class="step-desc">If the violence constitutes criminal assault, FPA refers to the police Family and Child Protection Wing (FCPW) for criminal investigation. Police investigate, prepare a case file, and decide whether to submit to the Prosecutor General.</p>
+      <p class="step-desc">This is the single largest point of failure in the system. 97% of cases reported to police never reach the Prosecutor General.</p>
+      <div class="gap">
+        <div class="gap-label">Why 97% are lost</div>
+        <p>Survivors withdraw under social pressure, economic dependence, or security concerns. Police record cases as "civil matters" not requiring criminal investigation. Insufficient evidence is gathered during the initial police response. Prosecutors decline cases on low-probability-of-conviction grounds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     STEP 6 — CONVICTION
+     ════════════════════════════════════════ -->
+<section class="step-section" data-bar-width="0.5" data-bar-color="#8B2E28">
+  <div class="attrition-bar-track">
+    <div class="attrition-bar" style="background:#8B2E28" data-width="0.5"></div>
+  </div>
+  <div class="step-content">
+    <div class="step-pct" style="color:#8B2E28">~0.5%</div>
+    <div class="step-text">
+      <div class="step-label" style="color:#8B2E28">Step 6</div>
+      <div class="step-drop">16.7% conviction rate for the few cases that reach court</div>
+      <div class="step-title">Prosecution and conviction</div>
+      <p class="step-desc">The Prosecutor General reviews the case file and decides whether to prosecute. If prosecuted, the case proceeds to Magistrate Court or Criminal Court. Of those that reach trial, only 16.7% result in conviction (2016&ndash;2019 data).</p>
+      <p class="step-desc">The 16.7% conviction rate reflects the high evidentiary burden under Section 52 of the Sexual Offences Act, which specifies five types of required evidence identified by civil society and UNFPA as "extremely burdensome." It also reflects recantation of survivor testimony during proceedings and the absence of specialist GBV court procedures.</p>
+      <div class="gap">
+        <div class="gap-label">Cumulative effect</div>
+        <p>From the estimated population of women who have experienced GBV to the final conviction of a perpetrator, the probability under current system conditions approximates zero. The AIM Project was established specifically to address this justice pathway failure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     STATISTICS
+     ════════════════════════════════════════ -->
+<section class="stats-section">
+  <div class="sec-tag">The numbers</div>
+  <h2>System-wide indicators</h2>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">~3%</div>
+      <div class="stat-label">of police-reported DV/GBV cases submitted to Prosecutor General</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">16.7%</div>
+      <div class="stat-label">conviction rate for cases reaching court (2016&ndash;2019)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">696</div>
+      <div class="stat-label">FPA cases in 2021 vs. ~40,000 estimated lifetime GBV prevalence</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">FPA caseworkers serving the entire Maldives from Male'</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">DV shelters covering 187 inhabited islands across 26 atolls</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">85%</div>
+      <div class="stat-label">of flogging sentences imposed on women and girls</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     BARRIERS
+     ════════════════════════════════════════ -->
+<section class="barriers-section">
+  <div class="sec-tag">Structural barriers</div>
+  <h2>Why survivors don't report and why cases don't progress</h2>
+  <p class="barriers-intro">Four interlocking barriers suppress reporting and prevent cases from moving through the system. Each one is individually significant; together they produce the near-zero conviction probability documented above.</p>
+  <div class="barrier-grid">
+    <div class="barrier-card">
+      <h3>Geographic concentration of services</h3>
+      <p>FPA's three caseworkers are in Male'. Family Court is only in Male', with limited magistrate capacity in atolls. The specialist FCPW unit is Male'-based. Legal aid is Male'-based. A survivor on an outer island faces days of travel and the costs that come with it.</p>
+    </div>
+    <div class="barrier-card">
+      <h3>Economic dependency</h3>
+      <p>Housing in Male' consumes 37% or more of average household expenditure. Single Parent Allowance is insufficient to cover rent. FPA safe house capacity is severely limited and time-restricted. Child maintenance enforcement is inconsistent.</p>
+    </div>
+    <div class="barrier-card">
+      <h3>Social and religious framing</h3>
+      <p>Family and community pressure to reconcile. Religious framing emphasising marital reconciliation and concepts of wifely obedience. Victim-blaming attitudes documented in population surveys. Women who migrate to Male' for safety find themselves without housing, income, or family networks.</p>
+    </div>
+    <div class="barrier-card">
+      <h3>Atoll-level response capacity</h3>
+      <p>Island councils may know the perpetrator and face community pressure. Local police rarely have specialised DV training (per FPA 2023 assessment). WDCs are volunteers without enforcement authority. Atoll hospital staff are not systematically trained in DV protocol.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     PROSE: LEGAL FRAMEWORK
+     ════════════════════════════════════════ -->
+<div class="prose-section">
+  <div class="sec-tag">Legal framework</div>
+  <h2>Key legislation and its gaps</h2>
+  <p>The DVPA (2012) was the first law to address domestic violence as a distinct legal matter. The Sexual Offences Act (2014) criminalised rape and sexual assault but maintained a marital exception. The 2021 amendment partially criminalised marital rape, though the Penal Code's Section 130(b) presumption of consent within marriage remained, leading the UNFPA's 2023 legal review to describe marital rape as "incompletely criminalised."</p>
+  <p>The UNFPA Comprehensive Legal Review (McCabe, 2023) identified "repetitions, overlaps, contradictions and gaps" across the GBV legal architecture. The 2024 Police Strategic Plan identified DV as a strategic priority alongside organised crime and drug trafficking &ndash; reflecting both the scale of the problem and the institutional recognition that the current response is inadequate.</p>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROSE: FPA IN PRACTICE
+     ════════════════════════════════════════ -->
+<div class="prose-section">
+  <div class="sec-tag">Institutional capacity</div>
+  <h2>The Family Protection Authority in practice</h2>
+  <p>3 caseworkers based in Male'. Geographic presence limited to the capital region. Average DV caseload per caseworker: 70&ndash;80 cases. Chronic understaffing documented by AIM Project Baseline Assessment 2022 &ndash; intake rushed, follow-up delayed.</p>
+  <p>Day-to-day: receiving DV complaints directly from survivors, family members, and mandatory reporters; risk assessment and agency referral; facilitating protection order applications through the Family Court; operating the national GBV case database; managing safe houses; training health, education, and social sector workers; publishing quarterly DV case statistics; individual and children's counselling; survivor support groups (capacity-constrained).</p>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROSE: SAFE HOUSES
+     ════════════════════════════════════════ -->
+<div class="prose-section">
+  <div class="sec-tag">Survivor safety</div>
+  <h2>Safe houses: capacity and gaps</h2>
+  <p>3 ADB-funded DV shelters (Addu, Hulhumale', Raa) serving 187 inhabited islands. FPA also operates a transitional facility in Male' with limited capacity. Shelter placements are time-limited. Coverage gaps are most acute in central atolls and Laamu.</p>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROSE: COVID-19
+     ════════════════════════════════════════ -->
+<div class="prose-section">
+  <div class="sec-tag">Crisis response</div>
+  <h2>COVID-19 and the surge in domestic violence</h2>
+  <p>DV reporting surged during lockdowns. Women twice as likely to stop working (22% vs 8%). Only 15% of emergency COVID-19 relief loans went to women. Geveshi Gulhun campaign launched. Maternal mortality spiked to 60 per 100,000 live births in 2021.</p>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROSE: AIM PROJECT
+     ════════════════════════════════════════ -->
+<div class="prose-section">
+  <div class="sec-tag">Justice sector reform</div>
+  <h2>Accountability and Integration Matters (AIM Project)</h2>
+  <p>EU-UNDP-MoSFD 2022&ndash;2025 initiative addressing GBV justice pathway attrition. Focus: evidence gathering, multi-agency coordination, psychosocial support, community awareness.</p>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROSE: WOMEN'S COUNCIL QUOTA
+     ════════════════════════════════════════ -->
+<div class="prose-section">
+  <div class="sec-tag">Political representation</div>
+  <h2>What the women's council quota changed</h2>
+  <p>33% quota increased representation from ~4% to 39.7%. Women councillors changed local agendas measurably. But WDCs have no independent budget, decisions advisory only. At parliamentary level, women hold only 3 of 93 seats (3.2%).</p>
+</div>
+
+<!-- ════════════════════════════════════════
+     PROSE: FLOGGING
+     ════════════════════════════════════════ -->
+<div class="prose-section">
+  <div class="sec-tag">Criminal justice</div>
+  <h2>85% of flogging sentences are against women and girls</h2>
+  <p>85% of flogging sentences against women and girls. Reflects intersection of zina law with sexual violence response.</p>
+</div>
+
+<!-- ════════════════════════════════════════
+     SOURCES
+     ════════════════════════════════════════ -->
+<section class="sources-section">
+  <h3>Sources</h3>
+  <ul>
+    <li>Domestic Violence Prevention Act (DVPA), 2012</li>
+    <li>Sexual Offences Act, 2014 (amended 2021)</li>
+    <li>AIM Project Baseline Assessment, 2022 (EU-UNDP-MoSFD)</li>
+    <li>UNFPA Comprehensive Legal Review of GBV Legislation (McCabe, 2023)</li>
+    <li>Family Protection Authority (FPA) reporting data and quarterly statistics</li>
+    <li>HRCM Report on Corporal Punishment, 2022</li>
+    <li>Maldives Police Strategic Plan, 2024</li>
+    <li>CEDAW Concluding Observations on the Maldives, November 2021</li>
+    <li>ADB DV Shelter Programme documentation</li>
+  </ul>
+</section>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div><a href="index.html">Society hub</a></div>
+</footer>
+
+<script>
+(function(){
+
+  /* ─────────────────────────────────────
+     IntersectionObserver: Attrition bars
+     ───────────────────────────────────── */
+  var stepSections = document.querySelectorAll('.step-section');
+
+  if ('IntersectionObserver' in window) {
+
+    var stepObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          var bar = entry.target.querySelector('.attrition-bar');
+          if (bar) {
+            var w = parseFloat(bar.getAttribute('data-width'));
+            // Ensure even the 0.5% bar is visible (min 4px via calc)
+            bar.style.width = 'max(' + w + '%, 4px)';
+          }
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '-15% 0px -15% 0px',
+      threshold: 0
+    });
+
+    stepSections.forEach(function(s) {
+      stepObserver.observe(s);
+    });
+
+    /* ─────────────────────────────────────
+       IntersectionObserver: Stat cards
+       ───────────────────────────────────── */
+    var statCards = document.querySelectorAll('.stat-card');
+    var statObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.1
+    });
+
+    statCards.forEach(function(c, i) {
+      // Stagger the transition delay
+      c.style.transitionDelay = (i * 80) + 'ms';
+      statObserver.observe(c);
+    });
+
+    /* ─────────────────────────────────────
+       IntersectionObserver: Barrier cards
+       ───────────────────────────────────── */
+    var barrierCards = document.querySelectorAll('.barrier-card');
+    var barrierObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.1
+    });
+
+    barrierCards.forEach(function(c, i) {
+      c.style.transitionDelay = (i * 100) + 'ms';
+      barrierObserver.observe(c);
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>

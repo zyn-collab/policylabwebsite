@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Pathways Diagram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overscroll-behavior: none;
+        }
+        .section {
+            transition: background-color 0.3s ease;
+        }
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+        .causal-stream {
+            transition: opacity 0.3s ease;
+        }
+        .stream-label {
+            font-size: 13px;
+            font-weight: 500;
+            fill: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            text-anchor: middle;
+        }
+        .causal-stream:hover {
+            opacity: 1 !important;
+        }
+        .placeholder {
+            cursor: pointer;
+            fill: #9CA3AF; /* gray-400 */
+            font-size: 12px;
+            font-weight: 500;
+            transition: fill 0.2s ease;
+        }
+        .placeholder:hover {
+            fill: #374151; /* gray-700 */
+        }
+        .placeholder rect {
+            fill: #F3F4F6; /* gray-100 */
+            stroke-width: 2px;
+            stroke-dasharray: 4;
+            stroke: #D1D5DB; /* gray-300 */
+            transition: all 0.2s ease;
+        }
+        .placeholder:hover rect {
+            fill: #E5E7EB; /* gray-200 */
+            stroke: #9CA3AF; /* gray-400 */
+        }
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 90%;
+            max-width: 500px;
+        }
+        .mode-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .mode-switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #4F46E5; /* indigo-600 */
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        .sankey-node {
+            transition: y 750ms ease, height 750ms ease;
+            stroke-width: 1px;
+            stroke: rgba(0,0,0,0.05);
+        }
+        .sankey-link {
+            transition: d 750ms ease;
+            fill-opacity: 0.6;
+        }
+        .delete-btn {
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .causal-stream:hover .delete-btn {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .resize-handle {
+            fill: transparent;
+            cursor: ns-resize;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .causal-stream:hover .resize-handle {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #tooltip {
+            position: absolute;
+            background-color: rgba(20, 20, 20, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            max-width: 250px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased overflow-hidden">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm shadow-sm z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-3">
+                <h1 class="text-xl font-bold text-gray-800">Vision Pathways Diagram</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm font-medium text-gray-600">View Mode</span>
+                    <label class="mode-switch">
+                        <input type="checkbox" id="modeToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <span class="text-sm font-medium text-gray-600">Edit Mode</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="h-screen w-screen pt-16">
+        <div id="visualization-container" class="w-full h-full grid grid-cols-3">
+            <div id="status-quo-section" class="section bg-gray-50 border-r border-gray-200 relative">
+                <h2 class="text-center text-lg font-semibold py-4 text-gray-500">Status Quo</h2>
+            </div>
+            <div id="transition-section" class="section bg-white border-r border-gray-200 relative">
+                 <h2 class="text-center text-lg font-semibold pt-4 text-emerald-600">Drivers <span class="font-normal text-gray-500">(What's Needed)</span></h2>
+                 <h2 class="absolute bottom-4 left-0 right-0 text-center text-lg font-semibold text-rose-600">Barriers <span class="font-normal text-gray-500">(What's Preventing)</span></h2>
+            </div>
+            <div id="vision-section" class="section bg-gray-50 relative">
+                 <h2 class="text-center text-lg font-semibold py-4 text-indigo-600">Vision</h2>
+            </div>
+        </div>
+        <div id="svg-overlay" class="absolute top-16 left-0 w-full h-[calc(100%-4rem)]"></div>
+    </main>
+    
+    <!-- Modal for adding/editing causes -->
+    <div id="causeModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="text-lg font-bold mb-4">Add Root Cause</h3>
+            <div>
+                <label for="causeTitleInput" class="block text-sm font-medium text-gray-700">Heading (displays on bar)</label>
+                <input type="text" id="causeTitleInput" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div class="mt-4">
+                <label for="causeDetailsInput" class="block text-sm font-medium text-gray-700">Details (displays on hover)</label>
+                <textarea id="causeDetailsInput" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 h-24 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            </div>
+            <div class="flex justify-end space-x-3 mt-4">
+                <button id="cancelButton" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Cancel</button>
+                <button id="saveButton" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-backdrop hidden">
+        <div class="modal-content">
+            <h3 class="text-lg font-bold mb-2">Confirm Deletion</h3>
+            <p class="text-gray-600">Are you sure you want to delete this item? This action cannot be undone.</p>
+            <div class="flex justify-end space-x-3 mt-6">
+                <button id="cancelDeleteButton" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Cancel</button>
+                <button id="confirmDeleteButton" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tooltip -->
+    <div id="tooltip"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM Elements ---
+        const svgContainer = d3.select("#svg-overlay").append("svg");
+        const modeToggle = document.getElementById('modeToggle');
+        const modal = document.getElementById('causeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const causeTitleInput = document.getElementById('causeTitleInput');
+        const causeDetailsInput = document.getElementById('causeDetailsInput');
+        const cancelButton = document.getElementById('cancelButton');
+        const saveButton = document.getElementById('saveButton');
+        const deleteModal = document.getElementById('deleteModal');
+        const cancelDeleteButton = document.getElementById('cancelDeleteButton');
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        const tooltip = d3.select("#tooltip");
+        
+        // --- State ---
+        let data = [];
+        let isEditMode = true;
+        let nextId = 1;
+        let currentEdit = null;
+        let deleteTargetId = null;
+        const colors = [
+            "rgba(52, 211, 153, 0.85)", "rgba(96, 165, 250, 0.85)", "rgba(251, 191, 36, 0.85)",
+            "rgba(167, 139, 250, 0.85)", "rgba(236, 72, 153, 0.85)", "rgba(45, 212, 191, 0.85)",
+            "rgba(248, 113, 113, 0.85)", "rgba(244, 114, 182, 0.85)"
+        ];
+        
+        // --- D3 Setup ---
+        const linkGroup = svgContainer.append("g").attr("class", "links");
+        const nodeGroup = svgContainer.append("g").attr("class", "nodes");
+        const placeholderGroup = svgContainer.append("g").attr("class", "placeholders");
+        
+        function wrap(textSelection, width, height) {
+            textSelection.each(function() {
+                const text = d3.select(this);
+                if (!text.text()) return;
+                const words = text.text().split(/\s+/).reverse();
+                let word, line = [], lineNumber = 0;
+                const lineHeight = 1.1; 
+                const x = text.attr("x"), y = text.attr("y"), dy = 0;
+                text.text(null);
+                let tspan = text.append("tspan").attr("x", x).attr("dy", dy + "em");
+                while (word = words.pop()) {
+                    line.push(word);
+                    tspan.text(line.join(" "));
+                    if (tspan.node().getComputedTextLength() > width && line.length > 1) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan").attr("x", x).attr("dy", `${++lineNumber * lineHeight + dy}em`).text(word);
+                    }
+                }
+                const numLines = text.selectAll("tspan").size();
+                const totalTextHeight = numLines * parseFloat(getComputedStyle(text.node()).fontSize) * lineHeight;
+                if (totalTextHeight > height - 10) {
+                     text.style('display', 'none');
+                } else {
+                    text.style('display', null);
+                    const firstTspanDy = dy - ((numLines - 1) * lineHeight / 2);
+                    text.selectAll("tspan").attr("dy", (d, i) => `${firstTspanDy + (i * lineHeight)}em`);
+                }
+            });
+        }
+
+        const getDims = () => {
+            const container = document.getElementById('visualization-container');
+            if (!container) return { width: 0, height: 0, colWidth: 0 };
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const colWidth = width / 3;
+            return { width, height, colWidth };
+        };
+
+        const layout = {
+            padding: { top: 70, bottom: 50, col: 40 },
+            defaultStreamHeight: 40,
+            minStreamHeight: 4,
+            placeholderHeight: 30,
+        };
+        
+        layout.nodeWidth = () => getDims().colWidth - 2 * layout.padding.col;
+        const getColumnX = (colIndex) => getDims().colWidth * colIndex + layout.padding.col;
+
+       // REPLACEMENT CODE
+function update(isDragging = false) {
+    const { width, height, colWidth } = getDims();
+    if (width === 0) return;
+    svgContainer.attr("viewBox", `0 0 ${width} ${height}`);
+    const nodeWidth = layout.nodeWidth();
+    const transitionDuration = isDragging ? 0 : 750;
+
+    // --- Layout Calculation ---
+    // 1. Group data into their respective paths to define the stacking order.
+    const drivers = data.filter(d => d.path === 'driver');
+    const cores = data.filter(d => d.path === 'core');
+    const barriers = data.filter(d => d.path === 'barrier');
+
+    // Create a single array that represents the definitive top-to-bottom order.
+    const sortedDataForLayout = [...drivers, ...cores, ...barriers];
+
+    // 2. Calculate Y positions for the middle (Transition) column nodes based on this order.
+    let currentY = layout.padding.top;
+    drivers.forEach(d => { d.y1 = currentY; currentY += d.transHeight; });
+
+    const totalCoreHeight = cores.reduce((sum, d) => sum + d.transHeight, 0);
+    currentY = (height / 2) - (totalCoreHeight / 2);
+    cores.forEach(d => { d.y1 = currentY; currentY += d.transHeight; });
+
+    const totalBarrierHeight = barriers.reduce((sum, d) => sum + d.transHeight, 0);
+    currentY = height - layout.padding.bottom - totalBarrierHeight;
+    barriers.forEach(d => { d.y1 = currentY; currentY += d.transHeight; });
+
+    // 3. Calculate Y positions for the left (Status Quo) and right (Vision) columns,
+    // maintaining the same vertical order established by the middle column.
+// REPLACEMENT CODE
+const totalSqHeight = sortedDataForLayout.reduce((sum, d) => sum + d.sqHeight, 0);
+let currentSqY = (height / 2) - (totalSqHeight / 2);
+
+const visionFlows = [...drivers, ...cores, ...barriers];
+const totalVisionHeight = visionFlows.reduce((sum, d) => sum + d.visionHeight, 0);
+let currentVisionY = (height / 2) - (totalVisionHeight / 2);
+
+sortedDataForLayout.forEach(d => {
+    d.y0 = currentSqY;
+    currentSqY += d.sqHeight;
+
+    d.y2 = currentVisionY;
+    currentVisionY += d.visionHeight;
+});
+
+    // --- Drawing ---
+    const createTaperedPath = (d, sourceY, sourceH, targetY, targetH, col1, col2) => {
+        if (targetY === null) return "";
+        const x0 = getColumnX(col1) + nodeWidth;
+        const x1 = getColumnX(col2);
+
+        const sourceCenterY = sourceY + sourceH / 2;
+        const targetCenterY = targetY + targetH / 2;
+
+        const xOffset = (x1 - x0) / 2;
+        const c0x = x0 + xOffset;
+        const c1x = x1 - xOffset;
+
+        const path = d3.path();
+        path.moveTo(x0, sourceY);
+        path.bezierCurveTo(c0x, sourceCenterY, c1x, targetCenterY, x1, targetY);
+        path.lineTo(x1, targetY + targetH);
+        path.bezierCurveTo(c1x, targetCenterY, c0x, sourceCenterY, x0, sourceY + sourceH);
+        path.closePath();
+
+        return path.toString();
+    };
+
+    linkGroup.selectAll("g.link-group").data(data, d => d.id).join(
+        enter => {
+            const g = enter.append("g").attr("class", "link-group");
+            g.append("path").attr("class", "sankey-link path1");
+            g.append("path").attr("class", "sankey-link path2");
+            return g;
+        }
+    ).call(selection => {
+        selection.select(".path1").transition().duration(transitionDuration).attr("d", d => createTaperedPath(d, d.y0, d.sqHeight, d.y1, d.transHeight, 0, 1)).attr("fill", d => d.color);
+        selection.select(".path2").transition().duration(transitionDuration).attr("d", d => createTaperedPath(d, d.y1, d.transHeight, d.y2, d.visionHeight, 1, 2)).attr("fill", d => d.color);
+    });
+
+    const allElements = nodeGroup.selectAll("g.causal-stream").data(data, d => d.id);
+    allElements.exit().transition().duration(500).style("opacity", 0).remove();
+
+    const enterElements = allElements.enter().append("g").attr("class", "causal-stream").style("opacity", 0);
+    // ... (rest of the drawing logic for nodes, labels, controls remains the same)
+
+    const nodeEnter = enterElements.append("g").attr("class", "nodes-container");
+    nodeEnter.append("rect").attr("class", "sankey-node sq-node");
+    nodeEnter.append("rect").attr("class", "sankey-node trans-node");
+    nodeEnter.append("rect").attr("class", "sankey-node vision-node");
+
+    const labelEnter = enterElements.append("g").attr("class", "labels-container");
+    labelEnter.append("text").attr("class", "stream-label sq-label");
+    labelEnter.append("text").attr("class", "stream-label trans-label");
+    labelEnter.append("text").attr("class", "stream-label vision-label");
+
+    const controlEnter = enterElements.append("g").attr("class", "controls-container");
+    const deleteBtn = controlEnter.append("g").attr("class", "delete-btn");
+    deleteBtn.append("circle").attr("r", 9).attr("fill", "#EF4444");
+    deleteBtn.append("text").attr("fill", "white").attr("text-anchor", "middle").attr("dy", "0.3em").style("font-size", "11px").style("font-weight", "600").text("×");
+
+    controlEnter.append("rect").attr("class", "resize-handle sq-handle");
+    controlEnter.append("rect").attr("class", "resize-handle trans-handle");
+    controlEnter.append("rect").attr("class", "resize-handle vision-handle");
+
+    const allStreams = enterElements.merge(allElements);
+    allStreams.on("mouseover", (e, d) => allStreams.style("opacity", other => other.id === d.id ? 1 : 0.25))
+             .on("mouseout", () => allStreams.style("opacity", 1));
+    allStreams.transition().duration(750).style("opacity", 1);
+
+    const showTooltip = (event, details) => {
+        if(details && !isEditMode) {
+            tooltip.style("opacity", 1).html(details)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        }
+    };
+    const hideTooltip = () => tooltip.style("opacity", 0);
+
+    const updateNode = (selection, x, yFn, hFn, colorFn, detailsFn) => {
+        selection.on("dblclick", null).on("dblclick", (e, d) => isEditMode && openModal({ type: selection.attr('class').split(' ')[1].replace('-node',''), cause: d }))
+            .on('mouseover', (e, d) => showTooltip(e, detailsFn(d)))
+            .on('mousemove', (e, d) => tooltip.style("left", (e.pageX + 10) + "px").style("top", (e.pageY - 28) + "px"))
+            .on('mouseout', hideTooltip)
+            .attr("x", x).attr("width", nodeWidth).attr("rx", 2).attr("fill", colorFn)
+            .transition().duration(transitionDuration)
+            .attr("y", d => yFn(d) === null ? -9999 : yFn(d))
+            .attr("height", hFn);
+    };
+    updateNode(allStreams.select(".sq-node"), getColumnX(0), d => d.y0, d => d.sqHeight, d => d.color, d => d.sqDetails);
+    updateNode(allStreams.select(".trans-node"), getColumnX(1), d => d.y1, d => d.transHeight, d => d.color, d => d.transDetails);
+    updateNode(allStreams.select(".vision-node"), getColumnX(2), d => d.y2, d => d.visionHeight, d => d.color, d => d.visionDetails);
+
+    const updateLabel = (selection, x, yFn, hFn, textFn) => {
+        selection.attr("x", x + nodeWidth / 2).text(textFn)
+            .transition().duration(transitionDuration).attr("y", d => yFn(d) + hFn(d) / 2)
+            .each(function(d) { d3.select(this).call(wrap, nodeWidth - 20, hFn(d)); });
+    };
+    updateLabel(allStreams.select('.sq-label'), getColumnX(0), d => d.y0, d => d.sqHeight, d => d.sqText);
+    updateLabel(allStreams.select('.trans-label'), getColumnX(1), d => d.y1, d => d.transHeight, d => d.transText);
+    updateLabel(allStreams.select('.vision-label'), getColumnX(2), d => d.y2, d => d.visionHeight, d => (d.y2 === null ? "" : d.visionText));
+
+    allStreams.select('.delete-btn').on("click", (e, d) => {e.stopPropagation(); showDeleteConfirmation(d.id); })
+        .transition().duration(transitionDuration).attr("transform", d => `translate(${getColumnX(0) + nodeWidth}, ${d.y0})`);
+
+    const drag = d3.drag()
+        .on("drag", function(event, d) {
+            if (!isEditMode) return;
+            const handle = d3.select(this);
+            if (handle.classed('sq-handle')) { d.sqHeight = Math.max(layout.minStreamHeight, d.sqHeight + event.dy); } 
+            else if (handle.classed('trans-handle')) { d.transHeight = Math.max(layout.minStreamHeight, d.transHeight + event.dy); }
+            else if (handle.classed('vision-handle')) { d.visionHeight = Math.max(layout.minStreamHeight, d.visionHeight + event.dy); }
+            update(true);
+        });
+
+    const updateHandle = (selection, x, yFn, hFn) => {
+        selection.attr("x", x).attr("width", nodeWidth).attr("height", 8).call(drag)
+            .transition().duration(transitionDuration)
+            .attr("y", d => yFn(d) === null ? -9999 : yFn(d) + hFn(d) - 4);
+    };
+    updateHandle(allStreams.select('.sq-handle'), getColumnX(0), d=>d.y0, d=>d.sqHeight);
+    updateHandle(allStreams.select('.trans-handle'), getColumnX(1), d=>d.y1, d=>d.transHeight);
+    updateHandle(allStreams.select('.vision-handle'), getColumnX(2), d=>d.y2, d=>d.visionHeight);
+
+    allStreams.selectAll('.delete-btn, .resize-handle').style('display', isEditMode ? null : 'none');
+
+    placeholderGroup.selectAll("*").remove();
+    if (isEditMode) {
+        const addPlaceholder = (id, x, y, text) => {
+            const group = placeholderGroup.append("g").attr("class", "placeholder").attr("id", id).on("click", () => openModal({ type: id }));
+            group.append("rect").attr("x", x).attr("y", y - layout.placeholderHeight / 2).attr("width", nodeWidth).attr("height", layout.placeholderHeight).attr("rx", 8);
+            group.append("text").attr("x", x + nodeWidth / 2).attr("y", y).attr("text-anchor", "middle").attr("dy", "0.35em").text(text);
+        };
+        addPlaceholder("driver", getColumnX(1), drivers.reduce((sum,d) => sum+d.transHeight, layout.padding.top) + layout.placeholderHeight / 2, "+ Add Driver");
+        const corePlaceholderY = (cores.length > 0) ? cores[cores.length-1].y1 + cores[cores.length-1].transHeight + layout.placeholderHeight / 2 : height/2;
+        addPlaceholder("core", getColumnX(1), corePlaceholderY, "+ Add Core Factor");
+        addPlaceholder("barrier", getColumnX(1), barriers.reduce((sum,d)=>sum+d.transHeight, height-layout.padding.bottom - barriers.reduce((s,d)=>s+d.transHeight,0)) + layout.placeholderHeight / 2, "+ Add Barrier");
+    }
+}
+
+        function openModal(editContext) {
+            currentEdit = editContext;
+            modal.classList.remove('hidden');
+            causeTitleInput.focus();
+            causeTitleInput.value = '';
+            causeDetailsInput.value = '';
+            const titles = { core: 'Add Core Factor', driver: 'Add Driver', barrier: 'Add Barrier', sq: 'Edit Status Quo', trans: 'Edit Transition', vision: 'Edit Vision' };
+            modalTitle.textContent = titles[editContext.type];
+            if (editContext.cause) {
+                if (editContext.type === 'sq') { causeTitleInput.value = editContext.cause.sqText; causeDetailsInput.value = editContext.cause.sqDetails; }
+                else if (editContext.type === 'trans') { causeTitleInput.value = editContext.cause.transText; causeDetailsInput.value = editContext.cause.transDetails; }
+                else if (editContext.type === 'vision') { causeTitleInput.value = editContext.cause.visionText; causeDetailsInput.value = editContext.cause.visionDetails; }
+            }
+        }
+
+        function closeModal() { modal.classList.add('hidden'); currentEdit = null; }
+        function showDeleteConfirmation(id) { deleteTargetId = id; deleteModal.classList.remove('hidden'); }
+        function hideDeleteConfirmation() { deleteModal.classList.add('hidden'); deleteTargetId = null; }
+
+        function confirmDelete() {
+            if (deleteTargetId !== null) {
+                data = data.filter(d => d.id !== deleteTargetId);
+                hideDeleteConfirmation();
+                update();
+            }
+        }
+
+        function saveCause() {
+            const title = causeTitleInput.value.trim();
+            const details = causeDetailsInput.value.trim();
+            if (!title) return;
+            if (currentEdit.cause) {
+                const cause = currentEdit.cause;
+                if (currentEdit.type === 'sq') { cause.sqText = title; cause.sqDetails = details; }
+                else if (currentEdit.type === 'trans') { cause.transText = title; cause.transDetails = details; }
+                else if (currentEdit.type === 'vision') { cause.visionText = title; cause.visionDetails = details; }
+            } else {
+                const newCause = { 
+                    id: nextId++, color: colors[(nextId - 2) % colors.length],
+                    sqHeight: layout.defaultStreamHeight, transHeight: layout.defaultStreamHeight, visionHeight: layout.defaultStreamHeight
+                };
+                if (currentEdit.type === 'core') {
+                    Object.assign(newCause, { type: 'primary', path: 'core', sqText: title, sqDetails: details, transText: 'Persistent factor...', transDetails: '', visionText: 'Ideal future state...', visionDetails: '' });
+                } else {
+                    Object.assign(newCause, { type: 'supporting', path: currentEdit.type, sqText: 'Related factor...', sqDetails: '', transText: title, transDetails: details, visionText: 'Ideal future state...', visionDetails: '' });
+                }
+                data.push(newCause);
+            }
+            closeModal();
+            update();
+        }
+
+        modeToggle.addEventListener('change', (e) => { isEditMode = e.target.checked; update(); });
+        cancelButton.addEventListener('click', closeModal);
+        saveButton.addEventListener('click', saveCause);
+        modal.addEventListener('click', (e) => e.target === modal && closeModal());
+        cancelDeleteButton.addEventListener('click', hideDeleteConfirmation);
+        confirmDeleteButton.addEventListener('click', confirmDelete);
+        deleteModal.addEventListener('click', (e) => e.target === deleteModal && hideDeleteConfirmation());
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') { closeModal(); hideDeleteConfirmation(); }
+            if (e.key === 'Enter' && !modal.classList.contains('hidden') && document.activeElement !== causeDetailsInput) { e.preventDefault(); saveCause(); }
+        });
+        window.addEventListener('resize', () => update());
+        update(); 
+    });
+</script>
+
+</body>
+</html>
+

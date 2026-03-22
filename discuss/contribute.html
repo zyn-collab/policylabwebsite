@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contribute — Policy Lab Discuss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FBF8F4;
+  --card: #fff;
+  --fg: #1a1a1a;
+  --body: #4a4a46;
+  --muted: #8a8a82;
+  --pri: #9B4D28;
+  --pri-d: #7A3B1E;
+  --gold: #C49A5C;
+  --gold-lt: #D9BC8E;
+  --warm: #B86B3A;
+  --dark: #2E1A0E;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.nav {
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid rgba(154,77,40,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-brand {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  text-transform: lowercase;
+}
+
+.nav-brand span { color: var(--pri); }
+
+.nav-links { display: flex; gap: 1.75rem; }
+
+.nav-links a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--pri); }
+
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4.5rem 2rem 4rem;
+}
+
+.content h1 {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+
+.content h2 {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-top: 2.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.content p {
+  font-size: 0.98rem;
+  color: var(--body);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.content ul {
+  margin: 0.5rem 0 1.25rem 1.5rem;
+  font-size: 0.95rem;
+  color: var(--body);
+  line-height: 1.8;
+}
+
+.content ul li { margin-bottom: 0.4rem; }
+
+.content ul li strong { color: var(--fg); font-weight: 600; }
+
+.content a { color: var(--pri); text-decoration: none; }
+.content a:hover { text-decoration: underline; }
+
+.submit-box {
+  background: var(--card);
+  border: 1px solid rgba(154,77,40,0.1);
+  border-radius: 10px;
+  padding: 2rem 2.25rem;
+  margin-top: 2rem;
+}
+
+.submit-box h3 {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 0.6rem;
+}
+
+.submit-box p {
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.submit-box .email {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--pri);
+}
+
+.byline-note {
+  background: rgba(196,154,92,0.07);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--pri); }
+
+.footer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 3rem;
+  border-top: 1px solid rgba(154,77,40,0.08);
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.footer a { color: var(--pri); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .content { padding: 3rem 1.25rem; }
+  .content h1 { font-size: 2rem; }
+  .nav { padding: 1rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">public policy lab · <span>discuss</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="contribute.html">Contribute</a>
+  </div>
+</nav>
+
+<main class="content">
+  <h1>Contribute to the discussion</h1>
+
+  <p>discuss.policylabmv.com publishes guest essays, op-eds, transcripts, panel recordings, and response pieces. The platform exists to host substantive policy conversation about the Maldives. Policy Lab produces its own analysis here, and we carry work from external contributors under their own bylines.</p>
+
+  <p>We are interested in writing that does something other than restate what is already known. The Maldives has a small policy community. Most people working in this space know each other, read the same reports, attend the same consultations. What is harder to find is writing that takes the next step: applies a framework, tests an assumption, compares local practice to international evidence, or follows an implementation question through to its operational details.</p>
+
+  <h2>What we publish</h2>
+  <ul>
+    <li><strong>Original analysis.</strong> An argument grounded in evidence about a specific policy question. Not a summary of existing positions, but a worked-through case for a conclusion the author is prepared to defend.</li>
+    <li><strong>First-hand implementation experience.</strong> Accounts from people who have administered programs, enforced regulations, managed caseloads, or operated services. The gap between policy design and operational reality is where most policy failures occur. Writing from practitioners who can describe that gap precisely is valuable.</li>
+    <li><strong>Comparative perspectives.</strong> Analysis that draws on how other countries or jurisdictions have handled problems the Maldives faces. Useful when the comparison is specific enough to generate actionable insight rather than generic "lessons learned" framing.</li>
+    <li><strong>Response pieces.</strong> Substantive engagement with something already published on this platform or elsewhere. Disagreement is welcome when it is grounded. Identify where an argument fails, what evidence it overlooks, or what alternative interpretation the data supports.</li>
+    <li><strong>Conversation transcripts.</strong> Edited recordings or transcripts of substantive policy conversations, interviews, panel discussions, or seminar exchanges. The format matters less than the content.</li>
+  </ul>
+
+  <h2>Standards</h2>
+  <p>Essays should be 1,500 words or longer. Transcripts and conversation pieces can be any length. Factual claims need cited sources. We do not require academic citation format, but readers should be able to verify what you assert. Write in your own voice. Jargon is fine when it is the correct term; jargon used to obscure imprecision is not.</p>
+
+  <p>We expect authors to engage with complexity honestly. Policy questions rarely have clean answers, and writing that pretends otherwise is not useful. If the evidence is mixed, say so. If the implications of your argument are uncomfortable, work through them rather than stopping at the convenient point. If you are uncertain about something, distinguish between what you know and what you are inferring.</p>
+
+  <h2>How to submit</h2>
+
+  <div class="submit-box">
+    <h3>Send a draft or proposal</h3>
+    <p>Email a completed draft or a proposal of 200-400 words describing your argument, your evidence base, and your connection to the topic. We will respond to all submissions.</p>
+    <a href="mailto:info@policylabmv.com" class="email">info@policylabmv.com</a>
+  </div>
+
+  <div class="byline-note">
+    All published pieces carry the author's byline. Policy Lab does not publish anonymous contributions. We may suggest edits for clarity and structure; we do not alter arguments or conclusions.
+  </div>
+
+  <a href="index.html" class="back-link">&larr; Back to Discuss</a>
+</main>
+
+<footer class="footer">
+  <p>&copy; 2025 Public Policy Lab &middot; <a href="https://policylabmv.com">policylabmv.com</a></p>
+</footer>
+
+</body>
+</html>

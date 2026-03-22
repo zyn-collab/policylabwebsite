@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Visualization Gallery – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
+  --dark: #2A3042;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+.page-header{padding:100px 40px 24px;max-width:800px;margin:0 auto}
+.page-header h1{font-family:var(--sans);font-size:clamp(28px,4vw,44px);line-height:1.15;letter-spacing:-.02em;margin-bottom:12px}
+.page-header p{font-size:15px;color:var(--body);line-height:1.7;max-width:720px;margin-bottom:8px}
+.page-header .usage{font-size:12.5px;color:var(--muted);margin-top:16px;padding:14px 18px;background:rgba(0,0,0,.02);border-radius:8px;max-width:720px}
+.page-header .count{font-size:13px;color:var(--pri-d);font-weight:600;margin-top:12px}
+
+/* FILTERS */
+.filters{max-width:800px;margin:0 auto;padding:20px 40px 8px;display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:49px;z-index:50;background:var(--bg);padding-bottom:16px}
+.filter-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid rgba(0,0,0,.1);background:transparent;color:var(--body);cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.filter-btn:hover{border-color:var(--pri);color:var(--pri-d)}
+.filter-btn.active{background:var(--pri-d);color:#fff;border-color:var(--pri-d)}
+
+/* SECTION HEADERS within gallery */
+.gallery-section{max-width:800px;margin:32px auto 16px;padding:0 40px}
+.gallery-section h2{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri);padding-bottom:8px;border-bottom:2px solid rgba(107,127,163,.15)}
+
+/* GALLERY – single column */
+.gallery{max-width:800px;margin:0 auto;padding:0 40px 20px;display:flex;flex-direction:column;gap:24px}
+
+.viz-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:24px;transition:box-shadow .3s}
+.viz-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.06)}
+.viz-card svg{width:100%;height:auto;display:block}
+
+footer{padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:800px;margin:0 auto}
+footer a{color:var(--pri-d)}
+
+@media(max-width:860px){
+  .gallery,.gallery-section,.page-header,.filters{padding-left:24px;padding-right:24px}
+  nav{padding:12px 16px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; society</span></a>
+  <div class="nav-r">
+    <a href="index.html">Overview</a>
+    <a href="index.html#tools">Tools</a>
+    <a href="legislation-timeline.html">Timeline</a>
+    <a href="/">Main site</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Data visualization gallery</h1>
+  <p>Charts built from published government data, census findings, demographic surveys, and UN assessments. Each visualization cites its source and is designed to stand alone in any context.</p>
+  <div class="usage">Free to use in reports, presentations, academic work, and media. Every chart is a self-contained vector SVG with title, source, and attribution built in. Right-click or screenshot to save. Charts resize automatically with the browser window and stay sharp at any size.</div>
+  <div class="count" id="chart-count"></div>
+</div>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="demographics">Demographics</button>
+  <button class="filter-btn" data-cat="child-protection">Child protection</button>
+  <button class="filter-btn" data-cat="gender">Gender &amp; GBV</button>
+  <button class="filter-btn" data-cat="disability">Disability</button>
+  <button class="filter-btn" data-cat="health">Health</button>
+  <button class="filter-btn" data-cat="substance-abuse">Substance abuse</button>
+  <button class="filter-btn" data-cat="poverty">Poverty &amp; housing</button>
+  <button class="filter-btn" data-cat="protection">Social protection</button>
+  <button class="filter-btn" data-cat="education">Education</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DEMOGRAPHICS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="demographics"><h2>Population &amp; demographics</h2></div>
+<div class="gallery" id="gallery-demographics">
+<!-- DEMOGRAPHICS CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHILD PROTECTION -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="child-protection"><h2>Child protection</h2></div>
+<div class="gallery" id="gallery-child-protection">
+<!-- CHILD PROTECTION CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- GENDER & GBV -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="gender"><h2>Gender, GBV &amp; women's empowerment</h2></div>
+<div class="gallery" id="gallery-gender">
+<!-- GENDER CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DISABILITY -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="disability"><h2>Disability</h2></div>
+<div class="gallery" id="gallery-disability">
+<!-- DISABILITY CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- HEALTH -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="health"><h2>Health systems &amp; mental health</h2></div>
+<div class="gallery" id="gallery-health">
+<!-- HEALTH CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SUBSTANCE ABUSE -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="substance-abuse"><h2>Substance abuse</h2></div>
+<div class="gallery" id="gallery-substance-abuse">
+<!-- SUBSTANCE ABUSE CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- POVERTY & HOUSING -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="poverty"><h2>Poverty, housing &amp; economic vulnerability</h2></div>
+<div class="gallery" id="gallery-poverty">
+<!-- POVERTY CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SOCIAL PROTECTION -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="protection"><h2>Social protection</h2></div>
+<div class="gallery" id="gallery-protection">
+<!-- SOCIAL PROTECTION CHARTS INSERTED HERE -->
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- EDUCATION & EMPLOYMENT -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="gallery-section" data-section="education"><h2>Education &amp; employment</h2></div>
+<div class="gallery" id="gallery-education">
+<!-- EDUCATION CHARTS INSERTED HERE -->
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div>All visualizations use published, cited data. Free to use with attribution.</div>
+</footer>
+
+<script>
+// Filter: show/hide sections and cards
+var btns = document.querySelectorAll('.filter-btn');
+var sections = document.querySelectorAll('.gallery-section');
+var galleries = document.querySelectorAll('.gallery');
+var allCards = document.querySelectorAll('.viz-card');
+
+// Count charts
+document.getElementById('chart-count').textContent = allCards.length + ' visualizations across ' + sections.length + ' categories';
+
+btns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    btns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var cat = btn.dataset.cat;
+
+    if (cat === 'all') {
+      sections.forEach(function(s) { s.style.display = ''; });
+      galleries.forEach(function(g) { g.style.display = ''; });
+      allCards.forEach(function(c) { c.style.display = ''; });
+    } else {
+      sections.forEach(function(s) {
+        s.style.display = s.dataset.section === cat ? '' : 'none';
+      });
+      galleries.forEach(function(g) {
+        var sectionId = g.id.replace('gallery-', '');
+        g.style.display = sectionId === cat ? '' : 'none';
+      });
+      // Also show cards that have the cat in data-cats even if in other sections
+      allCards.forEach(function(c) {
+        var cats = c.dataset.cats || '';
+        if (cats.indexOf(cat) !== -1) {
+          c.style.display = '';
+          c.parentElement.style.display = '';
+        }
+      });
+    }
+
+    // Update count
+    var visible = document.querySelectorAll('.viz-card:not([style*="display: none"])').length;
+    document.getElementById('chart-count').textContent = (cat === 'all' ? allCards.length + ' visualizations across ' + sections.length + ' categories' : visible + ' visualizations in ' + btn.textContent);
+  });
+});
+</script>
+</body>
+</html>

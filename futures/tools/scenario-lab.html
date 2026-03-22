@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenario Lab</title>
+    <script src="https://cdn-tailwindcss.vercel.app/"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-family-sans: 'Inter', sans-serif;
+            --font-family-display: 'Manrope', sans-serif;
+            --color-robust: #16a34a; /* Green */
+            --color-partial: #f59e0b; /* Amber */
+            --color-fragile: #dc2626; /* Red */
+            --color-accent: #4f46e5;
+            --bg-color: #f1f5f9;
+            --grid-line-color: rgba(203, 213, 225, 0.5);
+        }
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--bg-color);
+            color: #334155;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3, h4 { font-family: var(--font-family-display); }
+
+        #scenario-canvas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .quadrant {
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+        .quadrant:nth-child(1) { border-width: 0 1px 1px 0; }
+        .quadrant:nth-child(2) { border-width: 0 0 1px 0; }
+        .quadrant:nth-child(3) { border-width: 0 1px 0 0; }
+        .quadrant:nth-child(4) { border-width: 0; }
+
+        .quadrant.drag-over { background-color: #eef2ff; }
+
+        .quadrant-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0.5;
+            z-index: 0;
+            background-size: 30px 30px;
+        }
+        #bg-A { background-image: linear-gradient(var(--grid-line-color) 1px, transparent 1px), linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px); }
+        #bg-B { background-image: radial-gradient(var(--grid-line-color) 1px, transparent 1px); }
+        #bg-C { background-image: repeating-linear-gradient(45deg, var(--grid-line-color), var(--grid-line-color) 1px, transparent 1px, transparent 10px); }
+        #bg-D { background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23cbd5e1' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 0h20v1H0zM10 2v18h-1V2z'/%3E%3C/g%3E%3C/svg%3E"); }
+
+        .quadrant-content { position: relative; z-index: 1; }
+        .quadrant-title { font-size: 1.25rem; font-weight: 700; color: #1e293b; }
+        .quadrant-logic { font-size: 0.875rem; color: #64748b; min-height: 2.5rem; }
+
+        .policy-chip {
+            transition: all 0.2s ease-in-out;
+            cursor: grab;
+        }
+        .policy-chip:grabbing {
+            cursor: grabbing;
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .tested-policy {
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            position: relative;
+        }
+        @keyframes fadeInScale { to { opacity: 1; transform: scale(1); } }
+
+        .rail-placeholder {
+            border: 2px dashed #cbd5e1;
+            color: #94a3b8;
+        }
+
+        /* Editable Content Styles */
+        [contenteditable="true"] {
+            cursor: text;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        [contenteditable="true"]:hover {
+            background-color: #f8fafc;
+        }
+        [contenteditable="true"]:focus {
+            outline: none;
+            background-color: white;
+            box-shadow: 0 0 0 2px var(--color-accent);
+        }
+        
+        /* New Modal Styles */
+        #evaluation-modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #evaluation-modal:not(.hidden) {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+    <div class="h-screen w-screen flex flex-col p-6 md:p-8 space-y-6">
+        
+        <main id="scenario-canvas" class="flex-1">
+            <!-- Quadrants will be rendered here -->
+        </main>
+
+        <footer class="bg-white/80 backdrop-blur-md border border-slate-200/80 rounded-xl p-4 mt-auto">
+            <h3 class="text-sm font-semibold text-slate-500 uppercase text-center mb-3">Policies to Test</h3>
+            <div id="policies-rail" class="flex flex-wrap justify-center items-center gap-3 min-h-[52px]">
+                <!-- Policy chips or placeholder will be rendered here -->
+            </div>
+        </footer>
+    </div>
+
+    <!-- New Evaluation Modal -->
+    <div id="evaluation-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 visibility-hidden">
+        <div class="modal-content transform scale-95 bg-white w-full max-w-md rounded-2xl shadow-xl p-6">
+            <h3 id="modal-title" class="text-lg font-bold text-slate-800">Evaluate Policy</h3>
+            <div class="mt-4 space-y-4">
+                <div>
+                    <label class="text-sm font-semibold text-slate-600">Performance Rating</label>
+                    <div id="modal-ratings" class="mt-2 grid grid-cols-3 gap-2">
+                        <button data-result="robust" class="rating-btn border-2 border-transparent text-white font-semibold py-2 rounded-lg transition-all" style="background-color: var(--color-robust);">Robust</button>
+                        <button data-result="partial" class="rating-btn border-2 border-transparent text-white font-semibold py-2 rounded-lg transition-all" style="background-color: var(--color-partial);">Partial Fit</button>
+                        <button data-result="fragile" class="rating-btn border-2 border-transparent text-white font-semibold py-2 rounded-lg transition-all" style="background-color: var(--color-fragile);">Fragile</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="modal-rationale" class="text-sm font-semibold text-slate-600">Rationale</label>
+                    <textarea id="modal-rationale" rows="3" class="mt-2 w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none" placeholder="Explain why..."></textarea>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="modal-cancel" class="px-4 py-2 text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg">Cancel</button>
+                <button id="modal-save" class="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg disabled:bg-indigo-300" disabled>Save Result</button>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    const state = {
+        // The workshop starts with generic, editable scenarios.
+        scenarios: [
+            { id: 'A', title: 'Scenario A', logic: 'Click to define the core logic of this future.', testedPolicies: [], bg_id: 'bg-A' },
+            { id: 'B', title: 'Scenario B', logic: 'Click to define the core logic of this future.', testedPolicies: [], bg_id: 'bg-B' },
+            { id: 'C', title: 'Scenario C', logic: 'Click to define the core logic of this future.', testedPolicies: [], bg_id: 'bg-C' },
+            { id: 'D', title: 'Scenario D', logic: 'Click to define the core logic of this future.', testedPolicies: [], bg_id: 'bg-D' }
+        ],
+        // The policy rail is empty at the start of a workshop.
+        policies: [],
+    };
+
+    const RESULT_STYLES = {
+        robust: { color: 'var(--color-robust)', label: 'Robust' },
+        partial: { color: 'var(--color-partial)', label: 'Partial Fit' },
+        fragile: { color: 'var(--color-fragile)', label: 'Fragile' }
+    };
+
+    const dom = {
+        scenarioCanvas: document.getElementById('scenario-canvas'),
+        policiesRail: document.getElementById('policies-rail'),
+        modal: document.getElementById('evaluation-modal'),
+        modalTitle: document.getElementById('modal-title'),
+        modalRatings: document.getElementById('modal-ratings'),
+        modalRationale: document.getElementById('modal-rationale'),
+        modalSave: document.getElementById('modal-save'),
+        modalCancel: document.getElementById('modal-cancel'),
+    };
+
+    function render() {
+        renderScenarios();
+        renderPolicies();
+    }
+
+    function renderScenarios() {
+        dom.scenarioCanvas.innerHTML = '';
+        state.scenarios.forEach(scenario => {
+            const quadrant = document.createElement('div');
+            quadrant.className = 'quadrant';
+            quadrant.dataset.scenarioId = scenario.id;
+
+            let testedPoliciesHtml = '<div class="space-y-3 mt-4">';
+            scenario.testedPolicies.forEach((tested, index) => {
+                const style = RESULT_STYLES[tested.result];
+                testedPoliciesHtml += `
+                    <div class="tested-policy bg-white border rounded-lg p-3 shadow-sm" style="animation-delay: ${index * 100}ms">
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold text-slate-700 text-sm">${tested.policyTitle}</span>
+                            <span class="text-xs font-bold px-2 py-0.5 rounded-full" style="background-color: ${style.color}20; color: ${style.color};">${style.label}</span>
+                        </div>
+                        <p class="text-slate-500 text-xs mt-1">${tested.rationale}</p>
+                    </div>`;
+            });
+            testedPoliciesHtml += '</div>';
+
+            quadrant.innerHTML = `
+                <div class="quadrant-bg" id="${scenario.bg_id}"></div>
+                <div class="quadrant-content">
+                    <h2 class="quadrant-title" contenteditable="true" data-edit="title">${scenario.title}</h2>
+                    <p class="quadrant-logic" contenteditable="true" data-edit="logic">${scenario.logic}</p>
+                    <div class="flex-1 min-h-[50px]">${testedPoliciesHtml}</div>
+                </div>`;
+            dom.scenarioCanvas.appendChild(quadrant);
+        });
+        addDropListeners();
+        addEditListeners(); // Attach listeners for the new editable fields
+    }
+
+    function renderPolicies() {
+        dom.policiesRail.innerHTML = '';
+        if (state.policies.length === 0) {
+            dom.policiesRail.innerHTML = `<div class="rail-placeholder rounded-lg p-4 text-center text-sm w-full md:w-auto md:max-w-md">Policies promoted from the Strategic Compass will appear here for testing.</div>`;
+            return;
+        }
+        state.policies.forEach(policy => {
+            const chip = document.createElement('div');
+            chip.className = 'policy-chip bg-white border border-slate-300 rounded-full py-2 px-4 text-slate-700 font-semibold text-sm hover:bg-slate-50 hover:border-slate-400';
+            chip.textContent = policy.title;
+            chip.dataset.policyId = policy.id;
+            chip.draggable = true;
+            dom.policiesRail.appendChild(chip);
+        });
+        addDragListeners();
+    }
+
+    function addDragListeners() {
+        document.querySelectorAll('.policy-chip').forEach(chip => {
+            chip.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text/plain', chip.dataset.policyId);
+                e.target.classList.add('opacity-50');
+                setTimeout(() => e.target.classList.add('grabbing'), 0);
+            });
+            chip.draggable = true;
+            dom.policiesRail.appendChild(chip);
+        });
+        addDragListeners();
+    }
+
+    function addDragListeners() {
+        document.querySelectorAll('.quadrant').forEach(quadrant => {
+            quadrant.addEventListener('dragover', e => { e.preventDefault(); quadrant.classList.add('drag-over'); });
+            quadrant.addEventListener('dragleave', () => quadrant.classList.remove('drag-over'));
+            quadrant.addEventListener('drop', e => {
+                e.preventDefault();
+                quadrant.classList.remove('drag-over');
+                const policyId = e.dataTransfer.getData('text/plain');
+                const scenarioId = quadrant.dataset.scenarioId;
+                handleDrop(policyId, scenarioId);
+            });
+        });
+    }
+
+    // --- NEW EDIT LISTENER LOGIC ---
+    function addEditListeners() {
+        document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+            el.addEventListener('blur', e => {
+                const quadrant = e.target.closest('.quadrant');
+                if (!quadrant) return;
+
+                const scenarioId = quadrant.dataset.scenarioId;
+                const scenario = state.scenarios.find(s => s.id === scenarioId);
+                if (!scenario) return;
+
+                const editType = e.target.dataset.edit; // 'title' or 'logic'
+                const newText = e.target.textContent.trim();
+                
+                if (editType === 'title' && newText) {
+                    scenario.title = newText;
+                } else if (editType === 'logic' && newText) {
+                    scenario.logic = newText;
+                }
+                // Re-render to ensure state consistency, though not strictly necessary for this simple update
+                // renderScenarios(); 
+            });
+        });
+    }
+
+    function handleDrop(policyId, scenarioId) {
+        const scenario = state.scenarios.find(s => s.id === scenarioId);
+        // Prevent dropping if the policy has already been tested in this scenario.
+        if (!scenario || scenario.testedPolicies.some(p => p.policyId === policyId)) return;
+
+        const policy = state.policies.find(p => p.id === policyId);
+        if (policy) {
+            openEvaluationModal(policy, scenario);
+        }
+    }
+
+    // --- NEW MODAL LOGIC ---
+    let currentEvaluation = { policyId: null, scenarioId: null, result: null };
+
+    function openEvaluationModal(policy, scenario) {
+        currentEvaluation = { policyId: policy.id, scenarioId: scenario.id, result: null };
+        dom.modalTitle.textContent = `How does "${policy.title}" perform in the "${scenario.title}" future?`;
+        dom.modalRationale.value = '';
+        
+        // Reset button styles and disable save
+        dom.modalRatings.querySelectorAll('.rating-btn').forEach(btn => {
+            btn.classList.remove('ring-4', 'ring-offset-2');
+            btn.classList.add('opacity-50');
+        });
+        dom.modalSave.disabled = true;
+
+        dom.modal.classList.remove('hidden');
+        setTimeout(() => dom.modal.querySelector('.modal-content').classList.remove('scale-95'), 10);
+    }
+
+    function closeEvaluationModal() {
+        dom.modal.querySelector('.modal-content').classList.add('scale-95');
+        setTimeout(() => dom.modal.classList.add('hidden'), 300);
+    }
+
+    dom.modalRatings.addEventListener('click', e => {
+        if (e.target.classList.contains('rating-btn')) {
+            const selectedResult = e.target.dataset.result;
+            currentEvaluation.result = selectedResult;
+
+            dom.modalRatings.querySelectorAll('.rating-btn').forEach(btn => {
+                const isSelected = btn.dataset.result === selectedResult;
+                btn.classList.toggle('ring-4', isSelected);
+                btn.classList.toggle('ring-offset-2', isSelected);
+                btn.classList.toggle('opacity-50', !isSelected);
+            });
+            dom.modalSave.disabled = false;
+        }
+    });
+
+    dom.modalSave.addEventListener('click', () => {
+        if (!currentEvaluation.result) return;
+
+        const scenario = state.scenarios.find(s => s.id === currentEvaluation.scenarioId);
+        const policy = state.policies.find(p => p.id === currentEvaluation.policyId);
+        
+        if (scenario && policy) {
+            scenario.testedPolicies.push({
+                policyId: policy.id,
+                policyTitle: policy.title,
+                result: currentEvaluation.result,
+                rationale: dom.modalRationale.value || "No rationale provided."
+            });
+            renderScenarios();
+        }
+        closeEvaluationModal();
+    });
+
+    dom.modalCancel.addEventListener('click', closeEvaluationModal);
+    
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // The workshop starts with a true blank slate.
+        state.policies = []; 
+        render();
+
+        // Facilitator can add policies dynamically. For a real workshop,
+        // this timeout would be removed and replaced with a connection to the Compass tool.
+        setTimeout(() => {
+             state.policies = [
+                { id: 'policy1', title: 'New Policy Idea 1' },
+                { id: 'policy2', title: 'New Policy Idea 2' },
+            ];
+            renderPolicies();
+        }, 2000);
+    });
+
+</script>
+</body>
+</html>
+

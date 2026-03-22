@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influence Mapper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-family-sans: 'Inter', sans-serif;
+            --font-family-display: 'Manrope', sans-serif;
+            --color-bg: #f8fafc; /* slate-50 */
+            --color-panel: #ffffff;
+            --color-border: #e2e8f0; /* slate-200 */
+            --color-text-header: #1e293b; /* slate-800 */
+            --color-text-body: #475569; /* slate-600 */
+            --color-text-muted: #94a3b8; /* slate-400 */
+            --color-accent-positive: #0ea5e9; /* sky-500 */
+            --color-accent-negative: #f97316; /* orange-500 */
+            --color-accent-neutral: #64748b; /* slate-500 */
+            --color-accent-edit: #4f46e5; /* indigo-600 */
+        }
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text-body);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3 { font-family: var(--font-family-display); color: var(--color-text-header); }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 55fr 45fr;
+            gap: 2rem;
+            transition: opacity 0.3s ease;
+        }
+        .grid-container.is-empty { opacity: 0; pointer-events: none; }
+
+        .tool-button { border: 1px solid var(--color-border); transition: all 0.2s ease; }
+        .tool-button.active { background-color: var(--color-accent-edit); color: white; border-color: var(--color-accent-edit); }
+
+        #matrix-container table { border-collapse: separate; border-spacing: 0; }
+        #matrix-container th, #matrix-container td { border: 1px solid var(--color-border); transition: background-color 0.3s ease, box-shadow 0.2s ease; }
+        #matrix-container th {
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+            font-weight: 600; color: var(--color-text-body); background-color: #f1f5f9;
+            padding: 0.5rem 0.25rem; position: sticky;
+        }
+        #matrix-container th .delete-btn { opacity: 0; transition: opacity 0.2s; }
+        #matrix-container th:hover .delete-btn { opacity: 0.5; }
+        #matrix-container th .delete-btn:hover { opacity: 1; color: #ef4444; }
+        #matrix-container th.header-row { top: 0; }
+        #matrix-container th.header-col { left: 0; z-index: 1; }
+        #matrix-container td {
+            width: 4rem; height: 4rem; text-align: center; font-weight: 700;
+            font-size: 1.25rem; color: white; cursor: pointer; background-color: #f8fafc;
+        }
+        #matrix-container td.diagonal { background-color: var(--color-border); cursor: not-allowed; }
+        #matrix-container.is-view-mode td:not(.diagonal) { cursor: default; }
+        #matrix-container.is-view-mode td:not(.diagonal):hover { box-shadow: none; }
+        #matrix-container:not(.is-view-mode) td:not(.diagonal):hover { box-shadow: inset 0 0 0 2px var(--color-accent-neutral); }
+        #matrix-container tr.highlight th, #matrix-container td.highlight { background-color: #e2e8f0 !important; }
+        
+        .plot-bg-rect { opacity: 0.5; }
+        .axis line, .axis path { stroke: var(--color-border); }
+        .axis text { fill: var(--color-text-muted); font-size: 0.75rem; }
+        .plot-label { font-weight: 600; fill: var(--color-text-body); }
+        .scatter-dot {
+            fill: var(--color-text-header); stroke: var(--color-bg); stroke-width: 2px;
+            cursor: pointer; transition: r 0.3s ease, fill 0.3s ease, opacity 0.3s ease;
+        }
+        .scatter-dot.highlight { fill: var(--color-accent-positive); r: 10px; }
+        .scatter-dot.fade { opacity: 0.2; }
+        .dot-label {
+            font-size: 0.7rem; fill: var(--color-text-body); pointer-events: none;
+            transition: opacity 0.3s ease; text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white;
+        }
+
+        #modal-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 24px; height: 24px;
+            background: var(--color-accent-neutral); cursor: pointer; border-radius: 50%;
+            border: 4px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+         #modal-slider::-moz-range-thumb {
+            width: 24px; height: 24px; background: var(--color-accent-neutral); cursor: pointer;
+            border-radius: 50%; border: 4px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .direction-btn.active.positive { background-color: var(--color-accent-positive); border-color: var(--color-accent-positive); color: white; }
+        .direction-btn.active.negative { background-color: var(--color-accent-negative); border-color: var(--color-accent-negative); color: white; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-6 flex justify-end items-center">
+            <div id="toolbar" class="flex items-center gap-2">
+                <button id="add-driver-btn" class="font-semibold py-2 px-4 rounded-lg bg-white tool-button hidden">+ Add Driver</button>
+                <div class="bg-slate-200 h-8 w-px mx-2 hidden"></div>
+                <button id="view-mode-btn" class="font-semibold py-2 px-4 rounded-lg bg-white tool-button">View</button>
+                <button id="edit-mode-btn" class="font-semibold py-2 px-4 rounded-lg bg-white tool-button">Edit</button>
+            </div>
+        </header>
+
+        <div id="app-container" class="relative">
+            <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <h3 class="text-xl font-bold text-slate-700">Analysis Canvas Empty</h3>
+                <p class="max-w-sm mt-1">Switch to <span class="font-bold text-indigo-600">Edit Mode</span> and add at least two drivers to begin.</p>
+            </div>
+            <div class="grid-container">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h2 class="text-xl font-bold mb-1">Cross-Impact Matrix</h2>
+                    <p class="text-sm mb-4">In Edit Mode, click a cell to rate the influence of a row driver on a column driver.</p>
+                    <div id="matrix-container" class="overflow-auto max-h-[70vh]"></div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col">
+                    <h2 class="text-xl font-bold mb-1">System Analysis</h2>
+                    <p class="text-sm mb-4">Drivers are plotted by their total power. This updates in real-time as you rate impacts.</p>
+                    <div id="plot-container" class="flex-grow min-h-[300px]"></div>
+                    <div id="narrative-summary" class="mt-4 pt-4 border-t border-slate-200"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 transform transition-all opacity-0 -translate-y-4">
+            <h2 id="modal-title" class="text-xl font-bold text-slate-800"></h2>
+            
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-2">1. Relationship Type</label>
+                    <div class="flex gap-2">
+                        <button id="direction-positive" data-value="1" class="direction-btn flex-1 font-semibold py-2 px-4 rounded-lg border">Positive (+)</button>
+                        <button id="direction-negative" data-value="-1" class="direction-btn flex-1 font-semibold py-2 px-4 rounded-lg border">Negative (-)</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="modal-slider" class="block text-sm font-medium text-slate-600 mb-2">2. Impact Magnitude</label>
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm font-bold text-slate-500">0</span>
+                        <input type="range" id="modal-slider" min="0" max="3" step="1" value="0" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        <span class="text-sm font-bold text-slate-500">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-6 bg-slate-50 rounded-lg p-4">
+                <p class="text-sm font-medium text-slate-500">Resulting Impact</p>
+                <span id="slider-value-label" class="text-4xl font-bold tabular-nums">0</span>
+                <p id="slider-desc-label" class="text-sm font-medium text-slate-600">No Impact</p>
+            </div>
+
+            <div class="mt-8 flex justify-end space-x-3">
+                <button type="button" onclick="closeModal()" class="bg-slate-100 text-slate-700 font-semibold py-2 px-5 rounded-lg hover:bg-slate-200">Cancel</button>
+                <button id="modal-save" type="button" class="bg-slate-800 text-white font-semibold py-2 px-5 rounded-lg hover:bg-slate-900">Save</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+let drivers = [];
+let impactMatrix = [];
+let currentMode = 'view';
+let currentEdit = { row: null, col: null };
+let currentModalValue = { magnitude: 0, direction: 0 };
+
+const MAGNITUDE_LABELS = { '0': 'No Impact', '1': 'Weak', '2': 'Medium', '3': 'Strong' };
+
+const dom = {
+    gridContainer: d3.select(".grid-container"),
+    emptyState: d3.select("#empty-state"),
+    matrix: d3.select("#matrix-container"),
+    plot: d3.select("#plot-container"),
+    summary: d3.select("#narrative-summary"),
+    modal: document.getElementById('modal'),
+    modalContent: document.getElementById('modal-content'),
+    modalTitle: document.getElementById('modal-title'),
+    modalSlider: document.getElementById('modal-slider'),
+    sliderValueLabel: document.getElementById('slider-value-label'),
+    sliderDescLabel: document.getElementById('slider-desc-label'),
+    modalSave: document.getElementById('modal-save'),
+    addDriverBtn: document.getElementById('add-driver-btn'),
+    toolbarDivider: document.querySelector('#toolbar .bg-slate-200'),
+    viewModeBtn: document.getElementById('view-mode-btn'),
+    editModeBtn: document.getElementById('edit-mode-btn'),
+    directionPositiveBtn: document.getElementById('direction-positive'),
+    directionNegativeBtn: document.getElementById('direction-negative'),
+};
+
+const colorScale = d3.scaleLinear().domain([-3, 0, 3]).range([getComputedStyle(document.documentElement).getPropertyValue('--color-accent-negative'), '#f8fafc', getComputedStyle(document.documentElement).getPropertyValue('--color-accent-positive')]);
+
+document.addEventListener('DOMContentLoaded', () => {
+    setMode('view');
+    checkState();
+    dom.modalSlider.addEventListener('input', () => {
+        currentModalValue.magnitude = parseInt(dom.modalSlider.value, 10);
+        updateModalDisplay();
+    });
+    dom.directionPositiveBtn.addEventListener('click', () => {
+        currentModalValue.direction = currentModalValue.direction === 1 ? 0 : 1;
+        updateModalDisplay();
+    });
+    dom.directionNegativeBtn.addEventListener('click', () => {
+        currentModalValue.direction = currentModalValue.direction === -1 ? 0 : -1;
+        updateModalDisplay();
+    });
+    dom.modalSave.addEventListener('click', handleSave);
+    dom.viewModeBtn.addEventListener('click', () => setMode('view'));
+    dom.editModeBtn.addEventListener('click', () => setMode('edit'));
+    dom.addDriverBtn.addEventListener('click', addDriver);
+});
+
+function setMode(mode) {
+    currentMode = mode;
+    dom.viewModeBtn.classList.toggle('active', mode === 'view');
+    dom.editModeBtn.classList.toggle('active', mode === 'edit');
+    dom.addDriverBtn.classList.toggle('hidden', mode === 'view');
+    dom.toolbarDivider.classList.toggle('hidden', mode === 'view');
+    dom.matrix.classed('is-view-mode', mode === 'view');
+    d3.selectAll(".delete-btn").style('display', mode === 'edit' ? 'inline-block' : 'none');
+    handleMouseOut();
+}
+
+function checkState() {
+    const hasEnoughDrivers = drivers.length >= 2;
+    dom.gridContainer.classed('is-empty', !hasEnoughDrivers);
+    dom.emptyState.classed('hidden', hasEnoughDrivers);
+    if (hasEnoughDrivers) {
+        update();
+    } else {
+        dom.matrix.html('');
+        dom.plot.html('');
+        dom.summary.html('');
+    }
+}
+
+function addDriver() {
+    const name = prompt("Enter the name of the new driver:");
+    if (name && name.trim() !== '') {
+        drivers.push({ id: Date.now(), name: name.trim(), short: name.trim().slice(0, 12) });
+        impactMatrix.forEach(row => row.push(0));
+        impactMatrix.push(new Array(drivers.length).fill(0));
+        checkState();
+    }
+}
+
+function deleteDriver(driverId) {
+    if (confirm("Are you sure you want to delete this driver and all its impact ratings?")) {
+        const index = drivers.findIndex(d => d.id === driverId);
+        if (index > -1) {
+            drivers.splice(index, 1);
+            impactMatrix.splice(index, 1);
+            impactMatrix.forEach(row => row.splice(index, 1));
+            checkState();
+        }
+    }
+}
+
+function calculateScores() {
+    return drivers.map((driver, i) => {
+        const influence = d3.sum(impactMatrix[i], d => Math.abs(d));
+        const dependence = d3.sum(impactMatrix, row => Math.abs(row[i]));
+        return { ...driver, influence, dependence };
+    });
+}
+
+function update() {
+    renderMatrix();
+    renderPlot();
+    const scoredDrivers = calculateScores();
+    updateMatrix();
+    updatePlot(scoredDrivers);
+    handleMouseOut();
+}
+
+function renderMatrix() {
+    dom.matrix.html('');
+    const table = dom.matrix.append("table").attr("class", "w-full");
+    const headerRow = table.append("thead").append("tr").call(tr => tr.append("th").attr("class", "header-row header-col"));
+    headerRow.selectAll("th.col-header").data(drivers).join("th")
+        .attr("class", "header-row col-header text-center")
+        .html(d => `${d.short} <button title="Delete Driver" class="delete-btn ml-1" onclick="deleteDriver(${d.id})">&times;</button>`);
+
+    const rows = table.append("tbody").selectAll("tr").data(drivers).join("tr").attr("data-row-id", d => d.id);
+    rows.append("th").attr("class", "header-col text-left p-2")
+        .html(d => `<span>${d.name}</span> <button title="Delete Driver" class="delete-btn float-right" onclick="deleteDriver(${d.id})">&times;</button>`);
+
+    rows.selectAll("td").data((d, i) => drivers.map((col, j) => ({ row: i, col: j })))
+        .join("td")
+        .attr("class", d => d.row === d.col ? "diagonal" : "")
+        .attr("data-row", d => d.row).attr("data-col", d => d.col)
+        .on("click", (e, d) => (currentMode === 'edit' && d.row !== d.col) ? openModal(d.row, d.col) : null)
+        .on("mouseover", handleMouseOver).on("mouseout", handleMouseOut);
+    setMode(currentMode);
+}
+
+function updateMatrix() {
+    dom.matrix.selectAll("td:not(.diagonal)")
+        .transition().duration(300)
+        .style("background-color", d => colorScale(impactMatrix[d.row][d.col]))
+        .text(d => {
+            const value = impactMatrix[d.row][d.col];
+            return value !== 0 ? value : '';
+        });
+}
+
+let plotElements = {};
+function renderPlot() {
+    dom.plot.html('');
+    const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+    const width = dom.plot.node().getBoundingClientRect().width - margin.left - margin.right;
+    const height = dom.plot.node().getBoundingClientRect().height - margin.top - margin.bottom;
+    const svg = dom.plot.append("svg")
+        .attr("width", "100%").attr("height", "100%")
+        .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+        .append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+        
+    const maxScore = (drivers.length - 1) * 3;
+    const scaleDomain = [0, maxScore || 1];
+    const xScale = d3.scaleLinear().domain(scaleDomain).range([0, width]);
+    const yScale = d3.scaleLinear().domain(scaleDomain).range([height, 0]);
+
+    svg.append("defs").html(`<linearGradient id="grad-critical" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e0f2fe"/><stop offset="100%" stop-color="#f8fafc"/></linearGradient><linearGradient id="grad-volatile" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ccfbf1"/><stop offset="100%" stop-color="#f8fafc"/></linearGradient><linearGradient id="grad-outcome" x1="100%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="#ffedd5"/><stop offset="100%" stop-color="#f8fafc"/></linearGradient><linearGradient id="grad-buffer" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f1f5f9"/><stop offset="100%" stop-color="#f8fafc"/></linearGradient>`);
+    svg.append("rect").attr("width", width/2).attr("height", height/2).attr("fill", "url(#grad-critical)").attr("class","plot-bg-rect");
+    svg.append("rect").attr("x", width/2).attr("width", width/2).attr("height", height/2).attr("fill", "url(#grad-volatile)").attr("class","plot-bg-rect");
+    svg.append("rect").attr("y", height/2).attr("width", width/2).attr("height", height/2).attr("fill", "url(#grad-buffer)").attr("class","plot-bg-rect");
+    svg.append("rect").attr("x", width/2).attr("y", height/2).attr("width", width/2).attr("height", height/2).attr("fill", "url(#grad-outcome)").attr("class","plot-bg-rect");
+
+    svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(xScale));
+    svg.append("g").call(d3.axisLeft(yScale));
+    svg.append("text").attr("class", "plot-label").attr("x", width / 2).attr("y", height + margin.bottom - 10).attr("text-anchor", "middle").text("Dependence →");
+    svg.append("text").attr("class", "plot-label").attr("transform", "rotate(-90)").attr("y", -margin.left + 15).attr("x", -height / 2).attr("text-anchor", "middle").text("Influence →");
+    plotElements = { svg, xScale, yScale };
+}
+
+function updatePlot(scoredDrivers) {
+    const { svg, xScale, yScale } = plotElements;
+    svg.selectAll(".scatter-dot").data(scoredDrivers, d => d.id).join(
+        enter => enter.append("circle").attr("class", "scatter-dot").attr("r", 8)
+            .attr("data-dot-id", d => d.id).attr("cx", d => xScale(d.dependence)).attr("cy", d => yScale(d.influence))
+            .on("mouseover", handleMouseOver).on("mouseout", handleMouseOut),
+        update => update.transition().duration(500).ease(d3.easeCubicOut)
+            .attr("cx", d => xScale(d.dependence)).attr("cy", d => yScale(d.influence)),
+        exit => exit.transition().duration(300).attr("r", 0).remove()
+    );
+    svg.selectAll(".dot-label").data(scoredDrivers, d => d.id).join(
+        enter => enter.append("text").attr("class", "dot-label")
+            .attr("data-label-id", d => d.id).attr("x", d => xScale(d.dependence) + 12).attr("y", d => yScale(d.influence) + 4).text(d => d.name),
+        update => update.transition().duration(500).ease(d3.easeCubicOut)
+            .attr("x", d => xScale(d.dependence) + 12).attr("y", d => yScale(d.influence) + 4),
+        exit => exit.transition().duration(300).style("opacity", 0).remove()
+    );
+}
+
+function openModal(row, col) {
+    currentEdit = { row, col };
+    dom.modalTitle.innerHTML = `<span class="font-normal">${drivers[row].name}</span> <span class="font-light mx-2">→</span> <span class="font-normal">${drivers[col].name}</span>`;
+    const val = impactMatrix[row][col];
+    currentModalValue = { magnitude: Math.abs(val), direction: Math.sign(val) };
+    updateModalDisplay();
+    dom.modal.classList.remove('hidden');
+    requestAnimationFrame(() => dom.modalContent.classList.remove('opacity-0', '-translate-y-4'));
+}
+
+function updateModalDisplay() {
+    dom.modalSlider.value = currentModalValue.magnitude;
+    dom.directionPositiveBtn.classList.toggle('active', currentModalValue.direction === 1);
+    dom.directionPositiveBtn.classList.toggle('positive', currentModalValue.direction === 1);
+    dom.directionNegativeBtn.classList.toggle('active', currentModalValue.direction === -1);
+    dom.directionNegativeBtn.classList.toggle('negative', currentModalValue.direction === -1);
+
+    const finalValue = currentModalValue.magnitude * currentModalValue.direction;
+    dom.sliderValueLabel.textContent = finalValue;
+    dom.sliderDescLabel.textContent = MAGNITUDE_LABELS[currentModalValue.magnitude];
+    const color = (currentModalValue.magnitude === 0) ? 'var(--color-accent-neutral)' : colorScale(finalValue);
+    dom.sliderValueLabel.style.color = color;
+    dom.modalSlider.style.setProperty('--color-accent-neutral', color);
+}
+
+function closeModal() {
+    dom.modalContent.classList.add('opacity-0', '-translate-y-4');
+    setTimeout(() => dom.modal.classList.add('hidden'), 300);
+}
+
+function handleSave() {
+    const { row, col } = currentEdit;
+    if (row !== null && col !== null) {
+        impactMatrix[row][col] = currentModalValue.magnitude * currentModalValue.direction;
+        closeModal();
+        update();
+    }
+}
+
+function handleMouseOver(event, d) {
+    const id = d.id ?? drivers[d.row].id;
+    d3.selectAll(`[data-row-id="${id}"]`).classed("highlight", true);
+    d3.selectAll(`td[data-col="${id}"]`).classed("highlight", true);
+    d3.selectAll(".scatter-dot").classed("fade", dot => dot.id !== id);
+    d3.selectAll(`.scatter-dot[data-dot-id="${id}"]`).classed("highlight", true).classed("fade", false).raise();
+    d3.selectAll(`.dot-label[data-label-id="${id}"]`).raise();
+    updateSummary(id);
+}
+
+function handleMouseOut() {
+    d3.selectAll(".highlight").classed("highlight", false);
+    d3.selectAll(".fade").classed("fade", false);
+    dom.summary.html(`<h3 class="text-lg font-bold">Key Insights</h3><p class="text-sm text-slate-500">Hover over a dot or matrix row to see details.</p>`);
+}
+
+function updateSummary(driverId) {
+    const scoredDrivers = calculateScores();
+    const driver = scoredDrivers.find(d => d.id === driverId);
+    if (!driver) return;
+    const maxScore = (drivers.length - 1) * 3;
+    const mid = maxScore / 2;
+    const getQuadrant = (d) => {
+        if (d.influence > mid && d.dependence < mid) return { name: "Critical Driver", desc: "High influence, low dependence. These are key levers for change."};
+        if (d.influence > mid && d.dependence > mid) return { name: "Volatile Variable", desc: "High influence and dependence. These are unstable and can amplify change."};
+        if (d.influence < mid && d.dependence > mid) return { name: "Key Outcome", desc: "High dependence, low influence. These are indicators of system change."};
+        return { name: "System Buffer", desc: "Low influence and dependence. These are relatively independent of the system."};
+    }
+    const quadrant = getQuadrant(driver);
+    dom.summary.html(`<h3 class="text-lg font-bold">${driver.name}</h3><p class="text-sm font-semibold" style="color: ${quadrant.name === 'Critical Driver' ? 'var(--color-accent-positive)' : quadrant.name === 'Key Outcome' ? 'var(--color-accent-negative)' : 'inherit'}">${quadrant.name}</p><p class="text-xs text-slate-500 mb-3">${quadrant.desc}</p><div class="space-y-1 text-sm"><div><strong>Influence: ${driver.influence}</strong> <span class="text-xs text-slate-400">(Sum of absolute row values)</span></div><div><strong>Dependence: ${driver.dependence}</strong> <span class="text-xs text-slate-400">(Sum of absolute column values)</span></div></div>`);
+}
+
+</script>
+</body>
+</html>
+
+

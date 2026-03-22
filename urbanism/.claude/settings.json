@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.projectforpublicspaces.org)",
+      "WebFetch(domain:www.bloomberg.com)",
+      "Bash(ls \"c:/Users/User/OneDrive/Desktop/Policy Lab/Publications/website and publications/urbanism/\"*.docx)",
+      "Bash(mkdir -p images/greenery images/design-language)",
+      "Bash(unzip -o \"Urban Greenery short report.docx\" \"word/media/*\" -d /tmp/greenery-extract)",
+      "Bash(cp /tmp/greenery-extract/word/media/* images/greenery/)",
+      "Bash(unzip -o \"Urban design language for Maldives.docx\" \"word/media/*\" -d /tmp/design-extract)",
+      "Bash(cp /tmp/design-extract/word/media/* images/design-language/)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\User\\.claude\\projects\\c--Users-User-OneDrive-Desktop-Policy-Lab-Publications-website-and-publications-urbanism\\memory"
+    ]
+  }
+}

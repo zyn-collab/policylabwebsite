@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Making Malé's Buses Actually Work</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root{--serif:'Source Serif 4',Georgia,serif;--sans:'Plus Jakarta Sans',system-ui,sans-serif;--bg:#FAFAF7;--fg:#1a1a1a;--muted:#64748B;--accent:#4A7D6D}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);line-height:1.7;font-size:15px}
+
+.hero{background:linear-gradient(170deg,#2D4F4F 0%,#4A7D6D 100%);color:#fff;padding:120px 24px 52px;text-align:center}
+.hero h1{font-family:var(--sans);font-size:clamp(26px,4.5vw,42px);font-weight:700;line-height:1.15;max-width:720px;margin:0 auto 14px}
+.hero p{font-size:16px;color:rgba(255,255,255,.7);max-width:580px;margin:0 auto;line-height:1.6}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+section{padding:42px 0 36px}
+section p{margin-bottom:15px;color:#334155}
+
+h2{font-family:var(--sans);font-size:25px;font-weight:700;color:var(--fg);margin:46px 0 10px;line-height:1.25}
+h2 .n{display:inline-flex;align-items:center;justify-content:center;width:33px;height:33px;border-radius:9px;color:#fff;font-family:var(--sans);font-size:14px;font-weight:800;margin-right:8px;vertical-align:middle}
+
+.rmeta{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0 13px}
+.rmeta .t{padding:3px 10px;border-radius:18px;font-size:12px;font-weight:600}
+
+.rsec{padding-bottom:14px;border-bottom:1px solid #E2E8F0;margin-bottom:8px}
+.rsec:last-of-type{border-bottom:none}
+.rsec p{margin-bottom:13px;color:#334155}
+.ctx{background:#F0F9FF;border-radius:9px;padding:11px 15px;font-size:14px;color:#1B4965;margin:13px 0;border-left:3px solid #457B9D}
+.nb{margin:12px 0}
+.nb span{display:inline-block;padding:2px 7px;background:#F1F5F9;border-radius:5px;font-size:12px;color:#475569;margin:2px 2px 2px 0}
+
+.mf{width:100%;height:400px;border-radius:10px;border:1px solid #E2E8F0;margin:16px 0;overflow:hidden;background:#E2E8F0}
+.mf iframe{width:100%;height:100%;border:none}
+
+.covs{background:linear-gradient(170deg,#0C1524,#162032);color:#fff;padding:52px 0;margin-top:40px}
+.covs h2{color:#fff;margin-top:0}
+.covs p{color:rgba(255,255,255,.72)}
+#cm{width:100%;height:460px;border-radius:10px;margin:18px 0;overflow:hidden}
+.cc{display:flex;gap:5px;flex-wrap:wrap;margin:12px 0}
+.cb{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:2px solid transparent;font-family:var(--sans);transition:all .2s;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55)}
+.cb:hover{background:rgba(255,255,255,.12)}
+.cb.on{color:#fff}
+.cr{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.cs{background:rgba(255,255,255,.06);border-radius:9px;padding:11px 15px;flex:1;min-width:145px;border:1px solid rgba(255,255,255,.08)}
+.cs .p{font-family:var(--serif);font-size:25px;font-weight:700;line-height:1}
+.cs .l{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
+.cs .k{font-size:12px;color:rgba(255,255,255,.65);margin-top:2px}
+
+.end{padding:42px 0 68px}
+.end p{margin-bottom:13px;color:#334155}
+.stop-tooltip{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:10px!important;font-weight:600!important;border-radius:5px!important;padding:2px 6px!important}
+</style>
+</head>
+<body>
+
+<nav style="padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,247,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04);position:fixed;top:0;left:0;right:0;z-index:100"><a href="../index.html" style="font-size:13px;font-weight:700;color:#4A7D6D;text-decoration:none">public policy lab<span style="font-weight:400;color:#8a8a82;font-size:12px;margin-left:4px">· cities</span></a><a href="../index.html" style="font-size:12px;color:#8a8a82;font-weight:500;text-decoration:none">Back to cities</a></nav>
+
+<div class="hero">
+<h1>Malé's Buses Should Get You Where You're Going</h1>
+<p>Five practical changes to the Hulhumalé–Malé bus routes that would make public transport work as a city bus, not an airport shuttle.</p>
+</div>
+
+<div class="wrap">
+<section>
+<p>Someone living in Hulhumalé Phase 2 and working at Velaanaage takes the bus to Carnival bus stop, then walks ten minutes in the sun to their office. Or, more likely, they skip the bus entirely and ride a motorcycle, because the bus doesn't get them where they're going – it gets them to the edge of where they're going and leaves them there.</p>
+
+<p>The Hulhumalé–Malé bus routes treat the two halves of Malé City as separate destinations linked by a shuttle rather than as parts of one metropolitan area served by a transit system. The Carnival route drops passengers on the eastern tip of Malé and turns around. The West Park route runs along the northern and western perimeter. Neither penetrates into the areas where people work, study, shop, or get medical treatment – the government district around Velaanaage, the commercial spine of Majeedhee Magu, the courts and markets near Jumhooree Maidaan, the schools and hospitals deeper in the island.</p>
+
+<p>A within-Malé taxi costs around MVR 30. A cross-city taxi is MVR 45. Paying for a bus ticket and then MVR 30 for a taxi from the bus stop to the actual destination is worse value and more hassle than just taking the taxi directly, so people do that, or they ride motorcycles. Each motorcycle adds to congestion and parking pressure around bus stops, and the bus system carries fewer riders than it should because it fails to serve the trips people actually need to make. A double-decker bus carries roughly sixteen seated passengers in the road footprint of a single motorcycle with clearance around it, which means each person who switches from riding to the bus frees up road and parking space, but the switch only happens if the bus actually takes them where they need to go.</p>
+
+<p>The five proposed changes below range from a two-minute diversion on an existing route to a new line through central Malé. Each map shows only the changed portion – the rest of the existing route stays the same.</p>
+</section>
+
+<!-- ===== ROUTE 1 ===== -->
+<div class="rsec">
+<h2><span class="n" style="background:#457B9D">1</span>Hulhumalé Bypass</h2>
+<div class="rmeta">
+<span class="t" style="background:#457B9D15;color:#457B9D">+2 min</span>
+<span class="t" style="background:#457B9D15;color:#457B9D">700 m</span>
+<span class="t" style="background:#E6394622;color:#E63946;font-weight:700">Immediate</span>
+</div>
+<div class="ctx"><strong>What changes:</strong> The existing route goes straight from Amin Avenue Bus Stop to MNDF Flats Bus Stop along Reethigas Magu. This inserts a small loop through Orchid Maa Hingun and Asurumaa Hingun between those two stops. Every other stop stays in the same order – this is purely an insertion of ~700 metres and about two minutes.</div>
+
+<p>The Umar Zahir Office Building, the ports area, and Tree Top Hospital sit just off the existing route but have no bus service. Employees who live in Phase 2 or Hiya Flats and work at these offices currently have no practical public transport option for what should be a straightforward commute. The roads involved – Orchid Maa Hingun and Asurumaa Hingun – are wide and low-traffic, and anyone using the Amin Avenue or MNDF Flats stops would barely notice the additional time. This could be implemented tomorrow by adjusting the existing route with no additional cost.</p>
+
+<div class="mf"><iframe src="embed_hulhumale-bypass.html" loading="lazy"></iframe></div>
+<div class="nb"><strong>Doorstep access:</strong> <span>Umar Zahir Office Building</span><span>Hulhumalé International Terminal</span><span>Tree Top Hospital</span><span>Justice Building Annex</span><span>MNDF Flats</span></div>
+</div>
+
+<!-- ===== ROUTE 2 ===== -->
+<div class="rsec">
+<h2><span class="n" style="background:#9B2226">2</span>Carnival–Velaanaage</h2>
+<div class="rmeta">
+<span class="t" style="background:#9B222615;color:#9B2226">+22 min round-trip</span>
+<span class="t" style="background:#9B222615;color:#9B2226">4.6 km</span>
+<span class="t" style="background:#2A9D8F22;color:#2A9D8F;font-weight:700">Quick Win</span>
+</div>
+<div class="ctx"><strong>What changes:</strong> Instead of turning around at Carnival, the bus continues west along Boduthakurufaanu Magu through the government district, then returns east via the parallel road past schools and the Majlis. It arrives back at Carnival and resumes the normal return to Hulhumalé.</div>
+
+<p>The cluster of government offices between Carnival and Jumhooree Maidaan – Velaanaage, President's Office, Bank of Maldives, MTCC, Foreign Ministry, Defence Ministry, Police, MMA, MNDF headquarters – employs thousands of people, many of whom live in Hulhumalé. The current Carnival bus stop sits a ten-minute walk east of this cluster. That distance, in Malé's heat, is the difference between the bus being a commuting option and the bus being irrelevant – nobody walks ten minutes in the sun and arrives presentable at a government office. The return leg serves Majeediyya School, the People's Majlis, Arabiyya School, and MIB along the parallel road, so both the waterfront and the institutional row one block south are covered.</p>
+
+<div class="mf"><iframe src="embed_carnival-velaanaage.html" loading="lazy"></iframe></div>
+<div class="nb"><strong>Doorstep access:</strong> <span>Velaanaage</span><span>President's Office</span><span>Bank of Maldives</span><span>MTCC</span><span>MFA</span><span>MOD</span><span>MMA</span><span>MNDF HQ</span><span>Police</span><span>Majeediyya School</span><span>People's Majlis</span><span>Arabiyya School</span><span>MIB</span><span>Sultan Park</span><span>National Library</span><span>Art Gallery</span><span>Islamic Centre</span></div>
+</div>
+
+<!-- ===== ROUTE 3 ===== -->
+<div class="rsec">
+<h2><span class="n" style="background:#6A4C93">3</span>West Park–Jumhooree Maidaan</h2>
+<div class="rmeta">
+<span class="t" style="background:#6A4C9315;color:#6A4C93">+10 min</span>
+<span class="t" style="background:#6A4C9315;color:#6A4C93">2.5 km</span>
+<span class="t" style="background:#E9C46A22;color:#B8860B;font-weight:700">Medium-term</span>
+</div>
+<div class="ctx"><strong>What changes:</strong> The West Park route currently terminates at West Park Bus Station after Dharumavantha and Rasfannu. This extends the route east from Rasfannu along Haveeree Hingun to Jumhooree Maidaan, then the bus returns to West Park and continues the normal route back to Hulhumalé.</div>
+
+<p>Haveeree Hingun runs through the port, market, and judicial district – MPL, Customs, the High Court, Supreme Court, Justice Building, DJA, STO, and the local market are all along this stretch. The extension also reaches Jumhooree Maidaan, which creates a transfer point with the Carnival–Velaanaage route, so a passenger on either line can reach any stop on the other with one transfer.</p>
+
+<div class="mf"><iframe src="embed_westpark-jumhooree.html" loading="lazy"></iframe></div>
+<div class="nb"><strong>Doorstep access:</strong> <span>MPL</span><span>Customs</span><span>Juvenile Court</span><span>High Court</span><span>DJA</span><span>Justice Building</span><span>Supreme Court</span><span>STO</span><span>Local Market</span><span>Jumhooree Maidaan</span></div>
+</div>
+
+<!-- ===== ROUTE 4 ===== -->
+<div class="rsec">
+<h2><span class="n" style="background:#E76F51">4</span>West Park–Majeedhee</h2>
+<div class="rmeta">
+<span class="t" style="background:#E76F5115;color:#E76F51">+20 min</span>
+<span class="t" style="background:#E76F5115;color:#E76F51">5.4 km</span>
+<span class="t" style="background:#ADB5BD22;color:#64748B;font-weight:700">Longer-term</span>
+</div>
+<div class="ctx"><strong>What changes:</strong> A more ambitious alternative to the Jumhooree Maidaan extension. From Rasfannu, the bus runs east along the full length of Majeedhee Magu, loops around the east coast past the stadiums, heads west along Boduthakurufaanu Magu to Carnival (creating a transfer), then returns to West Park.</div>
+
+<p>Majeedhee Magu is where Malé's commercial, educational, and medical life concentrates. Running the bus through it means a family in Hulhumalé Phase 2 can get to a movie at Olympus, a student can get to Aminiyya or Iskandar, someone visiting ADK Hospital doesn't need to arrange a taxi from West Park. The same works in reverse – people living in central Malé gain a direct bus to Hulhumalé's beaches and open spaces without first getting themselves to a perimeter stop. Routes that reach cinemas, sports complexes, the Chaandhanee Magu shops, and the stadiums make the cultural life of the city accessible to both sides, and that matters for how the city actually functions day to day – a teenager in Phase 2 shouldn't need a motorcycle or a favour from someone with one to spend an evening in the centre of their own city.</p>
+
+<div class="mf"><iframe src="embed_westpark-majeedhee.html" loading="lazy"></iframe></div>
+<div class="nb"><strong>Doorstep access:</strong> <span>Aminiyya School</span><span>Iskandar School</span><span>ADK Hospital</span><span>Dhamanaveshi</span><span>MNU</span><span>CSC</span><span>National Stadium</span><span>Henveiru Stadium</span><span>Chaandhanee Magu</span><span>Majeedhee Magu</span><span>Olympus / cinemas</span></div>
+</div>
+
+<!-- ===== ROUTE 5 ===== -->
+<div class="rsec">
+<h2><span class="n" style="background:#264653">5</span>Ameenee–Majeedhee</h2>
+<div class="rmeta">
+<span class="t" style="background:#26465315;color:#264653">~16 min</span>
+<span class="t" style="background:#26465315;color:#264653">4.9 km</span>
+<span class="t" style="background:#ADB5BD22;color:#64748B;font-weight:700">Longer-term</span>
+</div>
+<div class="ctx"><strong>What changes:</strong> A new third Hulhumalé–Malé line. The bus enters Malé via the east coast, runs west along Ameenee Magu, loops at the west end, returns east along Majeedhee Magu, and rejoins the existing route at Dharumavantha Bus Stop – from there it continues to Rasfannu and West Park Bus Station as normal.</div>
+
+<p>The Carnival line covers the northern waterfront, and the West Park line covers the western perimeter and, with extensions, the northern commercial strip. Neither reaches the southern half of Malé, where Dharubaaruge, Kalaafaanu School, STELCO, the Finance Ministry, MIRA, MWSC, Imadudeen School, Billabong, MNU, and the Villingili Ferry Terminal are located. Residents in Galolhu, Maafannu, and Henveiru – the more central neighbourhoods – have no practical bus connection to Hulhumalé at all. This third route fills that gap, and combined with the other proposals means nearly every home in Malé falls within walking distance of a bus stop serving Hulhumalé.</p>
+
+<div class="mf"><iframe src="embed_ameenee-majeedhee.html" loading="lazy"></iframe></div>
+<div class="nb"><strong>Doorstep access:</strong> <span>Dharubaaruge</span><span>Lonuziyaaraiy Park</span><span>Family Court</span><span>Kalaafaanu School</span><span>STELCO</span><span>MNU</span><span>Billabong</span><span>BML</span><span>Imadudeen School</span><span>MIRA</span><span>MWSC</span><span>Finance Ministry</span><span>Ghiyasuddin School</span><span>Maafannu Stadium</span><span>Villingili Ferry Terminal</span></div>
+</div>
+</div>
+
+<!-- ===== COVERAGE ===== -->
+<div class="covs">
+<div class="wrap">
+<h2>How much of Malé gets connected</h2>
+<p>Each circle represents a 300-metre walking radius from a bus stop – roughly the distance someone will walk to catch a bus rather than drive. Toggle routes on and off to see how coverage extends across Malé's 1.95 km².</p>
+<div class="cc" id="cc"></div>
+<div id="cm"></div>
+<div class="cr" id="cr"></div>
+</div>
+</div>
+
+<div class="wrap end">
+<h2>What changes when the bus reaches into the city</h2>
+<p>The Hulhumalé Bypass can be implemented tomorrow by adjusting the existing route. The Carnival–Velaanaage extension can follow within weeks using existing buses on existing roads. The West Park extensions and Ameenee–Majeedhee route can come later as ridership grows. Each change makes the next more viable by normalising bus use and demonstrating demand for routes that serve actual destinations rather than perimeter stops.</p>
+
+<p>When the bus reaches workplaces, schools, hospitals, and shopping districts, the economics shift for individual commuters – the bus becomes cheaper and more convenient than a taxi for the same trip. Motorcycle ownership becomes less necessary for daily commuting, parking pressure around current bus stops drops, and road space opens up. The within-Malé mini-bus routes exist but require additional transfers and are far less normalised than the Hulhumalé–Malé buses, which means a Hulhumalé resident who can ride a single bus straight to their destination has a materially better option than someone who has to choreograph a bus, a transfer, and a walk. Making that direct option available to more destinations is the difference between public transport that people tolerate and public transport that people choose.</p>
+</div>
+
+<script>
+var MALE_POLY=[[4.1802,73.5025],[4.1805,73.5055],[4.1804,73.509],[4.1802,73.5115],[4.1798,73.5145],[4.179,73.5168],[4.178,73.518],[4.1768,73.5186],[4.175,73.5184],[4.173,73.5183],[4.1715,73.5182],[4.1705,73.5178],[4.1697,73.517],[4.1692,73.515],[4.169,73.512],[4.169,73.509],[4.1692,73.506],[4.1695,73.5035],[4.17,73.502],[4.171,73.5012],[4.1725,73.5008],[4.174,73.501],[4.1758,73.5015],[4.1775,73.502],[4.179,73.5023],[4.1802,73.5025]];
+
+// Correct existing bus stops from user's traced data
+var EXISTING=[{lat:4.17235,lng:73.51667},{lat:4.17319,lng:73.5178},{lat:4.17509,lng:73.518},{lat:4.17693,lng:73.518},{lat:4.1701,lng:73.51491},{lat:4.16937,lng:73.51026},{lat:4.16927,lng:73.50937},{lat:4.16934,lng:73.50469},{lat:4.17178,lng:73.50348},{lat:4.17265,lng:73.50129},{lat:4.17277,lng:73.50083},{lat:4.17609,lng:73.50183},{lat:4.1775,lng:73.50253}];
+
+var RS={
+  carnival:[{lat:4.17813,lng:73.51558},{lat:4.17872,lng:73.51347},{lat:4.17944,lng:73.51062},{lat:4.17891,lng:73.51101},{lat:4.17863,lng:73.51203},{lat:4.1783,lng:73.51326},{lat:4.178,lng:73.51414},{lat:4.17759,lng:73.51535}],
+  wpj:[{lat:4.17932,lng:73.50665},{lat:4.17989,lng:73.5086},{lat:4.17946,lng:73.51061}],
+  wpm:[{lat:4.17601,lng:73.50241},{lat:4.17585,lng:73.5041},{lat:4.17557,lng:73.50659},{lat:4.17541,lng:73.50823},{lat:4.17522,lng:73.50986},{lat:4.17493,lng:73.51256},{lat:4.17482,lng:73.51379},{lat:4.17465,lng:73.51527},{lat:4.17442,lng:73.51686},{lat:4.17506,lng:73.51798},{lat:4.17442,lng:73.51713},{lat:4.17496,lng:73.5115},{lat:4.17514,lng:73.50973},{lat:4.1754,lng:73.50741},{lat:4.17565,lng:73.50499},{lat:4.17597,lng:73.5021}],
+  amj:[{lat:4.17076,lng:73.51628},{lat:4.17096,lng:73.51419},{lat:4.17137,lng:73.51118},{lat:4.17142,lng:73.50967},{lat:4.1716,lng:73.50823},{lat:4.17187,lng:73.50561},{lat:4.17204,lng:73.50417},{lat:4.17228,lng:73.50211},{lat:4.17265,lng:73.50105}]
+};
+
+var RM=[
+  {k:"existing",n:"Current stops",c:"#94A3B8"},
+  {k:"carnival",n:"+ Carnival–Velaanaage",c:"#9B2226"},
+  {k:"wpj",n:"+ WP–Jumhooree",c:"#6A4C93"},
+  {k:"wpm",n:"+ WP–Majeedhee",c:"#E76F51"},
+  {k:"amj",n:"+ Ameenee–Majeedhee",c:"#264653"},
+];
+
+var cm,cl=[],ac=new Set(["existing"]);
+
+function dM(a,b,c,d){var dL=(c-a)*Math.PI/180,dN=(d-b)*Math.PI/180;var x=Math.sin(dL/2)*Math.sin(dL/2)+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dN/2)*Math.sin(dN/2);return 6371000*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))}
+function pip(lat,lng,poly){var ins=false;for(var i=0,j=poly.length-1;i<poly.length;j=i++){var yi=poly[i][0],xi=poly[i][1],yj=poly[j][0],xj=poly[j][1];if(((yi>lat)!==(yj>lat))&&(lng<(xj-xi)*(lat-yi)/(yj-yi)+xi))ins=!ins}return ins}
+
+function calcCov(stops,radius){
+  var step=0.00025,total=0,covered=0;
+  for(var lat=4.1688;lat<=4.1808;lat+=step)for(var lng=73.5005;lng<=73.519;lng+=step){
+    if(!pip(lat,lng,MALE_POLY))continue;total++;
+    for(var i=0;i<stops.length;i++)if(dM(lat,lng,stops[i].lat,stops[i].lng)<=radius){covered++;break}
+  }
+  var covKm2=(covered/total)*1.95;
+  return{pct:(covKm2/1.95)*100,covKm2:covKm2};
+}
+
+function initCov(){
+  cm=L.map('cm',{center:[4.1745,73.51],zoom:15,zoomControl:true});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap, &copy; CARTO',maxZoom:19,opacity:.45}).addTo(cm);
+  L.polygon(MALE_POLY,{color:'#94A3B8',weight:1.5,fillOpacity:0,dashArray:'4,4'}).addTo(cm);
+
+  var ctrl=document.getElementById('cc');
+  RM.forEach(function(rm){
+    var b=document.createElement('button');
+    b.className='cb'+(ac.has(rm.k)?' on':'');
+    if(ac.has(rm.k))b.style.cssText='border-color:'+rm.c+';background:'+rm.c+'30';
+    b.textContent=rm.n;
+    b.onclick=function(){
+      if(rm.k==='existing')return;
+      if(ac.has(rm.k))ac.delete(rm.k);else ac.add(rm.k);
+      b.classList.toggle('on');
+      b.style.cssText=ac.has(rm.k)?'border-color:'+rm.c+';background:'+rm.c+'30':'';
+      rCov();
+    };
+    ctrl.appendChild(b);
+  });
+  rCov();
+}
+
+function rCov(){
+  cl.forEach(function(l){cm.removeLayer(l)});cl=[];
+  var all=EXISTING.slice();
+  ac.forEach(function(k){if(k!=='existing'&&RS[k])all=all.concat(RS[k])});
+
+  var seen={};
+  all.forEach(function(s){
+    var key=s.lat+','+s.lng;if(seen[key])return;seen[key]=1;
+    var col='#94A3B8';
+    for(var i=0;i<RM.length;i++){var rs=RM[i].k==='existing'?EXISTING:RS[RM[i].k];if(rs){for(var j=0;j<rs.length;j++)if(rs[j].lat===s.lat&&rs[j].lng===s.lng){col=RM[i].c;break}}if(col!=='#94A3B8')break}
+    cl.push(L.circle([s.lat,s.lng],{radius:300,color:col,weight:1,opacity:.35,fillColor:col,fillOpacity:.1}).addTo(cm));
+    cl.push(L.circleMarker([s.lat,s.lng],{radius:3.5,color:col,fillColor:'#fff',fillOpacity:1,weight:2}).addTo(cm));
+  });
+
+  var cov=calcCov(all,300);
+  var covEx=calcCov(EXISTING,300);
+  var nR=ac.size-1;
+
+  document.getElementById('cr').innerHTML=
+    '<div class="cs"><div class="p" style="color:#94A3B8">'+covEx.pct.toFixed(0)+'%</div><div class="l">Current stops only</div><div class="k">'+covEx.covKm2.toFixed(2)+' km² of 1.95 km²</div></div>'+
+    '<div class="cs"><div class="p" style="color:#2A9D8F">'+cov.pct.toFixed(0)+'%</div><div class="l">With '+nR+' extension'+(nR!==1?'s':'')+'</div><div class="k">'+cov.covKm2.toFixed(2)+' km² of 1.95 km²</div></div>'+
+    '<div class="cs"><div class="p" style="color:#F59E0B">+'+(cov.pct-covEx.pct).toFixed(0)+'pp</div><div class="l">Additional coverage</div><div class="k">+'+(cov.covKm2-covEx.covKm2).toFixed(2)+' km² more within 300m</div></div>';
+}
+
+document.addEventListener('DOMContentLoaded',initCov);
+</script>
+</body>
+</html>

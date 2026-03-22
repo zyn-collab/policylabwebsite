@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cities – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{--serif:'Source Serif 4',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--bg:#F8F7F4;--fg:#1a1a1a;--muted:#858580;--accent:#1B4965;--teal:#2A9D8F}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(248,247,244,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.05)}
+.nav-l{font-size:13px;font-weight:700;color:var(--accent)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+.hero{padding:140px 40px 80px;max-width:820px}
+.hero-tag{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:16px}
+.hero h1{font-family:var(--serif);font-size:clamp(32px,5vw,54px);font-weight:400;line-height:1.18;margin-bottom:18px;letter-spacing:-.01em}
+.hero p{font-size:17px;color:var(--muted);max-width:520px;line-height:1.65}
+
+/* Events */
+.ev-bar{padding:24px 40px;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06);background:rgba(0,0,0,.015)}
+.ev-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.ev-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.ev-item{flex-shrink:0;padding:10px 16px;border:1px solid rgba(0,0,0,.08);border-radius:8px;background:#fff;min-width:160px}
+.ev-date{font-size:11px;font-weight:600;color:var(--accent)}
+.ev-name{font-size:14px;font-weight:600;margin-top:2px;line-height:1.3}
+.ev-type{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* Content area */
+.content{max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* Section headers */
+.sec-head{padding:56px 0 20px}
+.sec-head h2{font-family:var(--serif);font-size:28px;font-weight:400;line-height:1.25;letter-spacing:-.01em}
+.sec-head p{font-size:14px;color:var(--muted);margin-top:4px;max-width:460px;line-height:1.55}
+
+/* Project items - horizontal layout */
+.project{display:flex;gap:0;border:1px solid rgba(0,0,0,.07);border-radius:12px;overflow:hidden;background:#fff;margin-bottom:16px;transition:box-shadow .3s,transform .2s;cursor:pointer}
+.project:hover{box-shadow:0 8px 32px rgba(0,0,0,.08);transform:translateY(-2px)}
+
+.project-main{flex:1;padding:24px 28px;display:flex;flex-direction:column;min-width:0}
+.project-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px}
+.project-title{font-family:var(--serif);font-size:21px;font-weight:600;line-height:1.28;margin-bottom:8px;letter-spacing:-.01em}
+.project-desc{font-size:13.5px;color:#555;line-height:1.6;flex:1}
+.project-foot{display:flex;align-items:center;gap:10px;margin-top:14px}
+.project-status{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:12px}
+.project-link{font-size:12px;font-weight:600;color:var(--accent);margin-left:auto;display:flex;align-items:center;gap:4px;transition:gap .2s}
+.project:hover .project-link{gap:8px}
+
+/* Side visual for select projects */
+.project-side{width:280px;flex-shrink:0;display:flex;align-items:stretch}
+.project-side iframe{width:100%;height:100%;border:none;min-height:220px}
+.project-side .side-color{width:100%;display:flex;align-items:center;justify-content:center;padding:20px;font-family:var(--serif);color:#fff;text-align:center;font-size:14px;line-height:1.4}
+
+/* Featured project - full width with map */
+.featured{border:1px solid rgba(0,0,0,.07);border-radius:12px;overflow:hidden;background:#fff;margin-bottom:16px;transition:box-shadow .3s}
+.featured:hover{box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.featured-map{height:340px;position:relative}
+.featured-map iframe{width:100%;height:100%;border:none}
+.featured-body{padding:24px 28px}
+.featured-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px}
+.featured-title{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.25;margin-bottom:8px;letter-spacing:-.01em}
+.featured-desc{font-size:14px;color:#555;line-height:1.6;max-width:600px}
+.featured-foot{display:flex;align-items:center;gap:10px;margin-top:14px}
+
+/* Intro text */
+.intro{max-width:580px;padding:48px 0 16px}
+.intro p{font-size:15.5px;color:#555;line-height:1.7}
+
+/* Compact list items for smaller projects */
+.compact{display:flex;gap:0;border:1px solid rgba(0,0,0,.07);border-radius:10px;overflow:hidden;background:#fff;margin-bottom:12px;padding:18px 24px;align-items:center;transition:box-shadow .3s}
+.compact:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.compact-body{flex:1;min-width:0}
+.compact-title{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+.compact-desc{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:3px}
+.compact-status{font-size:10px;font-weight:600;padding:3px 9px;border-radius:10px;flex-shrink:0;margin-left:16px}
+
+footer{margin-top:64px;padding:32px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px}
+footer a{color:var(--teal)}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:700px){
+  .hero{padding:100px 24px 56px}
+  .content{padding:0 20px}
+  .project{flex-direction:column}
+  .project-side{width:100%;height:200px}
+  .sec-head{padding:40px 0 16px}
+  .ev-bar{padding:20px 24px}
+  nav{padding:12px 20px}
+  footer{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-l">public policy lab<span>· cities</span></a>
+  <div class="nav-r">
+    <a href="#events">Events</a>
+    <a href="#work">Work</a>
+    <a href="/">All focus areas</a>
+    <a href="//contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Urbanism & the built environment</div>
+  <h1>What would Malé look like if it were built for the people who live in it?</h1>
+  <p>Policy research, advocacy, and pilot projects across transport, public space, street design, and cultural programming in Malé City.</p>
+</div>
+
+<div class="ev-bar" id="events">
+  <div class="ev-label">Upcoming community events · free, open to all</div>
+  <div class="ev-row">
+    <div class="ev-item"><div class="ev-date">28 March</div><div class="ev-name">In the Mood for Love</div><div class="ev-type">Film screening</div></div>
+    <div class="ev-item"><div class="ev-date">11 April</div><div class="ev-name">Poetry night</div><div class="ev-type">Readings & open mic</div></div>
+    <div class="ev-item"><div class="ev-date">25 April</div><div class="ev-name">Princess Mononoke</div><div class="ev-type">Film screening</div></div>
+    <div class="ev-item"><div class="ev-date">9 May</div><div class="ev-name">Poetry night</div><div class="ev-type">Readings & open mic</div></div>
+    <div class="ev-item"><div class="ev-date">23 May</div><div class="ev-name">The Blair Witch Project</div><div class="ev-type">Film screening</div></div>
+    <div class="ev-item"><div class="ev-date">6 June</div><div class="ev-name">Poetry night</div><div class="ev-type">Readings & open mic</div></div>
+  </div>
+</div>
+
+<div class="content" id="work">
+
+<div class="intro reveal">
+  <p>Malé is one of the densest cities on Earth. We've been working on what it would take to make it more liveable – from bus routes that actually reach workplaces to community spaces where people can spend time without spending money. Below is our work so far.</p>
+</div>
+
+<!-- TRANSPORT -->
+<div class="sec-head reveal"><h2>Transport and mobility</h2></div>
+
+<a href="BusRoutes_Article.html" class="featured reveal">
+  <div class="featured-map"><iframe src="embed_carnival-velaanaage.html" loading="lazy"></iframe></div>
+  <div class="featured-body">
+    <div class="featured-tag">Interactive maps & analysis</div>
+    <div class="featured-title">Improving public transport routes in Malé City</div>
+    <div class="featured-desc">Five proposed extensions to the Hulhumalé–Malé bus routes, from a two-minute diversion on the existing Hulhumalé route to a new third line through central Malé via Ameenee and Majeedhee Magu. Each route traced on actual roads with stop-by-stop detail and coverage analysis.</div>
+    <div class="featured-foot">
+      <span class="project-status" style="background:#2A9D8F18;color:#2A9D8F">With interactive maps</span>
+      <span class="project-link">Read the analysis <span>→</span></span>
+    </div>
+  </div>
+</a>
+
+<div class="project reveal">
+  <div class="project-main">
+    <div class="project-tag">Field research · 2024</div>
+    <div class="project-title">Space usage by street parking in Malé City</div>
+    <div class="project-desc">133 measurements across 27 streets taken at night with laser rulers. Parked vehicles block 43.5% of drivable road width. 63% of surveyed roads are too narrow for a bus. 41% are too narrow for a car to pass safely. All 27 would be accessible to buses if parking were cleared.</div>
+    <div class="project-foot">
+      <span class="project-status" style="background:#6A4C9318;color:#6A4C93">Research findings</span>
+    </div>
+  </div>
+</div>
+
+<div class="compact reveal">
+  <div class="compact-body">
+    <div class="compact-title">Elderly shuttle service for social participation</div>
+    <div class="compact-desc">A pick-up/drop-off service connecting isolated elderly residents to community spaces. Working with Israhvehinge Naadhee to move from concept to implementation. Transport is the binding constraint on elderly social participation – not willingness, not programming, but getting there.</div>
+  </div>
+  <span class="compact-status" style="background:#E76F5118;color:#E76F51">In development</span>
+</div>
+
+<!-- THIRD SPACES -->
+<div class="sec-head reveal"><h2>Third spaces and cultural life</h2></div>
+
+<div class="project reveal">
+  <div class="project-main">
+    <div class="project-tag">Policy impact</div>
+    <div class="project-title">Third spaces, vibrant cities</div>
+    <div class="project-desc">The policy framework for public spaces where people can spend time without spending money – from large community centres down to a café's back room hosting weekly trivia. Following circulation of this paper, the government announced a policy focus on youth third spaces, formalised in a Cabinet decision in November 2024.</div>
+    <div class="project-foot">
+      <span class="project-status" style="background:#2A9D8F18;color:#2A9D8F">Cabinet decision achieved</span>
+    </div>
+  </div>
+</div>
+
+<div class="project reveal">
+  <div class="project-main">
+    <div class="project-tag">Pilot completed</div>
+    <div class="project-title">Piloting community cultural programming</div>
+    <div class="project-desc">Free film screenings and poetry nights at a local venue on off-peak evenings with minimal promotion. Turnout ranged from six to sixteen people per event, which is the finding: people show up to free events on slow nights even without heavy promotion. Eight people watching Spirited Away together on a Monday is not a failure to fill seats. The next step is replicating across multiple venues with a consistent city-wide calendar.</div>
+    <div class="project-foot">
+      <span class="project-status" style="background:#E76F5118;color:#E76F51">Scaling in progress</span>
+    </div>
+  </div>
+</div>
+
+<div class="compact reveal">
+  <div class="compact-body">
+    <div class="compact-title">A network of small venues for community arts and culture</div>
+    <div class="compact-desc">Distributed mini-venues across the city where fifteen people watching a film counts as a normal Tuesday. Existing businesses provide space during off-peak hours. A city-wide online calendar means something is always happening somewhere.</div>
+  </div>
+  <span class="compact-status" style="background:#1B496518;color:#1B4965">Policy brief</span>
+</div>
+
+<!-- STREETS -->
+<div class="sec-head reveal"><h2>Streets, greenery, and heat</h2></div>
+
+<div class="project reveal">
+  <div class="project-main">
+    <div class="project-tag">Research</div>
+    <div class="project-title">Greenery estimation in Malé City</div>
+    <div class="project-desc">Satellite imagery analysis of green cover across Malé and Hulhumalé. Malé proper sits at 12–16% greenery coverage. The northern residential part of Hulhumalé Phase 1 reaches 30–45% – the only area of the city near the 40% threshold where research shows meaningful cooling effects begin. Every 10 percentage points of tree cover reduces air temperature by roughly 1.4°C.</div>
+    <div class="project-foot">
+      <span class="project-status" style="background:#26465318;color:#264653">Research findings</span>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN -->
+<div class="sec-head reveal"><h2>City identity and design</h2></div>
+
+<div class="project reveal">
+  <div class="project-main">
+    <div class="project-tag">Draft · prepared for ADB</div>
+    <div class="project-title">Consistent urban design language for the Maldives</div>
+    <div class="project-desc">Design guidelines rooted in the Medhuziyaaraiy / Munnaaru / Hukuru Miskiyy complex – white and blue palettes, weathered stone, Islamic geometric patterns, coconut leaf motifs. Malé's recent building development trends toward blocky single-colour panels with no connection to the city's history or environment. These guidelines propose what government buildings and public spaces could look like if they drew on what's already there.</div>
+    <div class="project-foot">
+      <span class="project-status" style="background:#1B496518;color:#1B4965">Draft for ADB</span>
+    </div>
+  </div>
+</div>
+
+<div class="project reveal">
+  <div class="project-main">
+    <div class="project-tag">Concept paper</div>
+    <div class="project-title">Old City and Capital District</div>
+    <div class="project-desc">Designating the historical and government core of Malé – Islamic Centre through Sultan Park to Velaanaage and the People's Majlis – as a contiguous pedestrianised district. About 35% of streets in the area are already vehicle-free. The concept creates a symbolic centre comparable to how other capitals have identifiable government quarters, and connects to the transport proposals by routing buses to the district edge.</div>
+    <div class="project-foot">
+      <span class="project-status" style="background:#9B222618;color:#9B2226">Concept paper</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> · Malé, Maldives · <a href="mailto:info@policylabmv.com">info@policylabmv.com</a></div>
+  <div>Urbanism is one of four <a href="/">focus areas</a></div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

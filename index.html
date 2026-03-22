@@ -1,514 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Public Policy Lab — Maldives</title>
-  <meta name="description" content="Public Policy Lab is a non-partisan think tank and consultancy firm based in the Maldives, working toward evidence-based policy outcomes." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Public Policy Lab — Maldives</title>
+<meta name="description" content="Public Policy Lab is a non-partisan think tank and consultancy firm based in the Maldives. Policy briefs, interactive tools, data products, and analytical work across social policy, governance, economics, foresight, and politics.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAFAF8; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #2C4561; --pri-d: #1A3048;
+  --teal: #2D9070; --teal-lt: #E4F4EE;
+  --warm: #B3856F; --blue: #6B7FA3; --sage: #7A8F7E;
+  --dark: #1A2530;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
 
-  <!--
-    Google Fonts: Plus Jakarta Sans
-    Weights loaded: 400 (regular), 500 (medium), 600 (semibold), 700 (bold), 800 (extrabold)
-    This is the brand-aligned typeface matching the redesigned logo wordmark.
-  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-logo{font-size:14px;font-weight:700;color:var(--pri-d);display:flex;align-items:center;gap:8px}
+.nav-logo img{height:20px}
+.nav-r{display:flex;gap:24px;align-items:center}
+.nav-r a{font-size:12.5px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+.nav-r .nav-cta{background:var(--pri-d);color:#fff;padding:7px 18px;border-radius:6px;font-weight:600;font-size:12px;transition:background .2s}
+.nav-r .nav-cta:hover{background:var(--dark);color:#fff}
 
-  <!--
-    Bootstrap Icons — icon library used throughout the site for UI icons.
-    No JS dependency needed; these are pure CSS/SVG icon fonts.
-  -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+/* HERO */
+.hero{padding:120px 40px 64px;max-width:1080px;margin:0 auto}
+.hero-grid{display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:end}
+.hero h1{font-family:var(--sans);font-size:clamp(36px,5.5vw,58px);line-height:1.08;letter-spacing:-.03em;margin-bottom:20px;font-weight:800}
+.hero h1 .a{color:var(--pri-d)}
+.hero h1 .b{color:var(--teal);font-weight:400}
+.hero-desc{font-size:16px;color:var(--body);line-height:1.72;max-width:560px;margin-bottom:24px}
+.hero-cta{display:inline-flex;align-items:center;gap:6px;background:var(--pri-d);color:#fff;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;transition:background .2s}
+.hero-cta:hover{background:var(--dark);color:#fff}
+.hero-side{border-left:2px solid rgba(0,0,0,.06);padding-left:28px}
+.hero-stat{margin-bottom:20px}
+.hero-stat-num{font-family:var(--sans);font-size:28px;font-weight:800;color:var(--pri-d);line-height:1}
+.hero-stat-label{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
 
-  <!-- Our custom design system stylesheet (css/style.css) -->
-  <link rel="stylesheet" href="css/style.css" />
+/* SECTION */
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.sec-title{font-family:var(--sans);font-size:clamp(24px,3vw,32px);font-weight:700;line-height:1.2;letter-spacing:-.02em;margin-bottom:12px}
+.sec-desc{font-size:15px;color:var(--body);line-height:1.7;max-width:640px;margin-bottom:28px}
+
+/* DOMAINS GRID */
+.domains{padding:56px 0}
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.domain-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:28px;display:flex;flex-direction:column;transition:box-shadow .3s,transform .2s}
+.domain-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.07);transform:translateY(-2px)}
+.dc-accent{width:32px;height:3px;border-radius:2px;margin-bottom:14px}
+.dc-title{font-family:var(--sans);font-size:18px;font-weight:700;margin-bottom:8px;color:var(--fg)}
+.dc-body{font-size:13.5px;color:var(--body);line-height:1.6;flex:1}
+.dc-link{font-size:12.5px;font-weight:600;color:var(--pri-d);margin-top:14px;display:inline-flex;align-items:center;gap:4px;transition:gap .2s}
+.domain-card:hover .dc-link{gap:8px}
+.dc-count{font-size:11px;color:var(--muted);margin-top:6px}
+
+/* TOOLS BAND */
+.tools-band{background:linear-gradient(175deg,var(--dark) 0%,#243545 100%);color:#fff;padding:56px 0}
+.tools-band .sec-tag{color:var(--teal)}
+.tools-band .sec-title{color:#fff}
+.tools-band .sec-desc{color:rgba(255,255,255,.68)}
+.tool-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tool-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;transition:background .2s}
+.tool-item:hover{background:rgba(255,255,255,.1)}
+.tool-item h3{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.tool-item p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.55}
+.tool-item .dc-link{color:var(--teal)}
+
+/* TRACK RECORD */
+.record{padding:56px 0}
+.record-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rec-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:24px}
+.rec-tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.rec-card h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.rec-card p{font-size:13.5px;color:var(--body);line-height:1.6}
+
+/* ABOUT + CTA */
+.about{padding:56px 0}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.about-text p{font-family:var(--serif);font-size:16.5px;color:var(--body);line-height:1.78;margin-bottom:16px}
+.cta-block{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:32px}
+.cta-block h3{font-size:20px;font-weight:700;margin-bottom:10px}
+.cta-block p{font-size:14px;color:var(--body);line-height:1.65;margin-bottom:16px}
+.cta-block a.btn{display:inline-block;background:var(--pri-d);color:#fff;padding:10px 24px;border-radius:7px;font-size:13.5px;font-weight:600;transition:background .2s}
+.cta-block a.btn:hover{background:var(--dark);color:#fff}
+.cta-block .cta-email{display:block;margin-top:12px;font-size:13px;color:var(--pri-d);font-weight:600}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;margin:0 auto}
+.footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.footer-col h5{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.footer-col a,.footer-col p{font-size:12.5px;color:var(--body);line-height:1.8;display:block}
+.footer-col a:hover{color:var(--pri-d)}
+.footer-bottom{margin-top:24px;padding-top:16px;border-top:1px solid rgba(0,0,0,.04);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:860px){
+  nav{padding:14px 20px}
+  .hero{padding:100px 24px 48px}
+  .hero-grid{grid-template-columns:1fr;gap:32px}
+  .wrap{padding:0 24px}
+  .domain-grid,.tool-row{grid-template-columns:1fr 1fr}
+  .record-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .nav-r a:nth-child(n+3):not(.nav-cta){display:none}
+  footer{padding:24px 20px}
+}
+@media(max-width:540px){
+  .domain-grid,.tool-row{grid-template-columns:1fr}
+  .hero h1{font-size:32px}
+  .hero-side{border-left:none;padding-left:0;border-top:2px solid rgba(0,0,0,.06);padding-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+}
+</style>
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVIGATION BAR
-       Fixed to the top of the viewport. Starts transparent over
-       the hero, turns solid white when user scrolls (JS handles this).
-       ============================================================ -->
-  <nav class="navbar" id="navbar">
-    <div class="navbar-inner">
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo-icon.svg" alt="">
+    public policy lab
+  </a>
+  <div class="nav-r">
+    <a href="#domains">Publications</a>
+    <a href="#tools">Tools</a>
+    <a href="consulting.html">Consulting</a>
+    <a href="work.html">Track record</a>
+    <a href="contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
 
-      <!-- Logo — links back to home page -->
-      <a href="index.html" class="site-logo navbar-logo" aria-label="Public Policy Lab home">
-        <img src="assets/logo-icon.svg" alt="" class="site-logo-icon" />
-        <span class="site-logo-text">public policy lab</span>
-      </a>
+<!-- HERO -->
+<div class="hero">
+<div class="hero-grid">
+  <div>
+    <h1><span class="a">Policy research<br>and applied tools</span><br><span class="b">for the Maldives</span></h1>
+    <p class="hero-desc">A non-partisan think tank and consultancy based in Mal&eacute;. We publish policy analysis, build interactive data tools, and provide consulting services &ndash; funded by the consulting, driven by the research.</p>
+    <a href="#domains" class="hero-cta">See our work &darr;</a>
+  </div>
+  <div class="hero-side">
+    <p style="font-size:14.5px;color:var(--body);line-height:1.7;margin-bottom:16px">Policy briefs, analytical essays, and interactive tools across social policy, governance, economics, strategic foresight, politics, and urbanism.</p>
+    <p style="font-size:14.5px;color:var(--body);line-height:1.7;margin-bottom:16px">Major project work for UNICEF, the Westminster Foundation for Democracy, and the Ministry of Social and Family Development.</p>
+    <p style="font-size:13px;color:var(--muted)">Operational since April 2024 &middot; Mal&eacute;, Maldives</p>
+  </div>
+</div>
+</div>
 
-      <!-- Mobile hamburger button (visible only on small screens) -->
-      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+<!-- DOMAINS -->
+<div class="domains" id="domains">
+<div class="wrap">
+  <div class="sec-tag reveal">Publications</div>
+  <h2 class="sec-title reveal">Research and analysis across six domains</h2>
+  <p class="sec-desc reveal">Each domain has its own dedicated site with policy briefs, analytical essays, data visualizations, and interactive tools. All work is open and free to use.</p>
 
-      <!-- Desktop navigation links -->
-      <ul class="navbar-links" id="navbar-links" role="list">
-        <li><a href="index.html" class="nav-link active">Home</a></li>
-        <li><a href="work.html" class="nav-link">Our Work</a></li>
-        <li><a href="focus-areas.html" class="nav-link">Focus Areas</a></li>
-        <li><a href="consulting.html" class="nav-link">Consulting</a></li>
-        <li><a href="contact.html" class="nav-link nav-cta">Contact Us</a></li>
-      </ul>
+  <div class="domain-grid reveal">
+
+    <a href="society/index.html" class="domain-card">
+      <div class="dc-accent" style="background:var(--blue)"></div>
+      <div class="dc-title">Society</div>
+      <div class="dc-body">Housing, education, elderly care, child protection, disability, health, and social protection. Policy briefs, a data visualization gallery, service directories, and legislation timelines.</div>
+      <div class="dc-count">4 briefs &middot; 4 resource tools &middot; data gallery</div>
+      <span class="dc-link">society.policylabmv.com &rarr;</span>
+    </a>
+
+    <a href="governance/index.html" class="domain-card">
+      <div class="dc-accent" style="background:var(--warm)"></div>
+      <div class="dc-title">Governance</div>
+      <div class="dc-body">Knowledge management, institutional memory, digitalization, organizational efficiency, and AI tools for government. A connected narrative from dysfunction through to solutions.</div>
+      <div class="dc-count">8 briefs &middot; Standard Prompter demo</div>
+      <span class="dc-link">governance.policylabmv.com &rarr;</span>
+    </a>
+
+    <a href="economy/index.html" class="domain-card">
+      <div class="dc-accent" style="background:var(--teal)"></div>
+      <div class="dc-title">Economy</div>
+      <div class="dc-body">Economic diversification beyond tourism. Remote work visas, island office infrastructure, airport strategy, and 3D printing for local manufacturing. Briefs with implementation tools.</div>
+      <div class="dc-count">5 briefs &middot; 3 operational tools</div>
+      <span class="dc-link">economy.policylabmv.com &rarr;</span>
+    </a>
+
+    <a href="futures/index.html" class="domain-card">
+      <div class="dc-accent" style="background:#6A4C93"></div>
+      <div class="dc-title">Strategic Foresight</div>
+      <div class="dc-body">What the next 15 years look like and what the Maldives should prepare for. Trends, emerging risks, climate, health futures, resilience strategy, and international best practices.</div>
+      <div class="dc-count">7 briefs &middot; 6 interactive planning tools</div>
+      <span class="dc-link">futures.policylabmv.com &rarr;</span>
+    </a>
+
+    <a href="politics/index.html" class="domain-card">
+      <div class="dc-accent" style="background:var(--sage)"></div>
+      <div class="dc-title">Politics &amp; Democracy</div>
+      <div class="dc-body">Electoral integrity, political trust, anti-corruption, decolonization, and where global political movements meet the Maldivian context. Long-form essays on the structural conditions of democracy.</div>
+      <div class="dc-count">5 essays</div>
+      <span class="dc-link">politics.policylabmv.com &rarr;</span>
+    </a>
+
+    <a href="applied/index.html" class="domain-card">
+      <div class="dc-accent" style="background:var(--pri-d)"></div>
+      <div class="dc-title">Applied Tools</div>
+      <div class="dc-body">AI medical diagnostics, island data explorer, nutrition data, foresight workshop tools, data galleries, and service directories. Things people can use, not just read about.</div>
+      <div class="dc-count">6 live tools &middot; 4 projects in development</div>
+      <span class="dc-link">applied.policylabmv.com &rarr;</span>
+    </a>
+
+  </div>
+</div>
+</div>
+
+<!-- TOOLS BAND -->
+<div class="tools-band" id="tools">
+<div class="wrap">
+  <div class="sec-tag reveal">Applied work</div>
+  <h2 class="sec-title reveal">Tools people can actually use</h2>
+  <p class="sec-desc reveal">Beyond publications, we build interactive data products and applications. Some are live, some are demos of tools we deploy for organizations.</p>
+
+  <div class="tool-row reveal">
+    <a href="https://aimed.policylabmv.com" class="tool-item">
+      <h3>AIMED</h3>
+      <p>AI medical diagnostics. Eight peer-reviewed models for chest X-rays, CT scans, mammograms, and retinal images.</p>
+      <span class="dc-link">aimed.policylabmv.com &rarr;</span>
+    </a>
+    <a href="https://islands.policylabmv.com" class="tool-item">
+      <h3>Island Data Explorer</h3>
+      <p>Demographics, infrastructure, transport, elections, and development projects for 21 islands across three atolls.</p>
+      <span class="dc-link">islands.policylabmv.com &rarr;</span>
+    </a>
+    <a href="society/shorteats-nutrition.html" class="tool-item">
+      <h3>NutritionMV</h3>
+      <p>The first open collection of nutrition profiles for Maldivian food. Starting with shorteats, expanding to full meals.</p>
+      <span class="dc-link">Open NutritionMV &rarr;</span>
+    </a>
+    <a href="society/data-gallery.html" class="tool-item">
+      <h3>Social Sector Data Gallery</h3>
+      <p>Screenshottable charts built from census and survey data. For students, researchers, and academics to use freely.</p>
+      <span class="dc-link">Open gallery &rarr;</span>
+    </a>
+    <a href="futures/index.html#tools" class="tool-item">
+      <h3>Foresight Planning Tools</h3>
+      <p>Six interactive digital tools for structured planning workshops. Replaces marker-and-flipboard with screen-based collaboration.</p>
+      <span class="dc-link">Try demos &rarr;</span>
+    </a>
+    <a href="governance/standard-prompter.html" class="tool-item">
+      <h3>Standard Prompter</h3>
+      <p>AI prompting tool for government documents. Generates expert-level prompts customized to your office&rsquo;s formats and needs.</p>
+      <span class="dc-link">Learn more &rarr;</span>
+    </a>
+  </div>
+</div>
+</div>
+
+<!-- TRACK RECORD -->
+<div class="record">
+<div class="wrap">
+  <div class="sec-tag reveal">Track record</div>
+  <h2 class="sec-title reveal">Work that led to outcomes</h2>
+
+  <div class="record-grid reveal">
+    <div class="rec-card">
+      <div class="rec-tag">Policy advocacy</div>
+      <h3>Third spaces for communities</h3>
+      <p>Publications and advocacy on community spaces were reflected in a Cabinet decision in November 2024 to develop a &ldquo;Third Space Community Centre&rdquo; in central Mal&eacute;.</p>
     </div>
-  </nav>
-
-
-  <!-- ============================================================
-       HERO SECTION
-       Full-viewport dark gradient with headline, tagline, and
-       two CTA buttons. The decorative color strip at the bottom
-       echoes the logo bar chart motif in brand colors.
-       ============================================================ -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-
-      <span class="overline">Public Policy Lab · Maldives</span>
-
-      <h1 class="display-headline">
-        We're thinking big —<br />work with us.
-      </h1>
-
-      <p class="lead">
-        A non-partisan think tank and consultancy firm based in the Maldives.
-        We develop policy through original research, targeted projects, and
-        partnerships — and fund it through world-class consulting work.
-      </p>
-
-      <!-- Two primary CTAs: learn more and direct contact -->
-      <div class="hero-cta-row">
-        <a href="work.html" class="btn btn-primary">See Our Work</a>
-        <a href="consulting.html" class="btn btn-ghost-white">Consulting Services</a>
-      </div>
+    <div class="rec-card">
+      <div class="rec-tag">Pro bono</div>
+      <h3>National Library policy support</h3>
+      <p>Supported the National Library in preparing Social Council papers advocating for a central library, regional libraries, and a boat library for atolls. Paper approved, construction set to begin.</p>
     </div>
-
-    <!-- Decorative bottom strip — 4 brand colors matching logo bars -->
-    <div class="hero-bar-strip"></div>
-
-    <!-- Subtle scroll hint -->
-    <div class="hero-scroll-hint" aria-hidden="true">
-      <span>Scroll</span>
-      <div class="scroll-arrow"></div>
+    <div class="rec-card">
+      <div class="rec-tag">Research</div>
+      <h3>Cost of Politics in the Maldives</h3>
+      <p>Lead research for Westminster Foundation for Democracy on campaign costs and vote-buying. Key recommendations were adopted in announced government electoral reforms.</p>
     </div>
-  </section>
-
-
-  <!-- ============================================================
-       MISSION SECTION
-       Brief description of who PPL is and what it does.
-       Light off-white background, centered text with key points.
-       ============================================================ -->
-  <section class="section section-alt" id="about">
-    <div class="section-inner">
-      <div class="section-header centered reveal">
-        <span class="overline">Who We Are</span>
-        <h2>A think tank built for impact</h2>
-        <span class="section-rule"></span>
-        <p class="section-subtitle">
-          The Policy Lab is our central program — developing the policy environment
-          in the Maldives through research, publications, courses, and training the
-          next generation of policymakers. Our consultancy work funds and sustains it.
-        </p>
-      </div>
-
-      <!-- Three key descriptors in a column layout -->
-      <div class="pillars-grid reveal reveal-stagger" style="grid-template-columns: repeat(3,1fr); max-width: 900px; margin: 0 auto;">
-
-        <div class="pillar-card pillar-teal">
-          <div class="pillar-icon pillar-icon-teal">
-            <i class="bi bi-search"></i>
-          </div>
-          <h3>Original Research</h3>
-          <p>Evidence-based policy analysis, publications, and data tools grounded in real Maldivian context.</p>
-        </div>
-
-        <div class="pillar-card pillar-blue">
-          <div class="pillar-icon pillar-icon-blue">
-            <i class="bi bi-briefcase"></i>
-          </div>
-          <h3>Expert Consultancy</h3>
-          <p>Deeply researched insights, polished publications, and guided policy expertise for any client.</p>
-        </div>
-
-        <div class="pillar-card pillar-green">
-          <div class="pillar-icon pillar-icon-green">
-            <i class="bi bi-people"></i>
-          </div>
-          <h3>Capacity Building</h3>
-          <p>Courses, seminars, internships, and partnerships that grow the next generation of policymakers.</p>
-        </div>
-
-      </div>
+    <div class="rec-card">
+      <div class="rec-tag">Capacity building</div>
+      <h3>Training for policy workers</h3>
+      <p>Developed 12-session practical courses for government and NGO staff &ndash; practical information directly relevant to policy work that university programmes do not cover.</p>
     </div>
-  </section>
+  </div>
+</div>
+</div>
 
+<!-- HOW WE WORK -->
+<div class="about" style="border-top:1px solid rgba(0,0,0,.06)">
+<div class="wrap">
+  <div class="sec-tag reveal">How we work</div>
+  <h2 class="sec-title reveal">What we believe and how it shows</h2>
+  <div class="domain-grid reveal" style="grid-template-columns:repeat(3,1fr);margin-top:20px">
+    <div style="padding:4px 0">
+      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Working toward results</div>
+      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Evidence-based methods, concrete outcomes. We measure what we do against real-world change, not against the volume of paper produced.</div>
+    </div>
+    <div style="padding:4px 0">
+      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Finding low-hanging fruit</div>
+      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Small changes with big impact. We prioritise reforms that are achievable and consequential over comprehensive plans that never get implemented.</div>
+    </div>
+    <div style="padding:4px 0">
+      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Starting conversations</div>
+      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Public discussion drives policy outcomes. We write, advocate, and engage to move ideas into practice rather than into filing cabinets.</div>
+    </div>
+    <div style="padding:4px 0">
+      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Pushing ourselves</div>
+      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Hard work, high volume, high standards. We hold ourselves to the quality bar we ask of our clients.</div>
+    </div>
+    <div style="padding:4px 0">
+      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Conviction over cynicism</div>
+      <div style="font-size:13.5px;color:var(--body);line-height:1.6">You cannot change things if you never try. We take on hard problems because they matter, not because they are easy to publish about.</div>
+    </div>
+    <div style="padding:4px 0">
+      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Non-partisan integrity</div>
+      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Our work will always include not-for-profit activities: pro bono advisory, education, open data tools, and public-interest research.</div>
+    </div>
+  </div>
+</div>
+</div>
 
-  <!-- ============================================================
-       STATS BAR
-       A dark strip showing key impact numbers at a glance.
-       Provides social proof and establishes credibility.
-       ============================================================ -->
-  <div class="stats-bar">
-    <div class="stats-grid reveal reveal-stagger">
-      <div class="stat-item">
-        <span class="stat-number">Apr 2024</span>
-        <span class="stat-label">Founded and operational</span>
+<!-- ABOUT + CTA -->
+<div class="about">
+<div class="wrap">
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <div class="sec-tag">About</div>
+      <h2 class="sec-title">Think tank funded by consulting</h2>
+      <p>Public Policy Lab is a non-partisan think tank and consultancy based in Mal&eacute;. The Policy Lab is our central programme &ndash; developing the policy environment in the Maldives through research, publications, interactive tools, and training. Our consulting work funds and sustains it.</p>
+      <p>We work with government agencies, international organisations, NGOs, councils, and the private sector. Policy research and analysis, publications and reports, monitoring and evaluation, stakeholder engagement, trainings, AI workflow integration, and custom data tools. When you hire us, you help fund the broader mission.</p>
+    </div>
+    <div>
+      <div class="cta-block">
+        <h3>Work with us</h3>
+        <p>Research, consulting, data tools, strategic analysis, policy applications, or institutional capacity building. We bring the same analytical rigour we apply to our own publications.</p>
+        <a href="consulting.html" class="btn">Consulting services</a>
+        <a href="mailto:info@policylabmv.com" class="cta-email">info@policylabmv.com</a>
       </div>
-      <div class="stat-item">
-        <span class="stat-number">9+</span>
-        <span class="stat-label">Major projects completed or ongoing</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">5+</span>
-        <span class="stat-label">Young professionals mentored through internships</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">70+</span>
-        <span class="stat-label">Stakeholders engaged in focus groups</span>
+      <div class="cta-block" style="margin-top:16px;background:var(--dark);border-color:transparent">
+        <h3 style="color:#fff">Individual consultancy</h3>
+        <p style="color:rgba(255,255,255,.7)">Our Managing Director is also available for individual consultancies, research partnerships, and contract projects.</p>
+        <a href="consulting.html#individual" class="btn" style="background:var(--teal)">Meet Zayaan Shaafiu</a>
       </div>
     </div>
   </div>
+</div>
+</div>
 
-
-  <!-- ============================================================
-       APPROACH SECTION
-       Six approach pillar cards in a 3×2 grid.
-       Each card has a colored top accent, icon, headline, and tagline.
-       Colors cycle through all five brand accent colors.
-       ============================================================ -->
-  <section class="section" id="approach">
-    <div class="section-inner">
-
-      <div class="section-header reveal">
-        <span class="overline">How We Work</span>
-        <h2>Our Approach</h2>
-        <span class="section-rule"></span>
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>Publications</h5>
+        <a href="society/index.html">Society</a>
+        <a href="governance/index.html">Governance</a>
+        <a href="economy/index.html">Economy</a>
+        <a href="futures/index.html">Futures</a>
+        <a href="politics/index.html">Politics</a>
+        <a href="applied/index.html">Applied Tools</a>
       </div>
-
-      <div class="pillars-grid reveal reveal-stagger">
-
-        <!-- Pillar 1 -->
-        <div class="pillar-card pillar-teal">
-          <div class="pillar-icon pillar-icon-teal">
-            <i class="bi bi-graph-up-arrow"></i>
-          </div>
-          <h3>Working toward results</h3>
-          <p>Evidence-based methods, concrete outcomes. We measure what we do against real-world change.</p>
-        </div>
-
-        <!-- Pillar 2 -->
-        <div class="pillar-card pillar-blue">
-          <div class="pillar-icon pillar-icon-blue">
-            <i class="bi bi-lightbulb"></i>
-          </div>
-          <h3>Finding low-hanging fruit</h3>
-          <p>We look for small changes with big impact — prioritising reforms that are achievable and consequential.</p>
-        </div>
-
-        <!-- Pillar 3 -->
-        <div class="pillar-card pillar-salmon">
-          <div class="pillar-icon pillar-icon-salmon">
-            <i class="bi bi-chat-dots"></i>
-          </div>
-          <h3>Starting conversations</h3>
-          <p>Public discussion drives policy outcomes. We write, advocate, and engage to move ideas into practice.</p>
-        </div>
-
-        <!-- Pillar 4 -->
-        <div class="pillar-card pillar-coral">
-          <div class="pillar-icon pillar-icon-coral">
-            <i class="bi bi-fire"></i>
-          </div>
-          <h3>Pushing ourselves</h3>
-          <p>Hard work, high volume, high standards. We hold ourselves to the quality bar we ask of our clients.</p>
-        </div>
-
-        <!-- Pillar 5 -->
-        <div class="pillar-card pillar-green">
-          <div class="pillar-icon pillar-icon-green">
-            <i class="bi bi-heart"></i>
-          </div>
-          <h3>Conviction over cynicism</h3>
-          <p>You can't change things if you never try. We take on hard problems because they matter.</p>
-        </div>
-
-        <!-- Pillar 6 — Non-partisan integrity -->
-        <div class="pillar-card pillar-teal2">
-          <div class="pillar-icon pillar-icon-teal2">
-            <i class="bi bi-shield-check"></i>
-          </div>
-          <h3>Non-partisan integrity</h3>
-          <p>Our work will always include not-for-profit policy activities: pro bono advisory, education, and open data tools.</p>
-        </div>
-
+      <div class="footer-col">
+        <h5>Organisation</h5>
+        <a href="work.html">Track record</a>
+        <a href="consulting.html">Consulting</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <p>M. Iris, 4th Floor, Orchid Magu</p>
+        <p>Mal&eacute;, Maldives</p>
+        <a href="mailto:info@policylabmv.com">info@policylabmv.com</a>
+        <a href="tel:+9607861232">(960) 786-1232</a>
       </div>
     </div>
-  </section>
-
-
-  <!-- ============================================================
-       IMPACT PREVIEW SECTION
-       Shows a short teaser of the impact work with a link
-       to the full work.html page. Shows 4 of the 9 projects.
-       ============================================================ -->
-  <section class="section section-alt" id="impact-preview">
-    <div class="section-inner">
-
-      <div class="section-header reveal" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem;">
-        <div>
-          <span class="overline">Track Record</span>
-          <h2>Our Impact</h2>
-          <span class="section-rule"></span>
-        </div>
-        <a href="work.html" class="btn btn-secondary btn-sm">View all projects →</a>
-      </div>
-
-      <p class="lead reveal" style="max-width:700px; margin-bottom: var(--sp-lg);">
-        Since April 2024, we have focused on maximising the impact we can make
-        with available resources. Below is a sample of our work.
-      </p>
-
-      <!-- 4-card preview of impact work (2×2 grid) -->
-      <div class="impact-grid reveal reveal-stagger">
-
-        <!-- Project 1 -->
-        <div class="impact-card">
-          <span class="impact-tag tag-teal">Policy Advocacy</span>
-          <h3>Third spaces for communities</h3>
-          <p class="impact-summary">Advocacy for social development policy promoting community spaces, reflected in a Cabinet decision to develop a "Third Space Community Centre" in central Malé.</p>
-          <button class="impact-toggle" onclick="toggleImpact(this)">
-            Read more <span class="toggle-arrow"><i class="bi bi-chevron-down"></i></span>
-          </button>
-          <div class="impact-full">
-            <p>Our publications and advocacy highlighted the lack of social spaces outside the home and work in Maldivian city development, and promoted social policy focused on creating third spaces for intergenerational connections and community enrichment. This was reflected in a <a href="https://presidency.gov.mv/Press/Article/32221?s=09" target="_blank" rel="noopener">Cabinet decision in November 2024</a> to develop a "Third Space Community Centre" in central Malé.</p>
-          </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="impact-card">
-          <span class="impact-tag tag-blue">Pro Bono</span>
-          <h3>National Library policy support</h3>
-          <p class="impact-summary">Technical and policy expertise supporting the National Library in preparing Social Council papers — approved, with construction of a new central library set to begin in 2025.</p>
-          <button class="impact-toggle" onclick="toggleImpact(this)">
-            Read more <span class="toggle-arrow"><i class="bi bi-chevron-down"></i></span>
-          </button>
-          <div class="impact-full">
-            <p>We supported the National Library of Maldives with technical capacity and policy expertise in a pro bono capacity. Our work included supporting the Library in preparing a Social Council paper to advocate for an up-to-date central National Library building, Regional Libraries in key cities, a boat library for atolls, and a network of library services in rural areas. This paper was approved and construction is set to begin in 2025.</p>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="impact-card">
-          <span class="impact-tag tag-green">Research</span>
-          <h3>Cost of Politics in the Maldives</h3>
-          <p class="impact-summary">Lead research for Westminster Foundation for Democracy on campaign costs, vote-buying, and electoral integrity — key recommendations were adopted in announced government reforms.</p>
-          <button class="impact-toggle" onclick="toggleImpact(this)">
-            Read more <span class="toggle-arrow"><i class="bi bi-chevron-down"></i></span>
-          </button>
-          <div class="impact-full">
-            <p>Our team led research on the costs of running for election in the Maldives through interviews with candidates and experts, focusing on parliamentary elections including vote-buying practices, campaign expenditures, misuse of funds, and other challenges. The government subsequently announced plans for electoral reforms matching key recommendations from the report.</p>
-          </div>
-        </div>
-
-        <!-- Project 4 -->
-        <div class="impact-card">
-          <span class="impact-tag tag-coral">Capacity</span>
-          <h3>Training programs for policy workers</h3>
-          <p class="impact-summary">Developed 12-session practical training courses for government, NGO, and policy-sector staff — covering what university programmes don't. Online versions launching June 2025.</p>
-          <button class="impact-toggle" onclick="toggleImpact(this)">
-            Read more <span class="toggle-arrow"><i class="bi bi-chevron-down"></i></span>
-          </button>
-          <div class="impact-full">
-            <p>We have developed courses collecting practical tips and advice from experienced officials into 12 seminar sessions, providing practical information directly relevant to staff in government, NGO, and other policy-related sectors outside of what gets taught in official university courses. Online versions of these seminars will be made available in June 2025.</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Link to full work page -->
-      <div class="text-center mt-lg reveal">
-        <a href="work.html" class="btn btn-primary">See all our work</a>
-      </div>
-
+    <div class="footer-bottom">
+      <span>&copy; 2026 Public Policy Lab. All rights reserved.</span>
+      <span>Mal&eacute;, Maldives</span>
     </div>
-  </section>
+  </div>
+</footer>
 
-
-  <!-- ============================================================
-       FOCUS AREAS PREVIEW
-       Four colored tiles summarising the four policy focus clusters.
-       Links to the full focus-areas.html page.
-       ============================================================ -->
-  <section class="section" id="focus-preview">
-    <div class="section-inner">
-
-      <div class="section-header centered reveal">
-        <span class="overline">Policy Domains</span>
-        <h2>Our Focus Areas</h2>
-        <span class="section-rule"></span>
-        <p class="section-subtitle">
-          Our work spans four interconnected clusters of policy issues,
-          all oriented toward a more livable, equitable, and well-governed Maldives.
-        </p>
-      </div>
-
-      <div class="focus-grid reveal reveal-stagger">
-
-        <!-- Tile 1 — Urbanism -->
-        <div class="focus-tile focus-teal">
-          <div class="focus-tile-icon" aria-hidden="true">🏙️</div>
-          <h3>Urbanism &amp; the Built Environment</h3>
-          <div class="focus-topics">
-            <span class="focus-topic">Livability of cities</span>
-            <span class="focus-topic">Sustainable transportation &amp; urban mobility</span>
-            <span class="focus-topic">Third spaces &amp; community enrichment</span>
-          </div>
-        </div>
-
-        <!-- Tile 2 — Social Policy -->
-        <div class="focus-tile focus-blue">
-          <div class="focus-tile-icon" aria-hidden="true">🤝</div>
-          <h3>Social Policy &amp; Human Capital</h3>
-          <div class="focus-topics">
-            <span class="focus-topic">Social policy, rights &amp; public welfare</span>
-            <span class="focus-topic">Social fabric &amp; civic responsibility</span>
-            <span class="focus-topic">Quality education &amp; human capital</span>
-          </div>
-        </div>
-
-        <!-- Tile 3 — Rights & Wellbeing -->
-        <div class="focus-tile focus-coral">
-          <div class="focus-tile-icon" aria-hidden="true">⚖️</div>
-          <h3>Rights, Wellbeing &amp; Inclusion</h3>
-          <div class="focus-topics">
-            <span class="focus-topic">Immigrant rights &amp; anti-exploitation</span>
-            <span class="focus-topic">Workers' rights &amp; wage theft</span>
-            <span class="focus-topic">Happiness, wellbeing &amp; mental health</span>
-          </div>
-        </div>
-
-        <!-- Tile 4 — Governance -->
-        <div class="focus-tile focus-green">
-          <div class="focus-tile-icon" aria-hidden="true">📊</div>
-          <h3>Governance &amp; Public Administration</h3>
-          <div class="focus-topics">
-            <span class="focus-topic">Efficient public service delivery</span>
-            <span class="focus-topic">Information policy &amp; data usability</span>
-            <span class="focus-topic">Developing policy professionals</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="text-center mt-lg reveal">
-        <a href="focus-areas.html" class="btn btn-secondary">Explore our focus areas</a>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       PARTNERS / WORK WITH US CTA
-       A full-width dark section inviting collaboration.
-       ============================================================ -->
-  <section class="section" style="background: linear-gradient(135deg, #1A2530, #1E3540); position:relative; overflow:hidden;">
-    <div style="position:absolute; inset:0; background: radial-gradient(circle at 80% 50%, rgba(53,201,172,0.1) 0%, transparent 60%); pointer-events:none;"></div>
-    <div class="section-inner text-center" style="position:relative; z-index:1;">
-      <div class="reveal">
-        <span class="overline" style="color:var(--color-teal);">Get Involved</span>
-        <h2 style="color:white; margin-top:var(--sp-xs);">As a think tank, we want to work with you.</h2>
-        <p class="lead" style="color:rgba(255,255,255,0.72); max-width:620px; margin: var(--sp-sm) auto var(--sp-lg);">
-          Reach out for collaborations on academic or policy matters, consultancy,
-          research proposals, sponsorships, project ideas, article pitches,
-          or cross-border partnerships.
-        </p>
-        <div class="hero-cta-row" style="justify-content:center;">
-          <a href="contact.html" class="btn btn-primary">Contact Us</a>
-          <a href="consulting.html" class="btn btn-ghost-white">Our Consulting Services</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       SITE FOOTER
-       Dark footer with logo, navigation columns, contact info,
-       and copyright. The brand-color strip at the top echoes the hero.
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-
-      <!-- Four-column footer grid -->
-      <div class="footer-top">
-
-        <!-- Col 1: Logo and tagline -->
-        <div class="footer-logo">
-          <a href="index.html" class="site-logo" style="margin-bottom:var(--sp-sm); display:inline-flex;">
-          <img src="assets/logo-icon.svg" alt="" class="site-logo-icon" />
-          <span class="site-logo-text">public policy lab</span>
-        </a>
-          <p class="footer-tagline">
-            A non-partisan think tank &amp; consultancy based in the Maldives.
-          </p>
-        </div>
-
-        <!-- Col 2: Site navigation -->
-        <div class="footer-col">
-          <h5>Navigate</h5>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="work.html">Our Work</a></li>
-            <li><a href="focus-areas.html">Focus Areas</a></li>
-            <li><a href="consulting.html">Consulting</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 3: Consulting services -->
-        <div class="footer-col">
-          <h5>Consulting</h5>
-          <ul>
-            <li><a href="consulting.html">Services Overview</a></li>
-            <li><a href="consulting.html#individual">Individual Consultancy</a></li>
-            <li><a href="contact.html">Work With Us</a></li>
-            <li><a href="contact.html#partnerships">Partnerships &amp; Funding</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 4: Contact details -->
-        <div class="footer-col">
-          <h5>Contact</h5>
-          <p class="footer-contact-item">M. Iris, 4th Floor<br />Orchid Magu, Malé<br />Maldives</p>
-          <p class="footer-contact-item"><a href="mailto:info@policylabmv.com">info@policylabmv.com</a></p>
-          <p class="footer-contact-item"><a href="tel:+9607861232">(960) 786-1232</a></p>
-        </div>
-
-      </div>
-
-      <!-- Bottom bar: copyright -->
-      <div class="footer-bottom">
-        <span class="footer-copyright">© 2025 Public Policy Lab. All rights reserved.</span>
-        <span class="footer-copyright">Malé, Maldives</span>
-      </div>
-
-    </div>
-  </footer>
-
-  <!--
-    main.js handles:
-    - Navbar scroll behavior (transparent → solid)
-    - Mobile hamburger toggle
-    - Scroll reveal animations (IntersectionObserver)
-    - Impact card expand/collapse
-  -->
-  <script src="js/main.js"></script>
-
+<script>
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+</script>
 </body>
 </html>

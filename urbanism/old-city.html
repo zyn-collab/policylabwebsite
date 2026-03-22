@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Old Male' City and Capital District – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAFAF7;
+  --card: #fff;
+  --fg: #1a1a1a;
+  --body: #4a4a46;
+  --muted: #8a8a82;
+  --teal: #6B9E8D;
+  --teal-d: #4A7D6D;
+  --coral: #CC7B6F;
+  --coral-lt: #D9A49D;
+  --sage: #8A9A8E;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--fg); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,.04); }
+.nav-l { font-size: 13px; font-weight: 700; color: var(--teal-d); }
+.nav-l span { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 4px; }
+.nav-r { display: flex; gap: 20px; }
+.nav-r a { font-size: 12px; color: var(--muted); font-weight: 500; transition: color .2s; }
+.nav-r a:hover { color: var(--fg); }
+
+/* ARTICLE HEADER */
+.article-header { padding: 110px 40px 48px; max-width: 740px; margin: 0 auto; }
+.article-tag { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+.article-title { font-family: var(--sans); font-size: clamp(30px, 5vw, 44px); font-weight: 700; line-height: 1.14; letter-spacing: -.02em; margin-bottom: 16px; color: var(--fg); }
+.article-subtitle { font-size: 17px; color: var(--body); line-height: 1.65; max-width: 620px; }
+.article-meta { margin-top: 20px; font-size: 12.5px; color: var(--muted); }
+.article-meta a { color: var(--teal-d); }
+
+/* CONTENT */
+.wrap { max-width: 740px; margin: 0 auto; padding: 0 40px; }
+.wrap-w { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
+
+.section { padding: 48px 0; border-top: 1px solid rgba(0,0,0,.06); }
+.section:first-of-type { border-top: none; padding-top: 0; }
+
+.sec-tag { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+.sec-title { font-family: var(--sans); font-size: clamp(23px, 3vw, 30px); font-weight: 600; line-height: 1.22; letter-spacing: -.015em; margin-bottom: 16px; }
+
+p.body { font-size: 14.5px; color: var(--body); line-height: 1.72; margin-bottom: 15px; }
+p.body:last-child { margin-bottom: 0; }
+
+/* SUBSECTION */
+.subsec { margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(0,0,0,.04); }
+.subsec-t { font-family: var(--sans); font-size: 21px; font-weight: 600; line-height: 1.25; letter-spacing: -.01em; margin-bottom: 10px; }
+
+/* STAT ROW */
+.stats { display: flex; gap: 32px; margin: 28px 0; flex-wrap: wrap; }
+.stat { flex: 1; min-width: 140px; }
+.stat-n { font-family: var(--serif); font-size: clamp(26px, 3.5vw, 36px); font-weight: 700; color: var(--teal-d); line-height: 1.1; }
+.stat-l { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+/* KEY POINTS */
+.kp-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 24px 0; }
+.kp { padding: 18px 20px; border-radius: 10px; background: var(--card); border: 1px solid rgba(0,0,0,.06); }
+.kp p { font-size: 14px; color: var(--body); line-height: 1.55; }
+.kp-num { font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--teal-d); line-height: 1.1; margin-bottom: 4px; }
+.kp-label { font-family: var(--serif); font-size: 16.5px; font-weight: 600; margin-bottom: 6px; color: var(--fg); }
+
+/* PILLAR CARDS */
+.pillar { padding: 24px; border-radius: 10px; background: var(--card); border: 1px solid rgba(0,0,0,.06); margin: 16px 0; }
+.pillar-num { font-family: var(--serif); font-size: 13px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.pillar-title { font-family: var(--serif); font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+.pillar-body { font-size: 14.5px; color: var(--body); line-height: 1.65; }
+
+/* BULLET */
+ul.evidence { margin: 10px 0 15px 0; padding-left: 18px; }
+ul.evidence li { font-size: 14.5px; color: var(--body); line-height: 1.65; margin-bottom: 8px; }
+ul.evidence li:last-child { margin-bottom: 0; }
+
+/* BACK */
+.back-link { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: var(--teal-d); margin-bottom: 20px; transition: gap .2s; }
+.back-link:hover { gap: 9px; }
+
+/* CTA */
+.cta { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--teal-d); margin-top: 14px; transition: gap .2s; }
+.cta:hover { gap: 10px; }
+
+/* FOOTER */
+footer { margin-top: 48px; padding: 28px 40px; border-top: 1px solid rgba(0,0,0,.06); display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 8px; }
+footer a { color: var(--teal-d); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+.reveal.vis { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .article-header { padding: 90px 24px 36px; }
+  .wrap, .wrap-w { padding: 0 24px; }
+  nav { padding: 12px 20px; }
+  footer { padding: 24px 20px; }
+  .section { padding: 36px 0; }
+  .kp-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .article-title { font-size: 28px; }
+  .nav-r a:nth-child(n+3) { display: none; }
+  .stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-l">public policy lab<span>&middot; cities</span></a>
+  <div class="nav-r">
+    <a href="index.html">Home</a>
+    <a href="index.html#oldcity">Old City</a>
+    <a href="design-language.html">Design language</a>
+    <a href="/">PPL main site</a>
+  </div>
+</nav>
+
+<div class="article-header">
+  <a href="index.html" class="back-link">&larr; Back to Cities Built for Human Beings</a>
+  <div class="article-tag">City identity &amp; design</div>
+  <h1 class="article-title">Old Mal&eacute; City and Capital District</h1>
+  <p class="article-subtitle">A pedestrianised government and cultural quarter built around the city's most significant historical and institutional buildings &ndash; starting with streets that are already car-free.</p>
+  <div class="article-meta">Concept paper by <a href="/">Public Policy Lab</a></div>
+</div>
+
+<!-- The Old City concept -->
+<div class="wrap">
+  <div class="section reveal">
+    <div class="sec-tag">The concept</div>
+    <h2 class="sec-title">The Old City</h2>
+    <p class="body">The core of Mal&eacute; contains two clusters of nationally significant buildings sitting directly next to each other. The first is historical: Islamic Centre, Sultan Park, MNDF, Hukuru Miskiyy, Munnaaru, Medhuziyaaraiy, and the ancient cemeteries &ndash; the oldest surviving structures in the country and the physical symbols of Maldivian identity. The second is institutional: the President's Office, Velaanaage, the People's Majlis, Republic Square, the police headquarters, and the line ministries that form the operating centre of government.</p>
+    <p class="body">These two clusters are not separated by a busy commercial district or a highway. They share the same few blocks. And about 35% of the streets in this area are already vehicle-free pedestrian areas.</p>
+  </div>
+</div>
+
+<div class="wrap-w">
+  <div class="stats reveal">
+    <div class="stat"><div class="stat-n">35%</div><div class="stat-l">of streets in this area already vehicle-free</div></div>
+    <div class="stat"><div class="stat-n">2</div><div class="stat-l">clusters &ndash; historical and institutional &ndash; in the same few blocks</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="section reveal">
+    <div class="sec-tag">Already pedestrian</div>
+    <h2 class="sec-title">What is already car-free</h2>
+    <p class="body">Several streets and pathways in this area are already pedestrianised, either formally or by practical use:</p>
+    <ul class="evidence">
+      <li><strong>Walkway between Islamic Centre and MNDF</strong> &ndash; a paved pedestrian path connecting two of the area's major landmarks, used daily by residents and visitors.</li>
+      <li><strong>Area between Islamic Centre and Sultan Park</strong> &ndash; the open space and pathways connecting the mosque complex to the park, already functioning as pedestrian space.</li>
+      <li><strong>Sand pathway between Hukuru Miskiyy and the old Huravee building area</strong> &ndash; an informal but well-used pedestrian route through what is historically the centre of the old city.</li>
+    </ul>
+    <p class="body">The starting point is not hypothetical. More than a third of the streets in this district are already functioning without vehicles. The proposal is to formalise and gradually extend what already exists.</p>
+
+    <div class="subsec">
+      <h3 class="subsec-t">Gradual expansion</h3>
+      <p class="body">Remaining streets in the district would be made pedestrian-only in stages, starting with those where the transition is easiest. Ameer Ahmed Magu outside the President's Office and the street next to the People's Majlis are strong candidates for early conversion &ndash; both already have significant tree cover providing shade, and both serve primarily institutional rather than commercial through-traffic. Each new pedestrianised street connects to existing car-free areas, gradually forming a contiguous walking district rather than isolated car-free pockets.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Capital Plaza -->
+<div class="wrap">
+  <div class="section reveal">
+    <div class="sec-tag">Capital Plaza</div>
+    <h2 class="sec-title">A public square at the heart of government</h2>
+    <p class="body">The old Huravee Building sites &ndash; currently underused &ndash; would be transformed into a shaded park and public square. This is the Capital Plaza concept.</p>
+    <p class="body">What makes this space significant is what sits within it. The area includes Hukuru Miskiyy &ndash; the oldest mosque in the Maldives and one of the most important architectural monuments in the country. Placing the Capital Plaza here puts the oldest symbol of the city at the heart of the government district. People visiting government offices, attending the Majlis, or simply passing through would see the old and the new of the city together &ndash; the 17th-century mosque and the 21st-century institutions sharing the same civic space.</p>
+    <p class="body">The Ghaazee building area flooring already needs renovation. Rather than simply repaving it, the renovation can be designed as a park &ndash; shaded seating, tree planting, and open space that serves both the surrounding government workers during the day and residents in the evenings. The cost difference between standard repaving and park-quality renovation is modest relative to the symbolic and practical value of creating a genuine public square in the centre of the capital.</p>
+  </div>
+</div>
+
+<!-- Three pillars -->
+<div class="wrap">
+  <div class="section reveal">
+    <div class="sec-tag">Three pillars</div>
+    <h2 class="sec-title">How the district works</h2>
+  </div>
+</div>
+
+<div class="wrap-w">
+  <div class="kp-grid reveal">
+    <div class="pillar">
+      <div class="pillar-num">Pillar 1</div>
+      <div class="pillar-title">Pedestrian-friendly</div>
+      <div class="pillar-body">35% of streets are already car-free. The expansion is gradual, starting with the easiest conversions and connecting existing pedestrian areas into a contiguous district. No sudden road closures &ndash; each step builds on what is already working.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">Pillar 2</div>
+      <div class="pillar-title">Accessible transport</div>
+      <div class="pillar-body">Direct bus routes from Hulhumal&eacute; to the district edge. E-bike docking stations at entry points. A multi-storey parking building with a rooftop park behind the Hotel Jen area for those who drive. Wheelchair-friendly pedestrian walkways throughout. People arrive easily; they walk once inside.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">Pillar 3</div>
+      <div class="pillar-title">Affordable, impactful, legacy</div>
+      <div class="pillar-body">Every capital has symbolic civic spaces &ndash; Buckingham Palace and the Mall, the Capitol Building and the National Mall, the Champs-&Eacute;lys&eacute;es. The Capital District gives Mal&eacute; the same. Pedestrianisation is the lowest-cost first step. Streetscaping and shade structures follow as the district takes shape.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Bus route connection -->
+<div class="wrap">
+  <div class="section reveal">
+    <div class="sec-tag">Transport connection</div>
+    <h2 class="sec-title">Bus routes and the Capital District</h2>
+    <p class="body">The pedestrianised district and the proposed bus route changes are designed to work together. Bus routes stopping at the Velaanaage corner mean that government employees across the district can commute by bus from Hulhumal&eacute; &ndash; reducing the motorcycle and car traffic that pedestrianisation removes, and making up for road closures by providing an alternative that is cheaper and more convenient than driving to a district with limited parking.</p>
+    <p class="body">Bus routes centering on the Capital District also highlight the area for tourists. A visitor arriving by bus at the edge of a pedestrianised zone containing the President's Office, Hukuru Miskiyy, Sultan Park, and the People's Majlis has a natural walking circuit through the most significant sites in the city. The district becomes a destination, not something you pass through in a taxi on the way somewhere else.</p>
+    <p class="body">The same general ideas &ndash; pedestrianised civic cores, accessible by public transport, combining historical and institutional sites &ndash; apply to key sites in other islands or cities. The Capital District is the first and most visible application, but the framework is transferable wherever a concentration of significant buildings creates an opportunity for a walkable civic centre.</p>
+  </div>
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives &middot; <a href="mailto:info@policylabmv.com">info@policylabmv.com</a></div>
+  <div><a href="index.html">Cities Built for Human Beings</a> &middot; Urbanism is one of four <a href="/">focus areas</a></div>
+</footer>
+
+<script>
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+</script>
+</body>
+</html>

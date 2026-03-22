@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atoll Service Directory – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
+  --dark: #2A3042; --red: #D4726A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a.link{color:var(--pri-d);text-decoration:underline;text-underline-offset:2px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
+h2.sec-title{font-family:var(--sans);font-size:clamp(22px,2.8vw,28px);font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:16px}
+
+/* EMERGENCY BAND */
+.emergency{background:var(--dark);color:#fff;padding:32px 0;margin-bottom:40px}
+.em-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.em-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px}
+.em-num{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--warm-lt)}
+.em-svc{font-size:13px;color:#fff;font-weight:600;margin-top:2px}
+.em-desc{font-size:11.5px;color:rgba(255,255,255,.6);margin-top:4px}
+
+/* TIER TABLE */
+.tier-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:13px}
+.tier-table th{background:var(--dark);color:#fff;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.tier-table td{padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.05);vertical-align:top;line-height:1.5;color:var(--body)}
+.tier-table tr:nth-child(even) td{background:rgba(0,0,0,.015)}
+.tier-label{font-weight:700;color:var(--fg);white-space:nowrap}
+
+/* PORTALS */
+.portals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.portal{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:16px}
+.portal-name{font-weight:700;font-size:13px;color:var(--pri-d);margin-bottom:4px}
+.portal-url{font-size:11.5px;color:var(--muted)}
+.portal-desc{font-size:12.5px;color:var(--body);margin-top:4px;line-height:1.4}
+
+/* REGIONAL HUBS */
+.hub-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.hub{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:22px;position:relative}
+.hub-region{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri-d);margin-bottom:4px}
+.hub-name{font-family:var(--sans);font-size:17px;font-weight:600;margin-bottom:4px}
+.hub-loc{font-size:12px;color:var(--muted);margin-bottom:8px}
+.hub-serves{font-size:12px;color:var(--body);margin-bottom:8px}
+.hub-services{display:flex;flex-wrap:wrap;gap:4px}
+.hub-svc{font-size:10px;font-weight:600;padding:3px 8px;border-radius:8px;background:rgba(107,127,163,.08);color:var(--pri-d)}
+.hub-svc.yes{background:rgba(122,143,126,.1);color:var(--sage)}
+.hub-svc.no{background:rgba(212,114,106,.06);color:var(--red);text-decoration:line-through;opacity:.6}
+
+/* DIRECTORY HERO — split layout */
+.directory-header{padding:64px 40px 16px;max-width:1080px;margin:0 auto}
+.directory-header h1{font-family:var(--sans);font-size:clamp(22px,3vw,32px);font-weight:700;line-height:1.2;letter-spacing:-.02em;margin-bottom:4px}
+.directory-header p{font-size:13px;color:var(--muted);line-height:1.5;max-width:720px}
+
+.directory-hero{display:grid;grid-template-columns:35% 1fr;height:calc(100vh - 52px)}
+.map-panel{position:sticky;top:52px;height:calc(100vh - 52px)}
+#atoll-map{width:100%;height:100%;border-radius:0;border:none;border-right:1px solid rgba(0,0,0,.06);z-index:1}
+.list-panel{overflow-y:auto;height:calc(100vh - 52px);padding:20px 20px}
+.list-panel h3{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--fg);margin-bottom:12px;letter-spacing:-.01em}
+#atoll-list{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+
+/* Atoll list rows */
+.atoll-row{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,.05);cursor:pointer;transition:all .15s;background:var(--card)}
+.atoll-row:hover{border-color:var(--pri);background:rgba(107,127,163,.04)}
+.atoll-row.active{border-color:var(--warm);background:rgba(179,133,111,.06);box-shadow:0 1px 4px rgba(179,133,111,.15)}
+.atoll-row-code{font-family:var(--sans);font-size:11px;font-weight:700;color:var(--pri-d);min-width:26px}
+.atoll-row-info{flex:1;min-width:0}
+.atoll-row-name{font-size:12px;font-weight:600;color:var(--fg);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.atoll-row-capital{font-size:10px;color:var(--muted)}
+.atoll-row-icons{display:flex;gap:3px;align-items:center;flex-shrink:0}
+.atoll-row-icons svg{opacity:.8}
+
+/* Map legend overlay */
+.map-legend-overlay{background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:10px 12px;font-size:11px;line-height:1.7;font-family:var(--sans);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.map-legend-overlay h4{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pri);margin-bottom:4px}
+.legend-row{display:flex;align-items:center;gap:6px}
+.legend-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.legend-cross{width:14px;height:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--warm)}
+.legend-sep{height:1px;background:rgba(0,0,0,.05);margin:4px 0}
+.legend-cat{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.03em}
+
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper{border-radius:10px;font-family:var(--sans);box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.leaflet-popup-content{margin:14px 16px;font-size:13px;line-height:1.5;min-width:200px}
+.leaflet-popup-content h3{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--fg)}
+.leaflet-popup-content .pop-meta{font-size:11px;color:var(--muted);margin-bottom:8px}
+.leaflet-popup-content .pop-services{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.leaflet-popup-content .pop-svc{font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px}
+.leaflet-popup-content .pop-svc.has{background:rgba(122,143,126,.12);color:var(--sage)}
+.leaflet-popup-content .pop-svc.miss{background:rgba(212,114,106,.08);color:var(--red);text-decoration:line-through;opacity:.7}
+.leaflet-popup-content .pop-link{font-size:11px;color:var(--pri-d);font-weight:600;cursor:pointer;border:none;background:none;padding:0;text-decoration:underline;text-underline-offset:2px;font-family:var(--sans)}
+
+/* Region label overlay on map */
+.region-label{background:none;border:none;box-shadow:none;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--warm);text-transform:uppercase;white-space:nowrap;pointer-events:none}
+
+/* ATOLL DIRECTORY */
+
+.atoll-detail{display:none;margin:24px 0;padding:28px;background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px}
+.atoll-detail.visible{display:block}
+.atoll-header{margin-bottom:20px}
+.atoll-name{font-family:var(--sans);font-size:24px;font-weight:600}
+.atoll-meta{font-size:13px;color:var(--muted);margin-top:4px}
+
+.svc-section{margin-top:20px;padding-top:16px;border-top:1px solid rgba(0,0,0,.04)}
+.svc-section:first-of-type{border-top:none;margin-top:0;padding-top:0}
+.svc-label{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
+.svc-item{font-size:13.5px;color:var(--body);line-height:1.6;padding:4px 0}
+.svc-item strong{color:var(--fg)}
+.svc-contact{font-size:12px;color:var(--muted)}
+.svc-gap{font-size:12.5px;color:var(--red);font-style:italic;margin-top:4px}
+
+.section{padding:40px 0;border-top:1px solid rgba(0,0,0,.05)}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:1080px;margin-left:auto;margin-right:auto}
+footer a{color:var(--pri-d)}
+
+@media(max-width:860px){
+  .directory-hero{grid-template-columns:1fr;height:auto}
+  .map-panel{position:relative;top:0;height:50vh}
+  #atoll-map{height:100%;border-right:none;border-bottom:1px solid rgba(0,0,0,.06)}
+  .list-panel{height:auto;max-height:60vh;overflow-y:auto;padding:16px 20px}
+  #atoll-list{grid-template-columns:1fr}
+  .directory-header{padding:60px 20px 12px}
+  .em-grid{grid-template-columns:1fr 1fr}
+  .hub-grid,.portals{grid-template-columns:1fr}
+  .wrap{padding-left:20px;padding-right:20px}
+  nav{padding:12px 16px}
+  .tier-table{font-size:11.5px}
+}
+@media(max-width:480px){
+  .em-grid{grid-template-columns:1fr}
+  .map-panel{height:45vh}
+  .atoll-row-icons svg{width:10px;height:10px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; society</span></a>
+  <div class="nav-r">
+    <a href="index.html">Overview</a>
+    <a href="legislation-timeline.html">Timeline</a>
+    <a href="data-gallery.html">Data gallery</a>
+    <a href="/">Main site</a>
+  </div>
+</nav>
+
+<!-- DIRECTORY HEADER -->
+<div class="directory-header">
+  <h1>Atoll service directory</h1>
+  <p>Every FCSC, shelter, drug treatment centre, and children's home mapped across all 20 administrative atolls. Click an atoll to view full service details.</p>
+</div>
+
+<!-- HERO: MAP + ATOLL LIST -->
+<div class="directory-hero">
+  <div class="map-panel">
+    <div id="atoll-map"></div>
+  </div>
+  <div class="list-panel">
+    <h3>All 20 atolls</h3>
+    <div id="atoll-list"></div>
+  </div>
+</div>
+
+<!-- EMERGENCY NUMBERS -->
+<div class="emergency">
+<div class="wrap">
+  <div class="em-grid">
+    <div class="em-card"><div class="em-num">119</div><div class="em-svc">Police emergency</div><div class="em-desc">24/7 &middot; all criminal matters including DV, child abuse</div></div>
+    <div class="em-card"><div class="em-num">1412</div><div class="em-svc">Child protection</div><div class="em-desc">24/7 toll-free &middot; abuse, neglect, exploitation</div></div>
+    <div class="em-card"><div class="em-num">1421</div><div class="em-svc">Family issues</div><div class="em-desc">Working hours &middot; family disputes, DV, welfare</div></div>
+    <div class="em-card"><div class="em-num">102</div><div class="em-svc">IGMH Ambulance</div><div class="em-desc">24/7 &middot; Male' area ambulance services</div></div>
+    <div class="em-card"><div class="em-num">118</div><div class="em-svc">Fire &amp; rescue</div><div class="em-desc">24/7 &middot; MNDF fire and rescue</div></div>
+    <div class="em-card"><div class="em-num">115</div><div class="em-svc">Disaster authority</div><div class="em-desc">24/7 &middot; NDMA emergency coordination</div></div>
+    <div class="em-card"><div class="em-num">191</div><div class="em-svc">Coast guard</div><div class="em-desc">24/7 &middot; maritime emergencies</div></div>
+    <div class="em-card"><div class="em-num">979 0163</div><div class="em-svc">MPS Family &amp; Child</div><div class="em-desc">Working hours &middot; DV and child abuse direct line</div></div>
+  </div>
+</div>
+</div>
+
+<div class="wrap">
+
+<!-- SERVICE TIERS -->
+<div class="section" style="border-top:none;padding-top:0">
+  <div class="sec-tag">Service delivery architecture</div>
+  <h2 class="sec-title">The four-tier system</h2>
+
+  <table class="tier-table">
+    <thead><tr><th>Tier</th><th>Health</th><th>Social services</th><th>Justice</th><th>Education</th></tr></thead>
+    <tbody>
+      <tr><td class="tier-label">4: National</td><td>IGMH, ADK, Tree Top, Hulhumale' Hospital</td><td>MoSFD, CFPS, FPA, NSPA (all Male')</td><td>Supreme, High, Family, Drug, Juvenile Courts</td><td>MNU, IUM, Polytechnic</td></tr>
+      <tr><td class="tier-label">3: Regional</td><td>5 regional hospitals</td><td>FCSC + regional coordination</td><td>High Court branches (Male', Addu, Kulhudhuffushi)</td><td>Higher secondary, satellite campuses</td></tr>
+      <tr><td class="tier-label">2: Atoll</td><td>14 atoll hospitals</td><td>FCSC (1 per atoll)</td><td>Magistrate courts</td><td>219 government schools</td></tr>
+      <tr><td class="tier-label">1: Island</td><td>169+ health centres</td><td>Council, WDC, community groups</td><td>Magistrate court (pop. 500+)</td><td>Primary/secondary school</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- DIGITAL PORTALS -->
+<div class="section">
+  <div class="sec-tag">Online services</div>
+  <h2 class="sec-title">Digital portals accessible from anywhere</h2>
+  <div class="portals">
+    <div class="portal"><div class="portal-name">OneGov</div><div class="portal-url">one.gov.mv</div><div class="portal-desc">Disability allowance, single parent allowance, foster parent allowance applications. Zakat House integrated late 2024.</div></div>
+    <div class="portal"><div class="portal-name">National Disability Registry</div><div class="portal-url">ndr.nspa.gov.mv</div><div class="portal-desc">Online disability registration. Required for disability allowance and related benefits.</div></div>
+    <div class="portal"><div class="portal-name">eFaas</div><div class="portal-url">efaas.gov.mv</div><div class="portal-desc">National digital identity. Authentication for government services.</div></div>
+    <div class="portal"><div class="portal-name">NSPA</div><div class="portal-url">nspa.gov.mv</div><div class="portal-desc">All social protection programmes, eligibility, how to apply.</div></div>
+    <div class="portal"><div class="portal-name">Maldives Police</div><div class="portal-url">police.gov.mv</div><div class="portal-desc">Non-emergency reporting, police station directory.</div></div>
+  </div>
+</div>
+
+<!-- REGIONAL HUBS -->
+<div class="section">
+  <div class="sec-tag">Regional service hubs</div>
+  <h2 class="sec-title">Five tertiary hospitals with specialist services</h2>
+
+  <div class="hub-grid">
+    <div class="hub">
+      <div class="hub-region">Northern</div>
+      <div class="hub-name">Kulhudhuffushi Regional Hospital</div>
+      <div class="hub-loc">Kulhudhuffushi, Haa Dhaalu</div>
+      <div class="hub-serves">Serves: Haa Alifu, Haa Dhaalu, Shaviyani</div>
+      <div class="hub-services">
+        <span class="hub-svc yes">Psychiatrist</span>
+        <span class="hub-svc yes">Chemotherapy</span>
+        <span class="hub-svc yes">Dialysis</span>
+        <span class="hub-svc yes">ICCU/NICU</span>
+        <span class="hub-svc yes">Methadone</span>
+        <span class="hub-svc yes">Telepsychiatry</span>
+        <span class="hub-svc yes">High Court branch</span>
+      </div>
+    </div>
+    <div class="hub">
+      <div class="hub-region">North-central</div>
+      <div class="hub-name">Ungoofaaru Regional Hospital</div>
+      <div class="hub-loc">Ungoofaaru, Raa</div>
+      <div class="hub-serves">Serves: Noonu, Raa, Baa, Lhaviyani</div>
+      <div class="hub-services">
+        <span class="hub-svc yes">Psychiatrist</span>
+        <span class="hub-svc yes">Mammography</span>
+        <span class="hub-svc yes">CT scan</span>
+        <span class="hub-svc yes">Sidhdha mental health wing</span>
+        <span class="hub-svc yes">Telepsychiatry</span>
+      </div>
+    </div>
+    <div class="hub">
+      <div class="hub-region">Central</div>
+      <div class="hub-name">Gamu Regional Hospital</div>
+      <div class="hub-loc">Gan, Laamu</div>
+      <div class="hub-serves">Serves: Kaafu, AA, ADh, Vaavu, Meemu, Faafu, Dhaalu, Thaa, Laamu</div>
+      <div class="hub-services">
+        <span class="hub-svc yes">Psychiatrist</span>
+        <span class="hub-svc yes">Telepsychiatry</span>
+        <span class="hub-svc no">No drug treatment</span>
+      </div>
+    </div>
+    <div class="hub">
+      <div class="hub-region">Upper-southern</div>
+      <div class="hub-name">Dr Abdul Samad Memorial Hospital</div>
+      <div class="hub-loc">Thinadhoo, Gaafu Dhaalu</div>
+      <div class="hub-serves">Serves: Gaafu Alifu, Gaafu Dhaalu</div>
+      <div class="hub-services">
+        <span class="hub-svc yes">Drug detox &amp; rehab</span>
+        <span class="hub-svc yes">Mental health screening</span>
+        <span class="hub-svc yes">Amaan Veshi safe house</span>
+      </div>
+    </div>
+    <div class="hub" style="grid-column:1/-1">
+      <div class="hub-region">Southern</div>
+      <div class="hub-name">Addu Equatorial Hospital</div>
+      <div class="hub-loc">Hithadhoo, Addu City</div>
+      <div class="hub-serves">Serves: Addu City, Fuvahmulah</div>
+      <div class="hub-services">
+        <span class="hub-svc yes">Psychiatrist</span>
+        <span class="hub-svc yes">Regional Mental Health Centre</span>
+        <span class="hub-svc yes">Drug detox &amp; rehab</span>
+        <span class="hub-svc yes">High Court branch</span>
+        <span class="hub-svc yes">Amaan Veshi safe house</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ATOLL DIRECTORY -->
+<div class="section">
+  <div class="sec-tag">Atoll-by-atoll directory</div>
+  <h2 class="sec-title">Full service details</h2>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Select an atoll from the map or list above to view its complete service profile.</p>
+
+  <!-- HA -->
+  <div class="atoll-detail" id="atoll-ha">
+    <div class="atoll-header">
+      <div class="atoll-name">Haa Alifu Atoll</div>
+      <div class="atoll-meta">Capital: Dhidhdhoo &middot; 14 inhabited islands &middot; Population ~13,400</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Dhidhdhoo FCSC</strong> &middot; Covers all 14 islands</div>
+      <div class="svc-contact">Phone: 3027632 &middot; ha.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses &amp; residential care</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Dhidhdhoo &ndash; emergency shelter for DV survivors and children</div>
+      <div class="svc-item"><strong>Fiyavathi:</strong> Dhidhdhoo &ndash; children's residential care</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities (14)</div>
+      <div class="svc-item"><strong>HA Atoll Hospital:</strong> Dhidhdhoo (Grade 2)</div>
+      <div class="svc-item">Health centres on all 13 remaining islands (Grades 1 &ndash; 4). Hoarafushi HC is Grade 4 (highest).</div>
+      <div class="svc-item">5 private clinics including Revive Medical Centre (Hoarafushi) and Leaf of Life Clinic (Kelaa, therapeutic)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Police</div>
+      <div class="svc-item"><strong>Dhidhdhoo main station:</strong> 9609791462</div>
+      <div class="svc-item">Stations at Hoarafushi, Ihavandhoo, Kelaa, Thuraakunu, Vashafaru, and other islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Courts</div>
+      <div class="svc-item">Magistrate Courts on islands with population 500+</div>
+      <div class="svc-item">Nearest High Court: Kulhudhuffushi (HDh)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No drug treatment facility. Nearest: Kulhudhuffushi RH (methadone) or DRC Himmafushi.</div>
+      <div class="svc-gap">No resident psychiatrist. Nearest: Kulhudhuffushi RH. Telepsychiatry through health centres.</div>
+      <div class="svc-gap">No dedicated therapy centre for disability services.</div>
+      <div class="svc-gap">No residential elderly care facility. Old-Age Pension via MPAO. Nearest residential: HPSN Guraidhoo (K).</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">24 social-sector CSOs across the atoll. Youth clubs in Dhidhdhoo, Filladhoo, Ihavandhoo, Thuraakunu. Environmental groups in Dhidhdhoo and Vashafaru. Development associations across most islands.</div>
+      <div class="svc-item" style="color:var(--red);font-size:12px">Islands without mapped social CSOs: Hoarafushi, Kelaa, Maarandhoo, Mulhadhoo, Thakandhoo, Utheemu</div>
+    </div>
+  </div>
+
+  <!-- HDh -->
+  <div class="atoll-detail" id="atoll-hdh">
+    <div class="atoll-header">
+      <div class="atoll-name">Haa Dhaalu Atoll</div>
+      <div class="atoll-meta">Capital: Kulhudhuffushi (City) &middot; 13 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Kulhudhuffushi FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027633 &middot; hdh.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Kulhudhuffushi &ndash; emergency shelter for DV survivors and children</div>
+      <div class="svc-item"><strong>Child Development Centre:</strong> Kulhudhuffushi RH &ndash; speech therapy, OT, developmental assessment</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Kulhudhuffushi Regional Hospital</strong> (Grade 3) &ndash; tertiary care with chemotherapy, dialysis, ICCU/NICU, methadone, psychiatrist on staff, telepsychiatry for all HDh islands</div>
+      <div class="svc-item">12 health centres (Grades 1 &ndash; 3) across remaining islands</div>
+      <div class="svc-item">4 private clinics in Kulhudhuffushi including Bulbul Therapy Clinic</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Police &amp; courts</div>
+      <div class="svc-item"><strong>Kulhudhuffushi main:</strong> 9609791382</div>
+      <div class="svc-item"><strong>High Court branch</strong> in Kulhudhuffushi (one of only 3 in the country)</div>
+      <div class="svc-item">Magistrate courts across islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>NDA Detox &amp; Rehab Centre:</strong> Hanimaadhoo</div>
+      <div class="svc-item"><strong>Methadone:</strong> available at Kulhudhuffushi RH</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Best-served atoll outside Male'. Tertiary hospital with psychiatry, methadone, chemotherapy, dialysis. Drug treatment available locally. High Court branch provides appellate access without travel to Male'.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No Fiyavathi children's home. Children needing residential care must transfer to Hulhumale'/Villimale'.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">28 social-sector CSOs. Strong youth presence across most islands. Advocating the People's Progress (human rights, Kulhudhuffushi).</div>
+    </div>
+  </div>
+
+  <!-- Sh -->
+  <div class="atoll-detail" id="atoll-sh">
+    <div class="atoll-header">
+      <div class="atoll-name">Shaviyani Atoll</div>
+      <div class="atoll-meta">Capital: Funadhoo &middot; 14 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Funadhoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027634 &middot; sh.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses &amp; residential care</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Funadhoo</div>
+      <div class="svc-item"><strong>Fiyavathi:</strong> Funadhoo &ndash; children's residential care (one of only 5 nationwide)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Shaviyani Atoll Hospital:</strong> Funadhoo (Grade 2)</div>
+      <div class="svc-item">14 health centres (Grades 1 &ndash; 3). Foakaidhoo and Komandoo HCs are Grade 3.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Has Amaan Hiyaa AND Fiyavathi &ndash; one of only 5 atolls with children's residential care. Complete social service triad. 39 social-sector CSOs.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No drug treatment. No psychiatrist. No disability therapy. No CDC. Atoll hospital only Grade 2.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">39 CSOs across 13 islands. Maaungoodhoo has 7 CSOs &ndash; strongest per-island density. Funadhoo has 7 including YES Funadhoo (youth empowerment).</div>
+    </div>
+  </div>
+
+  <!-- N -->
+  <div class="atoll-detail" id="atoll-n">
+    <div class="atoll-header">
+      <div class="atoll-name">Noonu Atoll</div>
+      <div class="atoll-meta">Capital: Manadhoo &middot; 13 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Manadhoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027635 &middot; n.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses &amp; residential care</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Manadhoo</div>
+      <div class="svc-item"><strong>Fiyavathi:</strong> Manadhoo &ndash; children's residential care (one of only 5 nationwide)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Noonu Atoll Hospital:</strong> Manadhoo (Grade 2)</div>
+      <div class="svc-item">12 health centres. Holhudhoo, Maafaru, Velidhoo are Grade 3.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>NDA rehab centre:</strong> Velidhoo (under construction). Not yet operational.</div>
+      <div class="svc-item"><strong>SMART Society:</strong> Manadhoo &ndash; community-based drug rehabilitation CSO (7781502)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Has Amaan Hiyaa, Fiyavathi, AND FCSC &ndash; the complete child protection triad. 52 social-sector CSOs across 12 islands &ndash; one of strongest civil society presences among northern atolls.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No operational drug facility yet. No psychiatrist (nearest: Ungoofaaru RH). No disability therapy. Landhoo and Magoodhoo particularly remote.</div>
+    </div>
+  </div>
+
+  <!-- R -->
+  <div class="atoll-detail" id="atoll-r">
+    <div class="atoll-header">
+      <div class="atoll-name">Raa Atoll</div>
+      <div class="atoll-meta">Capital: Ungoofaaru (FCSC in Dhuvaafaru) &middot; 15 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Dhuvaafaru FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027636 &middot; r.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Ungoofaaru Regional Hospital</strong> (Grade 3) &ndash; mammography, CT scan, psychiatrist on staff, "Sidhdha" mental health wing with child-friendly paediatric mental health areas</div>
+      <div class="svc-item"><strong>Dhuvaafaru HC</strong> (Grade 4) &ndash; highest-grade health centre in atoll, serves tsunami-resettled population</div>
+      <div class="svc-item">Alifushi Hospital (Grade 2) + 10 additional health centres</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Mental health</div>
+      <div class="svc-item" style="color:var(--sage)"><strong>Sidhdha wing</strong> at Ungoofaaru RH is a model facility for other regional hospitals &ndash; dedicated mental health wing with child-friendly paediatric areas. Telepsychiatry for all R Atoll islands.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Education</div>
+      <div class="svc-item">11 pre-schools across 11 islands &ndash; most extensive pre-school coverage of any outer atoll.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">40 social-sector CSOs across 14 islands.</div>
+    </div>
+  </div>
+
+  <!-- B -->
+  <div class="atoll-detail" id="atoll-b">
+    <div class="atoll-header">
+      <div class="atoll-name">Baa Atoll</div>
+      <div class="atoll-meta">Capital: Eydhafushi &middot; 13 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Eydhafushi FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027638 &middot; b.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses &amp; residential care</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Eydhafushi &ndash; emergency shelter for DV survivors and children</div>
+      <div class="svc-item"><strong>Fiyavathi:</strong> Eydhafushi &ndash; children's residential care (17 children)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Baa Atoll Hospital:</strong> Eydhafushi (Grade 2)</div>
+      <div class="svc-item">12 health centres across remaining islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Has both DV shelter (Amaan Hiyaa) and children's residential care (Fiyavathi) &ndash; rare combination outside Male'. 28 social-sector CSOs.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+      <div class="svc-gap">No dedicated disability therapy centre.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">28 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- Lh -->
+  <div class="atoll-detail" id="atoll-lh">
+    <div class="atoll-header">
+      <div class="atoll-name">Lhaviyani Atoll</div>
+      <div class="atoll-meta">Capital: Naifaru &middot; 4&ndash;5 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Naifaru FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027637 &middot; lh.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Naifaru &ndash; emergency shelter for DV survivors and children</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Lhaviyani Atoll Hospital:</strong> Naifaru (Grade 2)</div>
+      <div class="svc-item"><strong>Hinnavaru HC:</strong> Grade 4</div>
+      <div class="svc-item">3 health centres total across remaining islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">25 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- K -->
+  <div class="atoll-detail" id="atoll-k">
+    <div class="atoll-header">
+      <div class="atoll-name">Kaafu / Male' City</div>
+      <div class="atoll-meta">Capital: Male' &middot; Includes Male', Hulhumale', Villingili &middot; Atoll capital: Thulusdhoo &middot; 9 outer islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>CFPS Central (Male'):</strong> Child and Family Protection Service headquarters &ndash; serves Kaafu directly and coordinates all 19 atoll FCSCs nationally</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses &amp; residential care</div>
+      <div class="svc-item"><strong>Amaan Hiyaa Hulhumale':</strong> ADB-funded DV shelter (one of 3 nationally)</div>
+      <div class="svc-item"><strong>FPA transitional facility (Male'):</strong> Short-term emergency accommodation for DV survivors</div>
+      <div class="svc-item"><strong>Fiyavathi Hulhumale':</strong> Children's residential care</div>
+      <div class="svc-item"><strong>HPSN Guraidhoo:</strong> Only residential elderly care facility in the country (219 residents)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>IGMH:</strong> Indira Gandhi Memorial Hospital &ndash; national tertiary referral hospital</div>
+      <div class="svc-item"><strong>ADK Hospital:</strong> Major private hospital</div>
+      <div class="svc-item"><strong>Tree Top Hospital:</strong> Hulhumale' &ndash; tertiary private hospital</div>
+      <div class="svc-item"><strong>Hulhumale' Hospital:</strong> Including Mental Health Centre (est. 2022)</div>
+      <div class="svc-item"><strong>National Centre for Mental Health (IGMH):</strong> Outpatient and inpatient psychiatric services</div>
+      <div class="svc-item">Health centres on outer islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>DRC Himmafushi:</strong> National drug rehabilitation centre (capacity 150&ndash;250)</div>
+      <div class="svc-item"><strong>National Drug Agency (Male'):</strong> Coordination, treatment referral, community programmes</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">National agencies based in Male'</div>
+      <div class="svc-item"><strong>FPA:</strong> Family Protection Authority &ndash; DV case intake, risk assessment, protection orders</div>
+      <div class="svc-item"><strong>MoSFD:</strong> Ministry of Social and Family Development</div>
+      <div class="svc-item"><strong>NSPA:</strong> National Social Protection Agency &ndash; Aasandha, disability allowance, single parent allowance</div>
+      <div class="svc-item"><strong>MPS FCPW:</strong> Police Family and Child Protection Wing</div>
+      <div class="svc-item"><strong>Children's Ombudsperson's Office</strong></div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps (outer islands)</div>
+      <div class="svc-gap">No dedicated FCSC for K atoll outer islands &ndash; served from Male'.</div>
+      <div class="svc-gap">No Amaan Hiyaa on outer islands.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">24 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- AA -->
+  <div class="atoll-detail" id="atoll-aa">
+    <div class="atoll-header">
+      <div class="atoll-name">Alifu Alifu Atoll</div>
+      <div class="atoll-meta">Capital: Rasdhoo &middot; 8 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Rasdhoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027639 &middot; aa.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>AA Atoll Hospital:</strong> Rasdhoo (Grade 1)</div>
+      <div class="svc-item">6 health centres across remaining islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No safe house (Amaan Hiyaa).</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">11 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- ADh -->
+  <div class="atoll-detail" id="atoll-adh">
+    <div class="atoll-header">
+      <div class="atoll-name">Alifu Dhaalu Atoll</div>
+      <div class="atoll-meta">Capital: Mahibadhoo &middot; 10 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Mahibadhoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027640 &middot; adh.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>ADh Atoll Hospital:</strong> Mahibadhoo</div>
+      <div class="svc-item"><strong>Maamigili HC:</strong> Grade 4</div>
+      <div class="svc-item">6 health centres across remaining islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No safe house (Amaan Hiyaa).</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">11 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- V -->
+  <div class="atoll-detail" id="atoll-v">
+    <div class="atoll-header">
+      <div class="atoll-name">Vaavu Atoll</div>
+      <div class="atoll-meta">Capital: Felidhoo &middot; 5 inhabited islands &middot; Population ~1,600 (smallest atoll)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Felidhoo FCSC</strong></div>
+      <div class="svc-contact">v.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>V Atoll Hospital:</strong> Fulidhoo</div>
+      <div class="svc-item">4 health centres across remaining islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Care Society CBR programme for community-based rehabilitation.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">Extremely limited services overall.</div>
+      <div class="svc-gap">No safe house (Amaan Hiyaa).</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+      <div class="svc-gap">0 mapped social-sector CSOs.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">No mapped social-sector CSOs.</div>
+    </div>
+  </div>
+
+  <!-- M -->
+  <div class="atoll-detail" id="atoll-m">
+    <div class="atoll-header">
+      <div class="atoll-name">Meemu Atoll</div>
+      <div class="atoll-meta">Capital: Muli &middot; 8 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Muli FCSC</strong></div>
+      <div class="svc-contact">m.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Veshi:</strong> Muli &ndash; DV shelter</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Mulee Regional Hospital:</strong> Muli (elevated status)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Has DV shelter (Amaan Veshi) &ndash; rare for central atolls.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+  </div>
+
+  <!-- F -->
+  <div class="atoll-detail" id="atoll-f">
+    <div class="atoll-header">
+      <div class="atoll-name">Faafu Atoll</div>
+      <div class="atoll-meta">Capital: Nilandhoo &middot; 5 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Nilandhoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027643 &middot; f.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>F Atoll Hospital:</strong> Nilandhoo (Grade 1)</div>
+      <div class="svc-item">3 health centres across remaining islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Child-friendly interview room available at FCSC.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">One of the least-served atolls in the country.</div>
+      <div class="svc-gap">No safe house (Amaan Hiyaa).</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+      <div class="svc-gap">Only 3 CSOs &ndash; weakest civil society presence nationally.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">3 social-sector CSOs across the atoll (weakest nationally).</div>
+    </div>
+  </div>
+
+  <!-- Dh -->
+  <div class="atoll-detail" id="atoll-dh">
+    <div class="atoll-header">
+      <div class="atoll-name">Dhaalu Atoll</div>
+      <div class="atoll-meta">Capital: Kudahuvadhoo &middot; 6&ndash;7 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Kudahuvadhoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027644 &middot; dh.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Kudahuvadhoo &ndash; emergency shelter for DV survivors and children</div>
+      <div class="svc-item"><strong>Child-friendly interview room</strong> available</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Dh Atoll Hospital:</strong> Kudahuvadhoo (Grade 1)</div>
+      <div class="svc-item">3 health centres across remaining islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Has DV shelter (Amaan Hiyaa) plus child-friendly interview room.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">16 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- Th -->
+  <div class="atoll-detail" id="atoll-th">
+    <div class="atoll-header">
+      <div class="atoll-name">Thaa Atoll</div>
+      <div class="atoll-meta">Capital: Veymandoo &middot; 13 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Veymandoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027645 &middot; th.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Veshi:</strong> Veymandoo (status unclear)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Th Atoll Hospital:</strong> Veymandoo (Grade 2)</div>
+      <div class="svc-item">13 health centres (5 at Grade 3)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Mental health</div>
+      <div class="svc-item">Telepsychiatry via Gamu Regional Hospital</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Residential care</div>
+      <div class="svc-item"><strong>HPSN Guraidhoo:</strong> National residential elderly care facility (219 residents) located in this atoll</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No drug treatment facility.</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">30 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- L -->
+  <div class="atoll-detail" id="atoll-l">
+    <div class="atoll-header">
+      <div class="atoll-name">Laamu Atoll</div>
+      <div class="atoll-meta">Capital: Fonadhoo &middot; 11&ndash;12 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Fonadhoo FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027646 &middot; l.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Fonadhoo &ndash; emergency shelter for DV survivors and children</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Gamu Regional Hospital:</strong> L. Gan (Grade 3) &ndash; psychiatrist on staff, telepsychiatry for L + Th atolls</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>NDA facility:</strong> Under construction at Gan. Not yet operational.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Best-served central atoll. Regional hospital with psychiatrist on staff. Telepsychiatry hub for L and Th atolls. 40 CSOs (second strongest outside Male').</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">Drug treatment facility not yet operational.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">40 social-sector CSOs across the atoll (second strongest outside Male').</div>
+    </div>
+  </div>
+
+  <!-- GA -->
+  <div class="atoll-detail" id="atoll-ga">
+    <div class="atoll-header">
+      <div class="atoll-name">Gaafu Alifu Atoll</div>
+      <div class="atoll-meta">Capital: Villingili &middot; 9&ndash;10 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Villingili FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027647 &middot; ga.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>DV shelter:</strong> Villingili</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>GA Atoll Hospital:</strong> Villingili</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>NDA Drug Rehab Centre:</strong> Villingili (operational)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Mental health</div>
+      <div class="svc-item">Telepsychiatry via GDh (Dr Abdul Samad Memorial Hospital)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">Has DV shelter and drug rehabilitation &ndash; a rare combination outside Male'. 37 CSOs (third strongest outside Male').</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">37 social-sector CSOs across the atoll (third strongest outside Male').</div>
+    </div>
+  </div>
+
+  <!-- GDh -->
+  <div class="atoll-detail" id="atoll-gdh">
+    <div class="atoll-header">
+      <div class="atoll-name">Gaafu Dhaalu Atoll</div>
+      <div class="atoll-meta">Capital: Thinadhoo (City) &middot; 9&ndash;10 inhabited islands</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Thinadhoo FCSC</strong></div>
+      <div class="svc-contact">gdh.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Veshi:</strong> Thinadhoo</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Dr Abdul Samad Memorial Hospital:</strong> Thinadhoo (Grade 3, regional)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>NDA Detox &amp; Community Rehab Centre:</strong> Thinadhoo (operational)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Mental health</div>
+      <div class="svc-item">Services expanding. School early intervention programmes. Tender for Mental Health Centre.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+      <div class="svc-gap">Limited CSOs relative to capital city status.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">14 social-sector CSOs across the atoll.</div>
+    </div>
+  </div>
+
+  <!-- Gn -->
+  <div class="atoll-detail" id="atoll-gn">
+    <div class="atoll-header">
+      <div class="atoll-name">Fuvahmulah</div>
+      <div class="atoll-meta">Single island atoll &middot; City status &middot; Population ~13,000</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Fuvahmulah FCSC</strong></div>
+      <div class="svc-contact">Phone: 3027649 &middot; gn.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses &amp; residential care</div>
+      <div class="svc-item"><strong>Amaan Hiyaa:</strong> Fuvahmulah &ndash; emergency shelter for DV survivors and children</div>
+      <div class="svc-item"><strong>Fiyavathi:</strong> Fuvahmulah &ndash; children's residential care</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Fuvahmulah Atoll Hospital:</strong> Grade 2</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>NDA Drug Treatment &amp; Detox Centre:</strong> Fuvahmulah (operational)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">MOST COMPREHENSIVE outer atoll. Has all 4 key services: FCSC, shelter (Amaan Hiyaa), children's residential care (Fiyavathi), and drug treatment &ndash; without needing inter-island transport. 21 + 44 CSOs.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No resident psychiatrist.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Civil society</div>
+      <div class="svc-item">65 social-sector CSOs (21 + 44).</div>
+    </div>
+  </div>
+
+  <!-- S -->
+  <div class="atoll-detail" id="atoll-s">
+    <div class="atoll-header">
+      <div class="atoll-name">Addu City</div>
+      <div class="atoll-meta">Capital: Hithadhoo (City) &middot; 6 islands connected by causeway &middot; Population ~35,000</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">FCSC</div>
+      <div class="svc-item"><strong>Hithadhoo FCSC</strong></div>
+      <div class="svc-contact">s.fcsc@msfd.gov.mv</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Safe houses</div>
+      <div class="svc-item"><strong>Amaan Veshi:</strong> Hithadhoo</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Health facilities</div>
+      <div class="svc-item"><strong>Addu Equatorial Hospital:</strong> Hithadhoo (Grade 3, regional) &ndash; psychiatrist on staff</div>
+      <div class="svc-item"><strong>Regional Mental Health Centre</strong></div>
+      <div class="svc-item"><strong>SCDC (Southern Child Development Centre):</strong> OT, physiotherapy, speech therapy</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Drug treatment</div>
+      <div class="svc-item"><strong>NDA Detox &amp; Community Rehab:</strong> Addu (operational)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Police &amp; courts</div>
+      <div class="svc-item"><strong>High Court branch</strong> in Hithadhoo (one of only 3 in the country)</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Strengths</div>
+      <div class="svc-item" style="color:var(--sage)">BEST-SERVED outside Male'. Tertiary hospital with psychiatrist on staff, Regional Mental Health Centre, SCDC (child development with OT/physio/speech), drug detox, High Court branch, causeway connecting all 6 islands eliminating inter-island transport barriers.</div>
+    </div>
+    <div class="svc-section">
+      <div class="svc-label">Gaps</div>
+      <div class="svc-gap">No Fiyavathi children's residential care.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div>Source: Maldives Social Policy Encyclopedia Service Referral Guide; MoSFD; MPS; health facility data</div>
+</footer>
+
+<script>
+// Atoll data with coordinates and service availability
+var atolls = [
+  {id:'ha',  code:'HA',  name:'Haa Alifu',            lat:6.95,  lng:73.00, region:'NORTH',   fcsc:true,  shelter:true,  drug:false, fiyavathi:true,  regional:false, score:3},
+  {id:'hdh', code:'HDh', name:'Haa Dhaalu',            lat:6.60,  lng:73.05, region:'NORTH',   fcsc:true,  shelter:true,  drug:true,  fiyavathi:false, regional:true,  score:5},
+  {id:'sh',  code:'Sh',  name:'Shaviyani',             lat:6.15,  lng:73.10, region:'NORTH',   fcsc:true,  shelter:true,  drug:false, fiyavathi:true,  regional:false, score:3},
+  {id:'n',   code:'N',   name:'Noonu',                 lat:5.85,  lng:73.30, region:'NORTH',   fcsc:true,  shelter:true,  drug:false, fiyavathi:true,  regional:false, score:3},
+  {id:'r',   code:'R',   name:'Raa',                   lat:5.55,  lng:73.00, region:'NORTH',   fcsc:true,  shelter:false, drug:false, fiyavathi:false, regional:true,  score:3},
+  {id:'b',   code:'B',   name:'Baa',                   lat:5.15,  lng:73.00, region:'CENTRAL', fcsc:true,  shelter:true,  drug:false, fiyavathi:true,  regional:false, score:3},
+  {id:'lh',  code:'Lh',  name:'Lhaviyani',             lat:5.35,  lng:73.50, region:'CENTRAL', fcsc:true,  shelter:true,  drug:false, fiyavathi:false, regional:false, score:2},
+  {id:'k',   code:'K',   name:'Kaafu / Male\' City',    lat:4.45,  lng:73.55, region:'CENTRAL', fcsc:true,  shelter:true,  drug:true,  fiyavathi:true,  regional:true,  score:5},
+  {id:'aa',  code:'AA',  name:'Alifu Alifu',           lat:4.05,  lng:72.85, region:'CENTRAL', fcsc:true,  shelter:false, drug:false, fiyavathi:false, regional:false, score:1},
+  {id:'adh', code:'ADh', name:'Alifu Dhaalu',          lat:3.85,  lng:72.85, region:'CENTRAL', fcsc:true,  shelter:false, drug:false, fiyavathi:false, regional:false, score:1},
+  {id:'v',   code:'V',   name:'Vaavu',                 lat:3.65,  lng:73.45, region:'CENTRAL', fcsc:true,  shelter:false, drug:false, fiyavathi:false, regional:false, score:0},
+  {id:'m',   code:'M',   name:'Meemu',                 lat:3.00,  lng:73.50, region:'CENTRAL', fcsc:true,  shelter:true,  drug:false, fiyavathi:false, regional:false, score:2},
+  {id:'f',   code:'F',   name:'Faafu',                 lat:3.20,  lng:73.00, region:'CENTRAL', fcsc:true,  shelter:false, drug:false, fiyavathi:false, regional:false, score:0},
+  {id:'dh',  code:'Dh',  name:'Dhaalu',                lat:2.85,  lng:73.00, region:'CENTRAL', fcsc:true,  shelter:true,  drug:false, fiyavathi:false, regional:false, score:2},
+  {id:'th',  code:'Th',  name:'Thaa',                  lat:2.35,  lng:73.10, region:'CENTRAL', fcsc:true,  shelter:true,  drug:false, fiyavathi:false, regional:false, score:2},
+  {id:'l',   code:'L',   name:'Laamu',                 lat:1.95,  lng:73.50, region:'CENTRAL', fcsc:true,  shelter:true,  drug:false, fiyavathi:false, regional:true,  score:4},
+  {id:'ga',  code:'GA',  name:'Gaafu Alifu',           lat:0.65,  lng:73.40, region:'SOUTH',   fcsc:true,  shelter:true,  drug:true,  fiyavathi:false, regional:false, score:4},
+  {id:'gdh', code:'GDh', name:'Gaafu Dhaalu',          lat:0.30,  lng:73.20, region:'SOUTH',   fcsc:true,  shelter:true,  drug:true,  fiyavathi:false, regional:true,  score:4},
+  {id:'gn',  code:'Gn',  name:'Fuvahmulah',            lat:-0.30, lng:73.43, region:'SOUTH',   fcsc:true,  shelter:true,  drug:true,  fiyavathi:true,  regional:false, score:5},
+  {id:'s',   code:'S',   name:'Addu City',             lat:-0.65, lng:73.15, region:'SOUTH',   fcsc:true,  shelter:true,  drug:true,  fiyavathi:false, regional:true,  score:5}
+];
+
+// Color by service score (0-5)
+function getColor(score) {
+  if (score >= 5) return '#1B3A5C';
+  if (score >= 4) return '#2B4C7E';
+  if (score >= 3) return '#4A6FA0';
+  if (score >= 2) return '#7A9CC6';
+  if (score >= 1) return '#9FBAE0';
+  return '#B3C8E0';
+}
+
+// Build popup content
+function popupContent(a) {
+  var services = '';
+  services += '<span class="pop-svc ' + (a.fcsc ? 'has' : 'miss') + '">' + (a.fcsc ? '' : '') + 'FCSC</span>';
+  services += '<span class="pop-svc ' + (a.shelter ? 'has' : 'miss') + '">' + (a.shelter ? '' : '') + 'Shelter</span>';
+  services += '<span class="pop-svc ' + (a.drug ? 'has' : 'miss') + '">' + (a.drug ? '' : '') + 'Drug rehab</span>';
+  services += '<span class="pop-svc ' + (a.fiyavathi ? 'has' : 'miss') + '">' + (a.fiyavathi ? '' : '') + 'Fiyavathi</span>';
+  if (a.regional) services += '<span class="pop-svc has" style="background:rgba(179,133,111,.15);color:#8B5E3C">Regional hospital</span>';
+
+  return '<h3>' + a.code + ' ' + a.name + '</h3>' +
+    '<div class="pop-meta">' + a.region + ' region</div>' +
+    '<div class="pop-services">' + services + '</div>' +
+    '<button class="pop-link" onclick="selectAtoll(\'' + a.id + '\')">View full service details</button>';
+}
+
+// Initialize map (tall narrow view — zoom out to fit the chain)
+var map = L.map('atoll-map', {
+  center: [3.2, 73.22],
+  zoom: 6.6,
+  zoomSnap: 0.1,
+  zoomDelta: 0.5,
+  minZoom: 5,
+  maxZoom: 12,
+  zoomControl: true,
+  scrollWheelZoom: true
+});
+
+// CartoDB Positron light tiles for clean look
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+// Service icon SVGs (14x14, solid/filled for visibility)
+var svcIcons = {
+  fcsc: '<svg viewBox="0 0 14 14" width="14" height="14"><circle cx="7" cy="4" r="2.5" fill="SVC_CLR"/><ellipse cx="7" cy="11" rx="4" ry="2.8" fill="SVC_CLR" opacity=".7"/></svg>',
+  shelter: '<svg viewBox="0 0 14 14" width="14" height="14"><path d="M7 1.5L1 7h2.5v5h7V7H13L7 1.5z" fill="SVC_CLR"/></svg>',
+  drug: '<svg viewBox="0 0 14 14" width="14" height="14"><rect x="2" y="4.5" width="10" height="6" rx="3" fill="SVC_CLR"/><rect x="6" y="4.5" width="4" height="6" rx="0" fill="SVC_CLR" opacity=".6"/><circle cx="5" cy="3" r="1" fill="SVC_CLR"/><circle cx="9" cy="3" r="1" fill="SVC_CLR"/></svg>',
+  fiyavathi: '<svg viewBox="0 0 14 14" width="14" height="14"><circle cx="4.5" cy="3.5" r="2" fill="SVC_CLR"/><circle cx="9.5" cy="3.5" r="2" fill="SVC_CLR"/><ellipse cx="4.5" cy="10.5" rx="3" ry="2.5" fill="SVC_CLR" opacity=".6"/><ellipse cx="9.5" cy="10.5" rx="3" ry="2.5" fill="SVC_CLR" opacity=".6"/></svg>',
+  regional: '<svg viewBox="0 0 14 14" width="14" height="14"><rect x="5" y="1" width="4" height="12" rx="1" fill="SVC_CLR"/><rect x="1" y="5" width="12" height="4" rx="1" fill="SVC_CLR"/></svg>'
+};
+
+var svcColors = {
+  fcsc: '#2563EB',
+  shelter: '#9333EA',
+  drug: '#D97706',
+  fiyavathi: '#059669',
+  regional: '#DC2626'
+};
+
+var svcKeys = ['fcsc','shelter','drug','fiyavathi','regional'];
+
+function buildIconCluster(a) {
+  var present = svcKeys.filter(function(k) { return a[k]; });
+  var count = present.length;
+  if (count === 0) count = 1; // at least show the code
+  var iconW = 16 + count * 15;
+  var html = '<div style="display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.92);border:1.5px solid rgba(0,0,0,.12);border-radius:10px;padding:2px 6px;box-shadow:0 1px 3px rgba(0,0,0,.1);white-space:nowrap;cursor:pointer">';
+  html += '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:10px;font-weight:700;color:#1a1a1a;margin-right:2px">' + a.code + '</span>';
+  present.forEach(function(k) {
+    html += '<span title="' + k + '">' + svcIcons[k].replace(/SVC_CLR/g, svcColors[k]) + '</span>';
+  });
+  html += '</div>';
+  return L.divIcon({
+    html: html,
+    className: '',
+    iconSize: [iconW, 20],
+    iconAnchor: [iconW/2, 10]
+  });
+}
+
+// Store markers for programmatic access
+var markers = {};
+
+// Add atoll markers with service icon clusters
+atolls.forEach(function(a) {
+  var icon = buildIconCluster(a);
+  var marker = L.marker([a.lat, a.lng], {icon: icon}).addTo(map);
+
+  marker.bindPopup(popupContent(a), {maxWidth: 260, className: ''});
+
+  marker.on('click', function() {
+    selectAtoll(a.id, true);
+  });
+
+  markers[a.id] = marker;
+});
+
+// Region labels as map overlays
+var regionLabels = [
+  {lat: 7.25, lng: 72.40, text: 'NORTH'},
+  {lat: 3.80, lng: 72.30, text: 'CENTRAL'},
+  {lat: -0.10, lng: 72.55, text: 'SOUTH'}
+];
+regionLabels.forEach(function(r) {
+  var icon = L.divIcon({
+    html: '<span style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;color:#B3856F;text-transform:uppercase;white-space:nowrap;text-shadow:0 0 6px rgba(255,255,255,.9),0 0 12px rgba(255,255,255,.7)">' + r.text + '</span>',
+    className: '',
+    iconSize: [80, 20],
+    iconAnchor: [40, 10]
+  });
+  L.marker([r.lat, r.lng], {icon: icon, interactive: false}).addTo(map);
+});
+
+// Legend as Leaflet control overlay (bottom-left)
+var LegendControl = L.Control.extend({
+  options: { position: 'bottomleft' },
+  onAdd: function() {
+    var div = L.DomUtil.create('div', 'map-legend-overlay');
+    div.innerHTML =
+      '<h4>Service icons</h4>' +
+      '<div class="legend-row"><svg viewBox="0 0 14 14" width="15" height="15" style="flex-shrink:0"><circle cx="7" cy="4" r="2.5" fill="#2563EB"/><ellipse cx="7" cy="11" rx="4" ry="2.8" fill="#2563EB" opacity=".7"/></svg><span>FCSC</span></div>' +
+      '<div class="legend-row"><svg viewBox="0 0 14 14" width="15" height="15" style="flex-shrink:0"><path d="M7 1.5L1 7h2.5v5h7V7H13L7 1.5z" fill="#9333EA"/></svg><span>Shelter</span></div>' +
+      '<div class="legend-row"><svg viewBox="0 0 14 14" width="15" height="15" style="flex-shrink:0"><rect x="2" y="4.5" width="10" height="6" rx="3" fill="#D97706"/><rect x="6" y="4.5" width="4" height="6" rx="0" fill="#D97706" opacity=".6"/><circle cx="5" cy="3" r="1" fill="#D97706"/><circle cx="9" cy="3" r="1" fill="#D97706"/></svg><span>Drug rehab</span></div>' +
+      '<div class="legend-row"><svg viewBox="0 0 14 14" width="15" height="15" style="flex-shrink:0"><circle cx="4.5" cy="3.5" r="2" fill="#059669"/><circle cx="9.5" cy="3.5" r="2" fill="#059669"/><ellipse cx="4.5" cy="10.5" rx="3" ry="2.5" fill="#059669" opacity=".6"/><ellipse cx="9.5" cy="10.5" rx="3" ry="2.5" fill="#059669" opacity=".6"/></svg><span>Fiyavathi</span></div>' +
+      '<div class="legend-row"><svg viewBox="0 0 14 14" width="15" height="15" style="flex-shrink:0"><rect x="5" y="1" width="4" height="12" rx="1" fill="#DC2626"/><rect x="1" y="5" width="12" height="4" rx="1" fill="#DC2626"/></svg><span>Regional hospital</span></div>';
+    L.DomEvent.disableClickPropagation(div);
+    return div;
+  }
+});
+new LegendControl().addTo(map);
+
+// Atoll list data for the right panel
+var atollListData = [
+  {id:'ha',  code:'HA',  label:'Haa Alifu',       capital:'Dhidhdhoo',     services:['fcsc','shelter','fiyavathi']},
+  {id:'hdh', code:'HDh', label:'Haa Dhaalu',       capital:'Kulhudhuffushi', services:['fcsc','shelter','drug','regional']},
+  {id:'sh',  code:'Sh',  label:'Shaviyani',        capital:'Funadhoo',      services:['fcsc','shelter','fiyavathi']},
+  {id:'n',   code:'N',   label:'Noonu',             capital:'Manadhoo',      services:['fcsc','shelter','fiyavathi']},
+  {id:'r',   code:'R',   label:'Raa',               capital:'Ungoofaaru',    services:['fcsc','regional']},
+  {id:'b',   code:'B',   label:'Baa',               capital:'Eydhafushi',    services:['fcsc','shelter','fiyavathi']},
+  {id:'lh',  code:'Lh',  label:'Lhaviyani',         capital:'Naifaru',       services:['fcsc','shelter']},
+  {id:'k',   code:'K',   label:'Kaafu / Male\' City', capital:'Male\'',      services:['fcsc','shelter','drug','fiyavathi','regional']},
+  {id:'aa',  code:'AA',  label:'Alifu Alifu',       capital:'Rasdhoo',       services:['fcsc']},
+  {id:'adh', code:'ADh', label:'Alifu Dhaalu',      capital:'Mahibadhoo',    services:['fcsc']},
+  {id:'v',   code:'V',   label:'Vaavu',             capital:'Felidhoo',      services:['fcsc']},
+  {id:'m',   code:'M',   label:'Meemu',             capital:'Muli',          services:['fcsc','shelter']},
+  {id:'f',   code:'F',   label:'Faafu',             capital:'Nilandhoo',     services:['fcsc']},
+  {id:'dh',  code:'Dh',  label:'Dhaalu',            capital:'Kudahuvadhoo',  services:['fcsc','shelter']},
+  {id:'th',  code:'Th',  label:'Thaa',              capital:'Veymandoo',     services:['fcsc','shelter']},
+  {id:'l',   code:'L',   label:'Laamu',             capital:'Fonadhoo',      services:['fcsc','shelter','regional']},
+  {id:'ga',  code:'GA',  label:'Gaafu Alifu',       capital:'Villingili',    services:['fcsc','shelter','drug']},
+  {id:'gdh', code:'GDh', label:'Gaafu Dhaalu',      capital:'Thinadhoo',     services:['fcsc','shelter','drug','regional']},
+  {id:'gn',  code:'Gn',  label:'Fuvahmulah',        capital:'Fuvahmulah',    services:['fcsc','shelter','drug','fiyavathi']},
+  {id:'s',   code:'S',   label:'Addu City',         capital:'Hithadhoo',     services:['fcsc','shelter','drug','regional']}
+];
+
+// Build the atoll list in the right panel
+var listContainer = document.getElementById('atoll-list');
+atollListData.forEach(function(a) {
+  var row = document.createElement('div');
+  row.className = 'atoll-row';
+  row.dataset.atoll = a.id;
+
+  var iconsHtml = '';
+  a.services.forEach(function(k) {
+    iconsHtml += svcIcons[k].replace(/SVC_CLR/g, svcColors[k]).replace(/width="14"/g, 'width="16"').replace(/height="14"/g, 'height="16"');
+  });
+
+  row.innerHTML =
+    '<div class="atoll-row-code">' + a.code + '</div>' +
+    '<div class="atoll-row-info">' +
+      '<div class="atoll-row-name">' + a.label + '</div>' +
+      '<div class="atoll-row-capital">' + a.capital + '</div>' +
+    '</div>' +
+    '<div class="atoll-row-icons">' + iconsHtml + '</div>';
+
+  row.addEventListener('click', function() {
+    selectAtoll(a.id);
+  });
+
+  listContainer.appendChild(row);
+});
+
+// Atoll selection logic
+var details = document.querySelectorAll('.atoll-detail');
+var rows = document.querySelectorAll('.atoll-row');
+
+function selectAtoll(atollCode, fromMap) {
+  // Update list rows
+  rows.forEach(function(r) { r.classList.remove('active'); });
+  var matchRow = document.querySelector('.atoll-row[data-atoll="' + atollCode + '"]');
+  if (matchRow) matchRow.classList.add('active');
+
+  // Highlight marker on map
+  atolls.forEach(function(a) {
+    var m = markers[a.id];
+    var el = m.getElement();
+    if (el) {
+      var inner = el.querySelector('div');
+      if (inner) {
+        if (a.id === atollCode) {
+          inner.style.borderColor = '#B3856F';
+          inner.style.borderWidth = '2px';
+          inner.style.background = 'rgba(255,255,255,1)';
+          inner.style.boxShadow = '0 2px 8px rgba(179,133,111,.35)';
+        } else {
+          inner.style.borderColor = 'rgba(0,0,0,.12)';
+          inner.style.borderWidth = '1.5px';
+          inner.style.background = 'rgba(255,255,255,.92)';
+          inner.style.boxShadow = '0 1px 3px rgba(0,0,0,.1)';
+        }
+      }
+    }
+    if (a.id === atollCode && !fromMap) {
+      map.setView([a.lat, a.lng], 8, {animate: true});
+      m.openPopup();
+    }
+  });
+
+  // Show detail panel
+  details.forEach(function(d) {
+    d.classList.toggle('visible', d.id === 'atoll-' + atollCode);
+  });
+
+  // Scroll to detail
+  var detail = document.getElementById('atoll-' + atollCode);
+  if (detail) {
+    setTimeout(function() {
+      detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 100);
+  }
+}
+</script>
+</body>
+</html>

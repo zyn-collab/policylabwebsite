@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definitive Futures Wheel Workshop Tool</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --panel-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-color: rgba(15, 23, 42, 0.05);
+            --accent-color: #4f46e5;
+            --add-button-bg: #e2e8f0;
+            --add-button-text: #475569;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color);
+            overflow: hidden;
+        }
+        
+        #app-container { display: flex; width: 100%; height: 100%; }
+        
+        /* Fix for fullscreen mode */
+        .fullscreen #app-container {
+            height: 100vh;
+            overflow: visible;
+        }
+        #chart-container { flex-grow: 1; position: relative; display: grid; place-items: center; }
+        svg { max-width: 800px; width: 100%; height: 100%; }
+        .background-circle { opacity: 0.1; }
+        .node circle {
+            stroke-width: 2.5px;
+            cursor: pointer;
+            transition: r 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
+        }
+        .node text {
+            font-family: 'Manrope', sans-serif;
+            font-size: 8px;
+            font-weight: 700;
+            fill: var(--text-primary);
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            transition: opacity 0.3s ease;
+        }
+        .link, .cross-link { transition: opacity 0.3s ease; }
+        .link { stroke: var(--border-color); stroke-width: 1.5px; }
+        .cross-link { stroke: var(--accent-color); stroke-width: 2px; stroke-dasharray: 3 5; fill: none; opacity: 0.6; }
+        .add-button { cursor: pointer; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+        g.node:hover .add-button { opacity: 1; pointer-events: all; }
+        #detail-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background-color: var(--panel-bg);
+            border-left: 1px solid var(--border-color);
+            box-shadow: -10px 0 20px -10px var(--shadow-color);
+            transform: translateX(100%);
+            transition: transform 0.4s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        #detail-panel.visible { transform: translateX(0); }
+        .panel-content { padding: 24px; overflow-y: auto; flex-grow: 1; }
+        .panel-header h3 { margin: 0 0 8px 0; font-family: 'Manrope', sans-serif; font-size: 20px; color: var(--text-primary); }
+        .panel-header .meta { font-size: 12px; color: var(--text-secondary); margin-bottom: 24px; }
+        .panel-section { margin-bottom: 24px; }
+        .panel-section h4 { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .editable { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 8px; font-size: 14px; color: var(--text-primary); width: 100%; box-sizing: border-box; }
+        .rating-group { display: flex; justify-content: space-between; gap: 16px; }
+        .rating-group label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+        .rating-group input[type="range"] { width: 100%; }
+        #toolbar { position: absolute; top: 20px; left: 20px; background: var(--panel-bg); border-radius: 8px; padding: 8px; box-shadow: 0 4px 12px var(--shadow-color); display: flex; gap: 8px; z-index: 10; }
+        .tool-button { padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color); background: transparent; cursor: pointer; font-size: 14px; color: var(--text-secondary); }
+        .tool-button.active { background: var(--accent-color); color: white; border-color: var(--accent-color); }
+        .close-button { position: absolute; top: 16px; right: 16px; width: 24px; height: 24px; background: #f1f5f9; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 16px; }
+        .close-button:hover { background: #e2e8f0; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app-container">
+        <div id="chart-container">
+            <div id="toolbar">
+                <button id="view-mode-btn" class="tool-button active">View</button>
+                <button id="edit-mode-btn" class="tool-button">Edit</button>
+                <button id="link-mode-btn" class="tool-button">Link</button>
+            </div>
+        </div>
+        <div id="detail-panel">
+            <button class="close-button" id="close-panel-btn">&times;</button>
+            <div class="panel-content">
+                <div class="panel-header">
+                    <input id="detail-title" class="editable" readonly />
+                    <p id="detail-meta" class="meta"></p>
+                </div>
+                <div class="panel-section">
+                    <h4>Description</h4>
+                    <textarea id="detail-description" class="editable" rows="4" readonly></textarea>
+                </div>
+                <div id="ratings-section" class="panel-section" style="display: none;">
+                    <h4>Analysis</h4>
+                    <div class="rating-group">
+                        <div><label for="impact-slider">Impact</label><input type="range" id="impact-slider" min="1" max="5" value="1"></div>
+                        <div><label for="likelihood-slider">Likelihood</label><input type="range" id="likelihood-slider" min="1" max="5" value="1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+        let flatData = [
+            { id: "0", parentId: null, label: "Migration", fullLabel: "Internal Migration", desc: "Population movement to the capital.", impact: 5, likelihood: 5, isPlaceholder: false },
+        ];
+        let crossLinks = [];
+
+        const nodeRadii = [30, 26, 22, 18];
+        const layerRadii = [0, 85, 170, 255];
+        // Refined Palette: Slate, Indigo, Purple, Rose
+        const colorScale = d3.scaleOrdinal(["#475569", "#818cf8", "#c084fc", "#f472b6"]);
+        const orderLabels = ["Core Idea", "1st Order", "2nd Order", "3rd Order"];
+
+        let currentMode = 'view', selectedNode = null, linkingFirstNode = null, activePath = [];
+        
+        const svg = d3.select("#chart-container").append("svg");
+        const detailPanel = d3.select("#detail-panel");
+        
+        function initialize() {
+            let dataWithPlaceholders = [...flatData.filter(d => !d.isPlaceholder)];
+            
+            const rootForDepths = d3.stratify().id(d => d.id).parentId(d => d.parentId)(dataWithPlaceholders);
+            rootForDepths.each(d => {
+                const originalNode = dataWithPlaceholders.find(item => item.id === d.id);
+                if(originalNode) originalNode.depth = d.depth;
+            });
+
+            const placeholdersToAdd = [];
+            const maxChildren = { 0: 5, 1: 3, 2: 2 };
+            const existingChildren = d3.group(dataWithPlaceholders, d => d.parentId);
+
+            dataWithPlaceholders.filter(d => d.depth < 3).forEach(parent => {
+                const childrenCount = existingChildren.get(parent.id)?.length || 0;
+                const needed = (maxChildren[parent.depth] || 0) - childrenCount;
+                for (let i = 0; i < needed; i++) {
+                    placeholdersToAdd.push({ id: crypto.randomUUID(), parentId: parent.id, isPlaceholder: true, depth: parent.depth + 1 });
+                }
+            });
+            update([...dataWithPlaceholders, ...placeholdersToAdd]);
+        }
+
+        function update(data) {
+            svg.selectAll("*").remove();
+            
+            const viewboxSize = (layerRadii[layerRadii.length - 1] + nodeRadii[3]) * 2.2;
+            svg.attr("viewBox", [-viewboxSize / 2, -viewboxSize / 2, viewboxSize, viewboxSize]);
+
+            const root = d3.stratify().id(d => d.id).parentId(d => d.parentId)(data);
+            root.each(d => d.data.depth = d.depth);
+            
+            function assignAngles(node, startAngle, endAngle) {
+                node.startAngle = startAngle;
+                node.endAngle = endAngle;
+                const angleRange = endAngle - startAngle;
+                const childCount = node.children ? node.children.length : 0;
+                
+                if (childCount > 0) {
+                    const anglePerChild = angleRange / childCount;
+                    node.children.forEach((child, i) => {
+                        const childStartAngle = startAngle + i * anglePerChild;
+                        const childEndAngle = childStartAngle + anglePerChild;
+                        assignAngles(child, childStartAngle, childEndAngle);
+                    });
+                }
+                node.angle = startAngle + angleRange / 2;
+            }
+            assignAngles(root, 0, 2 * Math.PI);
+            
+            const nodes = root.descendants();
+            const links = root.links();
+            
+            nodes.forEach(node => {
+                const r = layerRadii[node.depth];
+                node.homeX = r * Math.cos(node.angle - Math.PI / 2);
+                node.homeY = r * Math.sin(node.angle - Math.PI / 2);
+                if (isNaN(node.x) || node.x === undefined) { node.x = node.homeX; node.y = node.homeY; }
+            });
+
+            svg.append("g").selectAll("circle").data(layerRadii.slice(1).reverse())
+                .join("circle").attr("class", "background-circle").attr("r", (d, i) => d)
+                .attr("fill", (d, i) => colorScale(3 - i));
+
+            const link = svg.append("g").selectAll("line").data(links).join("line").attr("class", "link");
+            const crossLink = svg.append("g").selectAll("path").data(crossLinks).join("path").attr("class", "cross-link");
+
+            const node = svg.append("g").selectAll("g").data(nodes).join("g").attr("class", "node").classed("placeholder", d => d.data.isPlaceholder);
+
+            const circles = node.append("circle")
+                .attr("r", d => nodeRadii[d.depth])
+                .attr("fill", d => d.data.isPlaceholder ? "transparent" : colorScale(d.depth))
+                .style("stroke", d => d.data.isPlaceholder ? "#cbd5e1" : colorScale(d.depth))
+                .style("stroke-width", d => d.data.isPlaceholder ? 1.5 : 1 + (d.data.impact || 1) * 1.5 + "px")
+                .style("opacity", d => d.data.isPlaceholder ? 1 : 0.6 + ((d.data.likelihood || 1) / 5) * 0.4);
+
+            node.filter(d => !d.data.isPlaceholder).append("text").text(d => d.data.label);
+            node.filter(d => d.data.isPlaceholder).append("text").text("+").attr("class", "placeholder-plus");
+
+            // Use the restored add button logic
+            const addButtons = node.filter(d => !d.data.isPlaceholder && d.depth < 3)
+                .append("g").attr("class", "add-button").style("display", currentMode === 'edit' ? 'block' : 'none');
+            addButtons.append("circle").attr("r", 8).attr("fill", "var(--add-button-bg)").attr("cx", d => nodeRadii[d.depth]);
+            addButtons.append("text").text("+").attr("fill", "var(--add-button-text)").attr("font-size", "12px").attr("text-anchor", "middle").attr("dominant-baseline", "middle").attr("x", d => nodeRadii[d.depth]);
+            
+            const simulation = d3.forceSimulation(nodes)
+                .force("collide", d3.forceCollide().radius(d => nodeRadii[d.depth] + 4).strength(1))
+                .on("tick", ticked);
+
+            node.on("click", (event, d) => handleNodeClick(d));
+            addButtons.on("click", (event, d) => { event.stopPropagation(); addNode(d); });
+
+            function ticked() {
+                const attraction = 0.2; 
+                nodes.forEach(d => {
+                    d.vx += (d.homeX - d.x) * attraction;
+                    d.vy += (d.homeY - d.y) * attraction;
+                });
+                node.attr("transform", d => `translate(${d.x},${d.y})`);
+                link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+                crossLink.attr("d", d => {
+                    const sourceNode = nodes.find(n => n.id === d.source), targetNode = nodes.find(n => n.id === d.target);
+                    if (!sourceNode || !targetNode) return '';
+                    return `M${sourceNode.x},${sourceNode.y}S0,0 ${targetNode.x},${targetNode.y}`;
+                });
+            }
+            applyHighlight();
+        }
+        
+        function handleNodeClick(d) {
+            if (currentMode === 'link') {
+                if (d.data.isPlaceholder) return;
+                if (!linkingFirstNode) { linkingFirstNode = d; }
+                else if (linkingFirstNode.id !== d.id) {
+                    if (!crossLinks.some(l => (l.source === linkingFirstNode.id && l.target === d.id) || (l.source === d.id && l.target === linkingFirstNode.id))) {
+                        crossLinks.push({ source: linkingFirstNode.id, target: d.id });
+                    }
+                    linkingFirstNode = null;
+                    initialize();
+                }
+                return;
+            }
+            if (d.data.isPlaceholder) { if (currentMode === 'edit') addNode(d); return; }
+            
+            selectedNode = d;
+            // Toggle selection off if clicking the same node
+            if (activePath.length > 0 && activePath[activePath.length-1] === d.id) {
+                activePath = [];
+                selectedNode = null;
+                detailPanel.classed("visible", false);
+            } else {
+                activePath = d.ancestors().map(n => n.id);
+                updateDetailPanel(d);
+            }
+            applyHighlight();
+        }
+        
+        // Correct addNode logic to use placeholders or add new
+        function addNode(d) {
+            const newLabel = prompt("Enter new consequence label:");
+            if (!newLabel) return;
+            
+            const newId = crypto.randomUUID();
+            const newNode = { id: newId, parentId: d.data.isPlaceholder ? d.data.parentId : d.id, label: newLabel, fullLabel: newLabel, desc: "", impact: 1, likelihood: 1, isPlaceholder: false };
+            
+            if (d.data.isPlaceholder) {
+                // Replace placeholder with new node
+                const index = flatData.findIndex(item => item.id === d.id);
+                if (index > -1) flatData.splice(index, 1);
+            }
+            flatData.push(newNode);
+            initialize();
+        }
+        
+        function applyHighlight() {
+            const linkedNodes = new Set(activePath);
+            // Iteratively add cross-linked nodes to the highlight set
+            let addedInPass = true;
+            while(addedInPass) {
+                addedInPass = false;
+                crossLinks.forEach(l => {
+                    const sourceHighlighted = linkedNodes.has(l.source);
+                    const targetHighlighted = linkedNodes.has(l.target);
+                    if(sourceHighlighted && !targetHighlighted) {
+                        linkedNodes.add(l.target);
+                        addedInPass = true;
+                    }
+                    if(targetHighlighted && !sourceHighlighted) {
+                        linkedNodes.add(l.source);
+                        addedInPass = true;
+                    }
+                });
+            }
+
+            svg.selectAll('.node')
+                .transition().duration(300)
+                .style("opacity", d => activePath.length === 0 || linkedNodes.has(d.id) ? 1.0 : 0.2);
+            svg.selectAll('.link')
+                .transition().duration(300)
+                .style("opacity", d => activePath.length === 0 || (activePath.includes(d.source.id) && activePath.includes(d.target.id)) ? 1.0 : 0.1);
+            svg.selectAll('.cross-link')
+                .transition().duration(300)
+                .style("opacity", d => activePath.length === 0 || (linkedNodes.has(d.source) && linkedNodes.has(d.target)) ? 0.6 : 0.1);
+        }
+
+        function updateDetailPanel(d) {
+            detailPanel.classed("visible", true);
+            const isEdit = currentMode === 'edit';
+            detailPanel.select("#detail-title").property("value", d.data.fullLabel).property("readOnly", !isEdit);
+            detailPanel.select("#detail-meta").text(orderLabels[d.depth]);
+            detailPanel.select("#detail-description").property("value", d.data.desc).property("readOnly", !isEdit);
+            detailPanel.select("#ratings-section").style("display", isEdit ? 'block' : 'none');
+            detailPanel.select("#impact-slider").property("value", d.data.impact || 1);
+            detailPanel.select("#likelihood-slider").property("value", d.data.likelihood || 1);
+        }
+
+        function setMode(mode) {
+            currentMode = mode, linkingFirstNode = null;
+            d3.selectAll(".tool-button").classed("active", false);
+            d3.select(`#${mode}-mode-btn`).classed("active", true);
+            if (mode !== 'edit' || !selectedNode) { 
+                detailPanel.classed("visible", false);
+                selectedNode = null;
+                activePath = [];
+                applyHighlight();
+            }
+            // Use the placeholder-based add logic
+            svg.selectAll(".add-button").style("display", "none"); 
+            if (selectedNode) updateDetailPanel(selectedNode);
+        }
+
+        d3.select("#view-mode-btn").on("click", () => setMode('view'));
+        d3.select("#edit-mode-btn").on("click", () => setMode('edit'));
+        d3.select("#link-mode-btn").on("click", () => setMode('link'));
+        d3.select("#close-panel-btn").on("click", () => {
+             detailPanel.classed("visible", false);
+             selectedNode = null;
+             activePath = [];
+             applyHighlight();
+        });
+        
+        detailPanel.select("#detail-title").on("input", function() { if (selectedNode) { selectedNode.data.fullLabel = this.value; selectedNode.data.label = this.value.length < 10 ? this.value : this.value.substring(0,7) + "..."; initialize(); } });
+        detailPanel.select("#detail-description").on("input", function() { if (selectedNode) selectedNode.data.desc = this.value; });
+        detailPanel.select("#impact-slider").on("input", function() { if (selectedNode) { selectedNode.data.impact = +this.value; initialize(); } });
+        detailPanel.select("#likelihood-slider").on("input", function() { if (selectedNode) { selectedNode.data.likelihood = +this.value; initialize(); } });
+
+        initialize();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Futures – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #F6F7FB; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #2B4C7E; --pri-d: #1A3358;
+  --silver: #9CA8B8; --silver-lt: #C4CDD8; --accent: #6B8EB5;
+  --dark: #151E2E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(246,247,251,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+.hero{padding:100px 40px 56px;max-width:1080px;margin:0 auto}
+.hero-grid{display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:end}
+.hero-desc{font-size:15px;color:var(--body);line-height:1.7;max-width:600px;margin-bottom:20px}
+.hero-title{font-family:var(--sans);font-size:clamp(36px,6vw,66px);line-height:1.1;letter-spacing:-.025em;margin-bottom:16px}
+.hero-title .a{color:var(--pri);font-weight:700}
+.hero-title .b{color:var(--silver);font-weight:400}
+.hero-attr{font-size:13px;color:var(--muted);padding-bottom:8px}
+.hero-attr a{color:var(--pri-d)}
+.hero-side{padding-bottom:8px}
+.hero-side-label{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.hero-side-item{display:block;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:13.5px;color:var(--body);transition:color .2s}
+.hero-side-item:hover{color:var(--pri-d)}
+.hero-side-item .hs-tag{font-size:11px;color:var(--muted);margin-left:6px}
+.hero-side-item:last-child{border-bottom:none}
+
+.wrap-w{max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* SEQUENCE BAND */
+.seq-band{background:linear-gradient(175deg,var(--dark) 0%,#1E2D45 100%);color:#fff;padding:56px 0}
+.seq-band .sec-tag{color:var(--silver-lt)}
+.seq-band .sec-title{color:#fff}
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
+.sec-title{font-family:var(--sans);font-size:clamp(23px,3vw,30px);font-weight:600;line-height:1.22;letter-spacing:-.015em;margin-bottom:16px}
+
+.seq-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:24px}
+.seq-item{padding:16px 12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);text-align:center;transition:background .2s}
+.seq-item:first-child{border-radius:12px 0 0 12px}
+.seq-item:last-child{border-radius:0 12px 12px 0}
+.seq-item:hover{background:rgba(255,255,255,.1)}
+.seq-num{font-size:10px;font-weight:700;color:var(--silver-lt);margin-bottom:4px}
+.seq-label{font-family:var(--sans);font-size:12px;font-weight:600;color:#fff;line-height:1.3}
+
+/* GALLERY */
+.gallery{padding:64px 0}
+.gallery-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.rcard{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:28px 28px 24px;display:flex;flex-direction:column;transition:box-shadow .3s,transform .2s}
+.rcard:hover{box-shadow:0 8px 32px rgba(0,0,0,.07);transform:translateY(-2px)}
+.rcard-tag{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;color:var(--accent)}
+.rcard-title{font-family:var(--sans);font-size:20px;font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:8px}
+.rcard-body{font-size:14px;color:var(--body);line-height:1.6;flex:1}
+.rcard-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--pri-d);margin-top:14px;transition:gap .2s}
+.rcard:hover .rcard-link{gap:9px}
+.rcard.wide{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+
+/* FORESIGHT TOOLS */
+.tools-section{padding:48px 0;background:rgba(43,76,126,.03)}
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+.tool-thumb{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:20px;transition:box-shadow .3s,transform .2s}
+.tool-thumb:hover{box-shadow:0 6px 24px rgba(0,0,0,.06);transform:translateY(-2px)}
+.tool-thumb-title{font-family:var(--sans);font-size:15px;font-weight:600;margin-bottom:6px}
+.tool-thumb-desc{font-size:12.5px;color:var(--body);line-height:1.5}
+.tool-thumb-link{font-size:12px;font-weight:600;color:var(--pri-d);margin-top:8px;display:inline-flex;align-items:center;gap:4px}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px}
+footer a{color:var(--pri-d)}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:860px){
+  .hero{padding:90px 24px 40px}
+  .hero-grid{grid-template-columns:1fr;gap:24px}
+  .wrap-w{padding:0 24px}
+  .gallery-grid{grid-template-columns:1fr}
+  .rcard.wide{grid-template-columns:1fr}
+  .seq-grid{grid-template-columns:1fr;gap:0}
+  .seq-item{border-radius:0!important}
+  .seq-item:first-child{border-radius:12px 12px 0 0!important}
+  .seq-item:last-child{border-radius:0 0 12px 12px!important}
+  .tools-grid{grid-template-columns:1fr}
+  nav{padding:12px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-l">public policy lab<span>&middot; futures</span></a>
+  <div class="nav-r">
+    <a href="#sequence">Framework</a>
+    <a href="#research">Briefs</a>
+    <a href="#tools">Foresight tools</a>
+    <a href="/">All focus areas</a>
+  </div>
+</nav>
+
+<div class="hero">
+<div class="hero-grid">
+  <div>
+    <h1 class="hero-title"><span class="a">strategic </span><span class="b">foresight</span></h1>
+    <p class="hero-desc">The Maldives faces convergent pressures over the next 15 years &ndash; demographic aging, climate acceleration, geopolitical realignment, AI disruption, health system strain &ndash; and the current planning horizon is too short to prepare for any of them. These briefs map what's coming, what the current policy consensus looks like, what other countries do, and what building genuine resilience requires.</p>
+    <div class="hero-attr"><a href="/">public policy lab</a> &middot; policylabmv.com &middot; @policylabmv</div>
+  </div>
+  <div class="hero-side">
+    <div class="hero-side-label">What's here</div>
+    <a href="#research" class="hero-side-item">Trends 2025 &ndash; 2040 <span class="hs-tag">15-year scan</span></a>
+    <a href="#research" class="hero-side-item">Preparing for the unknown <span class="hs-tag">emerging risks</span></a>
+    <a href="#research" class="hero-side-item">Policy consensus <span class="hs-tag">present landscape</span></a>
+    <a href="#research" class="hero-side-item">International practices <span class="hs-tag">what others do</span></a>
+    <a href="#research" class="hero-side-item">Resilience &amp; self-reliance <span class="hs-tag">strategic depth</span></a>
+    <a href="#research" class="hero-side-item">Climate as crisis <span class="hs-tag">diplomacy</span></a>
+    <a href="#research" class="hero-side-item">Health futures <span class="hs-tag">proactive policy</span></a>
+    <a href="#tools" class="hero-side-item">Foresight tools <span class="hs-tag">interactive</span></a>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ ANALYTICAL SEQUENCE ═══════ -->
+<div class="seq-band" id="sequence">
+<div class="wrap-w">
+  <div class="sec-tag reveal" style="color:var(--silver-lt)">Reading order</div>
+  <h2 class="sec-title reveal" style="color:#fff">Seven briefs in analytical sequence</h2>
+  <div class="seq-grid reveal">
+    <a href="policy-consensus.html" class="seq-item"><div class="seq-num">01</div><div class="seq-label">Present consensus</div></a>
+    <a href="trends.html" class="seq-item"><div class="seq-num">02</div><div class="seq-label">What's coming</div></a>
+    <a href="preparing-unknown.html" class="seq-item"><div class="seq-num">03</div><div class="seq-label">What we don't see</div></a>
+    <a href="best-practices.html" class="seq-item"><div class="seq-num">04</div><div class="seq-label">What others do</div></a>
+    <a href="resilient-self-reliant.html" class="seq-item"><div class="seq-num">05</div><div class="seq-label">Build resilience</div></a>
+    <a href="climate-crisis.html" class="seq-item"><div class="seq-num">06</div><div class="seq-label">Climate</div></a>
+    <a href="health-futures.html" class="seq-item"><div class="seq-num">07</div><div class="seq-label">Health</div></a>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ BRIEFS ═══════ -->
+<div class="gallery" id="research">
+<div class="wrap-w">
+  <div class="gallery-label reveal">Policy briefs</div>
+  <div class="gallery-grid">
+
+    <a href="policy-consensus.html" class="rcard reveal">
+      <div class="rcard-tag">Present landscape</div>
+      <div class="rcard-title">Current policy consensus in the Maldives</div>
+      <div class="rcard-body">Where government thinking currently sits across housing, social protection, disability, blue economy, and tourism. The mainstream policy directions from official documents and electoral platforms &ndash; the baseline against which emerging trends and alternative approaches should be measured.</div>
+      <span class="rcard-link">Read brief &rarr;</span>
+    </a>
+
+    <a href="trends.html" class="rcard reveal">
+      <div class="rcard-tag">Strategic foresight</div>
+      <div class="rcard-title">Trends over the next 15 years</div>
+      <div class="rcard-body">Multipolar geopolitics, energy transitions, demographic shifts, health system evolution, and urban form changes &ndash; analysed for what they mean specifically for the Maldives. Emphasis on distributed resilience, local adaptation, and systemic redundancy as organising principles.</div>
+      <span class="rcard-link">Read brief &rarr;</span>
+    </a>
+
+    <a href="preparing-unknown.html" class="rcard reveal">
+      <div class="rcard-tag">Emerging challenges</div>
+      <div class="rcard-title">Preparing for the unknown</div>
+      <div class="rcard-body">Policy challenges that don't yet have constituencies or institutional responses: AI in classrooms displacing teachers, voice cloning enabling new categories of fraud, ambient surveillance through consumer wearables, deepfake pornography as a weapon. What proactive governance looks like before crises force reactive responses.</div>
+      <span class="rcard-link">Read brief &rarr;</span>
+    </a>
+
+    <a href="best-practices.html" class="rcard reveal">
+      <div class="rcard-tag">International evidence</div>
+      <div class="rcard-title">Overview of international best practices</div>
+      <div class="rcard-body">Curated evidence from global experience on inter-island connectivity, housing, urbanisation, and other policy areas where the Maldives faces challenges that other countries have addressed. What worked, what didn't, and what transfers to a small island developing state context.</div>
+      <span class="rcard-link">Read brief &rarr;</span>
+    </a>
+
+    <a href="resilient-self-reliant.html" class="rcard reveal">
+      <div class="rcard-tag">Resilience strategy</div>
+      <div class="rcard-title">Resilient and self-reliant</div>
+      <div class="rcard-body">The case for shifting from efficiency-first to resilience-first operating models. Building strategic depth and redundancy in food, fuel, medicine, and critical systems so that supply chain disruptions, climate shocks, and geopolitical shifts don't become existential crises for a country that imports nearly everything.</div>
+      <span class="rcard-link">Read brief &rarr;</span>
+    </a>
+
+    <a href="climate-crisis.html" class="rcard reveal">
+      <div class="rcard-tag">Climate diplomacy</div>
+      <div class="rcard-title">Treating climate as a crisis</div>
+      <div class="rcard-body">Reframing climate strategy from domestic emissions reduction to diplomatic leverage. The Maldives contributes 0.006% of global emissions &ndash; its climate policy should focus on influencing the major emitters whose decisions actually determine whether the country survives, and on ensuring developing countries can leapfrog to clean energy without passing through the fossil fuel stage.</div>
+      <span class="rcard-link">Read brief &rarr;</span>
+    </a>
+
+    <a href="health-futures.html" class="rcard reveal">
+      <div class="rcard-tag">Proactive health</div>
+      <div class="rcard-title">Health policy issues of the future</div>
+      <div class="rcard-body">Proactive health policy for challenges the current system isn't preparing for: pharmaceutical access reform (drug scheduling, monopoly import practices, GLP-1 agonist planning), population-level interventions (salt substitution, disease prevention), and viral cancer prevention strategies. Acting ahead of crisis points rather than reacting to them.</div>
+      <span class="rcard-link">Read brief &rarr;</span>
+    </a>
+
+  </div>
+</div>
+</div>
+
+<!-- ═══════ FORESIGHT TOOLS ═══════ -->
+<div class="tools-section" id="tools">
+<div class="wrap-w">
+  <div class="sec-tag reveal">Digital foresight tools</div>
+  <h2 class="sec-title reveal">Interactive planning tools for teams and workshops</h2>
+  <p style="font-size:14.5px;color:var(--body);line-height:1.72;margin-bottom:24px;max-width:740px" class="reveal">We developed interactive digital versions of the foresight methodology tools used in planning workshops. Instead of marker-and-flipboard approaches, teams can use these on a shared screen to collaboratively carry out structured planning while still following established foresight principles. Outputs can be saved and combined into a detailed planning report ready at the end of the session.</p>
+  <div class="tools-grid reveal">
+    <a href="tools/drivers.html" class="tool-thumb">
+      <div class="tool-thumb-title">Influence mapper</div>
+      <div class="tool-thumb-desc">Map drivers and their relationships in an interactive matrix. Identify which factors influence which others and trace cascading effects.</div>
+      <span class="tool-thumb-link">Try demo &rarr;</span>
+    </a>
+    <a href="tools/futureswheel.html" class="tool-thumb">
+      <div class="tool-thumb-title">Futures wheel</div>
+      <div class="tool-thumb-desc">Visualise cause-and-effect relationships in a radial diagram. Trace first, second, and third-order consequences of trends and decisions.</div>
+      <span class="tool-thumb-link">Try demo &rarr;</span>
+    </a>
+    <a href="tools/scenario-lab.html" class="tool-thumb">
+      <div class="tool-thumb-title">Scenario lab</div>
+      <div class="tool-thumb-desc">Evaluate strategies across different scenarios using a 2&times;2 matrix. Test which approaches are robust, partial, or fragile under varying conditions.</div>
+      <span class="tool-thumb-link">Try demo &rarr;</span>
+    </a>
+    <a href="tools/strategic-compass.html" class="tool-thumb">
+      <div class="tool-thumb-title">Strategic compass</div>
+      <div class="tool-thumb-desc">Organise strategic factors by PESTLE category (Political, Economic, Social, Technological, Legal, Environmental) in an interactive compass layout.</div>
+      <span class="tool-thumb-link">Try demo &rarr;</span>
+    </a>
+    <a href="tools/root-causes.html" class="tool-thumb">
+      <div class="tool-thumb-title">Vision pathways</div>
+      <div class="tool-thumb-desc">Map causal relationships from root causes through to visions and pathways. Trace how interventions connect problems to desired outcomes.</div>
+      <span class="tool-thumb-link">Try demo &rarr;</span>
+    </a>
+    <a href="tools/policy-analysis.html" class="tool-thumb">
+      <div class="tool-thumb-title">Planning report</div>
+      <div class="tool-thumb-desc">A functional demo of how the individual tools combine into a complete planning report. Embeds each tool's outputs with narrative structure, ready for export at the end of a workshop session.</div>
+      <span class="tool-thumb-link">Try demo &rarr;</span>
+    </a>
+  </div>
+</div>
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div>Futures is one of several <a href="/">focus areas</a></div>
+</footer>
+
+<script>
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+</script>
+</body>
+</html>

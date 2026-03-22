@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Analysis Report</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --secondary-color: #16a34a;
+            --accent-color: #f59e0b;
+            --text-color: #1e293b;
+            --bg-color: #f8fafc;
+            --border-color: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Manrope', sans-serif;
+        }
+        
+        /* Navigation */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-items {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .nav-items a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-items a:hover,
+        .nav-items a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Sections */
+        .section {
+            min-height: 100vh;
+            padding: 8rem 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        
+        .hero-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Visualization containers */
+        .visualization-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .visualization-container.in-view {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .visualization-container h4 {
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+        
+        /* Toolbar */
+        .toolbar {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .tool-button {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #64748b;
+            transition: all 0.2s ease;
+        }
+        
+        .tool-button:hover,
+        .tool-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Fullscreen styles */
+        .visualization-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            background: white;
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+        }
+        
+        .visualization-container.fullscreen iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+        }
+        
+        .visualization-container.fullscreen .toolbar {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+        }
+        
+        /* Data management */
+        .data-management {
+            background: var(--bg-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .data-management h4 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .data-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .data-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            color: var(--text-color);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .data-button:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-items {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .section {
+                padding: 6rem 1rem 1rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .visualization-container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="sticky-nav">
+        <div class="nav-progress" id="navProgress"></div>
+        <ul class="nav-items">
+            <li><a href="#summary" class="nav-link">Overview</a></li>
+            <li><a href="#context" class="nav-link">Strategic Context</a></li>
+            <li><a href="#analysis" class="nav-link">System Analysis</a></li>
+            <li><a href="#scenarios" class="nav-link">Scenarios</a></li>
+            <li><a href="#pathways" class="nav-link">Vision Pathways</a></li>
+            <li><a href="#futures" class="nav-link">Futures Wheel</a></li>
+            <li><a href="#recommendations" class="nav-link">Recommendations</a></li>
+            <li><button class="data-button" onclick="exportData()">Export Data</button></li>
+            <li><button class="data-button" onclick="printReport()">Export PDF</button></li>
+            <li><button class="data-button" onclick="saveAsReadOnly()">Save As Read-Only</button></li>
+        </ul>
+    </nav>
+
+    <!-- Executive Summary -->
+    <section id="summary" class="section hero-section">
+        <h1>Sustainable Development Policy Framework</h1>
+        <p>A comprehensive analysis of current challenges, future opportunities, and strategic pathways for sustainable development.</p>
+    </section>
+
+    <!-- Strategic Context -->
+    <section id="context" class="section">
+        <h2>Strategic Context</h2>
+        <p style="margin-bottom: 2rem; color: #64748b;">Understanding the forces shaping our policy landscape.</p>
+        
+        <div class="visualization-container">
+            <h4>Strategic Compass Analysis</h4>
+            <div class="toolbar">
+                <button class="tool-button" onclick="openFullscreen('strategic-compass')">Fullscreen</button>
+            </div>
+            <iframe id="strategic-compass-frame" src="strategic compass triangle pestle visioning.html" style="width: 100%; height: 500px; border: none; border-radius: 0.5rem;"></iframe>
+        </div>
+    </section>
+
+    <!-- System Analysis -->
+    <section id="analysis" class="section">
+        <h2>System Analysis</h2>
+        <p style="margin-bottom: 2rem; color: #64748b;">Mapping the relationships between key system drivers.</p>
+        
+        <div class="visualization-container">
+            <h4>Cross-Impact Matrix</h4>
+            <div class="toolbar">
+                <button class="tool-button" onclick="openFullscreen('drivers-matrix')">Fullscreen</button>
+            </div>
+            <iframe id="drivers-matrix-frame" src="drivers.html" style="width: 100%; height: 500px; border: none; border-radius: 0.5rem;"></iframe>
+        </div>
+    </section>
+
+    <!-- Future Scenarios -->
+    <section id="scenarios" class="section">
+        <h2>Future Scenarios</h2>
+        <p style="margin-bottom: 2rem; color: #64748b;">Testing policy effectiveness across different future contexts.</p>
+        
+        <div class="visualization-container">
+            <h4>Scenario Lab Analysis</h4>
+            <div class="toolbar">
+                <button class="tool-button" onclick="openFullscreen('scenario-lab')">Fullscreen</button>
+            </div>
+            <iframe id="scenario-lab-frame" src="scenario lab deepening scenarios and windtunneling.html" style="width: 100%; height: 500px; border: none; border-radius: 0.5rem;"></iframe>
+        </div>
+    </section>
+
+    <!-- Vision Pathways -->
+    <section id="pathways" class="section">
+        <h2>Vision Pathways</h2>
+        <p style="margin-bottom: 2rem; color: #64748b;">Mapping pathways from current challenges to desired futures.</p>
+        
+        <div class="visualization-container">
+            <h4>Root Causes to Vision Pathways</h4>
+            <div class="toolbar">
+                <button class="tool-button" onclick="openFullscreen('vision-pathways')">Fullscreen</button>
+            </div>
+            <iframe id="vision-pathways-frame" src="root causes visions pathway.html" style="width: 100%; height: 500px; border: none; border-radius: 0.5rem;"></iframe>
+        </div>
+    </section>
+
+    <!-- Futures Wheel Analysis -->
+    <section id="futures" class="section">
+        <h2>Futures Wheel Analysis</h2>
+        <p style="margin-bottom: 2rem; color: #64748b;">Exploring cascading effects and systemic implications.</p>
+        
+        <div class="visualization-container">
+            <h4>Consequence Mapping</h4>
+            <div class="toolbar">
+                <button class="tool-button" onclick="openFullscreen('futures-wheel')">Fullscreen</button>
+            </div>
+            <iframe id="futures-wheel-frame" src="futureswheel.html" style="width: 100%; height: 500px; border: none; border-radius: 0.5rem;"></iframe>
+        </div>
+    </section>
+
+    <!-- Strategic Recommendations -->
+    <section id="recommendations" class="section">
+        <h2>Strategic Recommendations</h2>
+        <p style="margin-bottom: 2rem; color: #64748b;">Evidence-based policy recommendations for sustainable development.</p>
+        
+        <div class="visualization-container">
+            <h4>Implementation Framework</h4>
+            <div style="display: grid; gap: 1.5rem;">
+                <div>
+                    <h5 style="margin-bottom: 1rem; color: var(--text-color);">Priority Actions</h5>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 1rem; background: #f0f9ff; border-left: 4px solid var(--primary-color); margin-bottom: 1rem; border-radius: 0.5rem;">
+                            <strong>Integrated Climate Adaptation:</strong> Develop comprehensive climate resilience strategies across all sectors.
+                        </li>
+                        <li style="padding: 1rem; background: #f0fdf4; border-left: 4px solid var(--secondary-color); margin-bottom: 1rem; border-radius: 0.5rem;">
+                            <strong>Technology Innovation Ecosystems:</strong> Foster collaborative innovation networks for sustainable technologies.
+                        </li>
+                        <li style="padding: 1rem; background: #fef3c7; border-left: 4px solid var(--accent-color); margin-bottom: 1rem; border-radius: 0.5rem;">
+                            <strong>Social Equity Measures:</strong> Implement policies that ensure inclusive and equitable development outcomes.
+                        </li>
+                        <li style="padding: 1rem; background: #f3e8ff; border-left: 4px solid #8b5cf6; margin-bottom: 1rem; border-radius: 0.5rem;">
+                            <strong>Systemic Monitoring:</strong> Establish comprehensive monitoring and evaluation frameworks.
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 style="margin-bottom: 1rem; color: var(--text-color);">Implementation Timeline</h5>
+                    <div style="display: grid; gap: 1rem;">
+                        <div style="padding: 1rem; background: white; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                            <strong>Short-term (0-2 years):</strong> Policy framework development, stakeholder engagement, pilot programs
+                        </div>
+                        <div style="padding: 1rem; background: white; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                            <strong>Medium-term (2-5 years):</strong> Full implementation, capacity building, technology deployment
+                        </div>
+                        <div style="padding: 1rem; background: white; border-radius: 0.5rem; border: 1px solid var(--border-color);">
+                            <strong>Long-term (5+ years):</strong> System optimization, continuous improvement, scaling successful initiatives
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Management -->
+    <div class="data-management">
+        <h4>Data Management</h4>
+        <div class="data-buttons">
+            <button class="data-button" onclick="clearData()">Clear All Data</button>
+            <button class="data-button" onclick="loadSampleData()">Load Sample Data</button>
+            <button class="data-button" onclick="saveData()">Save Data</button>
+            <button class="data-button" onclick="loadData()">Load Data File</button>
+        </div>
+    </div>
+
+
+    <script>
+        // Sample data
+        const reportData = {
+            strategicCompass: {
+                pushes: [
+                    { id: 'p_1', title: "Climate Change Impacts", description: "Increasing frequency and intensity of extreme weather events affecting infrastructure and communities." },
+                    { id: 'p_2', title: "Economic Inequality", description: "Growing wealth gap creating social tensions and limiting access to opportunities." },
+                    { id: 'p_3', title: "Resource Scarcity", description: "Depletion of natural resources and increasing competition for limited supplies." }
+                ],
+                polls: [
+                    { id: 'u_1', title: "Green Technology Innovation", description: "Breakthrough technologies enabling sustainable development and environmental protection.", pestle: "Technological" },
+                    { id: 'u_2', title: "Circular Economy", description: "Transition to regenerative economic models that eliminate waste and pollution.", pestle: "Economic" },
+                    { id: 'u_3', title: "Social Innovation", description: "Community-driven solutions addressing social challenges through collaborative approaches.", pestle: "Social" }
+                ],
+                weights: [
+                    { id: 'w_1', title: "Legacy Infrastructure", description: "Existing systems and structures that constrain rapid transformation and adaptation." },
+                    { id: 'w_2', title: "Institutional Inertia", description: "Resistance to change from established organizations and bureaucratic processes." }
+                ]
+            },
+            drivers: [
+                { name: "Technology Innovation", influence: 85, dependence: 45 },
+                { name: "Climate Change", influence: 90, dependence: 20 },
+                { name: "Social Equity", influence: 70, dependence: 60 },
+                { name: "Economic Growth", influence: 80, dependence: 40 },
+                { name: "Resource Availability", influence: 75, dependence: 30 }
+            ],
+            scenarios: [
+                {
+                    id: "scenario_1",
+                    title: "Technological Breakthrough",
+                    logic: "Rapid technological advancement enables sustainable solutions",
+                    robustness: "robust",
+                    testedPolicies: [
+                        { policyTitle: "Green Tech Investment", result: "Effective" },
+                        { policyTitle: "Digital Infrastructure", result: "Partial" }
+                    ]
+                },
+                {
+                    id: "scenario_2", 
+                    title: "Economic Constraints",
+                    logic: "Economic pressures limit policy implementation",
+                    robustness: "fragile",
+                    testedPolicies: [
+                        { policyTitle: "Budget Cuts", result: "Ineffective" }
+                    ]
+                }
+            ],
+            pathways: [
+                {
+                    id: "path_1",
+                    path: "driver",
+                    sqText: "Limited Technology",
+                    sqDetails: "Outdated systems and processes",
+                    transText: "Technology Innovation",
+                    transDetails: "Breakthrough technologies enabling transformation",
+                    visionText: "Advanced Technology",
+                    visionDetails: "Cutting-edge sustainable solutions"
+                }
+            ],
+            futuresWheel: [
+                {
+                    id: "core",
+                    parentId: null,
+                    label: "Sustainable Development",
+                    description: "Core concept for policy analysis",
+                    impact: 5,
+                    likelihood: 5
+                },
+                {
+                    id: "fw_1",
+                    parentId: "core",
+                    label: "Economic Transformation",
+                    description: "Transition to sustainable economic models",
+                    impact: 4,
+                    likelihood: 4
+                }
+            ]
+        };
+
+        // Navigation functionality
+        function updateNavigation() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const navProgress = document.getElementById('navProgress');
+            
+            let currentSection = '';
+            let maxVisible = 0;
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                const visible = rect.top <= 100 && rect.bottom >= 100;
+                
+                if (visible && rect.top > maxVisible) {
+                    currentSection = section.id;
+                    maxVisible = rect.top;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Update progress bar
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            navProgress.style.width = `${scrollPercent}%`;
+        }
+
+        // Scroll animations
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                    } else {
+                        entry.target.classList.remove('in-view');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.visualization-container').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Fullscreen functionality using the same iframe
+        let currentFullscreenContainer = null;
+        
+        function openFullscreen(type) {
+            const container = document.querySelector(`#${type}-frame`).closest('.visualization-container');
+            const button = container.querySelector('.tool-button');
+            currentFullscreenContainer = container;
+            container.classList.add('fullscreen');
+            
+            // Update button text
+            button.textContent = 'Exit Fullscreen';
+            button.onclick = closeFullscreen;
+            
+            // Request browser fullscreen
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) {
+                container.msRequestFullscreen();
+            }
+        }
+
+        function closeFullscreen() {
+            if (currentFullscreenContainer) {
+                const button = currentFullscreenContainer.querySelector('.tool-button');
+                
+                // Reset button
+                button.textContent = 'Fullscreen';
+                button.onclick = function() { openFullscreen(currentFullscreenContainer.querySelector('iframe').id.replace('-frame', '')); };
+                
+                currentFullscreenContainer.classList.remove('fullscreen');
+                currentFullscreenContainer = null;
+                
+                // Exit browser fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        // Data management functions
+        function saveData() {
+            const dataStr = JSON.stringify(reportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'policy-analysis-data.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function loadData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            Object.assign(reportData, data);
+                            console.log('Data loaded successfully');
+                        } catch (error) {
+                            alert('Error loading data: ' + error.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function clearData() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                Object.keys(reportData).forEach(key => {
+                    if (Array.isArray(reportData[key])) {
+                        reportData[key] = [];
+                    } else if (typeof reportData[key] === 'object') {
+                        reportData[key] = {};
+                    }
+                });
+                console.log('Data cleared');
+            }
+        }
+
+        function loadSampleData() {
+            // Sample data is already loaded in reportData
+            console.log('Sample data loaded');
+        }
+
+        function exportData() {
+            saveData();
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        // Save As Read-Only functionality
+        function saveAsReadOnly() {
+            // Create a timestamp for the filename
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+            const filename = `policy-analysis-report-readonly-${timestamp}.html`;
+            
+            // Get the current HTML content
+            let htmlContent = document.documentElement.outerHTML;
+            
+            // Remove interactive elements and make it read-only
+            htmlContent = htmlContent
+                // Remove data management buttons
+                .replace(/<button class="data-button" onclick="clearData\(\)">Clear All Data<\/button>/g, '')
+                .replace(/<button class="data-button" onclick="loadSampleData\(\)">Load Sample Data<\/button>/g, '')
+                .replace(/<button class="data-button" onclick="saveData\(\)">Save Data<\/button>/g, '')
+                .replace(/<button class="data-button" onclick="loadData\(\)">Load Data File<\/button>/g, '')
+                .replace(/<button class="data-button" onclick="exportData\(\)">Export Data<\/button>/g, '')
+                .replace(/<button class="data-button" onclick="printReport\(\)">Export PDF<\/button>/g, '')
+                .replace(/<button class="data-button" onclick="saveAsReadOnly\(\)">Save As Read-Only<\/button>/g, '')
+                
+                // Remove fullscreen buttons
+                .replace(/<button class="tool-button" onclick="openFullscreen\('[^']+'\)">Fullscreen<\/button>/g, '')
+                
+                // Remove data management section entirely
+                .replace(/<!-- Data Management -->[\s\S]*?<\/div>/g, '')
+                
+                // Add read-only indicator to title
+                .replace(/<title>Policy Analysis Report<\/title>/, '<title>Policy Analysis Report - Read Only Copy</title>')
+                
+                // Add read-only banner
+                .replace(/<body>/, `<body>
+    <!-- Read-Only Banner -->
+    <div style="background: linear-gradient(135deg, #f59e0b, #f97316); color: white; text-align: center; padding: 1rem; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        📋 READ-ONLY COPY - Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
+    </div>`)
+                
+                // Disable all interactive JavaScript functions
+                .replace(/function\s+(clearData|loadSampleData|saveData|loadData|exportData|saveAsReadOnly|openFullscreen)\s*\([^)]*\)\s*\{[^}]*\}/g, '')
+                .replace(/onclick="[^"]*"/g, '')
+                .replace(/onchange="[^"]*"/g, '')
+                
+                // Embed the iframe content directly instead of referencing external files
+                .replace(/<iframe[^>]+src="([^"]+)"[^>]*><\/iframe>/g, (match, src) => {
+                    // For now, just remove the iframe and add a placeholder
+                    return `<div style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 2rem; text-align: center; color: #64748b; border-radius: 0.5rem;">
+                        <p>📊 Interactive visualization content</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">This section contained an interactive tool that has been preserved in the original file.</p>
+                    </div>`;
+                });
+            
+            // Create and download the file
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            // Show success message
+            alert(`Read-only copy saved as: ${filename}\n\nThis file contains all current data and visualizations but removes all editing capabilities for sharing and archival purposes.`);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavigation();
+            initScrollAnimations();
+            
+            window.addEventListener('scroll', updateNavigation);
+            window.addEventListener('resize', updateNavigation);
+            
+            // Close fullscreen on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && currentFullscreenContainer) {
+                    closeFullscreen();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pedagogical toolkit for math fundamentals – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
+  --dark: #2A3042;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+.wrap{max-width:740px;margin:0 auto;padding:0 40px}
+.page-header{padding:100px 40px 40px;max-width:740px;margin:0 auto}
+.page-header .tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
+.page-header h1{font-family:var(--sans);font-size:clamp(28px,4vw,40px);line-height:1.2;letter-spacing:-.02em;margin-bottom:16px}
+
+.content{max-width:740px;margin:0 auto;padding:0 40px 60px}
+.content h2{font-family:var(--sans);font-size:22px;font-weight:600;line-height:1.25;margin:36px 0 14px;letter-spacing:-.01em}
+.content p{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:16px}
+.content ul,.content ol{font-size:14.5px;color:var(--body);line-height:1.75;margin:0 0 16px 24px}
+.content li{margin-bottom:6px}
+.content strong{color:var(--fg)}
+.content em{font-style:italic}
+.content table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13.5px}
+.content th{background:var(--dark);color:#fff;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.content td{padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.05);vertical-align:top;line-height:1.5;color:var(--body)}
+.content .figure-note{font-size:13px;color:var(--muted);margin:-8px 0 24px;font-style:italic}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:740px;margin-left:auto;margin-right:auto}
+footer a{color:var(--pri-d)}
+
+@media(max-width:600px){
+  .page-header,.content,.wrap{padding-left:20px;padding-right:20px}
+  nav{padding:12px 16px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; society</span></a>
+  <div class="nav-r">
+    <a href="index.html">Overview</a>
+    <a href="index.html#tools">Tools</a>
+    <a href="index.html#data">Data</a>
+    <a href="/">Main site</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="tag">EDUCATION &middot; TEACHING TOOLS</div>
+  <h1>Pedagogical toolkit for math fundamentals</h1>
+</div>
+
+<div class="content">
+  <p>Keep the whole fixed. Mark a point once and name it four ways: fraction, decimal, percent, and a short ratio description. Students learn that 3/5, 0.6, and 60% are the same location. Conversions become a relabeling exercise rather than a new topic.</p>
+
+  <h2>Fractions times-tables</h2>
+
+  <p>Think of this as the fractions times table. Memorize halves, quarters, fifths, and tenths first; add thirds and eighths next. Two minutes a day builds recall and frees working memory for problem setup.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Fraction</th>
+        <th>Decimal</th>
+        <th>Percent</th>
+        <th>Why it matters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1/2</td><td>0.5</td><td>50%</td><td>Centre of the bar</td></tr>
+      <tr><td>1/4</td><td>0.25</td><td>25%</td><td>Quarter points</td></tr>
+      <tr><td>3/4</td><td>0.75</td><td>75%</td><td>Quarter points</td></tr>
+      <tr><td>1/5</td><td>0.2</td><td>20%</td><td>Scales cleanly to 100</td></tr>
+      <tr><td>2/5</td><td>0.4</td><td>40%</td><td></td></tr>
+      <tr><td>3/5</td><td>0.6</td><td>60%</td><td></td></tr>
+      <tr><td>4/5</td><td>0.8</td><td>80%</td><td></td></tr>
+      <tr><td>1/10</td><td>0.1</td><td>10%</td><td>Tenth pattern</td></tr>
+      <tr><td>3/10</td><td>0.3</td><td>30%</td><td>Tenth pattern</td></tr>
+      <tr><td>7/10</td><td>0.7</td><td>70%</td><td>Tenth pattern</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Concrete and familiar examples when introducing topics</h2>
+
+  <p>Use contexts students already feel. If a base recipe uses 100 g of rice and 300 g of water, multiplying the batch by five multiplies both amounts by five &rarr; 500 g rice and 1500 g water. Multiply by ten for a large group &rarr; 1000 g rice and 3000 g water. The ratio is the same; only the scale changes.</p>
+
+  <p>Unit rates are the same picture with one line scaled to 1. If one person needs about 100 g of rice, ten people need 1000 g. To cook for 6 people, match 6 on the People line and read 600 g on the Rice line.</p>
+
+  <p>Multicomponent recipes scale the same way. A tuna sandwich might take 60 g tuna, 20 g mayonnaise, 5 g chili, and two slices of bread. For six sandwiches, multiply every ingredient by six. The ratios stay constant while the totals grow.</p>
+
+  <h2>Algebra as containers</h2>
+
+  <p>Students get lost when letters look like just symbols instead of developing an understanding that each letter just represents an unknown but very real quantity. To represent the container approach while retaining the second principle of using concrete and easily grasped real-world examples, we start with donuts as an example. Boxes of donuts naturally come in fixed pack sizes (1 individual donut, 2 or 4 or 6 donut packs, or 12 donuts in a box) and stores sometimes use colored paper bags.</p>
+
+  <h2>Like terms and unlike terms (with donuts)</h2>
+
+  <p>We can give an example where the donut shop always gives out the box of donuts in a colored paper bag, where they use different colors for the different sizes of boxes. So we know that all blue bags hold the same count, all yellow bags hold the same count, but you can't tell from the outside &ndash; exactly like how we can know x and y represent some number, that every instance of x represents that number and every instance of y represents that number, and we just don't know what that number is so we use a letter as just a placeholder.</p>
+
+  <p>A common area of confusion for students is why the different letters can't be added together when different numbers can, what exactly the difference is and why it has to be that way. The containers frame makes it more intuitive to understand why we can't add or subtract</p>
+
+  <p>If someone hands you three blue bags and you open one and see a 2-pack, you know three blue bags mean 2+2+2 = 6 donuts &ndash; that's 3&times;2. But if you have two blue bags and one yellow bag, that doesn't give you the information to add up a total until you also find out how many are in the yellow bag. That's why 2x + x is 3x but 2x + y isn't.</p>
+
+  <p class="figure-note">Figure 3. Like bags add; unlike bags wait.</p>
+
+  <h2>Inferring the unknown from a total</h2>
+
+  <p>This can then also be used to represent solving algebraic equations. In this example, if you bring two blue bags and a yellow bag to a party, and the host brings out a plate of 10 donuts after unpacking, you can work out how many donuts were in the yellow bag. Blue bags are 2 each, so 2&times;2 = 4. This means that 4 + yellow bag = 10. That forces the yellow bag to be 6 because 10 &minus; 4 = 6. In symbols: with x=2, 2x + y = 10 implies y = 6.</p>
+
+  <p class="figure-note">Figure 4. Subtract the known bags; the remainder is the unknown bag.</p>
+
+  <h2>Mixing bags and loose donuts</h2>
+
+  <p>The expression 2x + 3 reads as two x-bags and three loose donuts. If x is a blue 2-pack, that's 2&middot;2 + 3 = 7. Students see why numbers and letters can sit in the same expression: they all still refer to actual values in real life, it's just whether we can "see" what the number is or if we're just using the placeholder</p>
+
+  <p class="figure-note">Figure 5. 2x + 3 as two bags plus three loose donuts.</p>
+
+  <h2>Distribution as party kits</h2>
+
+  <p>3(x + 2) can be thought of as three identical party kits. Each kit has one bag and two loose donuts. Total = three bags and six donuts &rarr; 3x + 6. This stops the common mistake of calling it x + 5.</p>
+
+  <p class="figure-note">Figure 6. Kits make distribution obvious.</p>
+
+  <h2>Products as nested trays</h2>
+
+  <p>x&middot;x builds a tray (x&sup2;) that holds x bags, each with x donuts. Then 3x&middot;2x means six such trays &rarr; 6x&sup2;. Exponents feel like counts of trays, not a symbol trick.</p>
+
+  <p class="figure-note">Figure 7. x&sup2; as a tray of x bags; scaling trays multiplies counts.</p>
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Male', Maldives</div>
+  <div><a href="index.html">&larr; Back to Society overview</a></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Space usage by street parking in Male' City &ndash; Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAFAF7;
+  --card: #fff;
+  --fg: #1a1a1a;
+  --body: #4a4a46;
+  --muted: #8a8a82;
+  --teal: #6B9E8D;
+  --teal-d: #4A7D6D;
+  --coral: #CC7B6F;
+  --coral-lt: #D9A49D;
+  --sage: #8A9A8E;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--fg); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,250,247,.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,.04); }
+.nav-l { font-size: 13px; font-weight: 700; color: var(--teal-d); }
+.nav-l span { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 4px; }
+.nav-r { display: flex; gap: 20px; }
+.nav-r a { font-size: 12px; color: var(--muted); font-weight: 500; transition: color .2s; }
+.nav-r a:hover { color: var(--fg); }
+
+/* HERO */
+.hero { padding: 110px 40px 48px; max-width: 780px; margin: 0 auto; }
+.hero-tag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+.hero h1 { font-family: var(--sans); font-size: clamp(30px, 5vw, 44px); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; color: var(--fg); margin-bottom: 18px; }
+.hero-summary { font-size: 17px; color: var(--body); line-height: 1.7; margin-bottom: 12px; }
+.hero-meta { font-size: 13px; color: var(--muted); padding-top: 8px; border-top: 1px solid rgba(0,0,0,.06); }
+.hero-meta a { color: var(--teal-d); }
+
+/* WRAPS */
+.wrap { max-width: 740px; margin: 0 auto; padding: 0 40px; }
+.wrap-w { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
+
+/* SECTIONS */
+.section { padding: 52px 0; border-top: 1px solid rgba(0,0,0,.06); }
+.sec-tag { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+.sec-title { font-family: var(--sans); font-size: clamp(23px, 3vw, 30px); font-weight: 600; line-height: 1.22; letter-spacing: -.015em; margin-bottom: 16px; }
+p.body { font-size: 15px; color: var(--body); line-height: 1.72; margin-bottom: 15px; }
+p.body:last-child { margin-bottom: 0; }
+
+/* STAT ROW */
+.stats { display: flex; gap: 32px; margin: 24px 0; flex-wrap: wrap; }
+.stat { flex: 1; min-width: 140px; }
+.stat-n { font-family: var(--serif); font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--teal-d); line-height: 1.1; }
+.stat-l { font-size: 13px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+/* STAT CARDS */
+.stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 28px 0; }
+.stat-card { background: var(--card); border: 1px solid rgba(0,0,0,.06); border-radius: 10px; padding: 20px 22px; }
+.stat-card .stat-n { font-size: clamp(26px, 3.5vw, 36px); margin-bottom: 4px; }
+.stat-card .stat-l { font-size: 13.5px; color: var(--body); line-height: 1.5; }
+.stat-card.coral .stat-n { color: var(--coral); }
+
+/* SUBSECTION */
+.subsec { margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(0,0,0,.04); }
+.subsec-t { font-family: var(--sans); font-size: 21px; font-weight: 600; line-height: 1.25; letter-spacing: -.01em; margin-bottom: 12px; }
+
+/* METHODOLOGY */
+.method-step { display: flex; gap: 14px; margin-bottom: 16px; align-items: baseline; }
+.method-num { font-family: var(--serif); font-size: 18px; font-weight: 700; color: var(--teal-d); min-width: 24px; flex-shrink: 0; line-height: 1.72; }
+.method-text { font-size: 15.5px; color: var(--body); line-height: 1.72; }
+
+/* CALLOUT */
+.callout { background: var(--card); border: 1px solid rgba(0,0,0,.06); border-radius: 10px; padding: 22px 26px; margin: 24px 0; border-left: 3px solid var(--teal); }
+.callout p { font-size: 14.5px; color: var(--body); line-height: 1.65; margin-bottom: 8px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+
+/* FORMULA */
+.formula-block { background: var(--card); border: 1px solid rgba(0,0,0,.06); border-radius: 10px; padding: 20px 24px; margin: 20px 0; font-size: 14px; color: var(--body); line-height: 1.8; }
+.formula-block .formula-line { padding: 3px 0; display: flex; gap: 8px; }
+.formula-block .formula-label { color: var(--fg); font-weight: 600; min-width: 220px; flex-shrink: 0; }
+.formula-block .formula-expr { color: var(--muted); font-family: 'SF Mono', 'Consolas', monospace; font-size: 13px; }
+
+/* SPACE COMPARISON */
+.space-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+.space-box { background: var(--card); border: 1px solid rgba(0,0,0,.06); border-radius: 10px; padding: 24px; text-align: center; }
+.space-box .big-num { font-family: var(--serif); font-size: 42px; font-weight: 700; color: var(--teal-d); line-height: 1; }
+.space-box .big-unit { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.space-box .big-desc { font-size: 14px; color: var(--body); margin-top: 10px; line-height: 1.5; }
+.space-box.alt .big-num { color: var(--coral); }
+
+/* BULLET LIST */
+.blist { margin: 14px 0 18px; padding-left: 0; list-style: none; }
+.blist li { font-size: 15.5px; color: var(--body); line-height: 1.72; margin-bottom: 10px; padding-left: 18px; position: relative; }
+.blist li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.blist .sub { margin-top: 8px; margin-bottom: 0; padding-left: 0; }
+.blist .sub li { font-size: 14.5px; padding-left: 16px; margin-bottom: 6px; }
+.blist .sub li::before { width: 5px; height: 5px; background: var(--sage); top: 10px; }
+
+/* POLICY */
+.policy-group { margin: 24px 0; }
+.policy-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; }
+
+/* BACK LINK */
+.back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--teal-d); margin-top: 14px; transition: gap .2s; }
+.back:hover { gap: 10px; }
+
+/* FOOTER */
+footer { margin-top: 24px; padding: 28px 40px; border-top: 1px solid rgba(0,0,0,.06); display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 8px; }
+footer a { color: var(--teal-d); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+.reveal.vis { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  .hero { padding: 90px 24px 36px; }
+  .wrap, .wrap-w { padding: 0 24px; }
+  nav { padding: 12px 20px; }
+  footer { padding: 24px 20px; }
+  .section { padding: 40px 0; }
+  .stat-cards { grid-template-columns: 1fr 1fr; }
+  .space-compare { grid-template-columns: 1fr 1fr; }
+  .formula-block .formula-line { flex-direction: column; gap: 2px; }
+  .formula-block .formula-label { min-width: 0; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 28px; }
+  .stats { gap: 20px; }
+  .stat-cards { grid-template-columns: 1fr; }
+  .space-compare { grid-template-columns: 1fr; }
+  .nav-r { gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-l">public policy lab<span>&middot; cities</span></a>
+  <div class="nav-r">
+    <a href="index.html">Cities home</a>
+    <a href="/">PPL home</a>
+    <a href="/">Focus areas</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag reveal">Research findings</div>
+  <h1 class="reveal">Space usage by street parking in Mal&eacute; City</h1>
+  <p class="hero-summary reveal">Public Policy Lab conducted this research to provide concrete data on how street space is allocated in Mal&eacute; &ndash; how much is occupied by parked vehicles, how this affects mobility and safety, and what the implications are for urban design.</p>
+  <p class="hero-summary reveal">This short paper outlines the results of data collection on the space taken up by street parking in Mal&eacute; City. The study involved measuring how the widths of 27 different streets were used, with measurements from points across the length of each street sampled, to analyse how the total width of streets were utilized.</p>
+  <div class="hero-meta reveal"><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+</div>
+
+<!-- CONTEXT -->
+<div class="section">
+<div class="wrap">
+  <div class="sec-tag reveal">Context</div>
+  <h2 class="sec-title reveal">A general problem of space</h2>
+  <p class="body reveal">This is a short study to highlight a general problem: the amount of space in our public areas and streets which has become unusable from a human-centric perspective because it is occupied by parked vehicles.</p>
+  <p class="body reveal">This issue is exacerbated by the high rate of vehicle ownership in Mal&eacute;. Considering that vehicles are only in use for a small percentage of the day, they spend most of their time doing nothing except taking up physical space on our streets. Parked vehicles also constrict the remaining street width, leading to increased traffic, reducing ability to implement comprehensive public transport, causing urban heat sink effects, and even preventing access for cars or ambulances in many smaller streets.</p>
+</div>
+</div>
+
+<!-- METHODOLOGY -->
+<div class="section" id="methodology">
+<div class="wrap">
+  <div class="sec-tag reveal">Methodology</div>
+  <h2 class="sec-title reveal">How the measurements were taken</h2>
+  <p class="body reveal">These numbers are not a numerical measurement of the total percentage of street area taken up in the city. For future studies wishing to do a more thorough analysis of the overall square footage of streets and how they are used, drone photography might be a way forward. We attempted other methods like analysing from satellite images, but between things like coverage by trees or building angles in many streets and a low resolution of images, calculating this was not possible.</p>
+  <p class="body reveal">Our approach with limited resources was manual sampling by driving to a shortlisted set of streets near randomly selected coordinates, making sure to select different types of streets from very narrow ones to larger main roads. We took 133 samples from 27 streets. This process took around 19 hours. For effective use of laser rulers, it had to be done at night. For higher-traffic areas, sometimes we had to wait for a lull in traffic to take measurements.</p>
+</div>
+
+<div class="wrap-w">
+  <div class="stats reveal">
+    <div class="stat"><div class="stat-n">133</div><div class="stat-l">samples taken</div></div>
+    <div class="stat"><div class="stat-n">27</div><div class="stat-l">streets measured</div></div>
+    <div class="stat"><div class="stat-n">19 hrs</div><div class="stat-l">of fieldwork</div></div>
+    <div class="stat"><div class="stat-n">Night</div><div class="stat-l">measurements for accuracy</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="subsec reveal">
+    <h3 class="subsec-t">Measurements taken at each point</h3>
+    <p class="body">At each sample location, five measurements were taken with a laser ruler held at successive points across the street width:</p>
+    <div style="margin: 18px 0;">
+      <div class="method-step">
+        <div class="method-num">1.</div>
+        <div class="method-text">The total width of the street from near wall to far wall</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">2.</div>
+        <div class="method-text">End of first pavement to the far wall</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">3.</div>
+        <div class="method-text">Around where parked vehicles ended on one side to the far wall</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">4.</div>
+        <div class="method-text">Around where parked vehicles began on the other side to the far wall</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">5.</div>
+        <div class="method-text">Start of second pavement to the far wall</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsec reveal">
+    <h3 class="subsec-t">Physical measurement positions</h3>
+    <p class="body">Physically, this means the laser pointer was held at the following points (assuming the near side is the left, with the measurement taker moving from left to right):</p>
+    <div style="margin: 18px 0;">
+      <div class="method-step">
+        <div class="method-num">A.</div>
+        <div class="method-text">Against the left wall</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">B.</div>
+        <div class="method-text">Above edge of the left side pavement</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">C.</div>
+        <div class="method-text">End of parked vehicles on left side</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">D.</div>
+        <div class="method-text">End of parked vehicles on right side</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">E.</div>
+        <div class="method-text">Above edge of right side pavement</div>
+      </div>
+      <div class="method-step">
+        <div class="method-num">F.</div>
+        <div class="method-text">The right side wall &ndash; the laser ruler does not need to be held here (this is the end everything is measured against)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsec reveal">
+    <h3 class="subsec-t">Derived measurements</h3>
+    <div class="formula-block">
+      <div class="formula-line">
+        <span class="formula-label">Total road width</span>
+        <span class="formula-expr">[1] &hellip; or A to F</span>
+      </div>
+      <div class="formula-line">
+        <span class="formula-label">Total width taken up by pavement</span>
+        <span class="formula-expr">[1] &ndash; [2] + [5] &hellip; or (A to B) + (E to F)</span>
+      </div>
+      <div class="formula-line">
+        <span class="formula-label">Total non-pavement (drivable) width</span>
+        <span class="formula-expr">[1] &ndash; [2] &ndash; [5] &hellip; or B to E</span>
+      </div>
+      <div class="formula-line">
+        <span class="formula-label">Total unblocked drivable width</span>
+        <span class="formula-expr">[3] &ndash; [4] &hellip; or C to D</span>
+      </div>
+      <div class="formula-line">
+        <span class="formula-label">Total width blocked by parked vehicles</span>
+        <span class="formula-expr">([3] &ndash; [2]) + ([4] &ndash; [5]) &hellip; or (B to C) + (D to E)</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- KEY FINDINGS -->
+<div class="section" id="findings">
+<div class="wrap">
+  <div class="sec-tag reveal">Key findings</div>
+  <h2 class="sec-title reveal">Use of space</h2>
+</div>
+
+<div class="wrap-w">
+  <div class="stat-cards reveal">
+    <div class="stat-card">
+      <div class="stat-n">88.8%</div>
+      <div class="stat-l">of total street width is drivable road, with the remaining 11.2% being pavement</div>
+    </div>
+    <div class="stat-card coral">
+      <div class="stat-n">43.5%</div>
+      <div class="stat-l">of drivable road width is occupied by parked vehicles</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n">50%</div>
+      <div class="stat-l">of the full width of roads is actually usable for driving</div>
+    </div>
+    <div class="stat-card coral">
+      <div class="stat-n">38.6%</div>
+      <div class="stat-l">of total street width cannot be used for either walking or driving</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="body reveal">Only 56.5% of the drivable width of roads &ndash; just over half of the entire drivable width &ndash; is actually usable for driving. Out of the full width of roads, only 50% is actually usable for driving.</p>
+  <p class="body reveal">For either driving or walking (including the drivable area and pavement), only around 61.4% of the width of these roads is usable. For an average street, this means around 38.6% of its total width cannot be used for either walking or driving because it is blocked by parked vehicles.</p>
+
+  <!-- Transportation findings -->
+  <div class="subsec reveal">
+    <h3 class="subsec-t">Transportation, mobility, and safety</h3>
+  </div>
+</div>
+
+<div class="wrap-w">
+  <div class="stat-cards reveal">
+    <div class="stat-card coral">
+      <div class="stat-n">41%</div>
+      <div class="stat-l">of roads surveyed (11 out of 27) are currently too narrow for a car to pass safely, assuming a safe driving width of 2.5 metres</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n">27 / 27</div>
+      <div class="stat-l">all roads tested would be usable for cars if there were no street parking blocking them, compared to only 16 currently</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="body reveal">Ambulances have similar, if not slightly larger, width dimensions to cars, so they face the same issue. Ambulances are unable to reach the doorstep of many homes. They would not be able to fit safely through around 41% of the roads surveyed, including to the buildings on them. With street parking cleared, however, ambulances would be able to reach every doorstep.</p>
+
+  <!-- Public transport findings -->
+  <div class="subsec reveal">
+    <h3 class="subsec-t">Public transport and urbanism</h3>
+  </div>
+</div>
+
+<div class="wrap-w">
+  <div class="stat-cards reveal">
+    <div class="stat-card coral">
+      <div class="stat-n">63%</div>
+      <div class="stat-l">of tested roads (17 out of 27) are inaccessible to buses, assuming a safe driving width of 3 metres. Another two are just a few centimetres wider than 3 metres.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n">26 / 27</div>
+      <div class="stat-l">roads tested would be usable for buses if there were no street parking blocking them, compared to only 10 currently</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="body reveal">Currently, a significant limiting factor for the widespread use of public transport is the limited number of bus routes and stops:</p>
+  <ul class="blist reveal">
+    <li>There are not enough of them, so relying on a bus to get to work is not guaranteed.</li>
+    <li>Often, the walks to and from bus stops in the heat are not desirable or practical (for example, someone dressed for an office or school does not want to be drenched in sweat after a long walk).</li>
+    <li>When roads can actually fit more buses, it becomes possible to have many more buses with more stops, closer to people's doorsteps and with greater frequency, making them more reliable.</li>
+  </ul>
+
+  <p class="body reveal">Replacing private vehicle rides with public transport leads to more efficient fuel use. Furthermore, electrifying a fleet of buses and setting up a single charging station is far easier as a first step than replacing thousands of private vehicles with e-bikes and installing dozens of charging stations, although the eventual goal would also include transitioning to e-bike use.</p>
+
+  <div class="callout reveal">
+    <div class="callout-label">Efficiency of space</div>
+    <p>Public transport is a more effective use of space and fuel, reducing overall traffic. One person on a motorcycle, including the necessary safety buffer space between vehicles, occupies around 36 square feet. In contrast, a person seated on a bus takes up only about 4 square feet. On a double-decker bus, two people can occupy that same footprint.</p>
+    <p>The road space required for just one person on a motorcycle could accommodate 18 people seated comfortably in an air-conditioned double-decker bus.</p>
+  </div>
+</div>
+
+<div class="wrap-w">
+  <div class="space-compare reveal">
+    <div class="space-box">
+      <div class="big-num">~36</div>
+      <div class="big-unit">sq ft</div>
+      <div class="big-desc">Area taken up by 18 people in a double-decker bus</div>
+    </div>
+    <div class="space-box alt">
+      <div class="big-num">~650</div>
+      <div class="big-unit">sq ft</div>
+      <div class="big-desc">Area taken up if those 18 people were on individual motorcycles (36 sq ft per person)</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- KEY ARGUMENTS -->
+<div class="section" id="arguments">
+<div class="wrap">
+  <div class="sec-tag reveal">Analysis</div>
+  <h2 class="sec-title reveal">Key arguments for change</h2>
+
+  <ul class="blist reveal">
+    <li>This is not an intractable problem. Many famous and beautiful cities, like Paris, have found success. Modern cities are heavily focused on public transport, and the smart cities of the future are oriented this way.</li>
+    <li>People who want motorcycles or need them for personal circumstances can keep their motorcycles; nobody is taking those away. This is about giving people who are forced to own motorcycles just to get around the freedom to move about the city without needing to pay tens of thousands for a vehicle and continually pay for petrol.</li>
+    <li>For many people, owning a motorcycle is a necessity because there is no other way to get around. However, the reason there is no other way to get around <em>is</em> the status quo.</li>
+  </ul>
+
+  <div class="callout reveal">
+    <div class="callout-label">Breaking the cycle</div>
+    <p>Without parking clogging our streets, we could have a much higher volume of public transport that reaches more doorsteps.</p>
+    <p>Without so many vehicles causing congestion, introducing more buses would be practical, as there would be fewer motorcycles frustrated by them.</p>
+    <p>Without so much of streets' width being blocked by parked vehicles, buses would not block the drivable part of streets because motorcycles would have ample space to drive around and past them.</p>
+    <p>With more bus stops closer to homes and offices, people would not have to walk long distances in the heat.</p>
+    <p>Short walks would not be as unpleasant without heat-absorbing metal and rubber from motorcycles blasting heat out, and without heavy hydrocarbon pollutants sitting close to the ground and retaining heat.</p>
+    <p>This is especially true if the added space can be used for more shade, like trees and reflective shading, to reduce the urban heat island effect.</p>
+  </div>
+
+  <ul class="blist reveal">
+    <li>Cities are meant to be built for human beings, not machines. The current status quo is conceding our physical space to machinery that we do not even use 95% of the day.</li>
+    <li>Roads being blocked by parked machines is an eyesore and makes outdoor spaces feel confined and congested with no clear lines of sight.</li>
+    <li>Open roads and less traffic (especially with safely driven buses instead of fast motorcycles) make roads safer.</li>
+    <li>Street parking blocks off spaces that could be used for greenery, planting trees, installing shading umbrellas, and more.</li>
+    <li>Physical accessibility becomes impossible when there is no way for wheelchairs to move around easily because parked vehicles block the space between pavements and roads.</li>
+  </ul>
+</div>
+</div>
+
+<!-- POLICY RECOMMENDATIONS -->
+<div class="section" id="policy">
+<div class="wrap">
+  <div class="sec-tag reveal">Policy recommendations</div>
+  <h2 class="sec-title reveal">Recommended measures</h2>
+
+  <div class="policy-group reveal">
+    <div class="policy-label">Immediate measures</div>
+    <ul class="blist">
+      <li>Increase public transportation options and coverage at all levels to become a more preferable option for people to private vehicle use:
+        <ul class="blist sub">
+          <li>Additional bus routes that stop specifically at the doorstep of places people need to go, such as routes that stop directly in front of major employers like Velaanaage, so that people can take the bus directly to their workplace.</li>
+          <li>Practically speaking, a bus stop that is merely within walking distance of an office is not useful to employees if it means long walks in the heat to get to an office where they need to be fresh.</li>
+          <li>All public schools operating school buses which stop as close to students' homes as possible to pick students up and drop them off at school safely and vice versa.</li>
+          <li>Government offices in smaller buildings could have vans that pick up and drop off employees who register for the service directly at their homes. This would be particularly convenient where a lot of employees live in one area, such as the Hiya flats.</li>
+          <li>For many average people, this removes the most urgent reasons forcing them to own motorcycles.</li>
+          <li>This also reduces traffic significantly by transporting many people in a more space-efficient way, taking a large number of motorcycles off the street during peak traffic times, such as when parents are taking their kids to or from school and when people are commuting to work.</li>
+          <li>This is a way for the government to provide a direct and impactful service that improves people's lives in a concrete, non-abstract manner.</li>
+        </ul>
+      </li>
+      <li>Continue enforcement of illegal parking regulations and the towing of old, unowned vehicles.</li>
+    </ul>
+  </div>
+
+  <div class="policy-group reveal">
+    <div class="policy-label">Medium-term measures</div>
+    <ul class="blist">
+      <li>Implement private vehicle buyback programs, with buybacks including not just cash but also credits to use e-bikes and public transport.</li>
+      <li>Install e-bike systems with docking and charging stations across the city. Instead of everyone having an individual vehicle they use for only a tiny percentage of the time, the shared use of e-bikes across a city means far fewer vehicles are needed for the same amount of trips, and the utilization of those vehicles is much higher.</li>
+      <li>Develop more comprehensive networks of public transport to be ready to immediately add routes through newly cleared streets.</li>
+      <li>Add greenery; in areas where planting trees is not possible, install street shading to make even short walks from bus stops to destinations bearable for people and increase public transport use. A general increase in canopy cover will also reduce the urban heat island effect (Hulhumal&eacute; has around 40% canopy cover which is generally the percentage which removes urban heat sink effects, but Mal&eacute; is not even close).</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- BACK LINK -->
+<div class="wrap" style="padding-bottom: 40px;">
+  <a href="index.html" class="back reveal">&larr; Back to Cities Built for Human Beings</a>
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives &middot; <a href="mailto:info@policylabmv.com">info@policylabmv.com</a></div>
+  <div>Urbanism is one of four <a href="/">focus areas</a></div>
+</footer>
+
+<script>
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+</script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Child Protection System Architecture – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
+  --dark: #2A3042; --red: #D4726A; --red-lt: #E8A9A3;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+.wrap{max-width:800px;margin:0 auto;padding:0 40px}
+.page-header{padding:100px 40px 40px;max-width:800px;margin:0 auto}
+.page-header h1{font-family:var(--sans);font-size:clamp(28px,4vw,42px);line-height:1.15;letter-spacing:-.02em;margin-bottom:12px}
+.page-header p.intro{font-size:15px;color:var(--body);line-height:1.7;max-width:680px;margin-bottom:8px}
+.page-header .source{font-size:12px;color:var(--muted);margin-top:12px}
+
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
+h2.sec-title{font-family:var(--sans);font-size:clamp(22px,2.8vw,28px);font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:16px}
+p.body{font-size:15px;color:var(--body);line-height:1.72;margin-bottom:14px}
+p.body:last-child{margin-bottom:0}
+
+/* INSTITUTION CARDS */
+.section{padding:40px 0;border-top:1px solid rgba(0,0,0,.05)}
+.section:first-of-type{border-top:none}
+
+.inst-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.inst-grid.tri{grid-template-columns:repeat(3,1fr)}
+.inst{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:20px 22px}
+.inst-name{font-family:var(--sans);font-size:16px;font-weight:600;margin-bottom:6px}
+.inst-role{font-size:13.5px;color:var(--body);line-height:1.55}
+.inst-detail{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* FLOW DIAGRAM */
+.flow{margin:28px 0}
+.flow-step{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:16px 0;position:relative}
+.flow-step::before{content:'';position:absolute;left:19px;top:44px;bottom:-2px;width:2px;background:rgba(0,0,0,.06)}
+.flow-step:last-child::before{display:none}
+.flow-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.flow-body{}
+.flow-title{font-family:var(--sans);font-size:16px;font-weight:600;margin-bottom:4px}
+.flow-desc{font-size:13.5px;color:var(--body);line-height:1.6}
+.flow-note{font-size:12px;color:var(--muted);margin-top:4px;font-style:italic}
+
+/* GAP CALLOUTS */
+.gap{background:rgba(212,114,106,.06);border-left:3px solid var(--red);padding:16px 20px;border-radius:0 10px 10px 0;margin:20px 0}
+.gap-label{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.gap p{font-size:13.5px;color:var(--body);line-height:1.6}
+
+/* STAT BLOCKS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.stat{text-align:center;padding:18px 12px;background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:10px}
+.stat-num{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--pri-d);line-height:1.1}
+.stat-label{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.3}
+
+footer{margin-top:48px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:800px;margin-left:auto;margin-right:auto}
+footer a{color:var(--pri-d)}
+
+@media(max-width:700px){
+  .page-header,.wrap{padding-left:20px;padding-right:20px}
+  .inst-grid,.inst-grid.tri{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  nav{padding:12px 16px}
+}
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; society</span></a>
+  <div class="nav-r">
+    <a href="index.html">Overview</a>
+    <a href="dv-response-pathway.html">DV pathway</a>
+    <a href="legislation-timeline.html">Timeline</a>
+    <a href="/">Main site</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <h1>Child protection system architecture</h1>
+  <p class="intro">How the Maldivian child protection system currently operates: which institutions are responsible for what, how cases move through the system from initial report to intervention, and where the procedural gaps are. Based on the Child Rights Protection Act (19/2019), CFPS Standard Operating Procedures (2021), and the Rogers, Ali &amp; Naeem (2025) systems analysis.</p>
+  <div class="source">Sources: CRPA 2019; CFPS SOPs 2021; Rogers, Ali &amp; Naeem 2025; UNICEF Maldives; MoSFD reporting</div>
+</div>
+
+<!-- ═══ INSTITUTIONS ═══ -->
+<div class="wrap">
+<div class="section">
+  <div class="sec-tag">Institutional architecture</div>
+  <h2 class="sec-title">Who does what</h2>
+
+  <div class="inst-grid">
+    <div class="inst">
+      <div class="inst-name">Child and Family Protection Services (CFPS)</div>
+      <div class="inst-role">Centralised operational unit in Male'. Specialised teams for assessment, investigation, legal liaison, and case coordination. Legal powers under CRPA to seek Interim Assessment Orders, Protection Orders, and Supervision Orders from the courts.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Family and Children Service Centres (FCSCs)</div>
+      <div class="inst-role">24 centres across all administrative atolls. Atoll-level interface receiving referrals, conducting initial assessments, managing cases. Generalist character &ndash; the same workers handle child protection, DV, elderly welfare, and disability.</div>
+      <div class="inst-detail">Coverage: 24 centres for 187 inhabited islands</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Family and Child Protection Wing (FCPW)</div>
+      <div class="inst-role">Police unit investigating DV, child abuse, and sexual offences. MoU with CFPS for information sharing. Database tags individuals with prior DV or child abuse complaints. Monthly Case Management Coordination Committee with CFPS.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">National Child Helpline (1412)</div>
+      <div class="inst-role">24-hour toll-free reporting channel. Statutory basis under CRPA Article 76. Functions as both a reporting mechanism for adults and a direct line for children seeking help.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Family Court / Juvenile Court</div>
+      <div class="inst-role">Specialist court in Male' for child cases. Child-friendly procedures: separate waiting areas, informal seating arrangements, public exclusion from hearings, specialist judges trained in child welfare.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Department of Juvenile Justice (DJJ)</div>
+      <div class="inst-role">Established 2020 under Home Affairs. Oversees Imaduddin School (male juvenile offenders), Fiyavathi Centre (female offenders and girls in protective care), National Reintegration Centre. Manages diversion programme.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Children's Ombudsperson</div>
+      <div class="inst-role">Independent office established 2021 under CRPA. Receives complaints, monitors agency compliance with the Act, conducts audits of institutional practice.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Community structures (IBAMAs &amp; WDCs)</div>
+      <div class="inst-role">Island-level volunteer teams including council members, Women's Development Committees, and representatives from education, police, and health. Conduct vulnerability mapping, provide community support, refer complex cases upward to FCSCs.</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">61</div><div class="stat-label">child protection social workers nationally</div></div>
+    <div class="stat"><div class="stat-num">128,208</div><div class="stat-label">children in the Maldives</div></div>
+    <div class="stat"><div class="stat-num">~160</div><div class="stat-label">cases per worker (vs. recommended 25 &ndash; 30)</div></div>
+  </div>
+</div>
+
+<!-- ═══ MANDATORY REPORTING ═══ -->
+<div class="section">
+  <div class="sec-tag">Mandatory reporting</div>
+  <h2 class="sec-title">Who must report and what happens</h2>
+
+  <p class="body">CRPA Article 126 requires any person who knows or suspects child abuse to report to CFPS or police. Failure to report is a criminal offence carrying up to 2 years' imprisonment; failure to report for financial gain carries up to 5 years. Good-faith reporters are protected from civil and criminal liability.</p>
+
+  <p class="body">The 2019 Act restored a mandatory reporting obligation that had been absent since 2001, when a repeal of Penal Code Chapter 3, Section 72 inadvertently removed it &ndash; an 18-year gap during which reporting abuse was encouraged but not legally required.</p>
+
+  <div class="gap">
+    <div class="gap-label">Implementation barriers</div>
+    <p>Knowledge barriers mean many professionals remain unaware of the reporting duty. In small island communities, reporting carries social costs &ndash; ostracism, threats, and damage to family relationships in settings where the reporter, the family, and the alleged perpetrator may all live within a few hundred metres of each other. When previous reports have produced no visible response from the system, the incentive to report again is undermined.</p>
+  </div>
+</div>
+
+<!-- ═══ CASE FLOW ═══ -->
+<div class="section">
+  <div class="sec-tag">Case management protocol</div>
+  <h2 class="sec-title">How a case moves through the system</h2>
+
+  <p class="body">The CFPS case management protocol, formalised in 2021 SOPs, establishes seven stages. The CRPA provides three types of judicial orders that can be sought at different points: Interim Assessment Orders (emergency placement, 5-day court timeline), Protection Orders (substantive placement and conditions), and Supervision Orders (child remains with family under monitoring).</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num" style="background:var(--pri-d)">1</div>
+      <div class="flow-body">
+        <div class="flow-title">Referral and intake</div>
+        <div class="flow-desc">Reports received via 1412 helpline, direct FCSC contact, police referral, school focal point, health facility, or community report. Helpline operator coordinates with relevant FCSC and local police station.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num" style="background:var(--pri-d)">2</div>
+      <div class="flow-body">
+        <div class="flow-title">Initial assessment</div>
+        <div class="flow-desc">FCSC caseworker assesses immediate risk and safety. Statutory timeline: 24 hours for urgent cases, 72 hours for non-urgent.</div>
+        <div class="flow-note">In Male', the 24-hour target is generally achievable. On remote islands requiring boat travel, it is structurally impossible.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num" style="background:var(--pri-d)">3</div>
+      <div class="flow-body">
+        <div class="flow-title">Full assessment and investigation</div>
+        <div class="flow-desc">Detailed assessment of the child's circumstances, family dynamics, and risk factors. Where criminal conduct is suspected, joint investigation with police FCPW. Multi-Disciplinary Team (MDT) convened for complex cases.</div>
+        <div class="flow-note">Joint investigation is inconsistent outside Male' and three pilot atolls (Addu, Haa Dhaalu, Laamu).</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num" style="background:var(--pri-d)">4</div>
+      <div class="flow-body">
+        <div class="flow-title">Case planning</div>
+        <div class="flow-desc">Caseworker develops intervention plan. May include referral for judicial orders (Interim Assessment, Protection, or Supervision), family support services, alternative care placement, or community-based monitoring.</div>
+        <div class="flow-note">Care plans are rare in practice; regular review meetings uncommon.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num" style="background:var(--pri-d)">5</div>
+      <div class="flow-body">
+        <div class="flow-title">Intervention and service provision</div>
+        <div class="flow-desc">Direct service delivery: counselling, parenting support, safety planning, alternative care arrangement, legal referral. For emergency removal, CFPS applies to court within 5 days for Interim Assessment Order.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num" style="background:var(--pri-d)">6</div>
+      <div class="flow-body">
+        <div class="flow-title">Monitoring and review</div>
+        <div class="flow-desc">Ongoing supervision of the case plan. Supervision Orders allow child to remain with family under structured oversight. Review meetings assess whether conditions are being met and risks are reducing.</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num" style="background:var(--pri-d)">7</div>
+      <div class="flow-body">
+        <div class="flow-title">Case closure</div>
+        <div class="flow-desc">Case closed when assessed risks have been resolved and the child is safe. Closure criteria and documentation requirements specified in SOPs.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INTER-AGENCY COORDINATION ═══ -->
+<div class="section">
+  <div class="sec-tag">Inter-agency coordination</div>
+  <h2 class="sec-title">The MDT model and its gaps</h2>
+
+  <p class="body">The Multi-Disciplinary Team protocol, introduced in 2022, brings social workers, police, health professionals, and prosecutors together for complex child abuse cases. Regular MDT meetings operate in Male'; the model has been piloted in three atolls (Addu, Haa Dhaalu, Laamu) with planned extension elsewhere.</p>
+
+  <p class="body">At the national level, the National Council for the Protection of the Rights of the Child (NCPRC) provides inter-ministerial coordination, chaired by the MoSFD Minister and meeting quarterly. At the atoll level, Child Protection Committees (CPCs) are intended to replicate this coordination function.</p>
+
+  <div class="gap">
+    <div class="gap-label">Coordination failures</div>
+    <p>Four separate data systems &ndash; the Maldives Child Protection Database (MCPD), the FPA GBV database, the MPS crime database, and the NSPA Social Protection Information System &ndash; operate without real-time interoperability. A child known to one agency may be invisible to the others. No independent body has authority to compel attendance at MDT meetings or hold agencies accountable for implementing agreed plans. On outer islands, a single FCSC worker is the coordination mechanism, attempting to connect with untrained police, health workers, and teachers across dispersed island communities.</p>
+  </div>
+</div>
+
+<!-- ═══ FOUR PATHWAYS ═══ -->
+<div class="section">
+  <div class="sec-tag">Common entry pathways</div>
+  <h2 class="sec-title">How children enter the system</h2>
+
+  <p class="body">CFPS case data identifies four primary pathways through which children come to the attention of child protection services, each with different assessment requirements and intervention responses:</p>
+
+  <div class="inst-grid">
+    <div class="inst">
+      <div class="inst-name">Children witnessing domestic violence</div>
+      <div class="inst-role">Referred through FPA, police, or DV helpline. Assessment must consider both direct risk and the cumulative psychological impact of exposure to violence in the household.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Children experiencing direct abuse</div>
+      <div class="inst-role">Physical, sexual, emotional abuse or neglect reported by mandatory reporters, community members, or the child themselves via 1412. Joint police investigation triggered where criminal conduct suspected.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Children in custody conflicts</div>
+      <div class="inst-role">Referred from Family Court during divorce proceedings. Assessment focuses on which arrangement best serves the child's welfare, distinct from parental claims.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Children of stressed single parents</div>
+      <div class="inst-role">Parents at risk of neglect due to poverty, housing instability, substance abuse, or mental health difficulties. Intervention focuses on family support to prevent escalation.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ JUDICIAL ORDERS ═══ -->
+<div class="section">
+  <div class="sec-tag">Judicial framework</div>
+  <h2 class="sec-title">Three types of court order</h2>
+
+  <div class="inst-grid tri">
+    <div class="inst">
+      <div class="inst-name">Interim Assessment Order (Article 80)</div>
+      <div class="inst-role">Emergency placement while assessment is conducted. Must be applied for within 5 days of taking a child into state care. Authorises temporary removal up to 14 days, renewable. Issued by Family Court on CFPS application.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Protection Order (Article 90)</div>
+      <div class="inst-role">Longer-term order following assessment. May specify placement arrangements, contact arrangements, conditions on parental behaviour, and service engagement requirements. Children may be placed in Kudakudhinge Hiya, Fiyavathi, or with foster carers if available.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Supervision Order (Article 93)</div>
+      <div class="inst-role">Child remains with family under CFPS supervision. Less interventionist than removal. Allows daily monitoring by CFPS or police. Parents have right to appeal. Intended for families where risk can be managed in the home.</div>
+    </div>
+  </div>
+
+  <p class="body">All three orders must be applied for within five days of taking a child into state care, providing a safeguard against prolonged informal removal without judicial oversight.</p>
+</div>
+
+<!-- ═══ FOSTER CARE CRISIS ═══ -->
+<div class="section">
+  <div class="sec-tag">Alternative care</div>
+  <h2 class="sec-title">The foster care crisis</h2>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">18</div><div class="stat-label">registered foster carers nationally</div></div>
+    <div class="stat"><div class="stat-num">91%</div><div class="stat-label">of children in alternative care in institutions</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">social workers managing all foster care operations</div></div>
+  </div>
+
+  <p class="body">Only 16 children are in foster care out of 187 in alternative care nationally. The remaining 91% are in residential institutional settings &ndash; the inverse of international best practice, which strongly favours family-based placements. The underdevelopment of foster care reflects several compounding factors: absence of developed recruitment, assessment, training, and support infrastructure; cultural norms favouring kinship-based care over placement with unrelated families; the Islamic prohibition on formal adoption (tabanni) meaning foster carers provide care without full legal parental relationship; insufficient financial support through the foster parent allowance, particularly in high-cost Male&rsquo;; and regulatory underdevelopment, with the Alternative Care Regulation (2020-R-69) providing a framework that remains only partially operationalised. A draft Foster Care Regulation (2023) is expected to be finalised in 2025.</p>
+</div>
+
+<!-- ═══ SCHOOL FOCAL POINTS AND MCPD ═══ -->
+<div class="section">
+  <div class="sec-tag">Infrastructure</div>
+  <h2 class="sec-title">Schools, databases, and the gaps between them</h2>
+
+  <div class="inst-grid">
+    <div class="inst">
+      <div class="inst-name">School focal point system (2015)</div>
+      <div class="inst-role">Ministry of Education placed designated staff in schools for identification and response. Rogers, Ali &amp; Naeem (2025) documented significant implementation gaps: no established referral systems linking focal points to CFPS, no case conferences, no police checks or comprehensive child protection training for school staff. A child who discloses to a teacher may encounter a focal point who has a designation but no clear pathway for what to do next.</div>
+    </div>
+    <div class="inst">
+      <div class="inst-name">Maldives Child Protection Database (MCPD, 2016)</div>
+      <div class="inst-role">Digital case management system connecting all 24 FCSCs to centralised CFPS. First national-level child protection data capability, replacing fragmented manual record-keeping. Enabled the statistics that appear throughout this site. Maintained by a data and information unit within CFPS.</div>
+    </div>
+  </div>
+
+  <div class="gap">
+    <div class="gap-label">Interoperability gap</div>
+    <p>Four separate data systems &ndash; MCPD, the FPA GBV database, the MPS crime database, and the NSPA Social Protection Information System &ndash; operate without real-time interoperability. A child known to one agency may be invisible to the others.</p>
+  </div>
+</div>
+
+<!-- ═══ DOCUMENTED OPERATIONAL FAILURES ═══ -->
+<div class="section">
+  <div class="sec-tag">Implementation reality</div>
+  <h2 class="sec-title">Where the system breaks down</h2>
+
+  <p class="body">Complex politics permeates child protection at every level. If a perpetrator belongs to a politically connected family, a case may be leaked to media before police or CFPS complete their assessment, and intervention becomes a public spectacle rather than a professional process. If a perpetrator has gang or criminal connections, cases may go unreported entirely &ndash; social workers who have reported such cases have received death threats (Human Rights Watch 2023).</p>
+
+  <p class="body">The Sexual Offences Act 2014 Section 52 requires five types of evidence for prosecution of sexual offences. For child sexual abuse, this threshold is structurally almost impossible to meet since abuse of children rarely produces multiple independent categories of physical evidence. Medical professionals have documented instances where doctors identify indicators consistent with sexual abuse but decline to state this in medico-legal reports, further limiting the evidential foundation for prosecution.</p>
+
+  <p class="body">Family Court maintenance enforcement remains weak. Approximately MVR 2 million has accumulated unclaimed at the Family Court. Children going without court-ordered maintenance for years is a documented contributor to child poverty, particularly in divorced single-parent households.</p>
+
+  <p class="body">The Children&rsquo;s Ombudsperson, operational since 2021, has conducted child rights audits across atolls and co-hosted the 2022 Child Rights Symposium with UNICEF. The paradox of the office is that its monitoring objectives create additional reporting burden on CFPS workers already managing critical caseloads &ndash; workers in perpetual fear of being accused of negligence may adopt defensive documentation practices over genuine child welfare improvement.</p>
+</div>
+
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div>See also: <a href="dv-response-pathway.html">DV response pathway</a> &middot; <a href="legislation-timeline.html">Legislation timeline</a></div>
+</footer>
+
+</body>
+</html>

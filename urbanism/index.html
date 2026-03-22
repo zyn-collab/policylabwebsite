@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cities Built for Human Beings – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAFAF7; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --teal: #6B9E8D; --teal-d: #4A7D6D;
+  --coral: #CC7B6F; --coral-lt: #D9A49D; --sage: #8A9A8E;
+  --dark: #1E3A3A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,247,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--teal-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+/* HERO */
+.hero{padding:100px 40px 56px;max-width:1080px;margin:0 auto}
+.hero-grid{display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:end}
+.manifesto{font-size:clamp(12px,1.3vw,14px);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);line-height:2.3;max-width:620px;margin-bottom:24px}
+.hero-title{font-family:var(--sans);font-size:clamp(36px,6.5vw,72px);line-height:1.08;letter-spacing:-.025em;margin-bottom:14px}
+.hero-title .c{color:var(--teal);font-weight:400}
+.hero-title .b{color:var(--coral);font-weight:700}
+.hero-title .f{color:var(--coral-lt);font-weight:400}
+.hero-title .h{color:var(--teal);font-weight:700}
+.hero-attr{font-size:13px;color:var(--muted);padding-bottom:8px}
+.hero-attr a{color:var(--teal-d)}
+.hero-side{padding-bottom:8px}
+.hero-side-label{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.hero-side-item{display:block;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:13.5px;color:var(--body);transition:color .2s}
+.hero-side-item:hover{color:var(--teal-d)}
+.hero-side-item .hs-stat{font-size:11.5px;color:var(--muted);margin-left:6px}
+.hero-side-item:last-child{border-bottom:none}
+
+/* EVENTS BAND */
+.ev-band{background:rgba(107,158,141,.06);padding:32px 40px}
+.ev-inner{max-width:1000px;margin:0 auto;display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap}
+.ev-left{flex:1;min-width:200px}
+.ev-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-d);margin-bottom:4px}
+.ev-sub{font-size:13px;color:var(--sage)}
+.ev-list{display:flex;gap:16px;flex-wrap:wrap}
+.ev-card{padding:12px 18px;background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:10px;min-width:160px}
+.ev-date{font-size:11.5px;font-weight:700;color:var(--teal-d)}
+.ev-film{font-size:14.5px;font-weight:600;margin-top:2px}
+.ev-plus{font-size:12px;color:var(--muted)}
+
+/* WRAPS */
+.wrap{max-width:740px;margin:0 auto;padding:0 40px}
+.wrap-w{max-width:1020px;margin:0 auto;padding:0 40px}
+
+/* ═══ BUS ROUTES FEATURE (dark section) ═══ */
+.bus-feature{background:linear-gradient(175deg,#1E3A3A 0%,#2D4F4F 100%);color:#fff;padding:64px 0 0}
+.bus-feature .sec-tag{color:var(--teal)}
+.bus-feature .sec-title{color:#fff}
+.bus-feature p.body{color:rgba(255,255,255,.78)}
+.bus-feature .cta{color:var(--teal)}
+
+/* Maps area on white */
+.bus-maps{background:var(--bg);padding:32px 0 0}
+.map-hero{width:100%;height:400px;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.07);margin:0 0 16px;position:relative}
+.map-hero iframe{width:100%;height:100%;border:none}
+.map-minis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 8px}
+.map-mini{height:230px;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.07);position:relative}
+.map-mini iframe{width:100%;height:100%;border:none}
+.map-mini-label{position:absolute;bottom:8px;left:8px;z-index:10;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;color:#fff;pointer-events:none}
+
+/* Routes + arguments on warm bg */
+.bus-detail{background:rgba(107,158,141,.04);padding:40px 0 56px}
+.route-list{margin:8px 0 24px}
+.route-entry{padding:14px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.route-entry:last-child{border-bottom:none}
+.route-head{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.route-num{width:22px;height:22px;border-radius:6px;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.route-name{font-family:var(--sans);font-size:16.5px;font-weight:600}
+.route-meta{font-size:11.5px;color:var(--muted);font-weight:500}
+.route-desc{font-size:14px;color:var(--body);line-height:1.6;margin-top:3px}
+
+.kp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.kp{padding:18px 20px;border-radius:10px;background:var(--card);border:1px solid rgba(0,0,0,.06)}
+.kp p{font-size:14px;color:var(--body);line-height:1.55}
+.kp-num{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--teal-d);line-height:1.1;margin-bottom:4px}
+
+/* ═══ RESEARCH GALLERY ═══ */
+.gallery{padding:64px 0}
+.gallery-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.rcard{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:28px 28px 24px;display:flex;flex-direction:column;transition:box-shadow .3s,transform .2s}
+.rcard:hover{box-shadow:0 8px 32px rgba(0,0,0,.07);transform:translateY(-2px)}
+.rcard-tag{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.rcard-title{font-family:var(--sans);font-size:20px;font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:8px}
+.rcard-stat{font-family:var(--serif);font-size:32px;font-weight:700;line-height:1.1;margin:4px 0 2px}
+.rcard-stat-label{font-size:12px;color:var(--muted);margin-bottom:8px}
+.rcard-body{font-size:14px;color:var(--body);line-height:1.6;flex:1}
+.rcard-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;margin-top:14px;transition:gap .2s}
+.rcard:hover .rcard-link{gap:9px}
+
+/* Accent colors for cards */
+.accent-teal .rcard-tag{color:var(--teal-d)}
+.accent-teal .rcard-stat{color:var(--teal-d)}
+.accent-teal .rcard-link{color:var(--teal-d)}
+.accent-coral .rcard-tag{color:var(--coral)}
+.accent-coral .rcard-stat{color:var(--coral)}
+.accent-coral .rcard-link{color:var(--coral)}
+.accent-sage .rcard-tag{color:#5A7A6E}
+.accent-sage .rcard-stat{color:#5A7A6E}
+.accent-sage .rcard-link{color:#5A7A6E}
+.accent-plum .rcard-tag{color:#6A4C93}
+.accent-plum .rcard-stat{color:#6A4C93}
+.accent-plum .rcard-link{color:#6A4C93}
+
+/* Span full width for featured cards */
+.rcard.wide{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.rcard.wide .rcard-right{display:flex;flex-direction:column;justify-content:center}
+
+/* General */
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.sec-title{font-family:var(--sans);font-size:clamp(23px,3vw,30px);font-weight:600;line-height:1.22;letter-spacing:-.015em;margin-bottom:16px}
+p.body{font-size:14.5px;color:var(--body);line-height:1.72;margin-bottom:15px}
+p.body:last-child{margin-bottom:0}
+.cta{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--teal-d);margin-top:14px;transition:gap .2s}
+.cta:hover{gap:10px}
+.subsec{margin-top:40px;padding-top:28px;border-top:1px solid rgba(0,0,0,.04)}
+.subsec-t{font-family:var(--sans);font-size:21px;font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:10px}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px}
+footer a{color:var(--teal-d)}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:860px){
+  .hero{padding:90px 24px 40px}
+  .hero-grid{grid-template-columns:1fr;gap:24px}
+  .wrap,.wrap-w{padding:0 24px}
+  .kp-grid,.gallery-grid{grid-template-columns:1fr}
+  .rcard.wide{grid-template-columns:1fr}
+  nav{padding:12px 20px}
+  footer{padding:24px 20px}
+  .ev-band{padding:24px 24px}
+  .map-hero{height:280px}
+  .bus-feature{padding:48px 0 0}
+}
+@media(max-width:480px){
+  .hero-title{font-size:32px}
+  .map-minis{grid-template-columns:1fr}
+  .map-mini{height:200px}
+  .nav-r a:nth-child(n+4){display:none}
+  .ev-list{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-l">public policy lab<span>&middot; cities</span></a>
+  <div class="nav-r">
+    <a href="#events">Events</a>
+    <a href="#transport">Transport</a>
+    <a href="#research">Research</a>
+    <a href="/">All focus areas</a>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+<div class="hero-grid">
+  <div>
+    <p class="manifesto">MORE BUS STOPS &middot; MORE BUS ROUTES &middot; MORE CITY TREES &middot; MORE SHADED WALKWAYS &middot; MORE E-BIKE SHARES &middot; MORE CLEAR STREETS &middot; MORE THIRD SPACES &middot; MORE ART SCENES &middot; MORE OUTDOOR CINEMAS &middot; MORE BEACH CINEMAS &middot; MORE BEACH ART SHOWS &middot; MORE HANGOUT SPOTS &middot; MORE POP-UP MUSEUMS &middot; MORE PARK FESTIVALS &middot; MORE NEIGHBOUR MEETUPS &middot; MORE COMMUNITY NIGHTS</p>
+    <h1 class="hero-title"><span class="c">cities </span><span class="b">built </span><span class="f">for</span><br><span class="h">human </span><span class="c">beings</span></h1>
+    <div class="hero-attr"><a href="/">public policy lab</a> &middot; policylabmv.com &middot; @policylabmv</div>
+  </div>
+  <div class="hero-side">
+    <div class="hero-side-label">What's here</div>
+    <a href="#transport" class="hero-side-item">Bus routes <span class="hs-stat">5 proposed changes</span></a>
+    <a href="#research" class="hero-side-item">Street parking <span class="hs-stat">43.5% of road width</span></a>
+    <a href="#research" class="hero-side-item">Greenery &amp; heat <span class="hs-stat">12&ndash;16% vs 40%</span></a>
+    <a href="#research" class="hero-side-item">Third spaces <span class="hs-stat">Cabinet decision</span></a>
+    <a href="#events" class="hero-side-item">Cultural programming <span class="hs-stat">pilot &amp; events</span></a>
+    <a href="#research" class="hero-side-item">City design <span class="hs-stat">Maldivian design language</span></a>
+    <a href="#research" class="hero-side-item">Old City district <span class="hs-stat">35% already car-free</span></a>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ EVENTS ═══════ -->
+<div class="ev-band" id="events">
+<div class="ev-inner">
+  <div class="ev-left">
+    <div class="ev-label">Community events &middot; free, open to all</div>
+    <div class="ev-sub">Film screenings and poetry readings, back to back</div>
+  </div>
+  <div class="ev-list">
+    <div class="ev-card"><div class="ev-date">28 Mar</div><div class="ev-film">In the Mood for Love</div><div class="ev-plus">+ poetry</div></div>
+    <div class="ev-card"><div class="ev-date">11 Apr</div><div class="ev-film">Princess Mononoke</div><div class="ev-plus">+ poetry</div></div>
+    <div class="ev-card"><div class="ev-date">25 Apr</div><div class="ev-film">The Blair Witch Project</div><div class="ev-plus">+ poetry</div></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════ BUS ROUTES – DARK FEATURE ═══════ -->
+<div class="bus-feature" id="transport">
+<div class="wrap">
+  <div class="sec-tag reveal">Transport &amp; mobility</div>
+  <h2 class="sec-title reveal">Mal&eacute;'s buses should get you where you're going</h2>
+  <p class="body reveal">The Hulhumal&eacute;&ndash;Mal&eacute; bus drops passengers at the edge of the island and turns around. The Carnival route stops at Mal&eacute;'s eastern tip. The West Park route traces the perimeter. Neither reaches the government offices around Velaanaage, the shops and cinemas along Majeedhee Magu, the courts near Jumhooree Maidaan, the hospitals, or the schools.</p>
+  <p class="body reveal">A within-Mal&eacute; taxi costs MVR 30. Hulhumal&eacute; to Mal&eacute;, MVR 45. A bus ticket plus MVR 30 for a taxi from the bus stop to wherever you're actually going &ndash; more expensive and more hassle than the direct taxi. So people ride motorcycles. Or they just don't make the trip.</p>
+  <p class="body reveal">Mal&eacute; and Hulhumal&eacute; are the same city. The bus should work like a city bus, not a ferry-era shuttle. Five proposed changes would bring routes into the government district, through Majeedhee Magu, and across the neighbourhoods where people live and work.</p>
+</div>
+</div>
+
+<div class="bus-maps">
+<div class="wrap-w">
+  <div class="map-hero reveal">
+    <iframe src="male bus routes/embed_carnival-velaanaage.html" loading="lazy"></iframe>
+  </div>
+  <div class="map-minis reveal">
+    <div class="map-mini">
+      <iframe src="male bus routes/embed_hulhumale-bypass-mini.html" loading="lazy"></iframe>
+      <div class="map-mini-label" style="background:#457B9D">1 &middot; Hulhumal&eacute; Bypass</div>
+    </div>
+    <div class="map-mini">
+      <iframe src="male bus routes/embed_westpark-jumhooree-mini.html" loading="lazy"></iframe>
+      <div class="map-mini-label" style="background:#6A4C93">3 &middot; West Park&ndash;Jumhooree</div>
+    </div>
+    <div class="map-mini">
+      <iframe src="male bus routes/embed_westpark-majeedhee-mini.html" loading="lazy"></iframe>
+      <div class="map-mini-label" style="background:#E76F51">4 &middot; West Park&ndash;Majeedhee</div>
+    </div>
+    <div class="map-mini">
+      <iframe src="male bus routes/embed_ameenee-majeedhee-mini.html" loading="lazy"></iframe>
+      <div class="map-mini-label" style="background:#264653">5 &middot; Ameenee&ndash;Majeedhee</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="bus-detail">
+<div class="wrap">
+  <div class="route-list reveal">
+    <div class="route-entry">
+      <div class="route-head"><span class="route-num" style="background:#457B9D">1</span><span class="route-name">Hulhumal&eacute; Bypass</span><span class="route-meta">+2 min &middot; 700 m &middot; immediate</span></div>
+      <div class="route-desc">A small loop through Orchid Maa Hingun and Asurumaa Hingun reaching Umar Zahir Office Building, Tree Top Hospital, and the ports area. Employees in Phase 2 or Hiya Flats get a doorstep-to-doorstep commute. Can be done tomorrow.</div>
+    </div>
+    <div class="route-entry">
+      <div class="route-head"><span class="route-num" style="background:#9B2226">2</span><span class="route-name">Carnival&ndash;Velaanaage</span><span class="route-meta">+22 min round-trip &middot; 4.6 km &middot; quick win</span></div>
+      <div class="route-desc">From Carnival through the government district: Velaanaage, President's Office, Bank of Maldives, MTCC, Foreign Ministry, Defence Ministry, police, MMA, MNDF. Returns past Majeediyya School, People's Majlis, Arabiyya School, and MIB.</div>
+    </div>
+    <div class="route-entry">
+      <div class="route-head"><span class="route-num" style="background:#6A4C93">3</span><span class="route-name">West Park&ndash;Jumhooree Maidaan</span><span class="route-meta">+10 min &middot; 2.5 km &middot; medium-term</span></div>
+      <div class="route-desc">Through the port and judicial district &ndash; MPL, Customs, High Court, Supreme Court, Justice Building, STO, the local market. Creates a transfer point with the Carnival line at Jumhooree Maidaan.</div>
+    </div>
+    <div class="route-entry">
+      <div class="route-head"><span class="route-num" style="background:#E76F51">4</span><span class="route-name">West Park&ndash;Majeedhee</span><span class="route-meta">+20 min &middot; 5.4 km &middot; longer-term</span></div>
+      <div class="route-desc">The full length of Majeedhee Magu &ndash; Aminiyya, Iskandar, ADK Hospital, Olympus, Chaandhanee Magu shops, stadiums. The commercial and cultural spine of the city, accessible by bus for the first time.</div>
+    </div>
+    <div class="route-entry">
+      <div class="route-head"><span class="route-num" style="background:#264653">5</span><span class="route-name">Ameenee&ndash;Majeedhee</span><span class="route-meta">~16 min &middot; 4.9 km &middot; new third line</span></div>
+      <div class="route-desc">A new Hulhumal&eacute;&ndash;Mal&eacute; line through central Mal&eacute; via Ameenee Magu and Majeedhee Magu. Reaches Dharubaaruge, STELCO, Finance Ministry, MIRA, MNU, Villingili Ferry Terminal &ndash; the southern half of Mal&eacute;. The Majeedhee Magu return covers the same stops as Route 4 &ndash; cinemas, shopping, sports complexes &ndash; from a different approach. Combined with the other four, nearly every home in Mal&eacute; is within walking distance of a Hulhumal&eacute; bus stop.</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap-w">
+  <div class="kp-grid reveal">
+    <div class="kp"><div class="kp-num">16</div><p>seated passengers in a double-decker bus occupy the road footprint of one parked motorcycle. Each rider who takes the bus frees up road and parking space.</p></div>
+    <div class="kp"><p>Routes through Majeedhee Magu put cinemas, sports complexes, and shops within bus reach for Hulhumal&eacute;. Mal&eacute; residents gain a cheap direct bus to Hulhumal&eacute;'s beaches and parks. Both sides become accessible to each other.</p></div>
+    <div class="kp"><p>The difference between a bus at your office and a ten-minute walk in the sun determines whether anyone takes the bus. Velaanaage and Majeedhee Magu employees would get doorstep stops.</p></div>
+    <div class="kp"><p>Someone in Hulhumal&eacute; who can ride one bus straight to their destination &ndash; reading or working the entire commute &ndash; has a materially different option from managing a bus, a transfer, and a walk.</p></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <a href="male bus routes/BusRoutes_Article.html" class="cta reveal">Full interactive analysis with stop-by-stop maps and coverage data &rarr;</a>
+</div>
+</div>
+
+<!-- ═══════ RESEARCH GALLERY ═══════ -->
+<div class="gallery" id="research">
+<div class="wrap-w">
+  <div class="gallery-label reveal">Research &amp; policy work</div>
+  <div class="gallery-grid">
+
+    <!-- Street Parking -->
+    <a href="street-parking.html" class="rcard accent-teal reveal">
+      <div class="rcard-tag">Streets &amp; space &middot; field research 2024</div>
+      <div class="rcard-title">Where the street space goes</div>
+      <div class="rcard-stat">43.5%</div>
+      <div class="rcard-stat-label">of drivable road width occupied by parked vehicles</div>
+      <div class="rcard-body">133 measurements across 27 streets with laser rulers at night. 63% too narrow for a bus. 41% too narrow for a car to pass. All 27 would be bus-accessible if parking were cleared. Vehicles sit unused 95% of the day &ndash; public land storing private machinery.</div>
+      <span class="rcard-link">Full research &rarr;</span>
+    </a>
+
+    <!-- Greenery -->
+    <a href="greenery.html" class="rcard accent-sage reveal">
+      <div class="rcard-tag">Streets &amp; heat &middot; satellite analysis</div>
+      <div class="rcard-title">Greenery and heat</div>
+      <div class="rcard-stat">12&ndash;16%</div>
+      <div class="rcard-stat-label">green cover in Mal&eacute; &middot; cooling starts at 40%</div>
+      <div class="rcard-body">Northern Hulhumal&eacute; Phase 1 reaches 30&ndash;45% &ndash; the only area near the threshold. Every 10 percentage points of tree cover reduces temperature by 1.4&deg;C. In shaded streets, afternoons are 3.3&deg;C cooler. On an island where heat determines whether people walk or drive, a few degrees changes behaviour.</div>
+      <span class="rcard-link">Full analysis &rarr;</span>
+    </a>
+
+    <!-- Third Spaces (wide) -->
+    <a href="third-spaces.html" class="rcard wide accent-coral reveal">
+      <div>
+        <div class="rcard-tag">Cultural life &middot; policy impact</div>
+        <div class="rcard-title">Third spaces, vibrant cities</div>
+        <div class="rcard-body">Public spaces where people can spend time without spending money. Mal&eacute; has one cinema, a National Library closing at 6pm since 2012, and caf&eacute;s that require spending. Following this paper, the government formalised a third spaces policy in a Cabinet decision in November 2024. The framework covers everything from large community centres to a caf&eacute;'s back room hosting trivia.</div>
+        <span class="rcard-link">Full policy framework &rarr;</span>
+      </div>
+      <div class="rcard-right">
+        <div class="rcard-body" style="margin-top:0">We tested the model by partnering with a local venue for free film screenings and poetry on off-peak nights. Six to sixteen people per event with minimal promotion. Eight people watching Spirited Away on a Monday is not a failure &ndash; it's a nice Monday night. The next step: a city-wide network of small venues with a shared calendar so something is always happening somewhere.</div>
+      </div>
+    </a>
+
+    <!-- Design Language -->
+    <a href="design-language.html" class="rcard accent-plum reveal">
+      <div class="rcard-tag">City identity &middot; design guidelines</div>
+      <div class="rcard-title">A Maldivian urban design language</div>
+      <div class="rcard-body">What government buildings could look like if they drew on what's already there &ndash; the Medhuziyaaraiy and Hukuru Miskiyy complex. White and blue palettes, weathered stone, Islamic geometric patterns, coconut leaf motifs. Against Mal&eacute;'s current trend of blocky single-colour panels with no connection to the city's history. With photo examples of what harmonious design looks like and what doesn't.</div>
+      <span class="rcard-link">Full guidelines &rarr;</span>
+    </a>
+
+    <!-- Old City -->
+    <a href="old-city.html" class="rcard accent-plum reveal">
+      <div class="rcard-tag">City identity &middot; concept paper</div>
+      <div class="rcard-title">Old City and Capital District</div>
+      <div class="rcard-stat">35%</div>
+      <div class="rcard-stat-label">of streets in the historical core already vehicle-free</div>
+      <div class="rcard-body">A contiguous pedestrianised district from Islamic Centre through Sultan Park to Velaanaage and the People's Majlis. A Capital Plaza at the old Huravee Building sites. Bus routes to the district edge. The area would become symbolic of Mal&eacute; the way government quarters define other capitals.</div>
+      <span class="rcard-link">Full concept &rarr;</span>
+    </a>
+
+    <!-- Elderly Shuttle -->
+    <a href="elderly-shuttle.html" class="rcard accent-teal reveal">
+      <div class="rcard-tag">Transport &amp; social policy</div>
+      <div class="rcard-title">Elderly shuttle for social participation</div>
+      <div class="rcard-body">Transport is the binding constraint on elderly social participation &ndash; not willingness, not programming, but physically getting there. Community spaces exist but the most isolated elderly cannot reach them. A dedicated shuttle service in development with Israhvehinge Naadhee would close the gap between building spaces and people being able to use them.</div>
+      <span class="rcard-link">Full proposal &rarr;</span>
+    </a>
+
+  </div>
+</div>
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives &middot; <a href="mailto:info@policylabmv.com">info@policylabmv.com</a></div>
+  <div>Urbanism is one of four <a href="/">focus areas</a></div>
+</footer>
+
+<script>
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+</script>
+</body>
+</html>

@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A Century of Social Policy – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+  --dark: #2A3042; --dark-bg: #1C2030;
+  --era1: #A89F91; --era2: #6B7FA3; --era3: #7A8F7E; --era4: #8E7BA0; --era5: #5C7A8A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(28,32,48,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06);transition:background .4s}
+nav.scrolled{background:rgba(250,249,246,.95);border-bottom-color:rgba(0,0,0,.06)}
+.nav-l{font-size:13px;font-weight:700;color:rgba(255,255,255,.9)}
+.nav-l span{font-weight:400;color:rgba(255,255,255,.45);font-size:12px;margin-left:4px}
+nav.scrolled .nav-l{color:var(--pri-d)}
+nav.scrolled .nav-l span{color:var(--muted)}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:rgba(255,255,255,.5);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:rgba(255,255,255,.9)}
+nav.scrolled .nav-r a{color:var(--muted)}
+nav.scrolled .nav-r a:hover{color:var(--fg)}
+
+/* ── FILTER BAR ── */
+.filter-bar{position:fixed;top:49px;left:0;right:0;z-index:190;padding:10px 32px;background:rgba(250,249,246,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.04);display:flex;gap:7px;flex-wrap:wrap;align-items:center;transform:translateY(-120%);transition:transform .35s ease;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.filter-bar.visible{transform:translateY(0)}
+.filter-btn{padding:5px 13px;border-radius:20px;font-size:11px;font-weight:600;border:1.5px solid rgba(0,0,0,.08);background:transparent;color:var(--body);cursor:pointer;transition:all .2s;font-family:var(--sans);white-space:nowrap;flex-shrink:0}
+.filter-btn:hover{border-color:var(--pri);color:var(--pri-d)}
+.filter-btn.active{background:var(--pri-d);color:#fff;border-color:var(--pri-d)}
+.filter-count{font-size:11px;color:var(--muted);font-weight:500;margin-left:6px;flex-shrink:0}
+
+/* ── ERA INDICATOR (sticky) ── */
+.era-indicator{position:fixed;top:100px;right:32px;z-index:180;text-align:right;pointer-events:none;opacity:0;transition:opacity .5s}
+.era-indicator.visible{opacity:1}
+.era-indicator .era-label{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri)}
+.era-indicator .era-dates{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 40px 80px;background:var(--dark-bg);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 40%, rgba(107,127,163,.12) 0%, transparent 70%)}
+.hero-count{display:flex;gap:40px;margin-bottom:48px;position:relative}
+.hero-stat{text-align:center}
+.hero-stat .num{font-family:var(--sans);font-size:clamp(40px,6vw,72px);font-weight:800;color:rgba(255,255,255,.95);letter-spacing:-.03em;line-height:1}
+.hero-stat .label{font-size:11px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-top:6px}
+.hero h1{font-family:var(--serif);font-size:clamp(32px,4.5vw,56px);line-height:1.15;letter-spacing:-.01em;margin-bottom:24px;font-weight:600;color:rgba(255,255,255,.92);max-width:700px;position:relative}
+.hero p{font-size:15px;color:rgba(255,255,255,.45);line-height:1.75;max-width:540px;position:relative}
+.scroll-prompt{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px}
+.scroll-prompt span{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.scroll-prompt .arrow{width:20px;height:20px;border-right:1.5px solid rgba(255,255,255,.3);border-bottom:1.5px solid rgba(255,255,255,.3);transform:rotate(45deg);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:rotate(45deg) translate(0,0);opacity:.3}50%{transform:rotate(45deg) translate(4px,4px);opacity:.8}}
+
+/* ── ERA SECTION ── */
+.era-section{position:relative;padding:0 0 24px}
+.era-intro{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding:100px 40px 60px;position:relative;overflow:hidden}
+.era-intro::before{content:'';position:absolute;inset:0;opacity:.04}
+.era-intro .era-number{font-family:var(--sans);font-size:clamp(100px,14vw,200px);font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(0,0,0,.06);line-height:1;position:absolute;right:40px;bottom:40px;pointer-events:none}
+.era-intro .era-tag{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;display:inline-block;padding:4px 12px;border-radius:3px}
+.era-intro h2{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:600;line-height:1.15;letter-spacing:-.01em;color:var(--dark);margin-bottom:16px;max-width:600px}
+.era-intro .era-desc{font-size:15px;color:var(--body);line-height:1.75;max-width:520px}
+.era-intro .entry-count{font-size:12px;color:var(--muted);margin-top:20px;font-weight:500}
+
+/* era colors */
+.era-section[data-era="1"] .era-tag{background:rgba(168,159,145,.12);color:#7A7164}
+.era-section[data-era="2"] .era-tag{background:rgba(107,127,163,.12);color:var(--pri-d)}
+.era-section[data-era="3"] .era-tag{background:rgba(122,143,126,.12);color:#5A7A5E}
+.era-section[data-era="4"] .era-tag{background:rgba(142,123,160,.12);color:#6A5A7A}
+.era-section[data-era="5"] .era-tag{background:rgba(92,122,138,.12);color:#3C5A6A}
+.era-section[data-era="1"] .era-intro{background:linear-gradient(135deg, #F5F3EF 0%, #EDE9E3 100%)}
+.era-section[data-era="2"] .era-intro{background:linear-gradient(135deg, #F0F2F6 0%, #E4E8EF 100%)}
+.era-section[data-era="3"] .era-intro{background:linear-gradient(135deg, #EFF3F0 0%, #E2EAE4 100%)}
+.era-section[data-era="4"] .era-intro{background:linear-gradient(135deg, #F2EFF5 0%, #E8E4ED 100%)}
+.era-section[data-era="5"] .era-intro{background:linear-gradient(135deg, #EEF2F4 0%, #E0E8EC 100%)}
+
+/* ── STICKY ERA BAR (visible while scrolling cards) ── */
+.era-sticky-bar{position:sticky;top:92px;z-index:150;padding:8px 40px;background:rgba(250,249,246,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.04);display:flex;align-items:center;justify-content:space-between}
+.era-sticky-bar .era-sticky-label{font-size:12px;font-weight:700;color:var(--dark);letter-spacing:-.01em}
+.era-sticky-bar .era-sticky-dates{font-size:11px;color:var(--muted);font-weight:500;margin-left:8px}
+.era-sticky-bar .era-sticky-hint{font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:600;opacity:.6}
+
+/* ── HORIZONTAL STRIP ── */
+.strip-wrapper{position:relative;padding:0 0 48px}
+.strip{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:32px 40px 24px;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+
+/* ── NEXT ERA CUE at end of strip ── */
+.next-era-cue{flex:0 0 200px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 20px;opacity:.5}
+.next-era-cue .cue-arrow{width:28px;height:28px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin-bottom:12px;animation:bob 2.4s ease-in-out infinite}
+.next-era-cue .cue-text{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.next-era-cue .cue-next{font-size:13px;color:var(--pri-d);font-weight:700;margin-top:4px}
+
+/* arrow buttons */
+.strip-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 12px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all .2s;opacity:0}
+.strip-wrapper:hover .strip-nav{opacity:1}
+.strip-nav:hover{box-shadow:0 4px 20px rgba(0,0,0,.14);background:#fff}
+.strip-nav.left{left:12px}
+.strip-nav.right{right:12px}
+.strip-nav svg{width:16px;height:16px;stroke:var(--dark);stroke-width:2;fill:none}
+
+/* ── CARD ── */
+.card{flex:0 0 320px;scroll-snap-align:start;background:var(--card);border-radius:10px;padding:28px 24px 20px;box-shadow:0 1px 4px rgba(0,0,0,.04),0 6px 24px rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.04);transition:opacity .35s, transform .35s, box-shadow .25s;position:relative;display:flex;flex-direction:column}
+.card:hover{box-shadow:0 2px 8px rgba(0,0,0,.06),0 12px 36px rgba(0,0,0,.06);transform:translateY(-2px)}
+.card.dimmed{opacity:.12;transform:scale(.97);pointer-events:none}
+.card .year{font-family:var(--sans);font-size:32px;font-weight:800;color:var(--dark);letter-spacing:-.02em;line-height:1;margin-bottom:12px}
+.card .title{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--fg);line-height:1.35;margin-bottom:10px}
+.card .desc{font-size:12.5px;color:var(--body);line-height:1.65;flex:1}
+.card .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(0,0,0,.04)}
+.tag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:12px;white-space:nowrap}
+
+/* tag colors */
+.tag[data-s="education"]{background:#E8F0E4;color:#4A6B42}
+.tag[data-s="gender"]{background:#F0E4EC;color:#7A426A}
+.tag[data-s="health"]{background:#E4EAF0;color:#42627A}
+.tag[data-s="child-protection"]{background:#FFF3E0;color:#8A6520}
+.tag[data-s="criminal-justice"]{background:#F5E6E0;color:#7A4232}
+.tag[data-s="substance-abuse"]{background:#EDE4F0;color:#5A427A}
+.tag[data-s="social-work"]{background:#E4F0E8;color:#427A52}
+.tag[data-s="international-law"]{background:#E0ECF5;color:#325A7A}
+.tag[data-s="housing"]{background:#F0EDE4;color:#6A5A32}
+.tag[data-s="family-law"]{background:#F0E8E4;color:#7A5242}
+.tag[data-s="disaster"]{background:#FFE8E0;color:#8A3A20}
+.tag[data-s="constitutional-law"]{background:#E4E4F0;color:#4A4A7A}
+.tag[data-s="employment"]{background:#E0F0ED;color:#327A62}
+.tag[data-s="social-protection"]{background:#E8E4F0;color:#5A427A}
+.tag[data-s="elderly"]{background:#F0ECE4;color:#6A5832}
+.tag[data-s="disability"]{background:#E4EEF0;color:#326A7A}
+.tag[data-s="governance"]{background:#E4E8F0;color:#42527A}
+.tag[data-s="GBV"]{background:#F5E0E4;color:#8A3242}
+.tag[data-s="mental-health"]{background:#E0F0F0;color:#327A7A}
+.tag[data-s="human-trafficking"]{background:#F0E0E0;color:#7A3232}
+.tag[data-s="cross-cutting"]{background:#EAEAEA;color:#5A5A5A}
+.tag[data-s="demographics"]{background:#E4F0F0;color:#327272}
+.tag[data-s="tobacco"]{background:#E8E4E0;color:#6A5A4A}
+
+/* ── ERA DIVIDER ── */
+.era-divider{height:2px;margin:0 40px;background:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.06) 20%, rgba(0,0,0,.06) 80%, transparent 100%)}
+
+/* ── FOOTER ── */
+footer{padding:60px 40px;text-align:center;border-top:1px solid rgba(0,0,0,.06);margin-top:40px}
+footer p{font-size:12px;color:var(--muted);line-height:1.8}
+footer a{color:var(--pri-d);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  nav{padding:12px 20px}
+  .filter-bar{padding:8px 16px;gap:5px}
+  .hero{padding:100px 24px 80px}
+  .hero-count{gap:24px;margin-bottom:36px}
+  .era-intro{min-height:auto;padding:80px 24px 40px}
+  .era-intro .era-number{font-size:80px;right:20px;bottom:20px}
+  .strip-wrapper{padding:0 0 32px}
+  .strip{flex-direction:column;overflow-x:visible;scroll-snap-type:none;padding:20px 24px}
+  .card{flex:0 0 auto;width:100%}
+  .strip-nav{display:none}
+  .era-indicator{display:none}
+  .era-divider{margin:0 24px}
+  .era-sticky-bar{padding:8px 24px;top:92px}
+  .era-sticky-bar .era-sticky-hint{display:none}
+  .next-era-cue{flex:0 0 auto;width:100%;padding:20px}
+  footer{padding:40px 24px}
+}
+@media(max-width:480px){
+  .hero-count{flex-direction:column;gap:16px}
+  .filter-bar{gap:4px}
+  .filter-btn{font-size:10px;padding:4px 10px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-l">Society<span>Public Policy Lab</span></div>
+  <div class="nav-r">
+    <a href="index.html">Overview</a>
+    <a href="tools.html">Tools</a>
+    <a href="data.html">Data</a>
+    <a href="../index.html">Main site</a>
+  </div>
+</nav>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="child-protection">Child protection</button>
+  <button class="filter-btn" data-filter="gender">Gender</button>
+  <button class="filter-btn" data-filter="GBV">GBV</button>
+  <button class="filter-btn" data-filter="health">Health</button>
+  <button class="filter-btn" data-filter="mental-health">Mental health</button>
+  <button class="filter-btn" data-filter="education">Education</button>
+  <button class="filter-btn" data-filter="social-protection">Social protection</button>
+  <button class="filter-btn" data-filter="disability">Disability</button>
+  <button class="filter-btn" data-filter="substance-abuse">Substance abuse</button>
+  <button class="filter-btn" data-filter="criminal-justice">Criminal justice</button>
+  <button class="filter-btn" data-filter="housing">Housing</button>
+  <button class="filter-btn" data-filter="employment">Employment</button>
+  <button class="filter-btn" data-filter="elderly">Elderly</button>
+  <button class="filter-btn" data-filter="governance">Governance</button>
+  <button class="filter-btn" data-filter="international-law">International law</button>
+  <button class="filter-btn" data-filter="family-law">Family law</button>
+  <button class="filter-btn" data-filter="constitutional-law">Constitutional law</button>
+  <span class="filter-count" id="filterCount">71 entries</span>
+</div>
+
+<!-- ERA INDICATOR -->
+<div class="era-indicator" id="eraIndicator">
+  <div class="era-label" id="eraLabel"></div>
+  <div class="era-dates" id="eraDates"></div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-count">
+    <div class="hero-stat"><div class="num">71</div><div class="label">Entries</div></div>
+    <div class="hero-stat"><div class="num">5</div><div class="label">Eras</div></div>
+    <div class="hero-stat"><div class="num">98</div><div class="label">Years</div></div>
+  </div>
+  <h1>A century of social policy</h1>
+  <p>From the establishment of the first modern school in 1927 to the latest mental health strategy in 2025 &mdash; every piece of social legislation, every institutional milestone, mapped across five political eras.</p>
+  <div class="scroll-prompt">
+    <span>Scroll to explore</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════ ERA I ═══════════ -->
+<section class="era-section" data-era="1" data-era-name="Pre-independence &amp; early republic" data-era-dates="1927 – 1976">
+  <div class="era-intro">
+    <span class="era-number">I</span>
+    <span class="era-tag">Era I</span>
+    <h2>Pre-independence &amp; early republic</h2>
+    <p class="era-desc">The earliest foundations of modern social infrastructure. Two milestones in education &mdash; decades before independence &mdash; that shaped what followed.</p>
+    <p class="entry-count">2 entries &middot; 1927 &ndash; 1944</p>
+  </div>
+  <div class="strip-wrapper">
+    <button class="strip-nav left" aria-label="Scroll left"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="strip">
+      <div class="card" data-sectors="education">
+        <div class="year">1927</div>
+        <div class="title">Majeediyya School established</div>
+        <div class="desc">First modern school in Male'; English-medium instruction for boys only.</div>
+        <div class="tags"><span class="tag" data-s="education">education</span></div>
+      </div>
+      <div class="card" data-sectors="education,gender">
+        <div class="year">1944</div>
+        <div class="title">Aminiya School established</div>
+        <div class="desc">First formal educational institution for girls in Male'; one of the earliest for women in the Indian Ocean region.</div>
+        <div class="tags"><span class="tag" data-s="education">education</span><span class="tag" data-s="gender">gender</span></div>
+      </div>
+    </div>
+    <button class="strip-nav right" aria-label="Scroll right"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+  </div>
+</section>
+
+<div class="era-divider"></div>
+
+<!-- ═══════════ ERA II ═══════════ -->
+<section class="era-section" data-era="2" data-era-name="The Gayoom era" data-era-dates="1977 – 2008">
+  <div class="era-intro">
+    <span class="era-number">II</span>
+    <span class="era-tag">Era II</span>
+    <h2>The Gayoom era</h2>
+    <p class="era-desc">Three decades of centralised governance that built the Maldives' health, education, and child protection systems from scratch &mdash; and left gaps that democratic transition would need to fill.</p>
+    <p class="entry-count">22 entries &middot; 1977 &ndash; 2008</p>
+  </div>
+  <div class="strip-wrapper">
+    <button class="strip-nav left" aria-label="Scroll left"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="strip">
+      <div class="card" data-sectors="substance-abuse,criminal-justice">
+        <div class="year">1977</div>
+        <div class="title">Law No. 17/77 &ndash; The Law on Drugs</div>
+        <div class="desc">First drug control legislation. Criminalises planting, production, import, export, selling, buying, and possession. Life imprisonment for trafficking; automatic trafficking presumption for over 1 gram.</div>
+        <div class="tags"><span class="tag" data-s="substance-abuse">substance abuse</span><span class="tag" data-s="criminal-justice">criminal justice</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection">
+        <div class="year">1979</div>
+        <div class="title">Islaahiya reform facility established</div>
+        <div class="desc">First institutional care facility; housed delinquent youth and children in need of care without differentiation between the two categories.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">1980</div>
+        <div class="title">First Health Sector Plan</div>
+        <div class="desc">Three-year medium-term plan following the Alma-Ata Declaration (1978) primary health care principles. Beginning of systematic health planning.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="education,gender">
+        <div class="year">1981</div>
+        <div class="title">Higher secondary education for girls (Aminiya)</div>
+        <div class="desc">A-Level instruction extended to girls. The cohorts educated in the 1970s and 1980s became the generation that drove DV awareness and legislative advocacy in the 2000s.</div>
+        <div class="tags"><span class="tag" data-s="education">education</span><span class="tag" data-s="gender">gender</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">1984</div>
+        <div class="title">Maldives certified malaria-free</div>
+        <div class="desc">First country in the WHO South-East Asia Region to achieve malaria elimination.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">1985</div>
+        <div class="title">First atoll-level hospital (Addu City)</div>
+        <div class="desc">Expansion of secondary health care beyond Male' for the first time.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection,international-law">
+        <div class="year">1991</div>
+        <div class="title">CRC ratification &amp; Law 9/91</div>
+        <div class="desc">Convention on the Rights of the Child ratified. Law 9/91 is the first child protection legislation &ndash; largely declaratory, with no enforcement mechanisms, no definitions of abuse, and no mandatory reporting.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="international-law">international law</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection">
+        <div class="year">1992</div>
+        <div class="title">Unit for the Rights of Children (URC) established</div>
+        <div class="desc">First dedicated government child protection unit, initially within the Ministry of Home Affairs. The security-ministry placement reflected the prevailing conceptualisation of children's issues as matters of social order rather than welfare.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="gender,international-law">
+        <div class="year">1993</div>
+        <div class="title">CEDAW accession</div>
+        <div class="desc">Convention on the Elimination of All Forms of Discrimination Against Women. Reservations on Article 7(a) (political participation) and Article 16 (marriage and family law). Reservations not withdrawn as of 2025.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span><span class="tag" data-s="international-law">international law</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">1996</div>
+        <div class="title">Health Master Plan 1996&ndash;2005</div>
+        <div class="desc">First long-term health sector strategic plan for the Maldives.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="substance-abuse">
+        <div class="year">1997</div>
+        <div class="title">Narcotics Control Board &amp; Drug Rehabilitation Centre</div>
+        <div class="desc">First institutional coordination body for drug policy. Accompanied by the DRC on Himmafushi island (capacity 150, maximum 250).</div>
+        <div class="tags"><span class="tag" data-s="substance-abuse">substance abuse</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection,criminal-justice">
+        <div class="year">1997</div>
+        <div class="title">Juvenile Court established</div>
+        <div class="desc">First specialised juvenile justice institution in the Maldives.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="criminal-justice">criminal justice</span></div>
+      </div>
+      <div class="card" data-sectors="housing">
+        <div class="year">1997</div>
+        <div class="title">Hulhumale land reclamation begins</div>
+        <div class="desc">Major housing intervention; reclamation of land within the Hulhule/Farukolhufushi lagoon. First residents move in 2004.</div>
+        <div class="tags"><span class="tag" data-s="housing">housing</span></div>
+      </div>
+      <div class="card" data-sectors="family-law,gender">
+        <div class="year">2000</div>
+        <div class="title">Family Act (Act No. 4/2000)</div>
+        <div class="desc">Primary law governing marriage, divorce, custody, and maintenance. Codifies Islamic family law principles. Permits polygamy; creates asymmetric divorce process; minimum child maintenance MVR 2,000/month.</div>
+        <div class="tags"><span class="tag" data-s="family-law">family law</span><span class="tag" data-s="gender">gender</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection,criminal-justice">
+        <div class="year">2001</div>
+        <div class="title">Mandatory reporting repealed (18-year gap created)</div>
+        <div class="desc">Repeal of Penal Code Chapter 3, Section 72 removed mandatory reporting provisions. This created an 18-year gap in child abuse reporting obligations until the CRPA restored them in 2019.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="criminal-justice">criminal justice</span></div>
+      </div>
+      <div class="card" data-sectors="housing">
+        <div class="year">2002</div>
+        <div class="title">Land Law of Maldives</div>
+        <div class="desc">Introduced condominium registration (strata titling), allowing individual unit registration and mortgaging within buildings for the first time.</div>
+        <div class="tags"><span class="tag" data-s="housing">housing</span></div>
+      </div>
+      <div class="card" data-sectors="substance-abuse">
+        <div class="year">2003</div>
+        <div class="title">First National Drug Use Survey</div>
+        <div class="desc">UNODC-supported rapid situation assessment: 3,909 individuals. Found opioids as initiation drug for 43%, mean age 21.4 years, peer pressure (38%) as primary initiation factor.</div>
+        <div class="tags"><span class="tag" data-s="substance-abuse">substance abuse</span></div>
+      </div>
+      <div class="card" data-sectors="disaster,child-protection">
+        <div class="year">2004</div>
+        <div class="title">Indian Ocean Tsunami</div>
+        <div class="desc">82 dead, 26 missing, 14 islands permanently evacuated, damage at 62% of GDP. Catalysed a major expansion of UNICEF child protection programming and international development assistance.</div>
+        <div class="tags"><span class="tag" data-s="disaster">disaster</span><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="housing">
+        <div class="year">2004</div>
+        <div class="title">Housing Development Finance Corporation (HDFC) established</div>
+        <div class="desc">Government entity for housing finance on favourable terms; later partially privatised (49/51 government-private).</div>
+        <div class="tags"><span class="tag" data-s="housing">housing</span></div>
+      </div>
+      <div class="card" data-sectors="gender,GBV">
+        <div class="year">2006</div>
+        <div class="title">National DV prevalence study (Fulu, 2006)</div>
+        <div class="desc">First systematic national survey of domestic violence using WHO multi-country methodology. Approximately 1 in 3 women experienced physical or sexual intimate partner violence. Foundation for all subsequent GBV legislative reform.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span><span class="tag" data-s="GBV">GBV</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection,social-work">
+        <div class="year">2006</div>
+        <div class="title">Child Protection Procedure Manual &amp; first social work training</div>
+        <div class="desc">First systematic child protection guidance, modelled on England's &ldquo;Working Together&rdquo; framework. Same year, first groups of school leavers trained as social workers through a one-year Advanced Certificate at the University of Kelaniya, Sri Lanka, and deployed to FCSCs.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="social-work">social work</span></div>
+      </div>
+      <div class="card" data-sectors="constitutional-law,gender,health,child-protection,disability,elderly,education,social-protection">
+        <div class="year">2008</div>
+        <div class="title">Constitution of the Republic of Maldives</div>
+        <div class="desc">Multi-party democracy, separation of powers, fundamental rights chapter. Article 17 (equality), Article 23 (socioeconomic rights), Article 35 (children's rights), Article 36 (state obligations for vulnerable groups).</div>
+        <div class="tags"><span class="tag" data-s="constitutional-law">constitutional law</span><span class="tag" data-s="gender">gender</span><span class="tag" data-s="health">health</span><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="disability">disability</span><span class="tag" data-s="elderly">elderly</span><span class="tag" data-s="education">education</span><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+    </div>
+    <button class="strip-nav right" aria-label="Scroll right"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+  </div>
+</section>
+
+<div class="era-divider"></div>
+
+<!-- ═══════════ ERA III ═══════════ -->
+<section class="era-section" data-era="3" data-era-name="Democratic transition" data-era-dates="2008 – 2012">
+  <div class="era-intro">
+    <span class="era-number">III</span>
+    <span class="era-tag">Era III</span>
+    <h2>Democratic transition</h2>
+    <p class="era-desc">A burst of institution-building in the first multi-party era: pensions, disability rights, decentralisation, universal health insurance, and the first domestic violence law &mdash; all within four years.</p>
+    <p class="entry-count">7 entries &middot; 2008 &ndash; 2011</p>
+  </div>
+  <div class="strip-wrapper">
+    <button class="strip-nav left" aria-label="Scroll left"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="strip">
+      <div class="card" data-sectors="child-protection">
+        <div class="year">2008</div>
+        <div class="title">National Child Helpline (1412) established</div>
+        <div class="desc">Toll-free 24-hour child abuse reporting channel in partnership with Child Helpline International. Given statutory basis in CRPA 2019.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="employment,gender">
+        <div class="year">2008</div>
+        <div class="title">Employment Act (Act No. 2/2008)</div>
+        <div class="desc">Labour relations law: working conditions, hours, leave, prohibition of gender discrimination, occupational safety, migrant worker provisions. Minimum wage later established in January 2022 under this Act.</div>
+        <div class="tags"><span class="tag" data-s="employment">employment</span><span class="tag" data-s="gender">gender</span></div>
+      </div>
+      <div class="card" data-sectors="housing,social-protection">
+        <div class="year">2008</div>
+        <div class="title">National Housing Policy &amp; NSPA established</div>
+        <div class="desc">Six-focus-area housing policy covering shelter, affordability, finance, land management, building standards, and institutional coordination. National Social Protection Agency also created to coordinate social assistance programmes.</div>
+        <div class="tags"><span class="tag" data-s="housing">housing</span><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+      <div class="card" data-sectors="social-protection,elderly">
+        <div class="year">2009</div>
+        <div class="title">Maldives Pension Act (Act No. 8/2009)</div>
+        <div class="desc">Established MPAO; created the Old-Age Basic Pension (later increased to MVR 5,000/month) and the Maldives Retirement Pension Scheme (MRPS) &ndash; defined contribution, mandatory for all employees.</div>
+        <div class="tags"><span class="tag" data-s="social-protection">social protection</span><span class="tag" data-s="elderly">elderly</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection,criminal-justice">
+        <div class="year">2009</div>
+        <div class="title">Special Provisions Act for Child Sex Abuse Offenders &amp; baby death case</div>
+        <div class="desc">Enhanced penalties for child sexual abuse (7&ndash;14 years). Mandated Child Sex Offenders Registry. Same year, a watershed child protection case exposed systemic failures in inter-agency coordination, supervision, and risk assessment.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="criminal-justice">criminal justice</span></div>
+      </div>
+      <div class="card" data-sectors="disability,international-law">
+        <div class="year">2010</div>
+        <div class="title">Disability Act (Act No. 8/2010) &amp; CRPD ratification</div>
+        <div class="desc">Rights of persons with disabilities; monthly disability allowance (initially MVR 2,000); National Disability Registry; Disability Council. CRPD ratified without reservations.</div>
+        <div class="tags"><span class="tag" data-s="disability">disability</span><span class="tag" data-s="international-law">international law</span></div>
+      </div>
+      <div class="card" data-sectors="governance,child-protection">
+        <div class="year">2010</div>
+        <div class="title">Decentralisation Act (Act No. 7/2010)</div>
+        <div class="desc">Replaced centralised atoll chief system with elected local councils. Delegated some social service functions to local councils. CFPS centralised to manage all FCSCs across 20 atolls. Community Social Groups initiated for island-level child protection.</div>
+        <div class="tags"><span class="tag" data-s="governance">governance</span><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">2010</div>
+        <div class="title">Tobacco Control Act (Act No. 15/2010)</div>
+        <div class="desc">First tobacco control legislation for the Maldives.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="substance-abuse">
+        <div class="year">2011</div>
+        <div class="title">Drugs Act (Act No. 17/2011)</div>
+        <div class="desc">Comprehensive drug law reform. Established National Drug Agency; created Drug Court; introduced treatment diversion for drug use offences while maintaining severe trafficking penalties.</div>
+        <div class="tags"><span class="tag" data-s="substance-abuse">substance abuse</span></div>
+      </div>
+      <div class="card" data-sectors="health,social-protection">
+        <div class="year">2011</div>
+        <div class="title">National Social Health Insurance Act (Act No. 15/2011)</div>
+        <div class="desc">Legal basis for universal health insurance (Aasandha). All Maldivian citizens covered; no premiums, co-payments, or deductibles at point of service.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+    </div>
+    <button class="strip-nav right" aria-label="Scroll right"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+  </div>
+</section>
+
+<div class="era-divider"></div>
+
+<!-- ═══════════ ERA IV ═══════════ -->
+<section class="era-section" data-era="4" data-era-name="Consolidation" data-era-dates="2012 – 2018">
+  <div class="era-intro">
+    <span class="era-number">IV</span>
+    <span class="era-tag">Era IV</span>
+    <h2>Consolidation</h2>
+    <p class="era-desc">The post-transition decade: landmark laws on domestic violence, gender equality, and the new penal code &mdash; alongside persistent gaps in implementation and enforcement.</p>
+    <p class="entry-count">14 entries &middot; 2012 &ndash; 2018</p>
+  </div>
+  <div class="strip-wrapper">
+    <button class="strip-nav left" aria-label="Scroll left"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="strip">
+      <div class="card" data-sectors="gender,GBV">
+        <div class="year">2012</div>
+        <div class="title">Domestic Violence Prevention Act (Act No. 3/2012)</div>
+        <div class="desc">Landmark legislation. Defines DV broadly (physical, sexual, emotional, verbal, financial, psychological). Mandatory reporting duty. Created Family Protection Authority. Protection Orders. Does not specifically criminalise DV as a standalone offence.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span><span class="tag" data-s="GBV">GBV</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">2012</div>
+        <div class="title">Thalassaemia Control Act</div>
+        <div class="desc">National programme for thalassaemia prevention. Maldives has an 18% carrier rate for the genetic blood disorder.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="human-trafficking,gender">
+        <div class="year">2013</div>
+        <div class="title">Prevention of Human Trafficking Act (Act No. 12/2013)</div>
+        <div class="desc">Criminalises all forms of trafficking (forced labour, sexual exploitation, debt bondage). Penalties up to 15 years. Anti-Human Trafficking Office established.</div>
+        <div class="tags"><span class="tag" data-s="human-trafficking">human trafficking</span><span class="tag" data-s="gender">gender</span></div>
+      </div>
+      <div class="card" data-sectors="disability">
+        <div class="year">2013</div>
+        <div class="title">Minimum Standards for Accessibility (Regulation 2013/R-557)</div>
+        <div class="desc">Accessibility standards for education institutions, health facilities, therapy centres, and government buildings. Narrow scope &ndash; does not cover all public or private buildings.</div>
+        <div class="tags"><span class="tag" data-s="disability">disability</span></div>
+      </div>
+      <div class="card" data-sectors="criminal-justice,gender">
+        <div class="year">2014</div>
+        <div class="title">Penal Code (Act No. 6/2014)</div>
+        <div class="desc">Comprehensive criminal code. Section 411(d): 100 lashes for extramarital sex. Section 130(b): rebuttable presumption of consent within marriage. Approximately 85% of persons sentenced to flogging are women and girls.</div>
+        <div class="tags"><span class="tag" data-s="criminal-justice">criminal justice</span><span class="tag" data-s="gender">gender</span></div>
+      </div>
+      <div class="card" data-sectors="gender,GBV,criminal-justice">
+        <div class="year">2014</div>
+        <div class="title">Sexual Offences Act (Act No. 17/2014)</div>
+        <div class="desc">First standalone criminalisation of rape, sexual assault, sexual harassment. Section 52 requires five types of evidence for prosecution. Section 130(b) of Penal Code maintained rebuttable presumption of consent within marriage.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span><span class="tag" data-s="GBV">GBV</span><span class="tag" data-s="criminal-justice">criminal justice</span></div>
+      </div>
+      <div class="card" data-sectors="health,social-protection">
+        <div class="year">2014</div>
+        <div class="title">Husnuvaa Aasandha (Unlimited Aasandha)</div>
+        <div class="desc">Removed the annual benefit cap entirely. Genuinely unlimited, government-funded health coverage for all citizens &ndash; one of the few countries in the world to offer this.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+      <div class="card" data-sectors="social-protection">
+        <div class="year">2014</div>
+        <div class="title">Social Protection Act (Act No. 2/2014)</div>
+        <div class="desc">Formalised cash transfers: single parent allowance (MVR 1,000/child, max MVR 3,000), foster parent allowance, disability allowance, food and utility subsidies. Legal basis for NSPA.</div>
+        <div class="tags"><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+      <div class="card" data-sectors="mental-health">
+        <div class="year">2015</div>
+        <div class="title">National Mental Health Policy 2015&ndash;2025</div>
+        <div class="desc">First comprehensive mental health policy. Six objectives including primary health care integration, community-based services, and stigma reduction. Based on WHO mhGAP framework.</div>
+        <div class="tags"><span class="tag" data-s="mental-health">mental health</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">2015</div>
+        <div class="title">Health Services Act &amp; Health Care Profession Act</div>
+        <div class="desc">Regulatory framework for all health service provision including mental health. Separate act regulates health professionals: registration, licensing, practice standards for psychiatrists, psychologists, counsellors.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection,education">
+        <div class="year">2015</div>
+        <div class="title">Child protection focal points in schools</div>
+        <div class="desc">Ministry of Education placed designated staff in schools for child protection identification and response. Effectiveness limited by absence of established referral pathways, police checks, and training.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="education">education</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection">
+        <div class="year">2016</div>
+        <div class="title">Maldives Child Protection Database (MCPD) launched</div>
+        <div class="desc">Digital case management system linking all 19 FCSCs to centralised CFPS. First national-level child protection data capability, replacing fragmented manual record-keeping.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="gender">
+        <div class="year">2016</div>
+        <div class="title">Gender Equality Act (Act No. 18/2016)</div>
+        <div class="desc">Comprehensive gender equality law. Prohibits gender-based discrimination. Recognises GBV as discrimination. Mandates gender mainstreaming. Equal pay for equal work. Framework for Gender Equality Action Plans.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span></div>
+      </div>
+      <div class="card" data-sectors="elderly">
+        <div class="year">2018</div>
+        <div class="title">National Elderly Policy</div>
+        <div class="desc">First dedicated policy for older persons. Six fundamental rights (dignity, health, work, property, social security, freedom from violence). Four core principles (protection, independence, health/well-being, preparatory measures).</div>
+        <div class="tags"><span class="tag" data-s="elderly">elderly</span></div>
+      </div>
+    </div>
+    <button class="strip-nav right" aria-label="Scroll right"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+  </div>
+</section>
+
+<div class="era-divider"></div>
+
+<!-- ═══════════ ERA V ═══════════ -->
+<section class="era-section" data-era="5" data-era-name="2019 – present" data-era-dates="2019 – 2025">
+  <div class="era-intro">
+    <span class="era-number">V</span>
+    <span class="era-tag">Era V</span>
+    <h2>2019 &ndash; present</h2>
+    <p class="era-desc">The most legislatively dense era. Comprehensive child protection and juvenile justice reform, COVID-19 shock, minimum wage, mental health infrastructure, and the ongoing push to close the gap between law and implementation.</p>
+    <p class="entry-count">23 entries &middot; 2019 &ndash; 2025</p>
+  </div>
+  <div class="strip-wrapper">
+    <button class="strip-nav left" aria-label="Scroll left"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <div class="strip">
+      <div class="card" data-sectors="child-protection">
+        <div class="year">2019</div>
+        <div class="title">Child Rights Protection Act (Act No. 19/2019)</div>
+        <div class="desc">Most comprehensive child protection legislation. Definitions of abuse across five categories. Mandatory reporting restored (criminal offence for failure: 2&ndash;5 years). Judicial orders. Children's Ombudsperson established. Marriage age raised to 18.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection,criminal-justice">
+        <div class="year">2019</div>
+        <div class="title">Juvenile Justice Act (Act No. 18/2019)</div>
+        <div class="desc">Age of criminal responsibility raised from 10 to 15. Death penalty prohibited for juveniles. Rehabilitation emphasis over punishment.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span><span class="tag" data-s="criminal-justice">criminal justice</span></div>
+      </div>
+      <div class="card" data-sectors="mental-health,health">
+        <div class="year">2019</div>
+        <div class="title">National Centre for Mental Health established (IGMH)</div>
+        <div class="desc">Outpatient and later inpatient services. Reduced psychiatry waitlists from 3,300+ to approximately 330 &ndash; a 90% reduction by 2023.</div>
+        <div class="tags"><span class="tag" data-s="mental-health">mental health</span><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="elderly">
+        <div class="year">2019</div>
+        <div class="title">National Plan of Action on Older Persons 2019&ndash;2023</div>
+        <div class="desc">34 priority actions, 10 stakeholder agencies, 4 policy areas: care and support, independence and participation, healthcare and wellbeing, preparation for ageing. Implementation disrupted by COVID-19.</div>
+        <div class="tags"><span class="tag" data-s="elderly">elderly</span></div>
+      </div>
+      <div class="card" data-sectors="education">
+        <div class="year">2020</div>
+        <div class="title">Education Act (Act No. 24/2020)</div>
+        <div class="desc">First comprehensive education law. Compulsory education ages 4&ndash;16. Free through Grade 12. Inclusive education mandate. Teacher qualification standards. Explicit ban on corporal punishment.</div>
+        <div class="tags"><span class="tag" data-s="education">education</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection">
+        <div class="year">2020</div>
+        <div class="title">Children&rsquo;s Ombudsperson&rsquo;s Office &amp; Alternative Care Regulation</div>
+        <div class="desc">Independent monitoring office for children's rights. Alternative Care Regulation governs foster, kinship, and residential care. Only 18 registered foster carers as of 2023; 91% of children in alternative care remain in residential institutions.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+      <div class="card" data-sectors="cross-cutting,gender,social-protection">
+        <div class="year">2020</div>
+        <div class="title">COVID-19 pandemic response</div>
+        <div class="desc">GDP contracted 33.6%. 44% of households experienced income loss. Women twice as likely as men to stop work. DV reporting surged during lockdowns. Geveshi Gulhun campaign launched. Income Support Allowance introduced.</div>
+        <div class="tags"><span class="tag" data-s="cross-cutting">cross-cutting</span><span class="tag" data-s="gender">gender</span><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+      <div class="card" data-sectors="gender,GBV">
+        <div class="year">2021</div>
+        <div class="title">Sexual Offences Act Amendment (Act No. 25/2021)</div>
+        <div class="desc">Harsher sentences, closed loopholes, limited criminalisation of marital rape. Marital rape remains &ldquo;incompletely criminalised&rdquo; due to Penal Code Section 130(b). Documented prosecutions remained rare through 2025.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span><span class="tag" data-s="GBV">GBV</span></div>
+      </div>
+      <div class="card" data-sectors="substance-abuse">
+        <div class="year">2021</div>
+        <div class="title">NDA/WHO Drug Situational Analysis</div>
+        <div class="desc">Most comprehensive recent drug landscape assessment using police, customs, courts, correctional services, and health data. Found 57.8% began using before age 18; peer influence 72.2%; 21.6% injecting.</div>
+        <div class="tags"><span class="tag" data-s="substance-abuse">substance abuse</span></div>
+      </div>
+      <div class="card" data-sectors="employment,demographics">
+        <div class="year">2022</div>
+        <div class="title">Minimum wage established &amp; Census 2022</div>
+        <div class="desc">First minimum wage under Employment Act 2008. Census counted total population ~521,000 including 132,493 foreign workers (26% of residents). TFR 1.7. 47% of population in Male'. 24,401 persons with disabilities (7%).</div>
+        <div class="tags"><span class="tag" data-s="employment">employment</span><span class="tag" data-s="demographics">demographics</span></div>
+      </div>
+      <div class="card" data-sectors="gender">
+        <div class="year">2022</div>
+        <div class="title">Gender Equality Action Plan 2022&ndash;2026</div>
+        <div class="desc">Steering Committee chaired by the President. Operationalises the Gender Equality Act 2016 with specific targets and timelines across government.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span></div>
+      </div>
+      <div class="card" data-sectors="mental-health">
+        <div class="year">2022</div>
+        <div class="title">Mental health inpatient wards &amp; Hulhumale&rsquo; Mental Health Centre</div>
+        <div class="desc">IGMH opens dedicated psychiatric inpatient capacity. Hulhumale' Hospital Mental Health Centre established in October 2022 in collaboration with Cadabams Group (India).</div>
+        <div class="tags"><span class="tag" data-s="mental-health">mental health</span></div>
+      </div>
+      <div class="card" data-sectors="social-protection">
+        <div class="year">2022</div>
+        <div class="title">National Social Protection Framework 2022&ndash;2026</div>
+        <div class="desc">World Bank/UNICEF-supported. Four pillars: lifecycle protection, shock responsiveness, institutional strengthening, digital transformation.</div>
+        <div class="tags"><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+      <div class="card" data-sectors="disability">
+        <div class="year">2023</div>
+        <div class="title">Tiered disability allowance &amp; HRCM CRPD Shadow Report</div>
+        <div class="desc">Allowance restructured: basic MVR 2,000 + general additional MVR 1,000 + carer MVR 2,000 + self-care MVR 1,000 (max MVR 7,000/month). HRCM 57-page shadow report identified systemic gaps between legislation and implementation.</div>
+        <div class="tags"><span class="tag" data-s="disability">disability</span></div>
+      </div>
+      <div class="card" data-sectors="gender,GBV">
+        <div class="year">2023</div>
+        <div class="title">UNFPA Comprehensive Legal Review of GBV laws</div>
+        <div class="desc">McCabe (2023) identified &ldquo;repetitions, overlaps, contradictions and gaps&rdquo; across the GBV legal architecture. Confirmed DV not specifically criminalised as standalone offence; marital rape incompletely criminalised.</div>
+        <div class="tags"><span class="tag" data-s="gender">gender</span><span class="tag" data-s="GBV">GBV</span></div>
+      </div>
+      <div class="card" data-sectors="governance">
+        <div class="year">2023</div>
+        <div class="title">Muizzu administration begins</div>
+        <div class="desc">Ministry restructured as Ministry of Social and Family Development (MoSFD). Gender equality among portfolio responsibilities alongside child protection, elderly welfare, and social protection.</div>
+        <div class="tags"><span class="tag" data-s="governance">governance</span></div>
+      </div>
+      <div class="card" data-sectors="health">
+        <div class="year">2023</div>
+        <div class="title">Transparency Maldives health sector corruption report</div>
+        <div class="desc">Identified 35 corruption vulnerabilities across health system procurement and governance.</div>
+        <div class="tags"><span class="tag" data-s="health">health</span></div>
+      </div>
+      <div class="card" data-sectors="disability,employment">
+        <div class="year">2024</div>
+        <div class="title">Regulation on Employment of Persons with Disabilities</div>
+        <div class="desc">Separate employment registry for PWDs; mandates competency profiles, reasonable accommodations, and needs assessments by employers.</div>
+        <div class="tags"><span class="tag" data-s="disability">disability</span><span class="tag" data-s="employment">employment</span></div>
+      </div>
+      <div class="card" data-sectors="criminal-justice,GBV">
+        <div class="year">2024</div>
+        <div class="title">Maldives Police Service Strategic Plan 2024&ndash;2028</div>
+        <div class="desc">DV identified as strategic priority alongside organised crime, drug trafficking, human trafficking, cybercrime, and terrorism.</div>
+        <div class="tags"><span class="tag" data-s="criminal-justice">criminal justice</span><span class="tag" data-s="GBV">GBV</span></div>
+      </div>
+      <div class="card" data-sectors="disability">
+        <div class="year">2024</div>
+        <div class="title">UNPRPD Situational Analysis (Faisal, 2024)</div>
+        <div class="desc">Most comprehensive recent disability assessment. Documented systemic failures in equality, accessibility, inclusive service delivery, and budgeting.</div>
+        <div class="tags"><span class="tag" data-s="disability">disability</span></div>
+      </div>
+      <div class="card" data-sectors="social-protection">
+        <div class="year">2024</div>
+        <div class="title">Zakat House integrated into OneGov platform</div>
+        <div class="desc">Cross-referencing with NSPA database of social assistance recipients. Part of digital transformation of social protection delivery.</div>
+        <div class="tags"><span class="tag" data-s="social-protection">social protection</span></div>
+      </div>
+      <div class="card" data-sectors="mental-health">
+        <div class="year">2025</div>
+        <div class="title">Mental Health Strategic Action Plan 2025&ndash;2029</div>
+        <div class="desc">Latest strategic framework with time-bound targets for service expansion, workforce development, and primary health care integration.</div>
+        <div class="tags"><span class="tag" data-s="mental-health">mental health</span></div>
+      </div>
+      <div class="card" data-sectors="child-protection">
+        <div class="year">2025</div>
+        <div class="title">Rogers, Ali &amp; Naeem child protection systems analysis</div>
+        <div class="desc">Most detailed academic analysis of child protection system development, procedural frameworks, and frontline realities. Published January 2025.</div>
+        <div class="tags"><span class="tag" data-s="child-protection">child protection</span></div>
+      </div>
+    </div>
+    <button class="strip-nav right" aria-label="Scroll right"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><a href="index.html">&larr; Back to Society hub</a></p>
+  <p style="margin-top:12px">Public Policy Lab &middot; Data journalism for Maldives social policy</p>
+</footer>
+
+<script>
+(function(){
+  /* ── NAV scroll state ── */
+  const nav = document.getElementById('mainNav');
+  const filterBar = document.getElementById('filterBar');
+  const hero = document.querySelector('.hero');
+
+  const heroObs = new IntersectionObserver(([e]) => {
+    const past = !e.isIntersecting;
+    nav.classList.toggle('scrolled', past);
+    filterBar.classList.toggle('visible', past);
+  }, {threshold: 0.05});
+  heroObs.observe(hero);
+
+  /* ── ERA indicator ── */
+  const eraIndicator = document.getElementById('eraIndicator');
+  const eraLabel = document.getElementById('eraLabel');
+  const eraDates = document.getElementById('eraDates');
+  const eraSections = document.querySelectorAll('.era-section');
+
+  const eraObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.intersectionRatio > 0.1) {
+        const s = e.target;
+        eraLabel.textContent = 'Era ' + s.dataset.era + ' — ' + s.dataset.eraName;
+        eraDates.textContent = s.dataset.eraDates;
+        eraIndicator.classList.add('visible');
+      }
+    });
+  }, {threshold: 0.1});
+  eraSections.forEach(s => eraObs.observe(s));
+
+  /* hide era indicator when hero visible */
+  const eraHideObs = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) eraIndicator.classList.remove('visible');
+  }, {threshold: 0.3});
+  eraHideObs.observe(hero);
+
+  /* ── INJECT STICKY ERA BARS + NEXT ERA CUES ── */
+  const eraNames = {
+    '1': 'Pre-independence & early republic',
+    '2': 'The Gayoom era (1977–2008)',
+    '3': 'Democratic transition (2008–2012)',
+    '4': 'Consolidation (2012–2018)',
+    '5': '2019 – present'
+  };
+  const eraNext = {'1':'The Gayoom era','2':'Democratic transition','3':'Consolidation','4':'2019 – present','5':null};
+
+  eraSections.forEach(sec => {
+    const eraNum = sec.dataset.era;
+    // Insert sticky bar between era-intro and strip-wrapper
+    const bar = document.createElement('div');
+    bar.className = 'era-sticky-bar';
+    bar.innerHTML = '<div><span class="era-sticky-label">Era ' + eraNum + ': ' + eraNames[eraNum] + '</span></div>' +
+      '<span class="era-sticky-hint">scroll cards →</span>';
+    const stripW = sec.querySelector('.strip-wrapper');
+    if (stripW) sec.insertBefore(bar, stripW);
+
+    // Add next-era cue at end of strip
+    if (eraNext[eraNum]) {
+      const strip = sec.querySelector('.strip');
+      if (strip) {
+        const cue = document.createElement('div');
+        cue.className = 'next-era-cue';
+        cue.innerHTML = '<div class="cue-arrow"></div><div class="cue-text">scroll down for</div><div class="cue-next">' + eraNext[eraNum] + '</div>';
+        strip.appendChild(cue);
+      }
+    }
+  });
+
+  /* ── STRIP NAVIGATION ARROWS ── */
+  document.querySelectorAll('.strip-wrapper').forEach(wrapper => {
+    const strip = wrapper.querySelector('.strip');
+    const leftBtn = wrapper.querySelector('.strip-nav.left');
+    const rightBtn = wrapper.querySelector('.strip-nav.right');
+    if (!strip) return;
+    const scrollAmount = 340;
+
+    if (leftBtn) leftBtn.addEventListener('click', () => {
+      strip.scrollBy({left: -scrollAmount, behavior: 'smooth'});
+    });
+    if (rightBtn) rightBtn.addEventListener('click', () => {
+      strip.scrollBy({left: scrollAmount, behavior: 'smooth'});
+    });
+  });
+
+  /* ── FILTER CHIPS ── */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const allCards = document.querySelectorAll('.card');
+  const filterCount = document.getElementById('filterCount');
+  let activeFilter = 'all';
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      // toggle: clicking active filter resets to 'all'
+      if (f === activeFilter && f !== 'all') {
+        activeFilter = 'all';
+      } else {
+        activeFilter = f;
+      }
+
+      filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === activeFilter));
+
+      let visible = 0;
+      allCards.forEach(card => {
+        const sectors = card.dataset.sectors || '';
+        const match = activeFilter === 'all' || sectors.split(',').includes(activeFilter);
+        card.classList.toggle('dimmed', !match);
+        if (match) visible++;
+      });
+      filterCount.textContent = visible + (visible === 1 ? ' entry' : ' entries');
+    });
+  });
+
+  /* ── ENTRANCE ANIMATIONS ── */
+  const cardObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        cardObs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.1, rootMargin: '0px 0px -40px 0px'});
+
+  allCards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity .5s ease, transform .5s ease, box-shadow .25s ease';
+    cardObs.observe(card);
+  });
+
+  /* era intros */
+  const introObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        introObs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.15});
+
+  document.querySelectorAll('.era-intro').forEach(intro => {
+    intro.style.opacity = '0';
+    intro.style.transform = 'translateY(30px)';
+    intro.style.transition = 'opacity .7s ease, transform .7s ease';
+    introObs.observe(intro);
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<div class="viz-card" data-cats="child-protection gender">
+<svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#1a1a1a}
+    .axis-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#6b6b6b}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">Domestic violence cases reported to FPA, 2013–2024</text>
+  <text x="40" y="46" class="subtitle">Annual cases. Gap years not reported.</text>
+  <!-- Baseline -->
+  <line x1="40" y1="230" x2="660" y2="230" stroke="#e0e0e0" stroke-width="1"/>
+  <!-- Columns: 2013=19, 2014=149, 2015=438, 2016=642, 2017=539, 2021=696, 2024=537 -->
+  <!-- Max=696, scale: height = value/696 * 160 -->
+  <!-- x positions: 2013-2017 evenly spaced, then gap for 2018-2020, then 2021, gap, 2024 -->
+  <!-- 2013: x=65 -->
+  <rect x="55" y="225.6" width="50" height="4.4" fill="#B3856F" rx="2"/>
+  <text x="80" y="221" class="label" text-anchor="middle">19</text>
+  <text x="80" y="244" class="axis-label" text-anchor="middle">2013</text>
+  <!-- 2014: x=130 -->
+  <rect x="120" y="195.7" width="50" height="34.3" fill="#B3856F" rx="2"/>
+  <text x="145" y="191" class="label" text-anchor="middle">149</text>
+  <text x="145" y="244" class="axis-label" text-anchor="middle">2014</text>
+  <!-- 2015: x=195 -->
+  <rect x="185" y="129.3" width="50" height="100.7" fill="#B3856F" rx="2"/>
+  <text x="210" y="125" class="label" text-anchor="middle">438</text>
+  <text x="210" y="244" class="axis-label" text-anchor="middle">2015</text>
+  <!-- 2016: x=260 -->
+  <rect x="250" y="82.4" width="50" height="147.6" fill="#B3856F" rx="2"/>
+  <text x="275" y="78" class="label" text-anchor="middle">642</text>
+  <text x="275" y="244" class="axis-label" text-anchor="middle">2016</text>
+  <!-- 2017: x=325 -->
+  <rect x="315" y="106.1" width="50" height="123.9" fill="#B3856F" rx="2"/>
+  <text x="340" y="102" class="label" text-anchor="middle">539</text>
+  <text x="340" y="244" class="axis-label" text-anchor="middle">2017</text>
+  <!-- Gap indicator -->
+  <text x="420" y="220" class="axis-label" text-anchor="middle" fill="#bbb">···</text>
+  <!-- 2021: x=470 -->
+  <rect x="460" y="70" width="50" height="160" fill="#B3856F" rx="2"/>
+  <text x="485" y="66" class="label" text-anchor="middle">696</text>
+  <text x="485" y="244" class="axis-label" text-anchor="middle">2021</text>
+  <!-- Gap indicator -->
+  <text x="545" y="220" class="axis-label" text-anchor="middle" fill="#bbb">···</text>
+  <!-- 2024: x=595 -->
+  <rect x="585" y="106.6" width="50" height="123.4" fill="#B3856F" rx="2"/>
+  <text x="610" y="102" class="label" text-anchor="middle">537</text>
+  <text x="610" y="244" class="axis-label" text-anchor="middle">2024</text>
+  <text x="40" y="272" class="source">Source: Family Protection Authority annual records; MPS Bureau of Crime Statistics</text>
+  <text x="660" y="290" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="child-protection">
+<svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .legend-text{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#4a4a4a}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">Children's living arrangements, Census 2022</text>
+  <text x="40" y="46" class="subtitle">Each square represents 1% of children aged 0–17</text>
+  <!-- 10x10 waffle grid: 74 both parents (#4A5E80), 22 one parent (#B3856F), 4 alternative (#7A8F7E) -->
+  <!-- Grid starts at x=125, y=62. Each square 18x18, gap 3 -->
+  <g id="waffle10">
+    <!-- Row 0 (squares 1-10) -->
+    <rect x="125" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="230" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="251" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="272" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="293" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="314" y="62" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <!-- Row 1 (squares 11-20) -->
+    <rect x="125" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="230" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="251" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="272" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="293" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="314" y="83" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <!-- Row 2 (squares 21-30) -->
+    <rect x="125" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="230" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="251" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="272" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="293" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="314" y="104" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <!-- Row 3 (squares 31-40) -->
+    <rect x="125" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="230" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="251" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="272" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="293" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="314" y="125" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <!-- Row 4 (squares 41-50) -->
+    <rect x="125" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="230" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="251" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="272" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="293" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="314" y="146" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <!-- Row 5 (squares 51-60) -->
+    <rect x="125" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="230" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="251" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="272" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="293" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="314" y="167" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <!-- Row 6 (squares 61-70) -->
+    <rect x="125" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="230" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="251" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="272" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="293" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="314" y="188" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <!-- Row 7 (squares 71-80): 71-74 blue, 75-80 brown -->
+    <rect x="125" y="209" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="146" y="209" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="167" y="209" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="188" y="209" width="18" height="18" fill="#4A5E80" rx="2"/>
+    <rect x="209" y="209" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="230" y="209" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="251" y="209" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="272" y="209" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="293" y="209" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="314" y="209" width="18" height="18" fill="#B3856F" rx="2"/>
+    <!-- Row 8 (squares 81-90): all brown -->
+    <rect x="125" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="146" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="167" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="188" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="209" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="230" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="251" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="272" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="293" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="314" y="230" width="18" height="18" fill="#B3856F" rx="2"/>
+    <!-- Row 9 (squares 91-100): 91-96 brown, 97-100 green -->
+    <rect x="125" y="251" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="146" y="251" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="167" y="251" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="188" y="251" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="209" y="251" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="230" y="251" width="18" height="18" fill="#B3856F" rx="2"/>
+    <rect x="251" y="251" width="18" height="18" fill="#7A8F7E" rx="2"/>
+    <rect x="272" y="251" width="18" height="18" fill="#7A8F7E" rx="2"/>
+    <rect x="293" y="251" width="18" height="18" fill="#7A8F7E" rx="2"/>
+    <rect x="314" y="251" width="18" height="18" fill="#7A8F7E" rx="2"/>
+  </g>
+  <!-- Legend -->
+  <rect x="370" y="110" width="14" height="14" fill="#4A5E80" rx="2"/>
+  <text x="390" y="122" class="legend-text">Both parents (74%)</text>
+  <rect x="370" y="132" width="14" height="14" fill="#B3856F" rx="2"/>
+  <text x="390" y="144" class="legend-text">One parent (22%)</text>
+  <rect x="370" y="154" width="14" height="14" fill="#7A8F7E" rx="2"/>
+  <text x="390" y="166" class="legend-text">Alternative care (4%)</text>
+  <text x="40" y="253" class="source">Source: Census 2022 Children's Equity Report, Maldives Bureau of Statistics</text>
+  <text x="660" y="271" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="child-protection">
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .legend-text{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#4a4a4a}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">Children in alternative care by type, March 2023</text>
+  <text x="40" y="46" class="subtitle">187 children total. Only 18 registered foster carers nationwide.</text>
+  <!-- 20 squares: 18 institutional (#4A5E80), 2 foster (#7A8F7E) -->
+  <!-- Single row of 20 squares, each 28x28 with 6px gap = 20*34 = 680, start x=30 -->
+  <g>
+    <rect x="30" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="64" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="98" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="132" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="166" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="200" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="234" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="268" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="302" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="336" y="72" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="30" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="64" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="98" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="132" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="166" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="200" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="234" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="268" y="108" width="28" height="28" fill="#4A5E80" rx="3"/>
+    <rect x="302" y="108" width="28" height="28" fill="#7A8F7E" rx="3"/>
+    <rect x="336" y="108" width="28" height="28" fill="#7A8F7E" rx="3"/>
+  </g>
+  <!-- Legend -->
+  <rect x="30" y="156" width="14" height="14" fill="#4A5E80" rx="2"/>
+  <text x="50" y="168" class="legend-text">Institutional care — 91% (170 children)</text>
+  <rect x="30" y="178" width="14" height="14" fill="#7A8F7E" rx="2"/>
+  <text x="50" y="190" class="legend-text">Foster care — 9% (17 children)</text>
+  <text x="40" y="216" class="source">Source: MoSFD administrative data; CRC State Party Report 2021</text>
+  <text x="660" y="234" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="child-protection">
+<svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .big-num{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:700}
+    .num-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .muted{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#aaa}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">Child protection cases per social worker</text>
+  <!-- Three large numbers -->
+  <!-- 61 social workers -->
+  <text x="140" y="105" class="big-num" text-anchor="middle" font-size="48" fill="#4A5E80">61</text>
+  <text x="140" y="128" class="num-label" text-anchor="middle">child protection</text>
+  <text x="140" y="144" class="num-label" text-anchor="middle">social workers</text>
+  <!-- 128,208 children -->
+  <text x="350" y="105" class="big-num" text-anchor="middle" font-size="42" fill="#B3856F">128,208</text>
+  <text x="350" y="128" class="num-label" text-anchor="middle">children in</text>
+  <text x="350" y="144" class="num-label" text-anchor="middle">Maldives</text>
+  <!-- ~160 cases per worker -->
+  <text x="560" y="105" class="big-num" text-anchor="middle" font-size="48" fill="#2A3042">~160</text>
+  <text x="560" y="128" class="num-label" text-anchor="middle">cases per worker</text>
+  <text x="560" y="148" class="muted" text-anchor="middle">vs 25–30 recommended</text>
+  <!-- Dividers -->
+  <line x1="245" y1="60" x2="245" y2="155" stroke="#e0e0e0" stroke-width="1"/>
+  <line x1="455" y1="60" x2="455" y2="155" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="40" y="185" class="source">Source: Rogers, Ali &amp; Naeem 2025; MoSFD staffing data</text>
+  <text x="660" y="203" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="child-protection">
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:13px;fill:#1a1a1a;font-weight:600}
+    .axis-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#6b6b6b}
+    .change{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:14px;fill:#B3856F;font-weight:600}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">Juvenile cases investigated by MPS, 2023–2024</text>
+  <text x="40" y="46" class="subtitle">+78% increase year-on-year</text>
+  <!-- Baseline -->
+  <line x1="150" y1="195" x2="550" y2="195" stroke="#e0e0e0" stroke-width="1"/>
+  <!-- Max=213, scale: height = value/213 * 130 -->
+  <!-- 2023: 120 -> height=73.2 -->
+  <rect x="210" y="121.8" width="80" height="73.2" fill="#6B7FA3" rx="3"/>
+  <text x="250" y="115" class="label" text-anchor="middle">120</text>
+  <text x="250" y="212" class="axis-label" text-anchor="middle">2023</text>
+  <!-- 2024: 213 -> height=130 -->
+  <rect x="410" y="65" width="80" height="130" fill="#4A5E80" rx="3"/>
+  <text x="450" y="58" class="label" text-anchor="middle">213</text>
+  <text x="450" y="212" class="axis-label" text-anchor="middle">2024</text>
+  <!-- Change annotation -->
+  <line x1="290" y1="90" x2="410" y2="90" stroke="#B3856F" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="350" y="82" class="change" text-anchor="middle">+78%</text>
+  <text x="40" y="237" class="source">Source: MPS Bureau of Crime Statistics</text>
+  <text x="660" y="253" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="gender">
+<svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .funnel-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#fff;font-weight:600}
+    .funnel-sub{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#fff}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">GBV justice pathway: cases lost at each stage</text>
+  <text x="40" y="46" class="subtitle">From estimated prevalence to final conviction</text>
+  <!-- Funnel: centered trapezoids, each narrower than the last -->
+  <!-- Stage 1: ~40,000 — full width -->
+  <polygon points="90,62 610,62 590,102 110,102" fill="#4A5E80"/>
+  <text x="350" y="80" class="funnel-label" text-anchor="middle">Estimated lifetime prevalence</text>
+  <text x="350" y="95" class="funnel-sub" text-anchor="middle">~40,000 women</text>
+  <!-- Stage 2: 696 — much narrower -->
+  <polygon points="110,108 590,108 500,148 200,148" fill="#6B7FA3"/>
+  <text x="350" y="126" class="funnel-label" text-anchor="middle">Reported to FPA</text>
+  <text x="350" y="141" class="funnel-sub" text-anchor="middle">696 cases (1.7%)</text>
+  <!-- Stage 3: ~500 -->
+  <polygon points="200,154 500,154 460,194 240,194" fill="#B3856F"/>
+  <text x="350" y="172" class="funnel-label" text-anchor="middle">Police report filed</text>
+  <text x="350" y="187" class="funnel-sub" text-anchor="middle">~500 cases</text>
+  <!-- Stage 4: ~15 -->
+  <polygon points="240,200 460,200 400,240 300,240" fill="#CEAA97"/>
+  <text x="350" y="218" class="funnel-label" text-anchor="middle" fill="#1a1a1a">Submitted to Prosecutor General</text>
+  <text x="350" y="233" class="funnel-sub" text-anchor="middle" fill="#4a4a4a">~15 cases (3%)</text>
+  <!-- Stage 5: ~2-3 -->
+  <polygon points="300,246 400,246 380,278 320,278" fill="#CEAA97" opacity="0.6"/>
+  <text x="350" y="260" class="funnel-label" text-anchor="middle" fill="#1a1a1a" font-size="10">Convicted</text>
+  <text x="350" y="273" class="funnel-sub" text-anchor="middle" fill="#4a4a4a">~2–3 (16.7% conviction rate)</text>
+  <text x="40" y="305" class="source">Source: AIM Project Baseline Assessment 2022; FPA 2021; DHS 2016–17</text>
+  <text x="660" y="323" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="gender">
+<svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .bar-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#1a1a1a}
+    .bar-value{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#1a1a1a;font-weight:600}
+    .axis-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#6b6b6b}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">FGM/C prevalence by age group</text>
+  <text x="40" y="46" class="subtitle">Percentage of women aged 15–49 who have undergone FGM/C</text>
+  <!-- Horizontal bars. Max=38%. Scale: width = pct/38 * 400. Labels left, bars start at 130 -->
+  <!-- 15-19: 1% -> 10.5 -->
+  <text x="125" y="73" class="bar-label" text-anchor="end">15–19</text>
+  <rect x="130" y="62" width="10.5" height="16" fill="#B3856F" rx="2"/>
+  <text x="146" y="74" class="bar-value">1%</text>
+  <!-- 20-24: 3% -> 31.6 -->
+  <text x="125" y="97" class="bar-label" text-anchor="end">20–24</text>
+  <rect x="130" y="86" width="31.6" height="16" fill="#B3856F" rx="2"/>
+  <text x="167" y="98" class="bar-value">3%</text>
+  <!-- 25-29: 5% -> 52.6 -->
+  <text x="125" y="121" class="bar-label" text-anchor="end">25–29</text>
+  <rect x="130" y="110" width="52.6" height="16" fill="#B3856F" rx="2"/>
+  <text x="188" y="122" class="bar-value">5%</text>
+  <!-- 30-34: 8% -> 84.2 -->
+  <text x="125" y="145" class="bar-label" text-anchor="end">30–34</text>
+  <rect x="130" y="134" width="84.2" height="16" fill="#B3856F" rx="2"/>
+  <text x="220" y="146" class="bar-value">8%</text>
+  <!-- 35-39: 15% -> 157.9 -->
+  <text x="125" y="169" class="bar-label" text-anchor="end">35–39</text>
+  <rect x="130" y="158" width="157.9" height="16" fill="#B3856F" rx="2"/>
+  <text x="294" y="170" class="bar-value">15%</text>
+  <!-- 40-44: 28% -> 294.7 -->
+  <text x="125" y="193" class="bar-label" text-anchor="end">40–44</text>
+  <rect x="130" y="182" width="294.7" height="16" fill="#B3856F" rx="2"/>
+  <text x="430" y="194" class="bar-value">28%</text>
+  <!-- 45-49: 38% -> 400 -->
+  <text x="125" y="217" class="bar-label" text-anchor="end">45–49</text>
+  <rect x="130" y="206" width="400" height="16" fill="#B3856F" rx="2"/>
+  <text x="536" y="218" class="bar-value">38%</text>
+  <!-- Overall: 13% -> 136.8 -->
+  <line x1="130" y1="230" x2="540" y2="230" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="125" y="248" class="bar-label" text-anchor="end" font-weight="600">Overall</text>
+  <rect x="130" y="237" width="136.8" height="16" fill="#B3856F" opacity="0.6" rx="2"/>
+  <text x="272" y="249" class="bar-value">13%</text>
+  <text x="40" y="270" class="source">Source: Maldives DHS 2016–17</text>
+  <text x="660" y="270" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="gender">
+<svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .bar-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#1a1a1a}
+    .bar-value{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:13px;fill:#fff;font-weight:600}
+    .gap-text{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#B3856F;font-weight:600}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">Labour force participation rate by gender, Census 2022</text>
+  <!-- Male: 80% -->
+  <text x="95" y="70" class="bar-label" text-anchor="end">Male</text>
+  <rect x="100" y="56" width="440" height="24" fill="#4A5E80" rx="3"/>
+  <text x="315" y="73" class="bar-value" text-anchor="middle">80%</text>
+  <!-- Female: 44% -->
+  <text x="95" y="110" class="bar-label" text-anchor="end">Female</text>
+  <rect x="100" y="96" width="242" height="24" fill="#B3856F" rx="3"/>
+  <text x="218" y="113" class="bar-value" text-anchor="middle">44%</text>
+  <!-- Gap annotation -->
+  <line x1="342" y1="80" x2="342" y2="96" stroke="#B3856F" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="540" y1="68" x2="540" y2="108" stroke="#ddd" stroke-width="1" stroke-dasharray="3,2"/>
+  <!-- Gap bracket -->
+  <line x1="342" y1="88" x2="540" y2="88" stroke="#B3856F" stroke-width="1.5"/>
+  <line x1="342" y1="84" x2="342" y2="92" stroke="#B3856F" stroke-width="1.5"/>
+  <line x1="540" y1="84" x2="540" y2="92" stroke="#B3856F" stroke-width="1.5"/>
+  <text x="441" y="84" class="gap-text" text-anchor="middle">36 pp gap</text>
+  <text x="40" y="160" class="source">Source: Census 2022, Maldives Bureau of Statistics</text>
+  <text x="660" y="178" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="gender">
+<svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .row-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px;fill:#1a1a1a}
+    .pct-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#1a1a1a;font-weight:600}
+    .detail{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9.5px;fill:#999}
+    .quota{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#7A8F7E}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">Women's political representation</text>
+  <text x="40" y="46" class="subtitle">Percentage of seats held by women, by level of government</text>
+  <!-- Track lines (background) -->
+  <line x1="200" y1="80" x2="620" y2="80" stroke="#eee" stroke-width="2"/>
+  <line x1="200" y1="120" x2="620" y2="120" stroke="#eee" stroke-width="2"/>
+  <line x1="200" y1="160" x2="620" y2="160" stroke="#eee" stroke-width="2"/>
+  <!-- Parliament: 3.2% -> line to 200 + 3.2/100*420 = 213.4 -->
+  <text x="195" y="84" class="row-label" text-anchor="end">Parliament</text>
+  <line x1="200" y1="80" x2="213.4" y2="80" stroke="#B3856F" stroke-width="3"/>
+  <circle cx="213.4" cy="80" r="6" fill="#B3856F"/>
+  <text x="226" y="84" class="pct-label">3.2%</text>
+  <text x="270" y="84" class="detail">(3 of 93, April 2024)</text>
+  <!-- Cabinet: 18.2% -> 200 + 18.2/100*420 = 276.4 -->
+  <text x="195" y="124" class="row-label" text-anchor="end">Cabinet</text>
+  <line x1="200" y1="120" x2="276.4" y2="120" stroke="#B3856F" stroke-width="3"/>
+  <circle cx="276.4" cy="120" r="6" fill="#B3856F"/>
+  <text x="289" y="124" class="pct-label">18.2%</text>
+  <text x="338" y="124" class="detail">(4 of 22, 2024)</text>
+  <!-- Local councils: 39.7% -> 200 + 39.7/100*420 = 366.7 -->
+  <text x="195" y="164" class="row-label" text-anchor="end">Local councils</text>
+  <line x1="200" y1="160" x2="366.7" y2="160" stroke="#B3856F" stroke-width="3"/>
+  <circle cx="366.7" cy="160" r="6" fill="#B3856F"/>
+  <text x="379" y="164" class="pct-label">39.7%</text>
+  <text x="423" y="164" class="detail">(2021, with 33% quota)</text>
+  <!-- 33% quota line -->
+  <line x1="338.6" y1="150" x2="338.6" y2="175" stroke="#7A8F7E" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="338.6" y="188" class="quota" text-anchor="middle">33% quota</text>
+  <text x="40" y="216" class="source">Source: People's Majlis records; Elections Commission; CEDAW Concluding Observations</text>
+  <text x="660" y="234" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>
+
+<div class="viz-card" data-cats="gender">
+<svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:600;fill:#1a1a1a}
+    .subtitle{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:12px;fill:#6b6b6b}
+    .spine-label{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:14px;font-weight:600}
+    .spine-sub{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:11px}
+    .source{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:10px;fill:#8a8a82}
+    .credit{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-size:9px;fill:#aaa}
+  </style>
+  <text x="40" y="28" class="title">DV case reporters by gender</text>
+  <text x="40" y="46" class="subtitle">Women account for 82% of domestic violence reports</text>
+  <!-- Single bar split: total width 560 (from x=70 to x=630) -->
+  <!-- Women 82% = 459.2, Men 18% = 100.8 -->
+  <!-- Women side: x=70 to x=529.2 -->
+  <rect x="70" y="72" width="459.2" height="44" fill="#B3856F" rx="3"/>
+  <!-- Men side: x=529.2 to x=630 -->
+  <rect x="529.2" y="72" width="100.8" height="44" fill="#4A5E80" rx="3"/>
+  <!-- Labels inside bars -->
+  <text x="299" y="98" class="spine-label" text-anchor="middle" fill="#fff">82% Women</text>
+  <text x="579.6" y="98" class="spine-label" text-anchor="middle" fill="#fff" font-size="13">18%</text>
+  <text x="579.6" y="112" class="spine-sub" text-anchor="middle" fill="#fff">Men</text>
+  <!-- Divider line -->
+  <line x1="529.2" y1="68" x2="529.2" y2="120" stroke="#fff" stroke-width="2"/>
+  <text x="40" y="145" class="source">Source: Family Protection Authority reporting data</text>
+  <text x="660" y="163" class="credit" text-anchor="end">Visualization by Public Policy Lab @policylabmv</text>
+</svg>
+</div>

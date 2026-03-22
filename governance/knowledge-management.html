@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A searchable knowledge repository for the social sector – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #F7F7F8; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #4A5568; --pri-d: #2D3748;
+  --accent: #DD6B20; --accent-lt: #ED8936; --steel: #718096;
+  --dark: #1A202C;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,247,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+
+.page-header{padding:100px 40px 40px;max-width:740px;margin:0 auto}
+.page-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.page-title{font-family:var(--sans);font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.18;letter-spacing:-.02em;color:var(--fg)}
+
+.content{max-width:740px;margin:0 auto;padding:0 40px 60px}
+.content h2{font-family:var(--sans);font-size:clamp(20px,3vw,26px);font-weight:600;line-height:1.25;letter-spacing:-.015em;margin:40px 0 16px;color:var(--fg)}
+.content p{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:16px}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px}
+footer a{color:var(--pri-d);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.back-link{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:var(--pri-d);padding:0 40px 32px;max-width:740px;margin:0 auto;transition:gap .2s}
+.back-link:hover{gap:9px}
+
+@media(max-width:860px){
+  .page-header{padding:90px 24px 32px}
+  .content{padding:0 24px 48px}
+  nav{padding:12px 20px}
+  footer{padding:24px 20px}
+  .back-link{padding:0 24px 24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; governance</span></a>
+</nav>
+
+<div class="page-header">
+  <div class="page-tag">Knowledge Infrastructure</div>
+  <h1 class="page-title">A searchable knowledge repository for the social sector</h1>
+</div>
+
+<div class="content">
+
+<p>Every new policy report, every consultant assessment, every strategic plan in the social sector begins with the same background research done over again. Consultants conduct stakeholder meetings to learn what programs exist and how they work. They search for previous reports and cannot find them, or find some but miss others. They piece together the history and evolution of policies from scattered sources, institutional memory, whatever documents happen to be accessible. This repeats for every new piece of work because there is no central place where relevant research and documentation has been compiled. The same background information gets gathered again and again, the same stakeholders interviewed about the same topics, and despite all this the resulting reports often have gaps because older documents are simply not findable.</p>
+
+<p>Reports are published, circulated briefly, then effectively disappear. They exist somewhere on a hard drive or in a filing cabinet, but they are not indexed, not searchable, not accessible to the next person who needs them. Academic research on Maldivian social policy exists but is scattered across journals and repositories that practitioners rarely have time to search. International assessments and guidance documents from UN agencies and development partners are available online but not compiled in any sector-specific way. The collective knowledge that should be accumulating over time instead dissipates, and each new effort starts closer to zero than it should.</p>
+
+<h2>Building the repository</h2>
+
+<p>Public Policy Lab has been working with the Ministry of Social and Family Development to build a centralized, searchable digital repository of all relevant documentation for the social sector: publications from government agencies, research from NGOs and civil society organizations, assessments and reports from international bodies, academic literature on Maldivian social policy. Around 200 documents have been compiled and labelled so far, with a searchable portal built to make them accessible. The next phase involves incorporating the Ministry's own internal reports and research, adding detailed tagging by department and policy area, taking the portal online for broader access, working with universities including foreign universities to receive any Maldivian students' theses on these topics, adding files departments use instead of keeping them siloed in folders across servers, and eventually adding scanned copies of older paper reports where departments have physical print copies on hand.</p>
+
+<p>Alongside the document repository, we are building a searchable archive of news coverage with sector-related keywords. News archives allow researchers to trace how specific policy areas or institutions have evolved over time through public reporting: major incidents and cases, patterns in the frequency of certain issues making headlines, the public reception of policy changes. For anyone trying to build a timeline of developments in a specific area or to understand the context and history of a particular institution, searchable news archives provide a layer of information that formal reports often omit. This is valuable for onboarding new staff or consultants who need to quickly get up to speed on the background of an issue. The National Library offers a service where if a topic and news publication is given, a librarian will go through those news publication archives and send scans of all the mentions of that topic for MVR 1 per page.</p>
+
+<h2>From starting from scratch to building on what exists</h2>
+
+<p>The goal is to shift from every new piece of work starting from scratch to new work building on what already exists. When a consultant is commissioned to assess a policy area, they should be able to search the repository and immediately find previous assessments, relevant academic research, international guidance, internal ministry documents &ndash; all in one place, all searchable, all properly labelled. The hours currently spent hunting for documents or re-gathering background information can instead go to the actual analytical work. The gaps that exist because older documents were not findable can be closed.</p>
+
+<p>Beyond the repository itself, we are producing literature reviews and policy timelines for key areas so that ready-made reference documents exist for the most common research needs. Rather than every new report having to piece together the history of a policy area from scattered sources, a single well-researched timeline serves as the starting point. Beyond documents and news records, the eventual system will include document and form templates that departments can use, stats and datasets in formats that can be viewed within the portal with exploratory tools like filtering and visualization, project outcomes with summaries of process and timeline and impact assessments, research papers by MSFD staff, a map of all social service providers in the Maldives including both MSFD and other government, private, NGO by island with phone numbers and services offered, online courses and trainings both internal modules and external courses identified as useful, photos and media relevant to projects or Ministry activities, and contacts. This is knowledge infrastructure: the kind of investment that does not produce visible outputs in the short term but that makes every subsequent piece of work faster, more comprehensive, better grounded in what came before.</p>
+
+</div>
+
+<a href="index.html" class="back-link">&larr; Back to Governance</a>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div><a href="index.html">governance.policylabmv.com</a></div>
+</footer>
+
+</body>
+</html>

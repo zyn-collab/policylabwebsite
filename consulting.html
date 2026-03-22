@@ -1,416 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consulting — Public Policy Lab</title>
-  <meta name="description" content="Policy expertise and consultancy services from Public Policy Lab — research, analysis, publications, monitoring &amp; evaluation, and individual consultancy." />
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Consulting — Public Policy Lab</title>
+<meta name="description" content="Policy expertise and consultancy services from Public Policy Lab — research, analysis, publications, monitoring & evaluation, and individual consultancy.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root{--serif:'Source Serif 4',Georgia,serif;--sans:'Plus Jakarta Sans',system-ui,sans-serif;--bg:#FAFAF8;--card:#fff;--fg:#1a1a1a;--body:#4a4a46;--muted:#8a8a82;--pri:#2C4561;--pri-d:#1A3048;--teal:#2D9070;--teal-lt:#E4F4EE;--warm:#B3856F;--dark:#1A2530}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}
 
-  <!-- Google Fonts: Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-logo{font-size:14px;font-weight:700;color:var(--pri-d);display:flex;align-items:center;gap:8px}.nav-logo img{height:20px}
+.nav-r{display:flex;gap:24px;align-items:center}.nav-r a{font-size:12.5px;color:var(--muted);font-weight:500;transition:color .2s}.nav-r a:hover{color:var(--fg)}.nav-r .nav-cta{background:var(--pri-d);color:#fff;padding:7px 18px;border-radius:6px;font-weight:600;font-size:12px}
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+.page-hero{padding:120px 40px 48px;max-width:1080px;margin:0 auto}
+.page-hero h1{font-family:var(--sans);font-size:clamp(32px,5vw,48px);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.page-hero p{font-size:16px;color:var(--body);line-height:1.72;max-width:620px}
 
-  <!-- Global design system -->
-  <link rel="stylesheet" href="css/style.css" />
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.sec-title{font-family:var(--sans);font-size:clamp(22px,3vw,28px);font-weight:700;line-height:1.2;letter-spacing:-.015em;margin-bottom:16px}
+
+.svc-section{padding:48px 0}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.svc-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:24px}
+.svc-card h3{font-size:16px;font-weight:700;margin-bottom:6px}.svc-card p{font-size:13.5px;color:var(--body);line-height:1.6}
+
+.clients{padding:32px 0 48px}
+.client-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.client-tag{font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;background:rgba(45,144,112,.08);color:var(--teal)}
+
+.profile-section{padding:48px 0;border-top:1px solid rgba(0,0,0,.06)}
+.profile-grid{display:grid;grid-template-columns:280px 1fr;gap:40px;align-items:start}
+.profile-photo{width:100%;border-radius:12px;display:block}
+.profile-name{font-size:20px;font-weight:700;margin-top:14px}.profile-title{font-size:13px;color:var(--muted);margin-top:2px}.profile-email{font-size:13px;margin-top:4px}.profile-email a{color:var(--pri-d);font-weight:600}
+.profile-bio p{font-family:var(--serif);font-size:16px;color:var(--body);line-height:1.78;margin-bottom:16px}
+.profile-bio h3{font-family:var(--sans);font-size:18px;font-weight:700;margin:28px 0 10px}
+.profile-bio ul{font-family:var(--serif);font-size:15px;color:var(--body);line-height:1.7;margin:0 0 16px 20px}
+.profile-bio li{margin-bottom:6px}
+.expertise-tags{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 24px}
+.exp-tag{font-size:11px;font-weight:600;padding:4px 12px;border-radius:16px;background:rgba(44,69,97,.06);color:var(--pri)}
+
+.btn{display:inline-block;background:var(--pri-d);color:#fff;padding:10px 24px;border-radius:7px;font-size:13.5px;font-weight:600;transition:background .2s;border:none;cursor:pointer}.btn:hover{background:var(--dark);color:#fff}
+
+.training{padding:48px 0;border-top:1px solid rgba(0,0,0,.06)}
+.training-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.training-grid p{font-size:14.5px;color:var(--body);line-height:1.7;margin-bottom:12px}
+.training-grid ul{font-size:14px;color:var(--body);line-height:1.7;margin:0 0 16px 20px}.training-grid li{margin-bottom:4px}
+.callout{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:24px}
+.callout h4{font-size:15px;font-weight:700;margin-bottom:8px}.callout p{font-size:13.5px;color:var(--body);line-height:1.6}
+
+footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;margin:0 auto}
+.footer-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.footer-col h5{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.footer-col a,.footer-col p{font-size:12.5px;color:var(--body);line-height:1.8;display:block}.footer-col a:hover{color:var(--pri-d)}
+.footer-bottom{margin-top:24px;padding-top:16px;border-top:1px solid rgba(0,0,0,.04);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}.reveal.vis{opacity:1;transform:translateY(0)}
+@media(max-width:860px){nav{padding:14px 20px}.page-hero,.wrap{padding-left:24px;padding-right:24px}.svc-grid{grid-template-columns:1fr 1fr}.profile-grid{grid-template-columns:1fr}.training-grid{grid-template-columns:1fr}.nav-r a:nth-child(n+3):not(.nav-cta){display:none}}
+@media(max-width:540px){.svc-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
-  <nav class="navbar scrolled" id="navbar">
-    <div class="navbar-inner">
-      <a href="index.html" class="site-logo navbar-logo" aria-label="Public Policy Lab home">
-        <img src="assets/logo-icon.svg" alt="" class="site-logo-icon" />
-        <span class="site-logo-text">public policy lab</span>
-      </a>
-      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="navbar-links" id="navbar-links" role="list">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="work.html" class="nav-link">Our Work</a></li>
-        <li><a href="focus-areas.html" class="nav-link">Focus Areas</a></li>
-        <li><a href="consulting.html" class="nav-link active">Consulting</a></li>
-        <li><a href="contact.html" class="nav-link nav-cta">Contact Us</a></li>
-      </ul>
-    </div>
-  </nav>
-
-
-  <!-- ============================================================
-       PAGE BANNER
-       ============================================================ -->
-  <div class="page-banner">
-    <div class="page-banner-inner">
-      <span class="overline">Policy Expertise</span>
-      <h1>Consulting Services</h1>
-      <p class="lead">
-        Deeply researched insights, polished publications, and guided expertise for governments,
-        NGOs, international organisations, and the private sector.
-      </p>
-    </div>
-    <div class="page-banner-strip"></div>
+<nav>
+  <a href="index.html" class="nav-logo"><img src="assets/logo-icon.svg" alt=""> public policy lab</a>
+  <div class="nav-r">
+    <a href="index.html">Home</a>
+    <a href="work.html">Track record</a>
+    <a href="#individual">Individual consultancy</a>
+    <a href="contact.html" class="nav-cta">Contact</a>
   </div>
+</nav>
 
+<div class="page-hero">
+  <div class="sec-tag">Consulting services</div>
+  <h1>Policy expertise for any client</h1>
+  <p>Deeply researched insights, polished publications, and guided expertise for governments, NGOs, international organisations, and the private sector. Our consultancy work funds our policy research &ndash; when you hire us, you help fund the broader mission.</p>
+</div>
 
-  <!-- ============================================================
-       WHO WE WORK WITH
-       Brief intro and list of client types.
-       ============================================================ -->
-  <section class="section section-alt">
-    <div class="section-inner">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-xl); align-items:start;" class="reveal">
+<!-- SERVICES -->
+<div class="svc-section">
+<div class="wrap">
+  <div class="sec-tag reveal">What we offer</div>
+  <h2 class="sec-title reveal">Services</h2>
+  <div class="svc-grid reveal">
+    <div class="svc-card">
+      <h3>Policy Research &amp; Analysis</h3>
+      <p>In-depth, evidence-based research and analysis on policy questions, delivered as briefs, full reports, or background papers.</p>
+    </div>
+    <div class="svc-card">
+      <h3>Publications &amp; Reports</h3>
+      <p>Polished, professionally designed publications, white papers, and technical documents to the highest standard.</p>
+    </div>
+    <div class="svc-card">
+      <h3>Monitoring &amp; Evaluation</h3>
+      <p>Design and implementation of M&amp;E frameworks, data collection systems, and performance tracking tools at organisational or programme level.</p>
+    </div>
+    <div class="svc-card">
+      <h3>Stakeholder Engagement</h3>
+      <p>Focus groups, workshops, consultations, and participatory processes designed to gather evidence and build consensus.</p>
+    </div>
+    <div class="svc-card">
+      <h3>Trainings &amp; Workshops</h3>
+      <p>Practical training programmes on policy implementation, M&amp;E, planning and foresight, AI integration into workflows, and more.</p>
+    </div>
+    <div class="svc-card">
+      <h3>Custom Data Tools</h3>
+      <p>Interactive data products, visualizations, dashboards, and policy applications built for your specific needs.</p>
+    </div>
+  </div>
+</div>
+</div>
 
-        <div>
-          <span class="overline">Who We Work With</span>
-          <h2 style="margin-top:var(--sp-xs); margin-bottom:var(--sp-sm);">Built for any client with policy needs</h2>
-          <p>
-            Whether you're a government agency, local or city council, NGO, private company,
-            advocacy group, educational institution, international business, or anyone in need
-            of policy expertise — you can find that with us.
-          </p>
-          <p>
-            Our consultancy work is also what sustains our not-for-profit policy development
-            activities: pro bono advisory, education, research, and open data tools. When you
-            hire us, you help fund the broader mission.
-          </p>
-          <a href="contact.html" class="btn btn-primary mt-md">Discuss a project</a>
-        </div>
+<!-- CLIENTS -->
+<div class="clients">
+<div class="wrap reveal">
+  <div class="sec-tag">Who we work with</div>
+  <p style="font-size:15px;color:var(--body);line-height:1.7;max-width:600px">Whether you are a government agency, local council, NGO, private company, advocacy group, educational institution, international business, or anyone in need of policy expertise.</p>
+  <div class="client-tags">
+    <span class="client-tag">Government Agencies</span>
+    <span class="client-tag">Local &amp; City Councils</span>
+    <span class="client-tag">NGOs &amp; Civil Society</span>
+    <span class="client-tag">International Organisations</span>
+    <span class="client-tag">Private Companies</span>
+    <span class="client-tag">Advocacy Groups</span>
+    <span class="client-tag">Educational Institutions</span>
+    <span class="client-tag">Funders &amp; Donors</span>
+    <span class="client-tag">Research Partners</span>
+  </div>
+</div>
+</div>
 
-        <!-- Client type tags -->
-        <div>
-          <h4 style="margin-bottom:var(--sp-sm); color:var(--color-muted); font-weight:600; font-size:var(--fs-sm); letter-spacing:0.08em; text-transform:uppercase;">We work with</h4>
-          <div class="expertise-tags">
-            <span class="expertise-tag">Government Agencies</span>
-            <span class="expertise-tag" style="background:var(--color-blue-light); color:var(--color-blue);">Local &amp; City Councils</span>
-            <span class="expertise-tag" style="background:var(--color-green-light); color:var(--color-green);">NGOs &amp; Civil Society</span>
-            <span class="expertise-tag" style="background:var(--color-coral-light); color:var(--color-coral);">International Organisations</span>
-            <span class="expertise-tag">Private Companies</span>
-            <span class="expertise-tag" style="background:var(--color-salmon-light); color:var(--color-coral);">Advocacy Groups</span>
-            <span class="expertise-tag" style="background:var(--color-blue-light); color:var(--color-blue);">Educational Institutions</span>
-            <span class="expertise-tag" style="background:var(--color-green-light); color:var(--color-green);">Funders &amp; Donors</span>
-            <span class="expertise-tag">Research Partners</span>
-          </div>
-        </div>
+<!-- INDIVIDUAL CONSULTANCY -->
+<div class="profile-section" id="individual">
+<div class="wrap">
+  <div class="sec-tag reveal">Individual consultancy</div>
+  <h2 class="sec-title reveal">Work with our Managing Director</h2>
+  <p style="font-size:15px;color:var(--body);line-height:1.7;max-width:600px;margin-bottom:32px" class="reveal">In addition to firm-level engagements, we can work individually with those seeking policy expertise in the Maldives or the Asia-Pacific region.</p>
 
+  <div class="profile-grid reveal">
+    <div>
+      <img src="assets/zayaan-headshot.jpg" alt="Zayaan Shaafiu, Managing Director" class="profile-photo">
+      <div class="profile-name">Zayaan Shaafiu</div>
+      <div class="profile-title">Managing Director</div>
+      <div class="profile-email"><a href="mailto:zayaan@policylabmv.com">zayaan@policylabmv.com</a></div>
+    </div>
+    <div class="profile-bio">
+      <p>Zayaan Shaafiu is the Managing Director of Public Policy Lab. He has worked across a wide range of policy areas, including economic policy, health, social protection, information policy, housing policy, urbanism and livability, urbanization and decentralization, education, electoral politics and governance, community enrichment and third spaces, family policy, gender equality and child protection, infrastructure and connectivity, financial inclusion, and labour and workplace rights &ndash; as well as integration of AI into workflows, development of data collection and usability frameworks, building monitoring and evaluation systems, public administration and service delivery, and policy implementation.</p>
+
+      <div class="expertise-tags">
+        <span class="exp-tag">Economic Policy</span>
+        <span class="exp-tag">Health Policy</span>
+        <span class="exp-tag">Social Protection</span>
+        <span class="exp-tag">Urbanism &amp; Livability</span>
+        <span class="exp-tag">Electoral Politics</span>
+        <span class="exp-tag">M&amp;E Systems</span>
+        <span class="exp-tag">Data &amp; Information Policy</span>
+        <span class="exp-tag">AI Workflow Integration</span>
+        <span class="exp-tag">Financial Inclusion</span>
+        <span class="exp-tag">Labour &amp; Workers' Rights</span>
+        <span class="exp-tag">Education Policy</span>
+        <span class="exp-tag">Public Administration</span>
+      </div>
+
+      <h3>Selected work</h3>
+      <p>As a consultant, he has worked with UNDP in the development process of the Strategic Action Plan with a focus on economic sectors; been the Lead Researcher and author for the <em>Cost of Politics in the Maldives</em> project by the Westminster Foundation for Democracy; and supported the Ministry of Social and Family Development in the establishment of project-based workplan systems, policy capacity development, and data collection frameworks. Following the publication of the Cost of Politics report, the government announced plans for electoral reforms that matched key recommendations proposed in the document.</p>
+      <p>In work with the Ministry of Social and Family Development, he leads capacity-building initiatives such as compiling disparate research and reporting into indexed portals for evidence-based policymaking, developing modelling tools for policy construction and design, adapting surveys and data collection to better data usability practices, detailed geographical mapping of social service providers to model access to care, development of AI-integrated policy workflows, and more.</p>
+
+      <h3>Director, President's Office</h3>
+      <p>As Director at the President's Office in the Special Programs Unit for presidentially prioritized projects, he led the development of data collection mechanisms and the autonomisation and performance enhancement programs for tertiary hospitals and the development of regional hospitals. In this capacity he was responsible for:</p>
+      <ul>
+        <li>Developing comprehensive daily data collection from central hospitals, regional hospitals, and 55 islands over hundreds of key indicators, with weekly reports for the President and senior officials.</li>
+        <li>Data-supported performance measures resulting in a 70% reduction of specialist waitlists and reduction of psychiatry waitlists from 18 months to 2 months.</li>
+        <li>Leading the training of data analysts, including at the first public hospital analytics unit in the Maldives at Dr Abdul Samad Memorial Hospital.</li>
+        <li>Introduction of teleconsultation services to 55 island health centres &ndash; now covering a range of specialist services for patients in geographically remote islands.</li>
+        <li>Hospital developments including child development centres and reproductive health centres; writing and designing the Decentralisation and Autonomisation Report.</li>
+      </ul>
+
+      <h3>Other experience</h3>
+      <p>He has also worked within the private sector and tourism industry, including development of investor prospectuses for guesthouses and island locations seeking foreign investment; worked on data-based modelling and forecasting of economic indicators at the Modelling and Forecasting Section of the Maldives Monetary Authority &ndash; where he developed the research base and indicator set for national financial inclusion and worked on the design of unified financial inclusion proposals that evolved into the national e-payments program; and been an analyst on studies of occupational health and safety in the Maldives for the Public Interest Law Centre.</p>
+
+      <h3>Education</h3>
+      <p>Zayaan holds a <strong>Master's degree in Applied Economics and Policy</strong> from the University of Windsor, with research on modelling systems to identify high-value, high-likelihood donors for nonprofits to improve fundraising targeting. He also holds dual <strong>Bachelor's degrees in Economics and in Teaching</strong> (major in Politics and International Studies) from the University of Adelaide, receiving the Excellence Award as first in class for Development Economics and Public Economics.</p>
+
+      <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap">
+        <a href="mailto:zayaan@policylabmv.com" class="btn">Email Zayaan</a>
+        <a href="contact.html" class="btn" style="background:transparent;color:var(--pri-d);border:1px solid rgba(0,0,0,.12)">Contact the firm</a>
       </div>
     </div>
-  </section>
+  </div>
+</div>
+</div>
 
-
-  <!-- ============================================================
-       SERVICES GRID
-       Six core service offerings as cards with icons.
-       ============================================================ -->
-  <section class="section">
-    <div class="section-inner">
-
-      <div class="section-header centered reveal">
-        <span class="overline">What We Offer</span>
-        <h2>Our Services</h2>
-        <span class="section-rule"></span>
-      </div>
-
-      <div class="services-grid reveal reveal-stagger">
-
-        <div class="service-card">
-          <div class="service-icon" style="background:var(--color-teal-light);">
-            <i class="bi bi-file-text" style="color:var(--color-teal-dark);"></i>
-          </div>
-          <h3>Policy Research &amp; Analysis</h3>
-          <p>In-depth, evidence-based research and analysis on policy questions, delivered as briefs, full reports, or background papers.</p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon" style="background:var(--color-blue-light);">
-            <i class="bi bi-book" style="color:var(--color-blue);"></i>
-          </div>
-          <h3>Publications &amp; Reports</h3>
-          <p>Polished, professionally designed publications, white papers, and technical documents to the highest standard.</p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon" style="background:var(--color-green-light);">
-            <i class="bi bi-bar-chart-line" style="color:var(--color-green);"></i>
-          </div>
-          <h3>Monitoring &amp; Evaluation</h3>
-          <p>Design and implementation of M&amp;E frameworks, data collection systems, and performance tracking tools at organisational or programme level.</p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon" style="background:var(--color-coral-light);">
-            <i class="bi bi-people" style="color:var(--color-coral);"></i>
-          </div>
-          <h3>Stakeholder Engagement</h3>
-          <p>Focus groups, workshops, consultations, and participatory processes designed to gather evidence and build consensus.</p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon" style="background:var(--color-salmon-light);">
-            <i class="bi bi-mortarboard" style="color:var(--color-coral);"></i>
-          </div>
-          <h3>Trainings &amp; Workshops</h3>
-          <p>Practical training programmes on policy implementation, M&amp;E, planning and foresight, AI integration into workflows, and more.</p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-icon" style="background:var(--color-teal-light);">
-            <i class="bi bi-person-badge" style="color:var(--color-teal-dark);"></i>
-          </div>
-          <h3>Individual Expert Consultancy</h3>
-          <p>Direct access to our Managing Director for individual consultancies, conference participations, research partnerships, and contract projects.</p>
-        </div>
-
-      </div>
+<!-- TRAININGS -->
+<div class="training">
+<div class="wrap">
+  <div class="training-grid reveal">
+    <div>
+      <div class="sec-tag">Trainings &amp; workshops</div>
+      <h2 class="sec-title">We can come to you</h2>
+      <p>We are interested in meeting and collaborating with researchers and those in the policy sector, both locally and internationally. We can hold trainings or workshops on areas such as:</p>
+      <ul>
+        <li>Policy implementation and design</li>
+        <li>Monitoring and evaluation</li>
+        <li>Policy development tools</li>
+        <li>Planning and foresight methodologies</li>
+        <li>Integration of AI into policy workflows</li>
+        <li>Data collection and usability</li>
+      </ul>
+      <a href="contact.html" class="btn">Send an invitation</a>
     </div>
-  </section>
-
-
-  <!-- ============================================================
-       INDIVIDUAL CONSULTANCY SECTION
-       Zayaan's two-column profile: sticky photo on left, full bio on right.
-       Anchored at #individual for internal links.
-       ============================================================ -->
-  <section class="section section-alt" id="individual">
-    <div class="section-inner">
-
-      <div class="section-header reveal">
-        <span class="overline">Individual Consultancy</span>
-        <h2>Work with our Managing Director</h2>
-        <span class="section-rule"></span>
-        <p class="section-subtitle" style="max-width:600px;">
-          In addition to firm-level engagements, we can work individually with those seeking
-          policy expertise in the Maldives or the Asia-Pacific region.
-        </p>
-      </div>
-
-      <!-- Two-column profile layout: photo (left) + bio (right) -->
-      <div class="profile-layout reveal">
-
-        <!-- Left column: headshot + name/title -->
-        <div class="profile-photo-wrap">
-          <img
-            src="assets/zayaan-headshot.jpg"
-            alt="Zayaan Shaafiu, Managing Director"
-            class="profile-photo"
-          />
-          <div class="profile-photo-caption">
-            <p class="profile-name">Zayaan Shaafiu</p>
-            <p class="profile-title">Managing Director</p>
-            <p class="profile-email"><a href="mailto:zayaan@policylabmv.com">zayaan@policylabmv.com</a></p>
-          </div>
-        </div>
-
-        <!-- Right column: full biography -->
-        <div class="profile-bio">
-
-          <p>
-            Zayaan Shaafiu is the Managing Director of Public Policy Lab. He has worked across a wide range
-            of policy areas, including economic policy, health, social protection, information policy,
-            housing policy, urbanism and livability, urbanization and decentralization, education, electoral
-            politics and governance, community enrichment and third spaces, family policy, gender equality
-            and child protection, infrastructure and connectivity, financial inclusion, and labour and
-            workplace rights — as well as integration of AI into workflows, development of data collection
-            and usability frameworks, building monitoring and evaluation systems, public administration and
-            service delivery, and policy implementation.
-          </p>
-
-          <!-- Expertise tag cloud -->
-          <div class="expertise-tags mt-md mb-md">
-            <span class="expertise-tag">Economic Policy</span>
-            <span class="expertise-tag" style="background:var(--color-blue-light);color:var(--color-blue);">Health Policy</span>
-            <span class="expertise-tag" style="background:var(--color-green-light);color:var(--color-green);">Social Protection</span>
-            <span class="expertise-tag" style="background:var(--color-coral-light);color:var(--color-coral);">Urbanism &amp; Livability</span>
-            <span class="expertise-tag">Electoral Politics</span>
-            <span class="expertise-tag" style="background:var(--color-salmon-light);color:var(--color-coral);">M&amp;E Systems</span>
-            <span class="expertise-tag" style="background:var(--color-blue-light);color:var(--color-blue);">Data &amp; Information Policy</span>
-            <span class="expertise-tag" style="background:var(--color-green-light);color:var(--color-green);">AI Workflow Integration</span>
-            <span class="expertise-tag">Financial Inclusion</span>
-            <span class="expertise-tag" style="background:var(--color-coral-light);color:var(--color-coral);">Labour &amp; Workers' Rights</span>
-            <span class="expertise-tag">Education Policy</span>
-            <span class="expertise-tag" style="background:var(--color-teal-light);color:var(--color-teal-dark);">Public Administration</span>
-          </div>
-
-          <h3>Selected work</h3>
-
-          <p>
-            As a consultant, he has worked with UNDP in the development process of the Strategic Action Plan
-            with a focus on economic sectors; been the Lead Researcher and author for the
-            <em>Cost of Politics in the Maldives</em> project by the Westminster Foundation for Democracy;
-            and supported the Ministry of Social and Family Development in the establishment of
-            project-based workplan systems, policy capacity development, and data collection frameworks.
-            Following the publication of the Cost of Politics report, the government announced plans for
-            electoral reforms that matched key recommendations proposed in the document
-            <a href="https://www.wfd.org/sites/default/files/2025-02/wfd_2025_cost_of_politics_in_the_maldives.pdf" target="_blank" rel="noopener">[link]</a>.
-          </p>
-
-          <p>
-            In work with the Ministry of Social and Family Development, he leads capacity-building
-            initiatives such as compiling disparate research and reporting into indexed portals for
-            evidence-based policymaking, developing modelling tools for policy construction and design,
-            adapting surveys and data collection to better data usability practices, detailed geographical
-            mapping of social service providers to model access to care, development of AI-integrated
-            policy workflows, and more.
-          </p>
-
-          <h3>Director, President's Office</h3>
-
-          <p>
-            As Director at the President's Office in the Special Programs Unit for presidentially prioritized
-            projects, he led the development of data collection mechanisms and the autonomisation and
-            performance enhancement programs for tertiary hospitals and the development of regional hospitals.
-            In this capacity he was responsible for:
-          </p>
-
-          <!-- Bulleted list of accomplishments for readability -->
-          <ul style="padding-left:1.2rem; margin-bottom:var(--sp-sm); list-style:disc;">
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text); line-height:1.65;">Developing comprehensive daily data collection from central hospitals, regional hospitals, and 55 islands over hundreds of key indicators, with weekly reports for the President and senior officials.</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text); line-height:1.65;">Data-supported performance measures resulting in a 70% reduction of specialist waitlists and reduction of psychiatry waitlists from 18 months to 2 months.</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text); line-height:1.65;">Leading the training of data analysts, including at the first public hospital analytics unit in the Maldives at Dr Abdul Samad Memorial Hospital.</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text); line-height:1.65;">Introduction of teleconsultation services to 55 island health centres — now covering a range of specialist services for patients in geographically remote islands.</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text); line-height:1.65;">Hospital developments including child development centres and reproductive health centres; writing and designing the Decentralisation and Autonomisation Report.</li>
-          </ul>
-
-          <a href="https://drive.google.com/file/d/1Zex6zPCw554tYtB3Pu4eG3fL1UkRmjrZ/view?usp=sharing" target="_blank" rel="noopener" class="impact-link mb-md" style="display:inline-flex;">
-            <i class="bi bi-file-earmark-text"></i> Read the hospital reform report
-          </a>
-
-          <h3>Other experience</h3>
-
-          <p>
-            He has also worked within the private sector and tourism industry, including development of
-            investor prospectuses for guesthouses and island locations seeking foreign investment; worked on
-            data-based modelling and forecasting of economic indicators at the Modelling and Forecasting
-            Section of the Maldives Monetary Authority — where he developed the research base and indicator
-            set for national financial inclusion and worked on the design of unified financial inclusion
-            proposals that evolved into the national e-payments program; and been an analyst on studies of
-            occupational health and safety in the Maldives for the Public Interest Law Centre.
-          </p>
-
-          <h3>Education</h3>
-
-          <p>
-            Zayaan holds a <strong>Master's degree in Applied Economics and Policy</strong> from the
-            University of Windsor, with research on modelling systems to identify high-value, high-likelihood
-            donors for nonprofits to improve fundraising targeting. He also holds dual
-            <strong>Bachelor's degrees in Economics and in Teaching</strong> (major in Politics and
-            International Studies) from the University of Adelaide, receiving the Excellence Award
-            as first in class for Development Economics and Public Economics.
-          </p>
-
-          <!-- CTA to get in touch -->
-          <div style="margin-top:var(--sp-lg); display:flex; gap:var(--sp-sm); flex-wrap:wrap;">
-            <a href="mailto:zayaan@policylabmv.com" class="btn btn-primary">
-              <i class="bi bi-envelope"></i> Email Zayaan
-            </a>
-            <a href="contact.html" class="btn btn-secondary">
-              Contact the firm
-            </a>
-          </div>
-
-        </div>
-      </div>
-
+    <div class="callout">
+      <h4>Need a specific expert?</h4>
+      <p>We can also partner with you to identify a suitable consultant for your policy expertise needs. Email us with details of your needed qualifications and experience, and we'll help connect you with the right expert &ndash; through our firm directly or through our network of contacts within the sector.</p>
+      <a href="mailto:info@policylabmv.com" style="display:inline-block;margin-top:12px;font-size:13px;font-weight:600;color:var(--pri-d)">info@policylabmv.com &rarr;</a>
     </div>
-  </section>
+  </div>
+</div>
+</div>
 
+<footer>
+<div class="wrap">
+  <div class="footer-grid">
+    <div class="footer-col"><h5>Publications</h5><a href="society/index.html">Society</a><a href="governance/index.html">Governance</a><a href="economy/index.html">Economy</a><a href="futures/index.html">Futures</a><a href="politics/index.html">Politics</a><a href="applied/index.html">Applied Tools</a></div>
+    <div class="footer-col"><h5>Organisation</h5><a href="work.html">Track record</a><a href="consulting.html">Consulting</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h5>Contact</h5><p>M. Iris, 4th Floor, Orchid Magu</p><p>Mal&eacute;, Maldives</p><a href="mailto:info@policylabmv.com">info@policylabmv.com</a><a href="tel:+9607861232">(960) 786-1232</a></div>
+  </div>
+  <div class="footer-bottom"><span>&copy; 2026 Public Policy Lab. All rights reserved.</span><span>Mal&eacute;, Maldives</span></div>
+</div>
+</footer>
 
-  <!-- ============================================================
-       TRAININGS & WORKSHOPS SECTION
-       Separate callout for the training/workshop offering since
-       it's featured prominently on the contact page.
-       ============================================================ -->
-  <section class="section">
-    <div class="section-inner">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-xl); align-items:center;" class="reveal">
-
-        <div>
-          <span class="overline">Trainings &amp; Workshops</span>
-          <h2 style="margin-top:var(--sp-xs); margin-bottom:var(--sp-sm);">We can come to you</h2>
-          <p>
-            We are interested in meeting and collaborating with researchers and those in the policy sector,
-            both locally and internationally. We can hold trainings or workshops on areas such as:
-          </p>
-          <ul style="padding-left:1.1rem; list-style:disc; margin-top:var(--sp-sm);">
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text);">Policy implementation and design</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text);">Monitoring and evaluation</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text);">Policy development tools</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text);">Planning and foresight methodologies</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text);">Integration of AI into policy workflows</li>
-            <li style="margin-bottom:6px; font-size:var(--fs-sm); color:var(--color-text);">Data collection and usability</li>
-          </ul>
-          <a href="contact.html" class="btn btn-primary mt-md">Send an invitation</a>
-        </div>
-
-        <!-- Connecting with individual consultants callout -->
-        <div class="callout-box callout-blue">
-          <h4><i class="bi bi-person-lines-fill" style="color:var(--color-blue);"></i> &nbsp;Need a specific expert?</h4>
-          <p>
-            We can also partner with you to identify a suitable consultant for your policy expertise needs.
-            Email us with details of your needed qualifications and experience, and we'll help connect you
-            with the right expert — through our firm directly or through our network of contacts within the sector.
-          </p>
-          <a href="mailto:info@policylabmv.com" class="btn btn-sm mt-sm" style="background:var(--color-blue); color:white; border-color:var(--color-blue);">
-            <i class="bi bi-envelope"></i> Get in touch
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-logo">
-          <a href="index.html" class="site-logo" style="margin-bottom:var(--sp-sm); display:inline-flex;">
-          <img src="assets/logo-icon.svg" alt="" class="site-logo-icon" />
-          <span class="site-logo-text">public policy lab</span>
-        </a>
-          <p class="footer-tagline">A non-partisan think tank &amp; consultancy based in the Maldives.</p>
-        </div>
-        <div class="footer-col">
-          <h5>Navigate</h5>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="work.html">Our Work</a></li>
-            <li><a href="focus-areas.html">Focus Areas</a></li>
-            <li><a href="consulting.html">Consulting</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Consulting</h5>
-          <ul>
-            <li><a href="consulting.html">Services Overview</a></li>
-            <li><a href="consulting.html#individual">Individual Consultancy</a></li>
-            <li><a href="contact.html">Work With Us</a></li>
-            <li><a href="contact.html#partnerships">Partnerships &amp; Funding</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Contact</h5>
-          <p class="footer-contact-item">M. Iris, 4th Floor<br />Orchid Magu, Malé<br />Maldives</p>
-          <p class="footer-contact-item"><a href="mailto:info@policylabmv.com">info@policylabmv.com</a></p>
-          <p class="footer-contact-item"><a href="tel:+9607861232">(960) 786-1232</a></p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span class="footer-copyright">© 2025 Public Policy Lab. All rights reserved.</span>
-        <span class="footer-copyright">Malé, Maldives</span>
-      </div>
-    </div>
-  </footer>
-
-  <script src="js/main.js"></script>
+<script>var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.06,rootMargin:'0px 0px -20px 0px'});document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)})</script>
 </body>
 </html>

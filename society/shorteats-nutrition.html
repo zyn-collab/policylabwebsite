@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NutritionMV – Maldivian Food Nutrition Data</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
+  --dark: #2A3042; --red: #D4726A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a.link{color:var(--pri-d);text-decoration:underline;text-underline-offset:2px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+.page-header{padding:100px 40px 32px;max-width:1080px;margin:0 auto}
+.page-header h1{font-family:var(--sans);font-size:clamp(28px,4vw,44px);line-height:1.15;letter-spacing:-.02em;margin-bottom:12px}
+.page-header p{font-size:15px;color:var(--body);line-height:1.7;max-width:720px;margin-bottom:8px}
+
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
+
+/* Cards grid */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0 48px}
+
+.card{background:var(--card);border:1px solid rgba(0,0,0,.07);border-radius:12px;cursor:pointer;transition:box-shadow .25s,transform .25s;overflow:hidden}
+.card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
+
+.card-summary{padding:22px 22px 18px}
+.card-name{font-family:var(--sans);font-size:20px;font-weight:700;margin-bottom:6px}
+.card-method{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+.method-deep-fried{background:#FDF0E2;color:#A06B2A}
+.method-baked{background:#F0EAE0;color:#7A6548}
+.method-pan-cooked{background:#E8EDE4;color:#5A6B4E}
+.method-boiled{background:#E4EAF0;color:#5A6B80}
+
+.card-kcal{font-family:var(--serif);font-size:42px;font-weight:700;line-height:1;color:var(--fg);margin-bottom:2px}
+.card-kcal-unit{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:4px}
+.card-weight{font-size:12px;color:var(--muted);margin-bottom:14px}
+
+/* Macro bar */
+.macro-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin-bottom:4px}
+.macro-bar .bar-p{background:#5A8F6B}
+.macro-bar .bar-f{background:#C9935A}
+.macro-bar .bar-c{background:#6B7FA3}
+.macro-legend{display:flex;gap:10px;font-size:10px;color:var(--muted)}
+.macro-legend span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:3px;vertical-align:middle}
+.macro-legend .leg-p::before{background:#5A8F6B}
+.macro-legend .leg-f::before{background:#C9935A}
+.macro-legend .leg-c::before{background:#6B7FA3}
+
+/* Expanded nutrition label */
+.card-detail{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+.card.open .card-detail{max-height:800px}
+
+.nf{margin:0 22px 22px;border:2px solid #000;padding:0;font-family:var(--sans)}
+.nf-header{background:#000;color:#fff;padding:6px 10px;font-size:20px;font-weight:800;letter-spacing:-.01em}
+.nf-body{padding:8px 10px 10px}
+.nf-serving{font-size:12px;color:var(--body);padding-bottom:6px;border-bottom:6px solid #000}
+.nf-cal-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:4px solid #000}
+.nf-cal-label{font-size:12px;font-weight:700}
+.nf-cal-val{font-size:28px;font-weight:800;line-height:1}
+
+.nf-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #ddd;font-size:12px}
+.nf-row.thick{border-bottom:4px solid #000}
+.nf-row.med{border-bottom:2px solid #000}
+.nf-row .nf-label{color:var(--fg)}
+.nf-row .nf-label b{font-weight:700}
+.nf-row .nf-val{color:var(--fg);font-weight:500;text-align:right;min-width:50px}
+.nf-row .nf-dv{color:var(--muted);font-size:11px;text-align:right;min-width:40px}
+.nf-row.indent .nf-label{padding-left:16px;font-weight:400;color:var(--body)}
+.nf-dv-head{font-size:10px;text-align:right;color:var(--muted);padding:4px 0 2px;border-bottom:1px solid #ddd}
+
+.nf-note{font-size:10px;color:var(--muted);line-height:1.4;padding-top:6px;border-top:4px solid #000;margin-top:4px}
+
+.card-expand-hint{font-size:11px;color:var(--muted);text-align:center;padding:0 22px 14px;transition:opacity .2s}
+.card.open .card-expand-hint{opacity:0}
+
+/* Methodology accordions */
+.section{padding:40px 0;border-top:1px solid rgba(0,0,0,.05)}
+.accordion{margin:12px 0}
+.acc-trigger{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:14px 18px;cursor:pointer;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--fg);transition:background .2s}
+.acc-trigger:hover{background:rgba(0,0,0,.02)}
+.acc-trigger .chevron{font-size:16px;color:var(--muted);transition:transform .3s}
+.acc-trigger.open .chevron{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.acc-body.open{max-height:2000px}
+.acc-content{padding:16px 18px;font-size:13px;color:var(--body);line-height:1.7}
+.acc-content p{margin-bottom:10px}
+.acc-content ul{margin:8px 0 12px 18px}
+.acc-content li{margin-bottom:4px}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:1080px;margin-left:auto;margin-right:auto}
+footer a{color:var(--pri-d)}
+
+@media(max-width:860px){
+  .cards-grid{grid-template-columns:1fr 1fr}
+  .page-header,.wrap{padding-left:20px;padding-right:20px}
+  nav{padding:12px 16px}
+}
+@media(max-width:540px){
+  .cards-grid{grid-template-columns:1fr}
+  .nav-r{gap:12px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; NutritionMV</span></a>
+  <div class="nav-r">
+    <a href="index.html">Overview</a>
+    <a href="data-gallery.html">Data gallery</a>
+    <a href="/">Main site</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="sec-tag">NutritionMV</div>
+  <h1>Maldivian food nutrition data</h1>
+  <p>There is almost no publicly available data on the actual nutritional content of Maldivian foods. Most dietary guidance relies on generic South Asian food composition tables that do not reflect local recipes, portion sizes, or cooking methods. NutritionMV is building the first open collection of nutrition profiles for Maldivian food &ndash; shorteats, curries, rice dishes, sweets, and drinks &ndash; calculated from weighted ingredient breakdowns and standard retention factors.</p>
+  <p style="font-size:14px;color:var(--body);line-height:1.7;margin-top:10px;margin-bottom:8px">We are starting with <strong>hedhikaa</strong> &ndash; the shorteats that show up at every tea break, school canteen, and corner shop. More categories will be added as the project expands.</p>
+  <p style="font-size:12px;color:var(--muted);margin-top:4px">Click any card to view full nutrition label &darr;</p>
+</div>
+
+<div class="wrap">
+  <div class="cards-grid" id="grid"></div>
+
+  <div class="section">
+    <div class="sec-tag">About this data</div>
+    <h2 style="font-family:var(--sans);font-size:22px;font-weight:600;margin-bottom:16px">Methodology &amp; limitations</h2>
+
+    <div class="accordion">
+      <button class="acc-trigger" onclick="toggleAcc(this)">
+        Methods and key assumptions
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-content">
+          <p>Nutrient values were estimated by decomposing each shorteat into its constituent ingredients, weighting by typical recipe proportions and applying USDA SR28 food composition data. Cooking method adjustments used standard nutrient retention factors from the USDA Table of Nutrient Retention Factors, Release 6.</p>
+          <p>Key assumptions:</p>
+          <ul>
+            <li>Recipes are based on common household preparations collected from Maldivian sources; commercial variants may differ.</li>
+            <li>Portion weights represent typical single-piece servings weighed from multiple samples.</li>
+            <li>Oil absorption for deep-fried items uses standard retention factors (approximately 8-12% of cooked weight, varying by surface area).</li>
+            <li>Micronutrient values for blended spice mixes (e.g. curry paste) are estimated from dominant spice components.</li>
+            <li>%RDA columns reference WHO/FAO adult reference intakes for a 2,000 kcal diet.</li>
+          </ul>
+          <p>All values should be treated as informed estimates, not laboratory-verified analytical results.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="acc-trigger" onclick="toggleAcc(this)">
+        Micronutrient data gaps
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-content">
+          <p>Several micronutrients are poorly characterised in standard food composition databases for the ingredients common to Maldivian shorteats:</p>
+          <ul>
+            <li><strong>Iodine:</strong> Not reported in USDA SR28 for most ingredients. Maldivian diets may have higher iodine from fish-based fillings, but this is not quantified here.</li>
+            <li><strong>Vitamin D:</strong> Present in tuna and egg but highly variable by species and preparation; values are rough estimates.</li>
+            <li><strong>Omega-3 fatty acids:</strong> Tuna-based shorteats likely contain meaningful EPA/DHA, but levels depend heavily on tuna species and are not broken out in these profiles.</li>
+            <li><strong>Folate:</strong> Reported values may underestimate true content due to losses during extended cooking.</li>
+          </ul>
+          <p>These gaps reflect limitations in the underlying composition databases rather than analytical error. Users requiring precise micronutrient data for clinical or regulatory purposes should commission direct laboratory analysis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>&copy; Public Policy Lab 2026</span>
+  <a href="index.html">&larr; Back to Society hub</a>
+</footer>
+
+<script>
+const shorteats = [
+  {
+    name: "Fuh gulha",
+    method: "deep-fried",
+    kcal: 107,
+    weight: 31.3,
+    protein: 2.69, fat: 7.37, satFat: 1.65, carbs: 7.78, fiber: 0.53, sugars: 0.8, sodium: 104,
+    cholesterol: 12, transFat: 0.1,
+    vitA: 1, vitC: 0.5, calcium: 12, iron: 0.5, potassium: 45, vitD: 0.1
+  },
+  {
+    name: "Handoo gulha",
+    method: "deep-fried",
+    kcal: 41,
+    weight: 10.2,
+    protein: 1.56, fat: 1.87, satFat: 0.54, carbs: 4.35, fiber: 0.24, sugars: 0.3, sodium: 63,
+    cholesterol: 5, transFat: 0.0,
+    vitA: 0.5, vitC: 0.2, calcium: 6, iron: 0.3, potassium: 22, vitD: 0.0
+  },
+  {
+    name: "Masroshi",
+    method: "pan-cooked",
+    kcal: 165,
+    weight: 69.8,
+    protein: 12.3, fat: 4.03, satFat: 1.91, carbs: 19.46, fiber: 1.32, sugars: 1.1, sodium: 283,
+    cholesterol: 18, transFat: 0.1,
+    vitA: 2, vitC: 1.5, calcium: 28, iron: 1.4, potassium: 140, vitD: 0.3
+  },
+  {
+    name: "Kulhi boakibaa",
+    method: "baked",
+    kcal: 97,
+    weight: 54.7,
+    protein: 6.69, fat: 3.0, satFat: 1.06, carbs: 11.06, fiber: 0.67, sugars: 0.9, sodium: 179,
+    cholesterol: 22, transFat: 0.1,
+    vitA: 1.5, vitC: 0.3, calcium: 20, iron: 0.8, potassium: 85, vitD: 0.2
+  },
+  {
+    name: "Kavaabu",
+    method: "deep-fried",
+    kcal: 83,
+    weight: 24.2,
+    protein: 2.94, fat: 4.98, satFat: 0.97, carbs: 6.71, fiber: 0.44, sugars: 0.5, sodium: 93,
+    cholesterol: 8, transFat: 0.1,
+    vitA: 1, vitC: 0.8, calcium: 10, iron: 0.5, potassium: 55, vitD: 0.1
+  },
+  {
+    name: "Havaadhulee bis",
+    method: "boiled",
+    kcal: 116,
+    weight: 71.9,
+    protein: 4.16, fat: 5.65, satFat: 2.93, carbs: 12.51, fiber: 0.96, sugars: 1.4, sodium: 242,
+    cholesterol: 15, transFat: 0.1,
+    vitA: 3, vitC: 2.0, calcium: 22, iron: 0.9, potassium: 110, vitD: 0.1
+  },
+  {
+    name: "Bajiyaa",
+    method: "deep-fried",
+    kcal: 168,
+    weight: 45.0,
+    protein: 3.08, fat: 12.45, satFat: 1.96, carbs: 11.36, fiber: 0.59, sugars: 0.7, sodium: 183,
+    cholesterol: 6, transFat: 0.2,
+    vitA: 1.5, vitC: 1.2, calcium: 14, iron: 0.6, potassium: 68, vitD: 0.1
+  }
+];
+
+/* Daily reference values */
+const DV = {fat:78,satFat:20,carbs:275,fiber:28,protein:50,sodium:2300,cholesterol:300,potassium:4700,calcium:1300,iron:18,vitA:900,vitC:90,vitD:20};
+
+function pctDV(val, key, pieces){
+  pieces = pieces || 1;
+  const ref = DV[key];
+  if(!ref) return '—';
+  return Math.round((val * pieces / ref)*100) + '%';
+}
+
+function methodClass(m){return 'method-'+m.replace(/\s+/g,'-')}
+
+function buildCard(s, i){
+  const total = s.protein + s.fat + s.carbs;
+  const pP = total?((s.protein/total)*100).toFixed(0):0;
+  const pF = total?((s.fat/total)*100).toFixed(0):0;
+  const pC = total?((s.carbs/total)*100).toFixed(0):0;
+
+  return `
+<div class="card" id="card-${i}" onclick="toggleCard(${i})">
+  <div class="card-summary">
+    <div class="card-name">${s.name}</div>
+    <span class="card-method ${methodClass(s.method)}">${s.method}</span>
+    <div class="card-kcal">${s.kcal}</div>
+    <div class="card-kcal-unit">kcal / piece</div>
+    <div class="card-weight">${s.weight}g per piece</div>
+    <div class="macro-bar">
+      <div class="bar-p" style="width:${pP}%"></div>
+      <div class="bar-f" style="width:${pF}%"></div>
+      <div class="bar-c" style="width:${pC}%"></div>
+    </div>
+    <div class="macro-legend">
+      <span class="leg-p">Protein ${s.protein}g</span>
+      <span class="leg-f">Fat ${s.fat}g</span>
+      <span class="leg-c">Carbs ${s.carbs}g</span>
+    </div>
+  </div>
+  <div class="card-expand-hint">tap to expand</div>
+  <div class="card-detail">
+    <div class="nf">
+      <div class="nf-header">Nutrition Facts</div>
+      <div class="nf-body">
+        <div class="nf-serving">Serving size <b>1 piece (${s.weight}g)</b></div>
+        <div class="nf-cal-row">
+          <span class="nf-cal-label">Calories</span>
+          <span class="nf-cal-val">${s.kcal}</span>
+        </div>
+        <div class="nf-dv-head" style="display:flex;justify-content:flex-end;gap:8px">
+          <span style="min-width:50px;text-align:right">1 pc</span>
+          <span style="min-width:50px;text-align:right;font-weight:600">3 pc</span>
+        </div>
+        ${nfRow('Total Fat', s.fat+'g', 'fat', s.fat, false, true)}
+        ${nfRow('Saturated Fat', s.satFat+'g', 'satFat', s.satFat, true)}
+        ${nfRow('Trans Fat', s.transFat+'g', null, 0, true)}
+        ${nfRow('Cholesterol', s.cholesterol+'mg', 'cholesterol', s.cholesterol, false, false, true)}
+        ${nfRow('Sodium', s.sodium+'mg', 'sodium', s.sodium, false, false, true)}
+        ${nfRow('Total Carbohydrate', s.carbs+'g', 'carbs', s.carbs, false, true)}
+        ${nfRow('Dietary Fiber', s.fiber+'g', 'fiber', s.fiber, true)}
+        ${nfRow('Total Sugars', s.sugars+'g', null, 0, true)}
+        ${nfRow('Protein', s.protein+'g', 'protein', s.protein, false, false, false, true)}
+        <div class="nf-row thick" style="height:0;padding:0;border-bottom:6px solid #000"></div>
+        ${nfRowMicro('Vitamin A', s.vitA+'mcg', 'vitA', s.vitA)}
+        ${nfRowMicro('Vitamin C', s.vitC+'mg', 'vitC', s.vitC)}
+        ${nfRowMicro('Vitamin D', s.vitD+'mcg', 'vitD', s.vitD)}
+        ${nfRowMicro('Calcium', s.calcium+'mg', 'calcium', s.calcium)}
+        ${nfRowMicro('Iron', s.iron+'mg', 'iron', s.iron)}
+        ${nfRowMicro('Potassium', s.potassium+'mg', 'potassium', s.potassium)}
+        <div class="nf-note">* % Daily Value based on a 2,000 calorie diet. "3 pc" column shows %DV if three pieces are consumed in a sitting.</div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function nfRow(label, valStr, dvKey, dvVal, indent, bold, medBorder, thickBorder){
+  const dv1 = dvKey ? pctDV(dvVal, dvKey, 1) : '';
+  const dv3 = dvKey ? pctDV(dvVal, dvKey, 3) : '';
+  let cls = indent ? 'nf-row indent' : 'nf-row';
+  if(thickBorder) cls += ' thick';
+  else if(medBorder) cls += ' med';
+  const lb = bold ? `<b>${label}</b>` : label;
+  return `<div class="${cls}">
+    <span class="nf-label">${lb} ${valStr}</span>
+    <span style="display:flex;gap:8px">
+      <span class="nf-dv" style="min-width:50px;text-align:right">${dv1}</span>
+      <span class="nf-dv" style="min-width:50px;text-align:right;font-weight:600">${dv3}</span>
+    </span>
+  </div>`;
+}
+
+function nfRowMicro(label, valStr, dvKey, dvVal){
+  const dv1 = pctDV(dvVal, dvKey, 1);
+  const dv3 = pctDV(dvVal, dvKey, 3);
+  return `<div class="nf-row">
+    <span class="nf-label">${label} ${valStr}</span>
+    <span style="display:flex;gap:8px">
+      <span class="nf-dv" style="min-width:50px;text-align:right">${dv1}</span>
+      <span class="nf-dv" style="min-width:50px;text-align:right;font-weight:600">${dv3}</span>
+    </span>
+  </div>`;
+}
+
+/* Render */
+const grid = document.getElementById('grid');
+grid.innerHTML = shorteats.map((s,i) => buildCard(s,i)).join('');
+
+function toggleCard(i){
+  const card = document.getElementById('card-'+i);
+  card.classList.toggle('open');
+}
+
+function toggleAcc(btn){
+  btn.classList.toggle('open');
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>

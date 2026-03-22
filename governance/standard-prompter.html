@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A standardized prompting tool for AI-assisted policy work – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #F7F7F8; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #4A5568; --pri-d: #2D3748;
+  --accent: #DD6B20; --accent-lt: #ED8936; --steel: #718096;
+  --dark: #1A202C;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,247,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+
+.page-header{padding:100px 40px 40px;max-width:740px;margin:0 auto}
+.page-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.page-title{font-family:var(--sans);font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.18;letter-spacing:-.02em;color:var(--fg)}
+
+.content{max-width:740px;margin:0 auto;padding:0 40px 60px}
+.content h2{font-family:var(--sans);font-size:clamp(20px,3vw,26px);font-weight:600;line-height:1.25;letter-spacing:-.015em;margin:40px 0 16px;color:var(--fg)}
+.content p{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:16px}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px}
+footer a{color:var(--pri-d);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.back-link{display:inline-flex;align-items:center;gap:5px;font-size:14px;font-weight:600;color:var(--pri-d);padding:0 40px 32px;max-width:740px;margin:0 auto;transition:gap .2s}
+.back-link:hover{gap:9px}
+
+@media(max-width:860px){
+  .page-header{padding:90px 24px 32px}
+  .content{padding:0 24px 48px}
+  nav{padding:12px 20px}
+  footer{padding:24px 20px}
+  .back-link{padding:0 24px 24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-l">public policy lab<span>&middot; governance</span></a>
+</nav>
+
+<div class="page-header">
+  <div class="page-tag">AI Tools &middot; Demo</div>
+  <h1 class="page-title">Standard Prompter: AI-assisted policy drafting, customized for your office</h1>
+</div>
+
+<div class="content">
+
+<h2>Why prompting skill matters and why it varies</h2>
+
+<p>AI tools generate outputs based on the instructions you give them, and the same tool can produce dramatically different results depending on how you ask. A vague prompt like "write me a report on housing policy" will produce something generic. A detailed prompt that specifies the audience, the structure, the key arguments to emphasize, the data sources to draw from, and the format to follow will produce something much more useful &ndash; the difference can be between an output you throw away and one you can actually build on.</p>
+
+<p>Getting good results from AI tools is a genuinely novel skill. It involves learning quirks of how AI models interpret language, certain phrasings work better than others, certain instructions get followed more reliably, certain formats produce cleaner outputs. It involves knowing what AI tools are good at (generating first drafts, structuring information, following templates) and what they tend to get wrong without warning (specific facts, recent events, complex calculations, nuanced judgment calls). People who have spent time learning these patterns can get much more value from AI tools than people who have not, which creates a problem when organizations want to use AI tools across their staff: one staff member produces excellent first drafts that save hours of work, while another using the same tool produces outputs not much better than starting from scratch.</p>
+
+<p>This matters especially for complex outputs where detailed instructions need to be followed. A cabinet paper has a specific structure and requires particular kinds of strategic framing. An advocacy plan should follow established frameworks for stakeholder mapping and tactical sequencing. UN project documents have their own formats and requirements. Staff who do not know these formats cannot prompt for them effectively, even if the AI tool is perfectly capable of producing them given the right instructions. A senior analyst who understands research methodology can prompt for rigorous causal analysis; a junior staffer may not know to ask for a directed acyclic graph or to specify threats to validity &ndash; not because they could not use that output, but because they do not know it exists or how to request it.</p>
+
+<h2>How the templates work</h2>
+
+<p>When a staff member needs to write a cabinet paper, they do not need to know from memory every element that should be included. They fill in a form with the policy area, the source materials to draw from, the preferred outcome, and the narrative framing they want to emphasize. The template generates a prompt that instructs the AI to structure the analysis properly, to present options with costs and benefits, to include implementation considerations, to frame the preferred option persuasively while maintaining professional objectivity &ndash; all the elements that make cabinet papers effective. The staff member provides the content; the template provides the methodology.</p>
+
+<p>This also helps junior staff who may not know specific formats or requirements. Rather than waiting for busy senior staff to provide detailed instructions before they can even start a task, junior staff can use the templates to generate first drafts that follow proper structure. Senior staff can then review and refine rather than having to explain everything from scratch. The templates encode institutional knowledge about how documents should be structured, making that knowledge accessible to everyone rather than requiring it to be transferred person-by-person. The AI output is a starting point, not a finished product &ndash; but a good starting point can save hours of work, and technical staff can spend their time on substantive analysis rather than on formatting and boilerplate.</p>
+
+<h2>Data entry, format conversion, and project management</h2>
+
+<p>Beyond document drafting, the templates address another time sink: converting information between formats. Complex forms, project management systems, and case management tools often require data to be entered in specific structures &ndash; particular Excel column layouts, CSV formats, JSON structures that can be imported into software. Manually entering this data is tedious and error-prone, especially when dealing with large text fields that are awkward to work with in spreadsheets. The prompting tool includes templates that take raw information and convert it to the specific structure needed for import, saving the manual data entry work.</p>
+
+<p>For project management, this means staff can work with exported spreadsheets, editing many projects at once rather than clicking through a portal one project at a time, and then re-import the data. For reporting, AI tools can generate properly formatted Excel files with the right tabs, columns, and formulas when given the right prompts &ndash; prompts that most staff would not know how to write from scratch but that can be encoded into templates. Converting scanned PDFs or unstructured documents into specific data structures follows the same logic: the template encodes what the conversion should look like, so staff do not need to figure it out each time.</p>
+
+<h2>Why templates work better than training alone</h2>
+
+<p>Organizations could try to train all staff to prompt effectively. But prompting skill involves patterns and intuitions that come from practice and experimentation, and different people will develop different levels of skill no matter how much training they receive. More importantly, good prompting for complex outputs requires knowing the relevant methodology. Training a staff member to prompt for rigorous research methods requires first training them in research methods. Training them to prompt for proper UN document formats requires first training them in UN document formats. The templates bypass this by encoding the methodology directly: staff do not need to know what a directed acyclic graph is to prompt for one if the template includes it automatically.</p>
+
+<p>The template approach also allows institutional learning to accumulate. When a particular framing proves effective in cabinet papers, or a particular visualization approach communicates data well, that knowledge can be encoded into the template and benefit all future use. New staff benefit immediately from accumulated institutional knowledge rather than having to learn effective prompting through trial and error. Quality control becomes possible at the template level: improve the template once, and the improvement applies to all subsequent outputs.</p>
+
+<h2>Available templates</h2>
+
+<p>The tool currently includes templates across the following categories:</p>
+
+<p>Standard reports and documents: standard report, presentation, briefing note, cabinet/council paper, standard operating procedure, action plan, business plan.</p>
+
+<p>Visualizations: chart/visualization (with tool-specific instructions for Datawrapper, Flourish, ggplot2, Tableau), infographic, dashboard.</p>
+
+<p>Research: research paper, research methods (covering quantitative, qualitative, and mixed methods with causal inference frameworks), deep research prompt, data cleaning plan.</p>
+
+<p>Advanced technical: GIS/QGIS workflows, AnyLogic simulation models, network models, Monte Carlo simulations.</p>
+
+<p>Project management: project management plan, project timeline, OpenProject-specific formatting for bulk import.</p>
+
+<p>Proposals: grant proposal, CSR proposal, bid submission.</p>
+
+<p>Policymaking and strategy: risk analysis, narrative framing, advocacy plan (with full 10-part strategic framework), policy resilience plan, policy windows analysis, change agents mapping, talking points, PDIA plan, positive deviance plan, rapid results plan, SWOT/PEST/CICO strategic analysis, sector strategy paper.</p>
+
+<p>Media and communications: press release, YouTube video script, Substack/blog post, TikTok video script, LinkedIn article.</p>
+
+<p>International organization formats: World Bank/ADB documents (systematic country diagnostic, country partnership framework, project appraisal document, implementation status report, implementation completion report, country economic memorandum), IMF Article IV staff report, UN system documents (common country analysis, project document/ProDoc, midterm evaluation, social and environmental screening, final evaluation report, IRRF report), technical assistance report, international treaty report.</p>
+
+<p>All templates include embedded style guidance that addresses common AI writing problems &ndash; the characteristic phrasings, excessive hedging, and superficial analysis that plague poorly-prompted outputs &ndash; so that results meet professional writing standards.</p>
+
+<h2>What makes this different from just using ChatGPT</h2>
+
+<p>The prompts the tool generates are not simple questions. A well-built prompt for a cabinet paper is typically a full page or more of highly detailed specifications: the structure, the tone, the audience, the data sources to prioritize, the framing conventions for that specific document type, the kinds of analysis to include and what to exclude, the format for citations and annexes, and embedded instructions that prevent the common failure modes of AI-generated text. Building prompts at that level of detail requires expertise in both the output type and in how AI models respond to instructions &ndash; expertise that most staff do not have and should not need to develop.</p>
+
+<p>The Standard Prompter encodes that expertise once, then makes it available to every staff member. A junior analyst can generate a first draft of a cabinet paper that follows proper structure and institutional conventions, because the template already contains the detailed specifications that would normally require a senior policy officer to spell out. The AI output still needs human review and refinement &ndash; but a first draft built from a detailed, expert-designed prompt saves substantially more time than one built from a generic instruction.</p>
+
+<h2>Customized for your organization</h2>
+
+<p>The tool is designed to be configured for each office that uses it. Templates can be adapted to use your organization's specific document formats, style guides, terminology, and institutional conventions. The tool can work with your existing files and reference documents so that outputs are grounded in your actual policy context rather than generic boilerplate. This is available as a service &ndash; we set up and configure the tool for your team's specific needs.</p>
+
+<p>Contact <a class="link" href="mailto:info@policylabmv.com">info@policylabmv.com</a> to discuss deployment for your office.</p>
+
+<div style="margin:32px 0;display:flex;flex-direction:column;gap:20px">
+  <div style="border:1px solid rgba(0,0,0,.08);border-radius:10px;overflow:hidden">
+    <img src="../screenshots/prompter 1.png" alt="Standard Prompter — template selection sidebar with chart visualization form" style="width:100%;display:block">
+  </div>
+  <div style="border:1px solid rgba(0,0,0,.08);border-radius:10px;overflow:hidden">
+    <img src="../screenshots/prompter 3.png" alt="Standard Prompter — PDIA plan template with problem context fields" style="width:100%;display:block">
+  </div>
+  <div style="border:1px solid rgba(0,0,0,.08);border-radius:10px;overflow:hidden">
+    <img src="../screenshots/prompter 5.png" alt="Standard Prompter — project management plan template" style="width:100%;display:block">
+  </div>
+  <div style="border:1px solid rgba(0,0,0,.08);border-radius:10px;overflow:hidden">
+    <img src="../screenshots/prompter 4.png" alt="Standard Prompter — press release template" style="width:100%;display:block">
+  </div>
+</div>
+
+</div>
+
+<a href="index.html" class="back-link">&larr; Back to Governance</a>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div><a href="index.html">governance.policylabmv.com</a></div>
+</footer>
+
+</body>
+</html>

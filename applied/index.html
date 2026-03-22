@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applied — Public Policy Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #F5F6F8; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #3D5A80; --pri-d: #2C4561;
+  --teal: #6B9E8D; --teal-lt: #94BFB1;
+  --dark: #1E2A3A; --warm: #B3856F;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--body);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,246,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+/* Hero */
+.hero{padding:100px 40px 48px;max-width:1080px;margin:0 auto}
+.hero h1{font-family:var(--sans);font-size:clamp(36px,6vw,60px);line-height:1.1;letter-spacing:-.025em;margin-bottom:16px;color:var(--fg)}
+.hero h1 .a{color:var(--pri);font-weight:700}
+.hero h1 .b{color:var(--teal);font-weight:400}
+.hero-desc{font-size:15px;color:var(--body);line-height:1.7;max-width:660px;margin-bottom:8px}
+.hero-attr{font-size:13px;color:var(--muted)}
+.hero-attr a{color:var(--pri-d)}
+
+/* Wrap */
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+
+/* Section basics */
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
+.sec-title{font-family:var(--sans);font-size:clamp(23px,3vw,30px);font-weight:600;line-height:1.22;letter-spacing:-.015em;margin-bottom:16px;color:var(--fg)}
+.sec-desc{font-size:14.5px;color:var(--body);line-height:1.72;max-width:700px;margin-bottom:24px}
+
+/* Tool cards */
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px}
+.tool-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:28px 28px 24px;display:flex;flex-direction:column;transition:box-shadow .3s,transform .2s}
+.tool-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.07);transform:translateY(-2px)}
+.tc-tag{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;color:var(--teal)}
+.tc-title{font-family:var(--sans);font-size:20px;font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:8px;color:var(--fg)}
+.tc-body{font-size:14px;color:var(--body);line-height:1.6;flex:1}
+.tc-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--pri-d);margin-top:14px;transition:gap .2s}
+.tool-card:hover .tc-link{gap:9px}
+
+/* Dark band for projects */
+.projects-band{background:linear-gradient(175deg,var(--dark) 0%,#2A3A50 100%);color:#fff;padding:56px 0;margin:16px 0}
+.projects-band .sec-tag{color:var(--teal-lt)}
+.projects-band .sec-title{color:#fff}
+.projects-band .sec-desc{color:rgba(255,255,255,.72)}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.proj-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px 28px 24px;transition:background .2s}
+.proj-card:hover{background:rgba(255,255,255,.1)}
+.proj-card .tc-tag{color:var(--teal-lt)}
+.proj-card .tc-title{color:#fff}
+.proj-card .tc-body{color:rgba(255,255,255,.72)}
+.proj-card .tc-link{color:var(--teal-lt)}
+.proj-status{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.status-live{background:rgba(107,158,141,.2);color:var(--teal-lt)}
+.status-demo{background:rgba(180,160,120,.2);color:#D9C090}
+.status-soon{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+
+/* Coming soon section */
+.coming{padding:48px 0 32px}
+.coming-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.coming-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:20px}
+.coming-card .tc-tag{color:var(--muted)}
+.coming-card .tc-title{font-size:16px;margin-bottom:6px}
+.coming-card .tc-body{font-size:13px;line-height:1.55}
+
+/* Services */
+.services{padding:32px 0 48px}
+.svc-block{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.svc-item h3{font-family:var(--sans);font-size:17px;font-weight:600;color:var(--fg);margin-bottom:6px}
+.svc-item p{font-size:14px;color:var(--body);line-height:1.6}
+.svc-item a{color:var(--pri-d);font-weight:600}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:1080px;margin-left:auto;margin-right:auto}
+footer a{color:var(--pri-d)}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:860px){
+  .hero{padding:90px 24px 40px}
+  .wrap{padding:0 24px}
+  .tool-grid,.proj-grid,.svc-block{grid-template-columns:1fr}
+  .coming-grid{grid-template-columns:1fr}
+  nav{padding:12px 20px}
+  footer{padding:24px 20px}
+}
+@media(max-width:480px){
+  .hero h1{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-l">public policy lab<span>&middot; applied</span></a>
+  <div class="nav-r">
+    <a href="#tools">Tools</a>
+    <a href="#projects">Projects</a>
+    <a href="#coming">Coming soon</a>
+    <a href="/">All focus areas</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1><span class="a">applied </span><span class="b">tools</span></h1>
+  <p class="hero-desc">Interactive tools, data products, and applications built by Policy Lab. Things people can use, not just read about &ndash; from medical diagnostics to island-level data to planning workshop tools.</p>
+  <div class="hero-attr"><a href="/">public policy lab</a> &middot; policylabmv.com</div>
+</div>
+
+<!-- LIVE TOOLS -->
+<div class="wrap" id="tools">
+  <div class="sec-tag reveal">Tools &amp; applications</div>
+  <h2 class="sec-title reveal">Live tools and data resources</h2>
+
+  <div class="tool-grid reveal">
+
+    <a href="https://aimed.policylabmv.com" class="tool-card">
+      <div class="tc-tag">Medical AI</div>
+      <div class="tc-title">AIMED &ndash; AI Medical Diagnostics</div>
+      <div class="tc-body">Eight peer-reviewed diagnostic models for chest X-rays, CT scans, mammograms, and retinal images. Client-side encryption, results emailed as encrypted PDFs. Built for healthcare practitioners and researchers.</div>
+      <span class="tc-link">Open AIMED &rarr;</span>
+    </a>
+
+    <a href="https://islands.policylabmv.com" class="tool-card">
+      <div class="tc-tag">Island data</div>
+      <div class="tc-title">Island Data Explorer</div>
+      <div class="tc-body">Demographics, infrastructure, transport, elections, projects, and news for 21 islands across AA, F, and M atolls. Built from census data, budget documents, election results, and transport schedules.</div>
+      <span class="tc-link">Open explorer &rarr;</span>
+    </a>
+
+    <a href="../society/data-gallery.html" class="tool-card">
+      <div class="tc-tag">Data gallery</div>
+      <div class="tc-title">Social Sector Data Gallery</div>
+      <div class="tc-body">Screenshottable charts and maps built from census, survey, and administrative data. Designed for students, researchers, and academics to use in reports, presentations, and papers.</div>
+      <span class="tc-link">Open gallery &rarr;</span>
+    </a>
+
+    <a href="../society/service-directory.html" class="tool-card">
+      <div class="tc-tag">Directory</div>
+      <div class="tc-title">Atoll Service Directory</div>
+      <div class="tc-body">Every FCSC, health facility, police station, court, and CSO mapped across 20 atolls. Searchable by island and service type.</div>
+      <span class="tc-link">Open directory &rarr;</span>
+    </a>
+
+    <a href="../society/legislation-timeline.html" class="tool-card">
+      <div class="tc-tag">Timeline</div>
+      <div class="tc-title">Social Policy Legislation Timeline</div>
+      <div class="tc-body">Interactive filterable timeline of social policy laws from 1927 to 2025. Browse legislative history by topic, decade, and policy area.</div>
+      <span class="tc-link">Open timeline &rarr;</span>
+    </a>
+
+    <a href="../society/shorteats-nutrition.html" class="tool-card">
+      <div class="tc-tag">Nutrition data</div>
+      <div class="tc-title">NutritionMV</div>
+      <div class="tc-body">The first open collection of nutrition profiles for Maldivian food. Starting with shorteats &ndash; hedhikaa &ndash; with more categories coming as the project expands.</div>
+      <span class="tc-link">Open NutritionMV &rarr;</span>
+    </a>
+
+  </div>
+</div>
+
+<!-- PROJECTS (dark band) -->
+<div class="projects-band" id="projects">
+<div class="wrap">
+  <div class="sec-tag reveal">Projects &amp; demos</div>
+  <h2 class="sec-title reveal">Tools we've built and are developing</h2>
+  <p class="sec-desc reveal">Larger projects at various stages of development. Some are functional demos, others are awaiting funding or partnerships for wider rollout.</p>
+
+  <div class="proj-grid reveal">
+
+    <div class="proj-card">
+      <span class="proj-status status-demo">Demo</span>
+      <div class="tc-tag">Foresight methodology</div>
+      <div class="tc-title">Digital Foresight Planning Tools</div>
+      <div class="tc-body">Six interactive tools for structured foresight workshops &ndash; influence mapping, futures wheel, scenario lab, strategic compass, vision pathways, and a combined planning report. Replaces marker-and-flipboard approaches with collaborative screen-based tools that save outputs and generate detailed reports at the end of planning sessions.</div>
+      <a href="../futures/index.html#tools" class="tc-link">Try demos &rarr;</a>
+    </div>
+
+    <div class="proj-card">
+      <span class="proj-status status-demo">Demo</span>
+      <div class="tc-tag">AI &middot; Government tools</div>
+      <div class="tc-title">Standard Prompter</div>
+      <div class="tc-body">AI prompting tool that generates expert-level prompts for government document types &ndash; cabinet papers, SOPs, research designs, UN formats. Detailed prompts often run to a full page of specific instructions. Customized for each office's formats, style guides, and reference documents.</div>
+      <a href="../governance/standard-prompter.html" class="tc-link">Learn more &rarr;</a>
+    </div>
+
+    <div class="proj-card">
+      <span class="proj-status status-demo">Showcase</span>
+      <div class="tc-tag">Policy analysis</div>
+      <div class="tc-title">Policy Builder</div>
+      <div class="tc-body">An interactive policy analysis tool that builds on the UNESCAP SP2LNOB framework and extends it to include non-cash interventions, making it a more comprehensive tool for designing social protection responses. Guides users through targeting and eligibility, benefit design, implementation planning, staffing, and capacity requirements &ndash; then generates a structured policy analysis document. Planned for wider rollout once funding mechanisms are secured.</div>
+      <span class="tc-link">Coming soon</span>
+    </div>
+
+    <div class="proj-card">
+      <span class="proj-status status-live">Operational</span>
+      <div class="tc-tag">Economic development</div>
+      <div class="tc-title">Remote Office Hub Toolkit</div>
+      <div class="tc-body">Complete operational package for establishing remote office facilities on islands: company hiring brochure, hub license agreement, and standard operating procedures with governance, infrastructure standards, and KPI targets.</div>
+      <a href="../economy/index.html#tools" class="tc-link">View toolkit &rarr;</a>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- COMING SOON -->
+<div class="wrap coming" id="coming">
+  <div class="sec-tag reveal">In development</div>
+  <h2 class="sec-title reveal">Coming soon</h2>
+
+  <div class="coming-grid reveal">
+    <div class="coming-card">
+      <div class="tc-tag">Budget data</div>
+      <div class="tc-title">Budget Transparency Tools</div>
+      <div class="tc-body">Interactive exploration of Maldives government budget data &ndash; PSIP project tracking, spending comparisons, projection accuracy analysis. Full tools released when development partners are secured.</div>
+    </div>
+
+    <div class="coming-card">
+      <div class="tc-tag">Island data</div>
+      <div class="tc-title">Nationwide Island Data</div>
+      <div class="tc-body">Expanding the Island Data Explorer from three atolls to all inhabited islands nationwide. Additional funding enables rollout of the same methodology across the country.</div>
+    </div>
+
+    <div class="coming-card">
+      <div class="tc-tag">Nutrition data</div>
+      <div class="tc-title">Expanded NutritionMV</div>
+      <div class="tc-body">Extending nutrition profiles beyond shorteats to curries, rice dishes, sweets, and drinks. Building toward a comprehensive Maldivian food composition database.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="wrap services">
+  <div class="sec-tag reveal">Available as services</div>
+  <h2 class="sec-title reveal">What we can build for you</h2>
+
+  <div class="svc-block reveal">
+    <div class="svc-item">
+      <h3>Foresight workshop facilitation</h3>
+      <p>We facilitate strategic planning workshops using our digital foresight tools. Teams work on-screen with structured methodology, and leave with a detailed planning report generated from their session.</p>
+    </div>
+    <div class="svc-item">
+      <h3>Standard Prompter customization</h3>
+      <p>We configure the Standard Prompter for your office's specific document types, style guides, and institutional conventions. Your staff get AI-assisted drafting tuned to your organization.</p>
+    </div>
+    <div class="svc-item">
+      <h3>Custom data tools &amp; visualizations</h3>
+      <p>Policy Lab builds custom data products, interactive analyses, and visualization tools. If your organization needs a data product or decision-support tool, <a href="mailto:info@policylabmv.com">get in touch</a>.</p>
+    </div>
+    <div class="svc-item">
+      <h3>Policy analysis consulting</h3>
+      <p>Research, policy briefs, institutional assessments, and strategic analysis. We bring the same analytical rigour we apply to our own publications. <a href="mailto:info@policylabmv.com">Contact us</a>.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives &middot; <a href="mailto:info@policylabmv.com">info@policylabmv.com</a></div>
+  <div>Applied is one of several <a href="/">focus areas</a></div>
+</footer>
+
+<script>
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+</script>
+</body>
+</html>

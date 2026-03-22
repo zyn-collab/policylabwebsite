@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Politics – Public Policy Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #F7F8FA; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
+  --muted: #8a8a82; --pri: #3D4F6F; --pri-d: #2A3650;
+  --slate: #6B7B8D; --slate-lt: #94A3B3; --accent: #8B6F5F;
+  --dark: #1E2636;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,248,250,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
+.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.nav-r{display:flex;gap:20px}
+.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav-r a:hover{color:var(--fg)}
+
+/* HERO – more editorial feel */
+.hero{padding:100px 40px 56px;max-width:900px;margin:0 auto}
+.hero-desc{font-size:15.5px;color:var(--body);line-height:1.75;max-width:700px;margin-bottom:20px}
+.hero-title{font-family:var(--sans);font-size:clamp(36px,6vw,62px);line-height:1.1;letter-spacing:-.025em;margin-bottom:20px;color:var(--pri-d)}
+.hero-attr{font-size:13px;color:var(--muted);padding-bottom:8px}
+.hero-attr a{color:var(--pri-d)}
+
+.wrap{max-width:740px;margin:0 auto;padding:0 40px}
+.wrap-w{max-width:900px;margin:0 auto;padding:0 40px}
+
+/* ESSAYS – single column, editorial layout */
+.essays{padding:48px 0 80px}
+.essay-list{display:flex;flex-direction:column;gap:0}
+
+.essay-entry{padding:36px 0;border-bottom:1px solid rgba(0,0,0,.06);display:grid;grid-template-columns:60px 1fr;gap:24px;transition:background .2s}
+.essay-entry:first-child{padding-top:0}
+.essay-entry:last-child{border-bottom:none}
+.essay-num{font-family:var(--sans);font-size:32px;font-weight:300;color:var(--slate-lt);line-height:1;padding-top:4px}
+.essay-content{}
+.essay-tag{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.essay-title{font-family:var(--sans);font-size:24px;font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:8px;color:var(--fg);transition:color .2s}
+.essay-entry:hover .essay-title{color:var(--pri-d)}
+.essay-desc{font-size:14.5px;color:var(--body);line-height:1.65}
+.essay-link{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--pri-d);margin-top:12px;transition:gap .2s}
+.essay-entry:hover .essay-link{gap:9px}
+
+footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:900px;margin-left:auto;margin-right:auto}
+footer a{color:var(--pri-d)}
+
+@media(max-width:700px){
+  .hero,.wrap,.wrap-w{padding-left:24px;padding-right:24px}
+  .essay-entry{grid-template-columns:1fr;gap:8px}
+  .essay-num{font-size:20px}
+  nav{padding:12px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-l">public policy lab<span>&middot; politics</span></a>
+  <div class="nav-r">
+    <a href="#essays">Essays</a>
+    <a href="/">All focus areas</a>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+  <h1 class="hero-title">Political analysis</h1>
+  <p class="hero-desc">Five essays on the structural dynamics of Maldivian politics: how campaign costs drive corruption, why voters are reactive rather than ideological, how global political movements translate to a small island state, what a conviction-driven alternative to short-term politics would require, and what decolonization means beyond formal independence.</p>
+  <div class="hero-attr"><a href="/">public policy lab</a> &middot; policylabmv.com &middot; @policylabmv</div>
+</div>
+
+<!-- ═══════ ESSAYS ═══════ -->
+<div class="essays" id="essays">
+<div class="wrap-w">
+  <div class="essay-list">
+
+    <a href="uncontested-future.html" class="essay-entry">
+      <div class="essay-num">I</div>
+      <div class="essay-content">
+        <div class="essay-tag">Political strategy</div>
+        <div class="essay-title">The uncontested future</div>
+        <div class="essay-desc">Short-termism in Maldivian politics leaves the long-term future uncontested. Electoral cycles reward reaction over planning, so the political terrain 10 &ndash; 15 years out belongs to whoever is willing to think on that timescale. What conviction-driven movements gain from patience, consistency, and a willingness to build constituencies rather than chase news cycles.</div>
+        <span class="essay-link">Read essay &rarr;</span>
+      </div>
+    </a>
+
+    <a href="building-trust.html" class="essay-entry">
+      <div class="essay-num">II</div>
+      <div class="essay-content">
+        <div class="essay-tag">Voter dynamics</div>
+        <div class="essay-title">Building trust with voters</div>
+        <div class="essay-desc">The case for building ideologically committed voter constituencies rather than relying on thermostatic anti-incumbent swings. How vote floors, buffer effects, and long-term platform consistency create durable political support &ndash; and why the current model of reactive campaigning guarantees perpetual instability.</div>
+        <span class="essay-link">Read essay &rarr;</span>
+      </div>
+    </a>
+
+    <a href="cleaning-up-politics.html" class="essay-entry">
+      <div class="essay-num">III</div>
+      <div class="essay-content">
+        <div class="essay-tag">Campaign finance &amp; reform</div>
+        <div class="essay-title">Cleaning up politics</div>
+        <div class="essay-desc">High campaign costs create a structural corruption cycle: candidates spend heavily to win, then recover their investment through control of state resources, which raises the cost of entry for the next election. Breaking this cycle requires transparent infrastructure scoring, structural limits on patronage appointments, and campaign finance reform.</div>
+        <span class="essay-link">Read essay &rarr;</span>
+      </div>
+    </a>
+
+    <a href="global-movements.html" class="essay-entry">
+      <div class="essay-num">IV</div>
+      <div class="essay-content">
+        <div class="essay-tag">Ideology &amp; context</div>
+        <div class="essay-title">Global movements and Maldivian politics</div>
+        <div class="essay-desc">Can global political ideologies &ndash; the new right, democratic socialism, centrist neoliberalism &ndash; be transplanted to the Maldives? Analysis using a "Three Cs" framework (Consistency, Compatibility, Credibility) to assess which elements of each movement transfer to Maldivian conditions and which do not.</div>
+        <span class="essay-link">Read essay &rarr;</span>
+      </div>
+    </a>
+
+    <a href="decolonization.html" class="essay-entry">
+      <div class="essay-num">V</div>
+      <div class="essay-content">
+        <div class="essay-tag">Identity &amp; consciousness</div>
+        <div class="essay-title">Decolonization and the Maldives</div>
+        <div class="essay-desc">Decolonization as more than the end of formal colonial rule. Four internal colonial dynamics &ndash; Male' dominance over the atolls, resort wealth extraction, gendered power structures, and migrant worker exploitation &ndash; plus the external dynamic of Arabization. Drawing on Fanon to examine the psychological and cultural dimensions of what decolonization actually requires.</div>
+        <span class="essay-link">Read essay &rarr;</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+</div>
+
+<footer>
+  <div><a href="/">Public Policy Lab</a> &middot; Mal&eacute;, Maldives</div>
+  <div>Politics is one of several <a href="/">focus areas</a></div>
+</footer>
+
+</body>
+</html>
