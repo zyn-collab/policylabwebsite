@@ -99,6 +99,8 @@
     <div class="max-w-7xl mx-auto">
         <header class="mb-6 flex justify-end items-center">
             <div id="toolbar" class="flex items-center gap-2">
+                <button id="load-example-btn" class="font-semibold py-2 px-4 rounded-lg border border-slate-300 text-slate-600 bg-white hover:bg-slate-50 hover:border-slate-400 transition-colors text-sm">Load example</button>
+                <div class="bg-slate-200 h-8 w-px mx-2"></div>
                 <button id="add-driver-btn" class="font-semibold py-2 px-4 rounded-lg bg-white tool-button hidden">+ Add Driver</button>
                 <div class="bg-slate-200 h-8 w-px mx-2 hidden"></div>
                 <button id="view-mode-btn" class="font-semibold py-2 px-4 rounded-lg bg-white tool-button">View</button>
@@ -214,7 +216,38 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.viewModeBtn.addEventListener('click', () => setMode('view'));
     dom.editModeBtn.addEventListener('click', () => setMode('edit'));
     dom.addDriverBtn.addEventListener('click', addDriver);
+    document.getElementById('load-example-btn').addEventListener('click', loadExample);
 });
+
+function loadExample() {
+    if (drivers.length > 0) {
+        if (!confirm('This will replace your current data with example data. Continue?')) return;
+    }
+
+    drivers = [
+        { id: 1, name: 'Sea-level rise', short: 'Sea-level ri' },
+        { id: 2, name: 'Tourism revenue', short: 'Tourism reve' },
+        { id: 3, name: 'Population in Malé', short: 'Population i' },
+        { id: 4, name: 'Fiscal deficit', short: 'Fiscal defic' },
+        { id: 5, name: 'Renewable energy adoption', short: 'Renewable en' },
+        { id: 6, name: 'Education quality', short: 'Education qu' },
+    ];
+
+    // 6x6 cross-impact matrix  [row influences col]
+    // Sea-level | Tourism | Pop Malé | Fiscal | Renewable | Education
+    impactMatrix = [
+      //SL  TOU  POP  FIS  REN  EDU
+      [ 0, -2,   2,  -2,   1,  -1],  // Sea-level rise
+      [ 0,  0,   1,   3,   1,   2],  // Tourism revenue
+      [ 0,  1,   0,  -2,  -1,  -2],  // Population in Malé
+      [ 0, -1,   0,   0,  -2,  -3],  // Fiscal deficit
+      [ 1,  2,   0,   2,   0,   0],  // Renewable energy
+      [ 0,  1,  -1,   1,   1,   0],  // Education quality
+    ];
+
+    setMode('view');
+    checkState();
+}
 
 function setMode(mode) {
     currentMode = mode;

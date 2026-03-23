@@ -109,6 +109,9 @@
 
     <div id="app-container" class="h-screen w-screen flex flex-col p-6 md:p-8 space-y-6">
         <div class="flex flex-col items-center space-y-6 px-4 pt-8">
+            <div class="flex items-center gap-3">
+                <button id="load-example-btn" class="text-sm font-medium text-slate-500 border border-slate-300 rounded-lg px-3 py-1.5 hover:bg-white hover:border-slate-400 transition-colors">Load example</button>
+            </div>
             <div id="pestle-filters" class="flex flex-wrap justify-center gap-2 items-center"></div>
         </div>
 
@@ -374,9 +377,45 @@
         });
     }
 
+    function loadExample() {
+        const hasData = state.pushes.length > 0 || state.pulls.length > 0 || state.weights.length > 0;
+        if (hasData) {
+            if (!confirm('This will replace your current data with example data. Continue?')) return;
+        }
+
+        state = {
+            pushes: [
+                { id: 'p_ex1', title: 'Rising Sea Levels', description: 'Mean sea level around the Maldives is rising at 3-4 mm/year, threatening freshwater lenses and coastal infrastructure on low-lying islands.' },
+                { id: 'p_ex2', title: 'Youth Unemployment', description: 'Over 30% of young Maldivians (15-24) are neither in employment, education, nor training, driving social frustration and emigration.' },
+                { id: 'p_ex3', title: 'Tourism Concentration Risk', description: 'Tourism contributes ~30% of GDP directly. Any global shock (pandemic, recession) transmits immediately to public finances.' },
+                { id: 'p_ex4', title: 'Housing Pressure in Greater Malé', description: 'Severe overcrowding with 65,000+ people per km²; demand far outstrips social housing supply despite Hulhumalé expansion.' },
+            ],
+            pulls: [
+                { id: 'u_ex1', title: 'Diversified Blue Economy', description: 'Sustainable mariculture, marine biotech, and deep-sea minerals could create new revenue streams beyond tourism and fisheries.', pestle: 'Economic' },
+                { id: 'u_ex2', title: 'Carbon-Neutral Archipelago', description: 'Transitioning to 100% renewable energy across inhabited islands, positioning the Maldives as a global climate leader.', pestle: 'Environmental' },
+                { id: 'u_ex3', title: 'Digital Governance Platform', description: 'Unified e-government system delivering public services to every island, reducing the need to travel to Malé for administrative tasks.', pestle: 'Technological' },
+                { id: 'u_ex4', title: 'Decentralised Population Centres', description: 'Strategic development of 5-7 regional urban centres (Addu, Kulhudhuffushi, Thinadhoo, etc.) to relieve Malé congestion.', pestle: 'Political' },
+                { id: 'u_ex5', title: 'Universal Social Protection Floor', description: 'Comprehensive coverage for health, disability, and old age that reaches every atoll equally.', pestle: 'Social' },
+                { id: 'u_ex6', title: 'Updated Land Use Legislation', description: 'Modern legal framework for land reclamation, lease tenure, and climate-adaptive building codes.', pestle: 'Legal' },
+            ],
+            weights: [
+                { id: 'w_ex1', title: 'Import Dependency', description: 'Over 90% of food and nearly all fuel is imported, making the economy highly vulnerable to global supply chain disruptions and price shocks.' },
+                { id: 'w_ex2', title: 'Centralised Governance Legacy', description: 'Decades of Malé-centric administration left outer atolls with weak institutional capacity despite the 2010 Decentralisation Act.' },
+                { id: 'w_ex3', title: 'Public Debt Overhang', description: 'Debt-to-GDP exceeds 110%, constraining fiscal space for new investment and making the country sensitive to interest-rate movements.' },
+                { id: 'w_ex4', title: 'Small Talent Pool', description: 'A population of ~520,000 limits the depth of specialised expertise available; critical sectors rely heavily on expatriate labour.' },
+            ],
+            activeFilter: null
+        };
+
+        closeSidePanel();
+        renderPestleFilters();
+        render();
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         dom.modalForm.addEventListener('submit', handleFormSubmit);
         dom.pestleOptions.addEventListener('change', updatePestleLabelStyles);
+        document.getElementById('load-example-btn').addEventListener('click', loadExample);
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {

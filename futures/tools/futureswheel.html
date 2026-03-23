@@ -91,6 +91,8 @@
     <div id="app-container">
         <div id="chart-container">
             <div id="toolbar">
+                <button id="load-example-btn" class="tool-button" style="font-size:13px; color: var(--text-secondary);">Load example</button>
+                <div style="width:1px; height:24px; background: var(--border-color);"></div>
                 <button id="view-mode-btn" class="tool-button active">View</button>
                 <button id="edit-mode-btn" class="tool-button">Edit</button>
                 <button id="link-mode-btn" class="tool-button">Link</button>
@@ -361,6 +363,44 @@
         detailPanel.select("#detail-description").on("input", function() { if (selectedNode) selectedNode.data.desc = this.value; });
         detailPanel.select("#impact-slider").on("input", function() { if (selectedNode) { selectedNode.data.impact = +this.value; initialize(); } });
         detailPanel.select("#likelihood-slider").on("input", function() { if (selectedNode) { selectedNode.data.likelihood = +this.value; initialize(); } });
+
+        d3.select("#load-example-btn").on("click", loadExample);
+
+        function loadExample() {
+            if (flatData.length > 1 || flatData.some(d => !d.isPlaceholder && d.id !== "0")) {
+                if (!confirm('This will replace your current data with example data. Continue?')) return;
+            }
+
+            flatData = [
+                { id: "0", parentId: null, label: "Malé flood", fullLabel: "Major flooding event in Malé", desc: "A severe storm surge overwhelms Malé's seawall, flooding 40% of the capital for several days.", impact: 5, likelihood: 4, isPlaceholder: false },
+                // 1st order
+                { id: "1a", parentId: "0", label: "Displace...", fullLabel: "Mass displacement of residents", desc: "Tens of thousands forced into temporary shelters on nearby islands.", impact: 5, likelihood: 5, isPlaceholder: false },
+                { id: "1b", parentId: "0", label: "Infrastr...", fullLabel: "Infrastructure damage", desc: "Roads, power grid, and water systems sustain major damage.", impact: 5, likelihood: 4, isPlaceholder: false },
+                { id: "1c", parentId: "0", label: "Economic...", fullLabel: "Economic disruption", desc: "Business activity halts; port and airport operations suspended.", impact: 4, likelihood: 4, isPlaceholder: false },
+                { id: "1d", parentId: "0", label: "Health c...", fullLabel: "Health crisis", desc: "Waterborne disease outbreaks from contaminated freshwater.", impact: 4, likelihood: 3, isPlaceholder: false },
+                // 2nd order
+                { id: "2a", parentId: "1a", label: "Decentra...", fullLabel: "Decentralisation pressure", desc: "Political demand surges to relocate government functions away from Malé.", impact: 4, likelihood: 3, isPlaceholder: false },
+                { id: "2b", parentId: "1a", label: "Social t...", fullLabel: "Social tension in host islands", desc: "Receiving communities strain under sudden population influx.", impact: 3, likelihood: 4, isPlaceholder: false },
+                { id: "2c", parentId: "1b", label: "Debt spi...", fullLabel: "Debt spike for reconstruction", desc: "Government borrows heavily, pushing debt-to-GDP above 120%.", impact: 4, likelihood: 4, isPlaceholder: false },
+                { id: "2d", parentId: "1c", label: "Tourism ...", fullLabel: "Tourism reputation hit", desc: "International media coverage deters visitors for 1-2 seasons.", impact: 3, likelihood: 3, isPlaceholder: false },
+                { id: "2e", parentId: "1d", label: "Aid depe...", fullLabel: "Aid dependency", desc: "Reliance on international humanitarian aid creates dependency.", impact: 3, likelihood: 3, isPlaceholder: false },
+                // 3rd order
+                { id: "3a", parentId: "2a", label: "New regi...", fullLabel: "New regional growth centres", desc: "Addu, Kulhudhuffushi emerge as alternative administrative capitals.", impact: 3, likelihood: 2, isPlaceholder: false },
+                { id: "3b", parentId: "2c", label: "Sovereig...", fullLabel: "Sovereign credit downgrade", desc: "Rating agencies downgrade Maldives, raising borrowing costs.", impact: 4, likelihood: 3, isPlaceholder: false },
+                { id: "3c", parentId: "2d", label: "Diversif...", fullLabel: "Diversification catalyst", desc: "Government accelerates blue economy and digital nomad strategies.", impact: 3, likelihood: 2, isPlaceholder: false },
+            ];
+
+            crossLinks = [
+                { source: "2c", target: "2d" },  // Debt spike linked to tourism hit
+                { source: "2a", target: "3a" },   // Decentralisation pressure linked to new growth centres
+            ];
+
+            selectedNode = null;
+            activePath = [];
+            detailPanel.classed("visible", false);
+            setMode('view');
+            initialize();
+        }
 
         initialize();
     </script>

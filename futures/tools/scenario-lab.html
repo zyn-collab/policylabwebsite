@@ -130,6 +130,8 @@
             <div class="flex items-center justify-center gap-4 mb-3">
                 <h3 class="text-sm font-semibold text-slate-500 uppercase">Policies to Test</h3>
                 <button id="add-policy-btn" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-full transition-colors">+ Add Policy</button>
+                <div class="w-px h-5 bg-slate-300"></div>
+                <button id="load-example-btn" class="text-xs font-semibold text-slate-500 border border-slate-300 hover:bg-slate-100 hover:border-slate-400 px-3 py-1 rounded-full transition-colors">Load example</button>
             </div>
             <div id="policies-rail" class="flex flex-wrap justify-center items-center gap-3 min-h-[52px]">
                 <!-- Policy chips or placeholder will be rendered here -->
@@ -379,10 +381,66 @@
         }
     }
 
+    function loadExample() {
+        const hasData = state.policies.length > 0 || state.scenarios.some(s => s.testedPolicies.length > 0 || s.title !== 'Scenario A' && s.title !== 'Scenario B' && s.title !== 'Scenario C' && s.title !== 'Scenario D');
+        if (hasData) {
+            if (!confirm('This will replace your current data with example data. Continue?')) return;
+        }
+
+        state.scenarios = [
+            {
+                id: 'A', bg_id: 'bg-A',
+                title: 'Blue Prosperity',
+                logic: 'Tourism rebounds strongly + ocean economy diversifies. Maldives becomes a global model for sustainable island development.',
+                testedPolicies: [
+                    { policyId: 'ex_1', policyTitle: 'Green tax on resorts', result: 'robust', rationale: 'Strong tourism sector generates ample revenue; resorts absorb cost.' },
+                    { policyId: 'ex_3', policyTitle: 'Hulhumalé Phase III expansion', result: 'partial', rationale: 'Prosperity reduces urgency; some housing demand met but land reclamation costly.' },
+                ]
+            },
+            {
+                id: 'B', bg_id: 'bg-B',
+                title: 'Digital Archipelago',
+                logic: 'Remote work revolution + digital governance. Population disperses across atolls enabled by connectivity.',
+                testedPolicies: [
+                    { policyId: 'ex_2', policyTitle: 'Universal health insurance', result: 'robust', rationale: 'Telemedicine infrastructure makes decentralised coverage viable.' },
+                    { policyId: 'ex_4', policyTitle: 'Fisheries subsidy reform', result: 'robust', rationale: 'Dispersed population revitalises island fishing communities; reform welcomed.' },
+                ]
+            },
+            {
+                id: 'C', bg_id: 'bg-C',
+                title: 'Climate Siege',
+                logic: 'Accelerating sea-level rise + coral bleaching devastates tourism and fisheries. Adaptation costs overwhelm budget.',
+                testedPolicies: [
+                    { policyId: 'ex_1', policyTitle: 'Green tax on resorts', result: 'fragile', rationale: 'Tourism collapses, so revenue base disappears. Tax becomes counterproductive.' },
+                    { policyId: 'ex_3', policyTitle: 'Hulhumalé Phase III expansion', result: 'fragile', rationale: 'Reclaimed land itself is vulnerable; investment may be stranded.' },
+                ]
+            },
+            {
+                id: 'D', bg_id: 'bg-D',
+                title: 'Fortress Malé',
+                logic: 'Political centralisation deepens. Resources flow to greater Malé area while outer islands depopulate.',
+                testedPolicies: [
+                    { policyId: 'ex_2', policyTitle: 'Universal health insurance', result: 'partial', rationale: 'Coverage exists on paper but outer-island facilities understaffed.' },
+                    { policyId: 'ex_4', policyTitle: 'Fisheries subsidy reform', result: 'fragile', rationale: 'Outer-island fishing communities too weakened to benefit from reform.' },
+                ]
+            },
+        ];
+
+        state.policies = [
+            { id: 'ex_1', title: 'Green tax on resorts' },
+            { id: 'ex_2', title: 'Universal health insurance' },
+            { id: 'ex_3', title: 'Hulhumalé Phase III expansion' },
+            { id: 'ex_4', title: 'Fisheries subsidy reform' },
+        ];
+
+        render();
+    }
+
     // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', () => {
         state.policies = [];
         document.getElementById('add-policy-btn').addEventListener('click', addPolicy);
+        document.getElementById('load-example-btn').addEventListener('click', loadExample);
         render();
     });
 

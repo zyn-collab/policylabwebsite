@@ -170,6 +170,8 @@
             <div class="flex justify-between items-center py-3">
                 <h1 class="text-xl font-bold text-gray-800">Vision Pathways Diagram</h1>
                 <div class="flex items-center space-x-4">
+                    <button id="load-example-btn" class="text-sm font-medium text-gray-600 border border-gray-300 rounded-md px-3 py-1 hover:bg-gray-100 hover:border-gray-400 transition-colors">Load example</button>
+                    <div class="w-px h-6 bg-gray-300"></div>
                     <span class="text-sm font-medium text-gray-600">View Mode</span>
                     <label class="mode-switch">
                         <input type="checkbox" id="modeToggle" checked>
@@ -561,8 +563,66 @@ sortedDataForLayout.forEach(d => {
             if (e.key === 'Escape') { closeModal(); hideDeleteConfirmation(); }
             if (e.key === 'Enter' && !modal.classList.contains('hidden') && document.activeElement !== causeDetailsInput) { e.preventDefault(); saveCause(); }
         });
+        document.getElementById('load-example-btn').addEventListener('click', loadExample);
+
+        function loadExample() {
+            if (data.length > 0) {
+                if (!confirm('This will replace your current data with example data. Continue?')) return;
+            }
+
+            nextId = 10;
+            data = [
+                {
+                    id: 1, color: colors[0], type: 'primary', path: 'core',
+                    sqText: 'Housing shortage', sqDetails: 'Severe overcrowding in Malé with 65,000+ people per km².',
+                    transText: 'Housing shortage', transDetails: 'Land reclamation and social housing construction underway but lagging demand.',
+                    visionText: 'Adequate housing for all', visionDetails: 'Every household has access to affordable, climate-resilient housing.',
+                    sqHeight: 60, transHeight: 60, visionHeight: 50,
+                },
+                {
+                    id: 2, color: colors[1], type: 'primary', path: 'core',
+                    sqText: 'Climate vulnerability', sqDetails: '80% of land area is less than 1 metre above sea level.',
+                    transText: 'Climate vulnerability', transDetails: 'Adaptation plans exist but implementation is slow and underfunded.',
+                    visionText: 'Climate-resilient nation', visionDetails: 'Infrastructure, communities and ecosystems adapted to rising seas.',
+                    sqHeight: 55, transHeight: 55, visionHeight: 50,
+                },
+                {
+                    id: 3, color: colors[2], type: 'supporting', path: 'driver',
+                    sqText: 'Youth demand for opportunity', sqDetails: 'Large young population seeking education and employment beyond fishing and tourism.',
+                    transText: 'Skills & diversification programmes', transDetails: 'Government expanding TVET and digital economy initiatives.',
+                    visionText: 'Diversified knowledge economy', visionDetails: 'Multiple thriving sectors employ a skilled local workforce.',
+                    sqHeight: 40, transHeight: 45, visionHeight: 40,
+                },
+                {
+                    id: 4, color: colors[3], type: 'supporting', path: 'driver',
+                    sqText: 'International climate finance', sqDetails: 'Growing global funds available for SIDS adaptation projects.',
+                    transText: 'Green finance mobilisation', transDetails: 'Accessing GCF, bilateral aid and blue bonds.',
+                    visionText: 'Fully funded adaptation', visionDetails: 'Sustainable finance pipeline covers long-term resilience costs.',
+                    sqHeight: 35, transHeight: 40, visionHeight: 35,
+                },
+                {
+                    id: 5, color: colors[4], type: 'supporting', path: 'barrier',
+                    sqText: 'Fiscal constraints', sqDetails: 'Public debt exceeds 110% of GDP, limiting investment capacity.',
+                    transText: 'Debt burden', transDetails: 'Debt servicing crowds out development spending.',
+                    visionText: 'Fiscal sustainability', visionDetails: 'Debt restructured and revenue base diversified.',
+                    sqHeight: 40, transHeight: 45, visionHeight: 35,
+                },
+                {
+                    id: 6, color: colors[5], type: 'supporting', path: 'barrier',
+                    sqText: 'Governance fragmentation', sqDetails: 'Weak coordination between atolls, councils and central ministries.',
+                    transText: 'Institutional reform gaps', transDetails: 'Decentralisation law exists but capacity at island level is thin.',
+                    visionText: 'Effective multi-level governance', visionDetails: 'Empowered councils delivering services with central support.',
+                    sqHeight: 35, transHeight: 40, visionHeight: 35,
+                },
+            ];
+
+            isEditMode = false;
+            modeToggle.checked = false;
+            update();
+        }
+
         window.addEventListener('resize', () => update());
-        update(); 
+        update();
     });
 </script>
 
