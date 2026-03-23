@@ -102,6 +102,15 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 .footer-col a:hover{color:var(--pri-d)}
 .footer-bottom{margin-top:24px;padding-top:16px;border-top:1px solid rgba(0,0,0,.04);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
 
+/* LOGO CAROUSEL */
+.logo-carousel{overflow:hidden;position:relative;padding:40px 0}
+.logo-track{display:flex;align-items:center;gap:64px;transition:transform .5s ease}
+.logo-track img{height:36px;opacity:.35;filter:grayscale(100%);transition:opacity .3s,filter .3s;flex-shrink:0}
+.logo-track img:hover{opacity:.6;filter:grayscale(60%)}
+.logo-nav{display:flex;gap:8px;margin-top:16px;justify-content:center}
+.logo-nav button{width:32px;height:32px;border-radius:50%;border:1px solid rgba(0,0,0,.1);background:var(--card);cursor:pointer;font-size:14px;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.logo-nav button:hover{border-color:var(--pri-d);color:var(--pri-d)}
+
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
@@ -135,6 +144,7 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
     <a href="#tools">Tools</a>
     <a href="consulting.html">Consulting</a>
     <a href="work.html">Track record</a>
+    <a href="community.html">Community</a>
     <a href="contact.html" class="nav-cta">Contact</a>
   </div>
 </nav>
@@ -148,26 +158,8 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
     <a href="#domains" class="hero-cta">See our work &darr;</a>
   </div>
   <div class="hero-side">
-    <p style="font-size:14.5px;color:var(--body);line-height:1.7;margin-bottom:16px">Policy research and analysis, data tools, strategic planning, institutional capacity building, and AI integration &ndash; for government agencies, international organisations, and the private sector.</p>
     <p style="font-size:14.5px;color:var(--body);line-height:1.7;margin-bottom:16px">Current and recent projects with UNICEF, the Westminster Foundation for Democracy, and the Ministry of Social and Family Development.</p>
     <p style="font-size:13px;color:var(--muted)">Operational since April 2024 &middot; Hulhumale, Maldives</p>
-  </div>
-</div>
-</div>
-
-<!-- PARTNERS -->
-<div style="padding:0 0 20px;border-bottom:1px solid rgba(0,0,0,.06)">
-<div class="wrap">
-  <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:28px 44px;padding:20px 0">
-    <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Partners &amp; clients</span>
-    <span style="font-size:15px;font-weight:700;color:rgba(0,0,0,.22);letter-spacing:-.01em">UNICEF</span>
-    <span style="font-size:14px;font-weight:600;color:rgba(0,0,0,.22)">Westminster Foundation for Democracy</span>
-    <span style="font-size:14px;font-weight:600;color:rgba(0,0,0,.22)">Ministry of Social &amp; Family Development</span>
-    <span style="font-size:14px;font-weight:600;color:rgba(0,0,0,.22)">National Library of Maldives</span>
-    <span style="font-size:14px;font-weight:600;color:rgba(0,0,0,.22)">R&amp;S Lawyers</span>
-    <span style="font-size:14px;font-weight:600;color:rgba(0,0,0,.22)">Australia Awards &middot; DFAT</span>
-    <span style="font-size:14px;font-weight:600;color:rgba(0,0,0,.22)">Baca di Tebet</span>
-    <span style="font-size:13px;font-style:italic;color:rgba(0,0,0,.18)">+ undisclosed private sector &amp; political clients</span>
   </div>
 </div>
 </div>
@@ -306,37 +298,37 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 </div>
 </div>
 
-<!-- FOR THE COMMUNITY -->
+<!-- PARTNERS & CLIENTS -->
+<div style="padding:48px 0;border-top:1px solid rgba(0,0,0,.06)">
+<div class="wrap">
+  <div class="sec-tag reveal">Partners &amp; clients</div>
+  <div class="logo-carousel reveal">
+    <div class="logo-track" id="logoTrack">
+      <img src="screenshots/unicef logo.png" alt="UNICEF">
+      <img src="screenshots/wfd logo.png" alt="Westminster Foundation for Democracy">
+      <img src="screenshots/ministry of social and family development logo.webp" alt="Ministry of Social and Family Development">
+      <img src="screenshots/national library logo.png" alt="National Library of Maldives">
+      <img src="screenshots/family court logo.png" alt="Family Court">
+      <img src="screenshots/riffath &amp; shabeen lawyers logo.png" alt="R&S Lawyers">
+      <img src="screenshots/ausaid logo.png" alt="Australia Awards / DFAT">
+      <img src="screenshots/baca di tebet logo.png" alt="Baca di Tebet">
+    </div>
+    <div class="logo-nav">
+      <button onclick="shiftLogos(-1)" aria-label="Previous">&larr;</button>
+      <button onclick="shiftLogos(1)" aria-label="Next">&rarr;</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:10px;font-style:italic">+ undisclosed private sector, international firms, and political clients</p>
+  </div>
+</div>
+</div>
+
+<!-- COMMUNITY -->
 <div class="about" style="border-top:1px solid rgba(0,0,0,.06)">
 <div class="wrap">
-  <div class="sec-tag reveal">For the community</div>
-  <h2 class="sec-title reveal">Free services and resources</h2>
-  <div class="domain-grid reveal" style="grid-template-columns:repeat(3,1fr);margin-top:20px">
-    <a href="work.html#community" style="padding:4px 0;text-decoration:none;color:inherit">
-      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">CV screening &amp; advice</div>
-      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Free CV and cover letter reviews with practical advice on improving your applications. Sign up online, open to anyone.</div>
-    </a>
-    <a href="work.html#community" style="padding:4px 0;text-decoration:none;color:inherit">
-      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Venue for artists &amp; NGOs</div>
-      <div style="font-size:13.5px;color:var(--body);line-height:1.6">A 400 sq ft terrace and 500 sq ft rooftop in Hulhumale &ndash; free for artists, discounted for NGOs, and bookable by anyone for personal events. Projector, seating, and picnic mats provided.</div>
-    </a>
-    <a href="work.html#community" style="padding:4px 0;text-decoration:none;color:inherit">
-      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Internships</div>
-      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Research internships for young professionals in the policy sector. Guided projects, reading plans, and practical training.</div>
-    </a>
-    <a href="society/data-gallery.html" style="padding:4px 0;text-decoration:none;color:inherit">
-      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Open data for students &amp; researchers</div>
-      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Data visualizations, service directories, legislation timelines, and nutrition data &ndash; all free to use with attribution.</div>
-    </a>
-    <a href="work.html#community" style="padding:4px 0;text-decoration:none;color:inherit">
-      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Community events</div>
-      <div style="font-size:13.5px;color:var(--body);line-height:1.6">Movie screenings, trivia nights, poetry readings. We also print and distribute chapbooks by local writers and poets for free.</div>
-    </a>
-    <a href="work.html#community" style="padding:4px 0;text-decoration:none;color:inherit">
-      <div style="font-size:15px;font-weight:700;color:var(--fg);margin-bottom:6px">Training courses</div>
-      <div style="font-size:13.5px;color:var(--body);line-height:1.6">12-session practical seminars for government and NGO staff on topics university programmes do not cover. Online versions coming soon.</div>
-    </a>
-  </div>
+  <div class="sec-tag reveal">Community work</div>
+  <h2 class="sec-title reveal">What we do beyond consulting</h2>
+  <p class="sec-desc reveal">Community events, a bookable venue for artists and the public, free CV and application support, internships for young professionals, chapbook publishing for local writers, open data tools, and training courses.</p>
+  <a href="community.html" class="hero-cta reveal" style="font-size:13px;padding:10px 22px">See community work &rarr;</a>
 </div>
 </div>
 
@@ -394,7 +386,7 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
       <div class="cta-block" style="margin-top:16px;background:var(--dark);border-color:transparent">
         <h3 style="color:#fff">Individual consultancy</h3>
         <p style="color:rgba(255,255,255,.7)">Our consultants are also available individually for research partnerships, contract projects, and advisory roles.</p>
-        <a href="consulting.html#individual" class="btn" style="background:var(--teal)">Learn more</a>
+        <a href="team.html" class="btn" style="background:var(--teal)">Meet the team</a>
       </div>
     </div>
   </div>
@@ -439,6 +431,18 @@ var obs=new IntersectionObserver(function(entries){
   entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis')});
 },{threshold:0.06,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+
+/* Logo carousel */
+var logoPos=0;
+function shiftLogos(dir){
+  var track=document.getElementById('logoTrack');
+  var imgs=track.querySelectorAll('img');
+  var visible=3;
+  var max=imgs.length-visible;
+  logoPos=Math.max(0,Math.min(max,logoPos+dir));
+  var w=imgs[0].offsetWidth+64;
+  track.style.transform='translateX(-'+logoPos*w+'px)';
+}
 </script>
 </body>
 </html>
