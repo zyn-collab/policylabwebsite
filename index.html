@@ -114,6 +114,13 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
+/* DROPDOWN */
+.nav-dropdown-wrap{position:relative;display:inline-flex;align-items:center}
+.nav-dropdown{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);min-width:200px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.08);padding:8px 0;z-index:200}
+.nav-dropdown-wrap:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:8px 20px;font-size:12.5px;color:var(--body);font-weight:500;transition:background .15s,color .15s}
+.nav-dropdown a:hover{background:rgba(0,0,0,.03);color:var(--fg)}
+
 @media(max-width:860px){
   nav{padding:14px 20px}
   .hero{padding:100px 24px 48px}
@@ -123,6 +130,7 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
   .record-grid{grid-template-columns:1fr}
   .about-grid{grid-template-columns:1fr}
   .nav-r a:nth-child(n+3):not(.nav-cta){display:none}
+  .nav-dropdown-wrap:nth-child(n+3) a:not(.nav-cta){display:none}
   footer{padding:24px 20px}
 }
 @media(max-width:540px){
@@ -140,10 +148,20 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
     public policy lab
   </a>
   <div class="nav-r">
-    <a href="#domains">Publications</a>
-    <a href="#tools">Tools</a>
+    <div class="nav-dropdown-wrap">
+      <a href="#" class="nav-link">Our Work &#9662;</a>
+      <div class="nav-dropdown">
+        <a href="society/index.html">Society</a>
+        <a href="governance/index.html">Governance</a>
+        <a href="economy/index.html">Economy</a>
+        <a href="futures/index.html">Strategic Foresight</a>
+        <a href="politics/index.html">Politics &amp; Democracy</a>
+        <a href="applied/index.html">Applied Tools</a>
+      </div>
+    </div>
+    <a href="applied/index.html">Tools</a>
     <a href="consulting.html">Consulting</a>
-    <a href="work.html">Track record</a>
+    <a href="work.html">Impact</a>
     <a href="community.html">Community</a>
     <a href="contact.html" class="nav-cta">Contact</a>
   </div>
@@ -407,8 +425,10 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
       </div>
       <div class="footer-col">
         <h5>Organisation</h5>
-        <a href="work.html">Track record</a>
+        <a href="work.html">Impact</a>
+
         <a href="consulting.html">Consulting</a>
+        <a href="community.html">Community</a>
         <a href="contact.html">Contact</a>
       </div>
       <div class="footer-col">

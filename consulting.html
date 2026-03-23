@@ -57,6 +57,13 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 .footer-bottom{margin-top:24px;padding-top:16px;border-top:1px solid rgba(0,0,0,.04);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between}
 
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}.reveal.vis{opacity:1;transform:translateY(0)}
+
+.nav-dropdown-wrap{position:relative;display:inline-flex;align-items:center}
+.nav-dropdown{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);min-width:200px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.08);padding:8px 0;z-index:200}
+.nav-dropdown-wrap:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:8px 20px;font-size:12.5px;color:var(--body);font-weight:500;transition:background .15s,color .15s}
+.nav-dropdown a:hover{background:rgba(0,0,0,.03);color:var(--fg)}
+
 @media(max-width:860px){nav{padding:14px 20px}.page-hero,.wrap{padding-left:24px;padding-right:24px}.svc-grid{grid-template-columns:1fr 1fr}.profile-grid{grid-template-columns:1fr}.training-grid{grid-template-columns:1fr}.nav-r a:nth-child(n+3):not(.nav-cta){display:none}}
 @media(max-width:540px){.svc-grid{grid-template-columns:1fr}}
 </style>
@@ -67,8 +74,21 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
   <a href="index.html" class="nav-logo"><img src="assets/logo-icon.svg" alt=""> public policy lab</a>
   <div class="nav-r">
     <a href="index.html">Home</a>
-    <a href="work.html">Track record</a>
-    <a href="#individual">Individual consultancy</a>
+    <div class="nav-dropdown-wrap">
+      <a href="#" class="nav-link">Our Work &#9662;</a>
+      <div class="nav-dropdown">
+        <a href="society/index.html">Society</a>
+        <a href="governance/index.html">Governance</a>
+        <a href="economy/index.html">Economy</a>
+        <a href="futures/index.html">Strategic Foresight</a>
+        <a href="politics/index.html">Politics &amp; Democracy</a>
+        <a href="applied/index.html">Applied Tools</a>
+      </div>
+    </div>
+    <a href="applied/index.html">Tools</a>
+    <a href="consulting.html">Consulting</a>
+    <a href="work.html">Impact</a>
+    <a href="community.html">Community</a>
     <a href="contact.html" class="nav-cta">Contact</a>
   </div>
 </nav>
@@ -185,10 +205,10 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 <div class="wrap">
   <div class="footer-grid">
     <div class="footer-col"><h5>Publications</h5><a href="society/index.html">Society</a><a href="governance/index.html">Governance</a><a href="economy/index.html">Economy</a><a href="futures/index.html">Futures</a><a href="politics/index.html">Politics</a><a href="applied/index.html">Applied Tools</a></div>
-    <div class="footer-col"><h5>Organisation</h5><a href="work.html">Track record</a><a href="consulting.html">Consulting</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h5>Organisation</h5><a href="work.html">Impact</a><a href="consulting.html">Consulting</a><a href="community.html">Community</a><a href="contact.html">Contact</a></div>
     <div class="footer-col"><h5>Contact</h5><p>6th Floor, 10277 Bokarumaa Hingun</p><p>Hulhumale, Maldives</p><a href="mailto:info@policylabmv.com">info@policylabmv.com</a><a href="tel:+9607861232">(960) 786-1232</a></div>
   </div>
-  <div class="footer-bottom"><span>&copy; 2026 Public Policy Lab. All rights reserved.</span><span>Mal&eacute;, Maldives</span></div>
+  <div class="footer-bottom"><span>&copy; 2026 Public Policy Lab. All rights reserved.</span><span>Hulhumale, Maldives</span></div>
 </div>
 </footer>
 
