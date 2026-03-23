@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scenario Lab</title>
-    <script src="https://cdn-tailwindcss.vercel.app/"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
@@ -127,7 +127,10 @@
         </main>
 
         <footer class="bg-white/80 backdrop-blur-md border border-slate-200/80 rounded-xl p-4 mt-auto">
-            <h3 class="text-sm font-semibold text-slate-500 uppercase text-center mb-3">Policies to Test</h3>
+            <div class="flex items-center justify-center gap-4 mb-3">
+                <h3 class="text-sm font-semibold text-slate-500 uppercase">Policies to Test</h3>
+                <button id="add-policy-btn" class="text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-full transition-colors">+ Add Policy</button>
+            </div>
             <div id="policies-rail" class="flex flex-wrap justify-center items-center gap-3 min-h-[52px]">
                 <!-- Policy chips or placeholder will be rendered here -->
             </div>
@@ -135,7 +138,7 @@
     </div>
 
     <!-- New Evaluation Modal -->
-    <div id="evaluation-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 visibility-hidden">
+    <div id="evaluation-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="modal-content transform scale-95 bg-white w-full max-w-md rounded-2xl shadow-xl p-6">
             <h3 id="modal-title" class="text-lg font-bold text-slate-800">Evaluate Policy</h3>
             <div class="mt-4 space-y-4">
@@ -253,13 +256,13 @@
                 e.target.classList.add('opacity-50');
                 setTimeout(() => e.target.classList.add('grabbing'), 0);
             });
-            chip.draggable = true;
-            dom.policiesRail.appendChild(chip);
+            chip.addEventListener('dragend', e => {
+                e.target.classList.remove('opacity-50', 'grabbing');
+            });
         });
-        addDragListeners();
     }
 
-    function addDragListeners() {
+    function addDropListeners() {
         document.querySelectorAll('.quadrant').forEach(quadrant => {
             quadrant.addEventListener('dragover', e => { e.preventDefault(); quadrant.classList.add('drag-over'); });
             quadrant.addEventListener('dragleave', () => quadrant.classList.remove('drag-over'));
@@ -368,21 +371,19 @@
 
     dom.modalCancel.addEventListener('click', closeEvaluationModal);
     
+    function addPolicy() {
+        const title = prompt('Enter policy name:');
+        if (title && title.trim()) {
+            state.policies.push({ id: `policy_${Date.now()}`, title: title.trim() });
+            renderPolicies();
+        }
+    }
+
     // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', () => {
-        // The workshop starts with a true blank slate.
-        state.policies = []; 
+        state.policies = [];
+        document.getElementById('add-policy-btn').addEventListener('click', addPolicy);
         render();
-
-        // Facilitator can add policies dynamically. For a real workshop,
-        // this timeout would be removed and replaced with a connection to the Compass tool.
-        setTimeout(() => {
-             state.policies = [
-                { id: 'policy1', title: 'New Policy Idea 1' },
-                { id: 'policy2', title: 'New Policy Idea 2' },
-            ];
-            renderPolicies();
-        }, 2000);
     });
 
 </script>

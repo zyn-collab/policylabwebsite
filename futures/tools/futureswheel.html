@@ -84,7 +84,7 @@
         .close-button:hover { background: #e2e8f0; }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -209,7 +209,7 @@
                 .attr("r", d => nodeRadii[d.depth])
                 .attr("fill", d => d.data.isPlaceholder ? "transparent" : colorScale(d.depth))
                 .style("stroke", d => d.data.isPlaceholder ? "#cbd5e1" : colorScale(d.depth))
-                .style("stroke-width", d => d.data.isPlaceholder ? 1.5 : 1 + (d.data.impact || 1) * 1.5 + "px")
+                .style("stroke-width", d => d.data.isPlaceholder ? "1.5px" : (1 + (d.data.impact || 1) * 1.5) + "px")
                 .style("opacity", d => d.data.isPlaceholder ? 1 : 0.6 + ((d.data.likelihood || 1) / 5) * 0.4);
 
             node.filter(d => !d.data.isPlaceholder).append("text").text(d => d.data.label);

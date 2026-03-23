@@ -399,8 +399,9 @@ function handleSave() {
 
 function handleMouseOver(event, d) {
     const id = d.id ?? drivers[d.row].id;
+    const colIndex = drivers.findIndex(driver => driver.id === id);
     d3.selectAll(`[data-row-id="${id}"]`).classed("highlight", true);
-    d3.selectAll(`td[data-col="${id}"]`).classed("highlight", true);
+    d3.selectAll(`td[data-col="${colIndex}"]`).classed("highlight", true);
     d3.selectAll(".scatter-dot").classed("fade", dot => dot.id !== id);
     d3.selectAll(`.scatter-dot[data-dot-id="${id}"]`).classed("highlight", true).classed("fade", false).raise();
     d3.selectAll(`.dot-label[data-label-id="${id}"]`).raise();
