@@ -25,6 +25,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:fl
 .nav-r{display:flex;gap:20px}
 .nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
 .nav-r a:hover{color:var(--fg)}
+.focus-dropdown{display:none;position:absolute;top:100%;right:0;min-width:180px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.08);padding:6px 0;z-index:200}
+.focus-dropdown-wrap:hover .focus-dropdown{display:block}
+.focus-dropdown a{display:block;padding:6px 16px;font-size:12.5px;color:#4a4a46;transition:background .15s}
+.focus-dropdown a:hover{background:rgba(0,0,0,.03)}
 
 /* HERO */
 .hero{padding:100px 40px 56px;max-width:1080px;margin:0 auto}
@@ -170,7 +174,18 @@ footer a{color:var(--teal-d)}
     <a href="#events">Events</a>
     <a href="#transport">Transport</a>
     <a href="#research">Research</a>
-    <a href="../index.html">All focus areas</a>
+    <div class="focus-dropdown-wrap" style="position:relative;display:inline-block">
+      <a href="../index.html">All areas &#9662;</a>
+      <div class="focus-dropdown">
+        <a href="../society/index.html">Society</a>
+        <a href="../governance/index.html">Governance</a>
+        <a href="../economy/index.html">Economy</a>
+        <a href="../futures/index.html">Strategic Foresight</a>
+        <a href="../politics/index.html">Politics &amp; Democracy</a>
+        <a href="../applied/index.html">Applied Tools</a>
+        <a href="../urbanism/index.html">Urbanism</a>
+      </div>
+    </div>
   </div>
 </nav>
 
