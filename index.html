@@ -473,14 +473,14 @@ document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
 
 /* Logo carousel — always show 3, shift 1 at a time, infinite loop */
 var allLogos=[
-  {src:'screenshots/unicef logo.png',alt:'UNICEF'},
-  {src:'screenshots/wfd logo.png',alt:'Westminster Foundation for Democracy'},
-  {src:'screenshots/ministry of social and family development logo.webp',alt:'Ministry of Social and Family Development'},
-  {src:'screenshots/national library logo.png',alt:'National Library of Maldives'},
-  {src:'screenshots/family court logo.png',alt:'Family Court'},
-  {src:'screenshots/riffath & shabeen lawyers logo.png',alt:'Riffath & Shabeen Lawyers'},
-  {src:'screenshots/ausaid logo.png',alt:'Australian Government AusAID'},
-  {src:'screenshots/baca di tebet logo.png',alt:'Baca di Tebet'}
+  {src:'screenshots/unicef logo.png',alt:'UNICEF',h:28},
+  {src:'screenshots/wfd logo.png',alt:'Westminster Foundation for Democracy',h:40},
+  {src:'screenshots/ministry of social and family development logo.webp',alt:'Ministry of Social and Family Development',h:48},
+  {src:'screenshots/national library logo.png',alt:'National Library of Maldives',h:30},
+  {src:'screenshots/family court logo.png',alt:'Family Court',h:50},
+  {src:'screenshots/riffath & shabeen lawyers logo.png',alt:'Riffath & Shabeen Lawyers',h:34},
+  {src:'screenshots/ausaid logo.png',alt:'Australian Government AusAID',h:46},
+  {src:'screenshots/baca di tebet logo.png',alt:'Baca di Tebet',h:38}
 ];
 var logoIdx=0;
 function renderLogos(){
@@ -493,7 +493,7 @@ function renderLogos(){
       var l=allLogos[idx];
       var img=document.createElement('img');
       img.src=l.src;img.alt=l.alt;
-      img.style.cssText='height:36px;width:140px;opacity:.3;filter:grayscale(100%);transition:opacity .3s,filter .3s;flex-shrink:0;object-fit:contain';
+      img.style.cssText='height:'+l.h+'px;width:140px;opacity:.3;filter:grayscale(100%);transition:opacity .3s,filter .3s;flex-shrink:0;object-fit:contain';
       img.onmouseover=function(){this.style.opacity='.55';this.style.filter='grayscale(50%)'};
       img.onmouseout=function(){this.style.opacity='.3';this.style.filter='grayscale(100%)'};
       track.appendChild(img);
