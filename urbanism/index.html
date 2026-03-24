@@ -132,7 +132,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:fl
 /* General */
 .sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
 .sec-title{font-family:var(--sans);font-size:clamp(23px,3vw,30px);font-weight:600;line-height:1.22;letter-spacing:-.015em;margin-bottom:16px}
-p.body{font-size:14.5px;color:var(--body);line-height:1.72;margin-bottom:15px}
+p.body{font-size:14.5px;color:var(--body);line-height:1.78;margin-bottom:18px}
 p.body:last-child{margin-bottom:0}
 .cta{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--teal-d);margin-top:14px;transition:gap .2s}
 .cta:hover{gap:10px}
@@ -200,12 +200,13 @@ footer a{color:var(--teal-d)}
   <div class="hero-side">
     <div class="hero-side-label">What's here</div>
     <a href="#transport" class="hero-side-item">Bus routes <span class="hs-stat">5 proposed changes</span></a>
-    <a href="#research" class="hero-side-item">Street parking <span class="hs-stat">43.5% of road width</span></a>
-    <a href="#research" class="hero-side-item">Greenery &amp; heat <span class="hs-stat">12&ndash;16% vs 40%</span></a>
-    <a href="#research" class="hero-side-item">Third spaces <span class="hs-stat">Cabinet decision</span></a>
-    <a href="#events" class="hero-side-item">Cultural programming <span class="hs-stat">pilot &amp; events</span></a>
-    <a href="#research" class="hero-side-item">City design <span class="hs-stat">Maldivian design language</span></a>
-    <a href="#research" class="hero-side-item">Old City district <span class="hs-stat">35% already car-free</span></a>
+    <a href="#street-parking" class="hero-side-item">Street parking <span class="hs-stat">43.5% of road width</span></a>
+    <a href="#greenery" class="hero-side-item">Greenery &amp; heat <span class="hs-stat">12&ndash;16% vs 40%</span></a>
+    <a href="#third-spaces" class="hero-side-item">Third spaces <span class="hs-stat">Cabinet &rarr; Youth Hub</span></a>
+    <a href="#events" class="hero-side-item">Cultural programming <span class="hs-stat">screenings &amp; poetry</span></a>
+    <a href="#design-language" class="hero-side-item">City design <span class="hs-stat">Maldivian design language</span></a>
+    <a href="#old-city" class="hero-side-item">Old City district <span class="hs-stat">35% already car-free</span></a>
+    <a href="#elderly-shuttle" class="hero-side-item">Elderly shuttle <span class="hs-stat">social participation</span></a>
   </div>
 </div>
 </div>
@@ -309,7 +310,7 @@ footer a{color:var(--teal-d)}
   <div class="gallery-grid">
 
     <!-- Street Parking -->
-    <a href="street-parking.html" class="rcard accent-teal reveal">
+    <a href="street-parking.html" class="rcard accent-teal reveal" id="street-parking">
       <div class="rcard-tag">Streets &amp; space &middot; field research 2024</div>
       <div class="rcard-title">Where the street space goes</div>
       <div class="rcard-stat">43.5%</div>
@@ -319,7 +320,7 @@ footer a{color:var(--teal-d)}
     </a>
 
     <!-- Greenery -->
-    <a href="greenery.html" class="rcard accent-sage reveal">
+    <a href="greenery.html" class="rcard accent-sage reveal" id="greenery">
       <div class="rcard-tag">Streets &amp; heat &middot; satellite analysis</div>
       <div class="rcard-title">Greenery and heat</div>
       <div class="rcard-stat">12&ndash;16%</div>
@@ -329,7 +330,7 @@ footer a{color:var(--teal-d)}
     </a>
 
     <!-- Third Spaces (wide) -->
-    <a href="third-spaces.html" class="rcard wide accent-coral reveal">
+    <a href="third-spaces.html" class="rcard wide accent-coral reveal" id="third-spaces">
       <div>
         <div class="rcard-tag">Cultural life &middot; policy impact</div>
         <div class="rcard-title">Third spaces, vibrant cities</div>
@@ -342,7 +343,7 @@ footer a{color:var(--teal-d)}
     </a>
 
     <!-- Design Language -->
-    <a href="design-language.html" class="rcard accent-plum reveal">
+    <a href="design-language.html" class="rcard accent-plum reveal" id="design-language">
       <div class="rcard-tag">City identity &middot; design guidelines</div>
       <div class="rcard-title">A Maldivian urban design language</div>
       <div class="rcard-body">What government buildings could look like if they drew on what's already there &ndash; the Medhuziyaaraiy and Hukuru Miskiyy complex. White and blue palettes, weathered stone, Islamic geometric patterns, coconut leaf motifs. Against Mal&eacute;'s current trend of blocky single-colour panels with no connection to the city's history. With photo examples of what harmonious design looks like and what doesn't.</div>
@@ -350,7 +351,7 @@ footer a{color:var(--teal-d)}
     </a>
 
     <!-- Old City -->
-    <a href="old-city.html" class="rcard accent-plum reveal">
+    <a href="old-city.html" class="rcard accent-plum reveal" id="old-city">
       <div class="rcard-tag">City identity &middot; concept paper</div>
       <div class="rcard-title">Old City and Capital District</div>
       <div class="rcard-stat">35%</div>
@@ -360,7 +361,7 @@ footer a{color:var(--teal-d)}
     </a>
 
     <!-- Elderly Shuttle -->
-    <a href="elderly-shuttle.html" class="rcard accent-teal reveal">
+    <a href="elderly-shuttle.html" class="rcard accent-teal reveal" id="elderly-shuttle">
       <div class="rcard-tag">Transport &amp; social policy</div>
       <div class="rcard-title">Elderly shuttle for social participation</div>
       <div class="rcard-body">Transport is the binding constraint on elderly social participation &ndash; not willingness, not programming, but physically getting there. Community spaces exist but the most isolated elderly cannot reach them. A dedicated shuttle service in development with Israhvehinge Naadhee would close the gap between building spaces and people being able to use them.</div>
@@ -373,7 +374,7 @@ footer a{color:var(--teal-d)}
 
 <footer>
   <div><a href="../index.html">Public Policy Lab</a> &middot; Hulhumale, Maldives &middot; <a href="mailto:info@policylabmv.com">info@policylabmv.com</a></div>
-  <div>Urbanism is one of four <a href="../index.html">focus areas</a></div>
+  <div>City Life &amp; Urbanism &middot; <a href="../index.html">policylabmv.com</a></div>
 </footer>
 
 <script>
