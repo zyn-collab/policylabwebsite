@@ -34,7 +34,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:fl
 /* HERO */
 .hero{padding:120px 40px 64px;max-width:1080px;margin:0 auto}
 .hero-grid{display:grid;grid-template-columns:1fr 340px;gap:48px;align-items:end}
-.hero h1{font-family:var(--sans);font-size:clamp(36px,5.5vw,58px);line-height:1.08;letter-spacing:-.03em;margin-bottom:20px;font-weight:800}
+.hero h1{font-family:var(--sans);font-size:clamp(28px,4vw,42px);line-height:1.12;letter-spacing:-.025em;margin-bottom:18px;font-weight:800}
 .hero h1 .a{color:var(--pri-d)}
 .hero h1 .b{color:var(--teal);font-weight:400}
 .hero-desc{font-size:16px;color:var(--body);line-height:1.72;max-width:560px;margin-bottom:24px}
@@ -114,6 +114,11 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
+/* STICKY NOTES */
+.sticky-note{padding:18px 20px;border-radius:3px;box-shadow:2px 3px 8px rgba(0,0,0,.08);transition:transform .2s}
+.sticky-note:hover{transform:rotate(0deg) scale(1.03) !important;z-index:2;box-shadow:3px 5px 14px rgba(0,0,0,.12)}
+.sticky-note p{font-size:11.5px;line-height:1.6;color:#3a3a3a;font-family:var(--sans)}
+
 /* DROPDOWN */
 .nav-dropdown-wrap{position:relative;display:inline-flex;align-items:center}
 .nav-dropdown{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);min-width:200px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.08);padding:8px 0;z-index:200}
@@ -129,6 +134,7 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
   .domain-grid,.tool-row{grid-template-columns:1fr 1fr}
   .record-grid{grid-template-columns:1fr}
   .about-grid{grid-template-columns:1fr}
+  #stickyGrid{grid-template-columns:1fr 1fr !important}
   .nav-r a:nth-child(n+3):not(.nav-cta){display:none}
   .nav-dropdown-wrap:nth-child(n+3) a:not(.nav-cta){display:none}
   footer{padding:24px 20px}
@@ -174,11 +180,11 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 <div class="hero">
 <div class="hero-grid">
   <div>
-    <h1><span class="a">Policy consulting<br>and research</span><br><span class="b">for the Maldives</span></h1>
+    <h1><span class="a">Policy consulting<br>and research</span></h1>
     <p class="hero-desc">Public Policy Lab is a non-partisan think tank and consultancy firm based in the Maldives. We work to develop the policy environment in the Maldives and across Asia through original research, targeted projects, policy tools, publications, targeted advocacy and messaging, courses and seminars in partnership with other institutions, and training the next generation of policymakers.</p>
     <p class="hero-desc" style="margin-top:12px">We bring our expertise, relationships, experience, and passion for policy to our consulting work. As consultants, we specialise in providing deeply researched insights and analysis, polished publications and reports, and guided expertise for clients. Whether you&rsquo;re a government agency, local or city council, NGO, private company, advocacy group, educational institution, international business, or anyone in need of policy expertise, you can find that with us.</p>
     <p class="hero-desc" style="margin-top:12px">Our work will always include not-for-profit policy development activities: whether pro bono policy and technical advisory roles, education, research and publications, or data tools for academics and journalists.</p>
-    <p class="hero-desc" style="margin-top:12px">At Public Policy Lab, we operate with complete conviction and belief that a better world is possible. If you&rsquo;re on board and would like to work with us, <a href="contact.html" style="color:var(--teal);font-weight:600">reach out here</a>.</p>
+    <p class="hero-desc" style="margin-top:12px">At Public Policy Lab, we operate with complete conviction and belief that a better world is possible. We&rsquo;re not embarrassed about being idealistic or caring too much. If you&rsquo;re on board and would like to work with us, <a href="contact.html" style="color:var(--teal);font-weight:600">reach out here</a>.</p>
     <a href="#domains" class="hero-cta" style="margin-top:24px">See our work &darr;</a>
   </div>
   <div style="display:flex;align-items:end;justify-content:end">
@@ -372,6 +378,63 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
       <button onclick="shiftLogos(-1)" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,0,0,.12);background:none;cursor:pointer;font-size:14px;color:var(--muted);display:flex;align-items:center;justify-content:center" aria-label="Previous">&larr;</button>
       <button onclick="shiftLogos(1)" style="width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,0,0,.12);background:none;cursor:pointer;font-size:14px;color:var(--muted);display:flex;align-items:center;justify-content:center" aria-label="Next">&rarr;</button>
     </div>
+  </div>
+</div>
+</div>
+
+<!-- STICKY NOTES — findings from our work -->
+<div style="padding:56px 0 48px;border-top:1px solid rgba(0,0,0,.06);overflow:hidden">
+<div style="max-width:1200px;margin:0 auto;padding:0 40px;position:relative">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px" id="stickyGrid">
+
+    <div class="sticky-note" style="background:#FFF9DB;transform:rotate(-1.2deg)">
+      <p>Parked vehicles occupy almost 40% of the total street width in Mal&eacute;. Right now, ambulances can&rsquo;t pass through almost half of the streets we measured because they&rsquo;re blocked by parked vehicles. Clearing street parking lets emergency vehicles stop at your door when you or a family member has an emergency.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#E8F5E9;transform:rotate(0.8deg)">
+      <p>Only 10 of 27 roads we measured have enough room for buses to pass through. If street parking were cleared, 26 out of those 27 roads would be able to fit buses, enabling more connected public transport.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#FFF3E0;transform:rotate(-0.5deg)">
+      <p>Asphalt roads can hit up to 82&deg;C under the sun, while shaded pavements only reach 32&deg;C. Streets with dense tree canopy are up to 13.9&deg;C lower in radiant temperature. Mal&eacute; proper has 12&ndash;16% green cover against a 40% threshold for meaningful urban cooling.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#F3E5F5;transform:rotate(1.1deg)">
+      <p>Social isolation in elderly drives disease and mortality at rates comparable to smoking fifteen cigarettes a day. We advocate for free minibus routes connecting elderly residents to community spaces, medical facilities, and parks.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#E3F2FD;transform:rotate(0.6deg)">
+      <p>Motorcycle seats hit 65&deg;C in direct sunlight, absorbing heat and radiating it back out, acting as waist-height heaters on every street. Tree-lined streets cut radiant temperatures by 35%. This makes all the difference.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#FFF9DB;transform:rotate(-0.9deg)">
+      <p>Current bus routes treat Mal&eacute; and Hulhumal&eacute; as separate cities connected by a land ferry, rather than one city with a transit system. We propose a few bus route adaptations to make life easier, such as Carnival route extending to Jumhooree Maidaan so government employees from Hulhumale get on and off the bus at their office doorsteps.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#E8F5E9;transform:rotate(1.3deg)">
+      <p>76% of children who mastered three early numeric tasks went to college; only 26% of those who mastered none did. More heavily prioritizing arithmetic, fractions, and number sense as necessary passage up to Grade 3 makes the difference between understanding math for the next 9 years of school.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#FFF3E0;transform:rotate(-1.4deg)">
+      <p>The Maldives&rsquo; emissions are 0.0058% of global CO2. A single diplomatic breakthrough compelling a major nation to cut emissions by 0.01% would double the impact of the Maldives going net zero entirely. We argue for heavily orienting foreign policy toward targeted decarbonization lobbying to cities, states, and companies while focusing on climate mitigation at home.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#F3E5F5;transform:rotate(0.4deg)">
+      <p>A well-designed remote worker program limiting workers to islands in need and requiring a spend of $2,400/month, less than most remote workers would pay for rent in San Francisco or Sydney, could support 2,000 remote workers with no more than 10 per island, injecting $57.6 million annually into local economies and creating over 8,000 new jobs.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#E3F2FD;transform:rotate(-0.7deg)">
+      <p>In interviews with women experiencing abuse or hardship in divorce, they told us exactly what they wish they&rsquo;d been told in their youth and what would have helped them. Through the CFW program partnering with UNICEF and MSFD, we are working to make these systemic and direct policy changes to protect the next generation.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#FFF9DB;transform:rotate(1.0deg)">
+      <p>We identified challenges in public service delivery and public sector efficiency due to low retention of institutional knowledge, especially through leadership changes and staff turnover, and are building comprehensive knowledge management systems and institutional memory collections for government agencies compiling relevant information for the sector to drive evidence-based policymaking.</p>
+    </div>
+
+    <div class="sticky-note" style="background:#E8F5E9;transform:rotate(-1.1deg)">
+      <p>After home and work/school, many in the Maldives lack a third space, leading to isolation and an atomized society. Our policy work and consistent advocacy for third spaces has had impacts ranging from supporting the National Library in securing additional budget for expansion, the announcement of a Third Space community centre by Cabinet decision now open as Youth Hub, and the increased proliferation of our small-venue art event model.</p>
+    </div>
+
   </div>
 </div>
 </div>
