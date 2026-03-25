@@ -127,9 +127,21 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 .nav-dropdown a{display:block;padding:8px 20px;font-size:12.5px;color:var(--body);font-weight:500;transition:background .15s,color .15s}
 .nav-dropdown a:hover{background:rgba(0,0,0,.03);color:var(--fg)}
 
+/* HAMBURGER */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;flex-direction:column;gap:4px}
+.hamburger span{display:block;width:20px;height:2px;background:var(--fg);border-radius:1px;transition:transform .3s,opacity .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mobile-menu{display:none;position:fixed;top:52px;left:0;right:0;bottom:0;background:#fff;z-index:199;padding:20px 24px;flex-direction:column;gap:4px;overflow-y:auto}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:15px;font-weight:500;color:var(--body);padding:10px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.mobile-menu a:hover{color:var(--fg)}
+.mobile-menu .mm-section{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:16px 0 4px;border-bottom:none}
+
 @media(max-width:860px){
   nav{padding:14px 20px}
-  .hero{padding:100px 24px 48px}
+  .hero{padding:80px 24px 48px}
   .hero-grid{grid-template-columns:1fr;gap:24px}
   .wrap{padding:0 24px}
   .domain-grid{grid-template-columns:1fr 1fr}
@@ -137,8 +149,8 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
   .record-grid{grid-template-columns:1fr}
   .about-grid{grid-template-columns:1fr}
   #stickyGrid{grid-template-columns:1fr 1fr !important}
-  .nav-r a:nth-child(n+3):not(.nav-cta){display:none}
-  .nav-dropdown-wrap:nth-child(n+3) a:not(.nav-cta){display:none}
+  .nav-r{display:none}
+  .hamburger{display:flex}
   footer{padding:24px 20px}
   footer .foot-grid{grid-template-columns:1fr !important}
 }
@@ -179,7 +191,27 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
     <a href="community.html">Community</a>
     <a href="contact.html" class="nav-cta">Contact</a>
   </div>
+  <button class="hamburger" onclick="this.classList.toggle('open');document.getElementById('mobileMenu').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div id="mobileMenu" class="mobile-menu">
+  <div class="mm-section">Our Work</div>
+  <a href="society/index.html">Social Policy &amp; Equity</a>
+  <a href="governance/index.html">Public Service Delivery</a>
+  <a href="economy/index.html">Economic Development</a>
+  <a href="futures/index.html">Planning &amp; Futurism</a>
+  <a href="politics/index.html">Politics &amp; Democracy</a>
+  <a href="applied/index.html">Policy Tools, Data &amp; AI</a>
+  <a href="urbanism/index.html">City Life &amp; Urbanism</a>
+  <a href="learn/index.html">Learning &amp; Discussion</a>
+  <div class="mm-section" style="margin-top:8px">Pages</div>
+  <a href="applied/index.html">Tools</a>
+  <a href="consulting.html">Consulting</a>
+  <a href="work.html">Impact</a>
+  <a href="community.html">Community</a>
+  <a href="contact.html">Contact</a>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -499,17 +531,20 @@ var allLogos=[
   {src:'screenshots/baca di tebet logo.png',alt:'Baca di Tebet',h:38}
 ];
 var logoIdx=0;
+function getLogosPerView(){return window.innerWidth<=540?2:3}
 function renderLogos(){
+  var perView=getLogosPerView();
   var track=document.getElementById('logoTrack');
   track.style.opacity='0';
   setTimeout(function(){
     track.innerHTML='';
-    for(var i=0;i<3;i++){
+    for(var i=0;i<perView;i++){
       var idx=(logoIdx+i)%allLogos.length;
       var l=allLogos[idx];
       var img=document.createElement('img');
       img.src=l.src;img.alt=l.alt;
-      img.style.cssText='height:'+l.h+'px;width:140px;opacity:.3;filter:grayscale(100%);transition:opacity .3s,filter .3s;flex-shrink:0;object-fit:contain';
+      var w=perView===2?'120px':'140px';
+      img.style.cssText='height:'+l.h+'px;width:'+w+';opacity:.3;filter:grayscale(100%);transition:opacity .3s,filter .3s;flex-shrink:0;object-fit:contain';
       img.onmouseover=function(){this.style.opacity='.55';this.style.filter='grayscale(50%)'};
       img.onmouseout=function(){this.style.opacity='.3';this.style.filter='grayscale(100%)'};
       track.appendChild(img);
