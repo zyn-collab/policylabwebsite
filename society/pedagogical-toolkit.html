@@ -1,58 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pedagogical toolkit for math fundamentals – Public Policy Lab</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --serif: 'Source Serif 4', Georgia, serif;
-  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
-  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
-  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
-  --dark: #2A3042;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap');
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
-.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
-.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
-.nav-r{display:flex;gap:20px}
-.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
-.nav-r a:hover{color:var(--fg)}
+  :root {
+    /* Pedagogical page tokens */
+    --serif: 'Source Serif 4', Georgia, serif;
+    --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --bg-page: #FAF9F6; --card-page: #fff; --fg: #1a1a1a; --body: #4a4a46;
+    --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
+    --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
+    --dark: #2A3042;
 
-.wrap{max-width:740px;margin:0 auto;padding:0 40px}
-.page-header{padding:100px 40px 40px;max-width:740px;margin:0 auto}
-.page-header .tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
-.page-header h1{font-family:var(--sans);font-size:clamp(28px,4vw,40px);line-height:1.2;letter-spacing:-.02em;margin-bottom:16px}
+    /* Toolkit widget tokens */
+    --bg: #FAFAF8;
+    --bg2: #F1EFE8;
+    --bg3: #fff;
+    --text: #2C2C2A;
+    --text2: #5F5E5A;
+    --text3: #888780;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --blue50: #E6F1FB; --blue100: #B5D4F4; --blue200: #85B7EB; --blue400: #378ADD; --blue600: #185FA5; --blue800: #0C447C; --blue900: #042C53;
+    --purple50: #EEEDFE; --purple100: #CECBF6; --purple200: #AFA9EC; --purple400: #7F77DD; --purple600: #534AB7; --purple800: #3C3489; --purple900: #26215C;
+    --teal50: #E1F5EE; --teal100: #9FE1CB; --teal200: #5DCAA5; --teal400: #1D9E75; --teal600: #0F6E56; --teal800: #085041; --teal900: #04342C;
+    --amber50: #FAEEDA; --amber100: #FAC775; --amber200: #EF9F27; --amber400: #BA7517; --amber600: #854F0B; --amber800: #633806; --amber900: #412402;
+    --coral50: #FAECE7; --coral400: #D85A30; --coral600: #993C1D;
+    --green50: #EAF3DE; --green100: #C0DD97; --green200: #97C459; --green400: #639922; --green600: #3B6D11; --green800: #27500A;
+    --pink400: #D4537E; --pink600: #993556;
+    --red400: #E24B4A;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
 
-.content{max-width:740px;margin:0 auto;padding:0 40px 60px}
-.content h2{font-family:var(--sans);font-size:22px;font-weight:600;line-height:1.25;margin:36px 0 14px;letter-spacing:-.01em}
-.content p{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:16px}
-.content ul,.content ol{font-size:14.5px;color:var(--body);line-height:1.75;margin:0 0 16px 24px}
-.content li{margin-bottom:6px}
-.content strong{color:var(--fg)}
-.content em{font-style:italic}
-.content table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13.5px}
-.content th{background:var(--dark);color:#fff;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.content td{padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.05);vertical-align:top;line-height:1.5;color:var(--body)}
-.content .figure-note{font-size:13px;color:var(--muted);margin:-8px 0 24px;font-style:italic}
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18; --bg2: #2C2C2A; --bg3: #222220;
+      --text: #d8d6ce; --text2: #B4B2A9; --text3: #888780;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
+    }
+  }
 
-footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:740px;margin-left:auto;margin-right:auto}
-footer a{color:var(--pri-d)}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--bg-page); color: var(--fg); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
 
-@media(max-width:600px){
-  .page-header,.content,.wrap{padding-left:20px;padding-right:20px}
-  nav{padding:12px 16px}
-}
+  /* ===== NAV (from pedagogical page) ===== */
+  nav.site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,249,246,.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,.04); }
+  .nav-l { font-size: 13px; font-weight: 700; color: var(--pri-d); }
+  .nav-l span { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 4px; }
+  .nav-r { display: flex; gap: 20px; }
+  .nav-r a { font-size: 12px; color: var(--muted); font-weight: 500; transition: color .2s; }
+  .nav-r a:hover { color: var(--fg); }
+
+  /* ===== PAGE HEADER (pedagogical style) ===== */
+  .page-header { padding: 100px 40px 40px; max-width: 800px; margin: 0 auto; }
+  .page-header .tag { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--pri); margin-bottom: 8px; }
+  .page-header h1 { font-family: var(--sans); font-size: clamp(28px,4vw,40px); line-height: 1.2; letter-spacing: -.02em; margin-bottom: 16px; }
+
+  /* ===== TOC PILLS (from toolkit) ===== */
+  nav.toc { max-width: 800px; margin: 0 auto; padding: 0 1.5rem 2rem; display: flex; gap: 8px; flex-wrap: wrap; }
+  nav.toc a { padding: 6px 16px; border-radius: 20px; font-size: 13px; text-decoration: none; background: var(--bg2); color: var(--text2); border: 0.5px solid var(--border); transition: all 0.2s; }
+  nav.toc a:hover { background: var(--blue50); color: var(--blue800); border-color: var(--blue200); }
+  @media (prefers-color-scheme: dark) { nav.toc a:hover { background: var(--blue900); color: var(--blue200); border-color: var(--blue600); } }
+
+  /* ===== PROSE TEXT BLOCKS ===== */
+  .prose { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+  .prose p { font-size: 14.5px; color: var(--text2); line-height: 1.75; margin-bottom: 16px; }
+  .prose h2 { font-size: 20px; font-weight: 500; margin: 32px 0 12px; letter-spacing: -0.3px; color: var(--text); }
+  .prose h3 { font-size: 17px; font-weight: 500; margin: 24px 0 8px; letter-spacing: -0.2px; color: var(--text); }
+  .prose strong { color: var(--text); font-weight: 500; }
+  .prose em { font-style: italic; }
+
+  /* ===== WIDGET SECTIONS (from toolkit) ===== */
+  .section { max-width: 800px; margin: 0 auto 3rem; padding: 0 1.5rem; }
+  .section-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3); margin-bottom: 6px; }
+  .section h2 { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; letter-spacing: -0.3px; }
+  .section .desc { font-size: 14px; color: var(--text2); margin-bottom: 1.25rem; max-width: 600px; line-height: 1.6; }
+
+  .widget-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
+
+  /* Shared utility styles */
+  .ctrl { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .ctrl label { font-size: 13px; color: var(--text2); min-width: 60px; }
+  .ctrl .out { font-size: 15px; font-weight: 500; min-width: 80px; }
+  input[type=range] { flex: 1; height: 4px; -webkit-appearance: none; appearance: none; background: var(--bg2); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--text); cursor: pointer; border: 2px solid var(--bg3); }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--text); cursor: pointer; border: 2px solid var(--bg3); }
+
+  .pill-blue { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; background: var(--blue50); color: var(--blue800); }
+  .pill-yellow { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; background: var(--amber50); color: var(--amber800); }
+  .pill-green { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; background: var(--teal50); color: var(--teal800); }
+  @media (prefers-color-scheme: dark) {
+    .pill-blue { background: var(--blue900); color: var(--blue200); }
+    .pill-yellow { background: var(--amber900); color: var(--amber100); }
+    .pill-green { background: var(--teal900); color: var(--teal200); }
+  }
+
+  /* =========================================
+     1. NUMBER LINE + GRID
+     ========================================= */
+  #s1 .cards { display: flex; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; justify-content: center; }
+  #s1 .card { text-align: center; padding: 10px 16px; border-radius: var(--radius-lg); min-width: 80px; }
+  #s1 .card .v { font-size: 28px; font-weight: 500; line-height: 1.1; }
+  #s1 .card .c { font-size: 12px; margin-top: 4px; }
+  #s1 .c1 { background: var(--blue50); } #s1 .c1 .v { color: var(--blue800); } #s1 .c1 .c { color: var(--blue600); }
+  #s1 .c2 { background: var(--purple50); } #s1 .c2 .v { color: var(--purple800); } #s1 .c2 .c { color: var(--purple600); }
+  #s1 .c3 { background: var(--teal50); } #s1 .c3 .v { color: var(--teal800); } #s1 .c3 .c { color: var(--teal600); }
+  #s1 .c4 { background: var(--amber50); } #s1 .c4 .v { color: var(--amber800); } #s1 .c4 .c { color: var(--amber600); }
+  @media (prefers-color-scheme: dark) {
+    #s1 .c1 { background: var(--blue900); } #s1 .c1 .v { color: var(--blue200); } #s1 .c1 .c { color: var(--blue100); }
+    #s1 .c2 { background: var(--purple900); } #s1 .c2 .v { color: var(--purple200); } #s1 .c2 .c { color: var(--purple100); }
+    #s1 .c3 { background: var(--teal900); } #s1 .c3 .v { color: var(--teal200); } #s1 .c3 .c { color: var(--teal100); }
+    #s1 .c4 { background: var(--amber900); } #s1 .c4 .v { color: var(--amber100); } #s1 .c4 .c { color: var(--amber50); }
+  }
+  #s1 .grid-wrap { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+  #s1 .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; width: 220px; flex-shrink: 0; }
+  #s1 .sq { width: 20px; height: 20px; border-radius: 3px; background: var(--bg2); border: 0.5px solid var(--border); transition: background 0.12s, border-color 0.12s; }
+  #s1 .sq.on { background: var(--blue400); border-color: var(--blue600); }
+  @media (prefers-color-scheme: dark) { #s1 .sq.on { background: var(--blue600); border-color: var(--blue400); } }
+  #s1 .grid-label { text-align: center; margin-top: 6px; font-size: 13px; color: var(--text2); }
+  #s1 .bar-section { flex: 1; min-width: 240px; }
+  #s1 .bar-area { position: relative; height: 32px; cursor: pointer; touch-action: none; }
+  #s1 .bar-bg { position: absolute; top: 8px; left: 0; right: 0; height: 16px; border-radius: 8px; background: var(--bg2); border: 0.5px solid var(--border); }
+  #s1 .bar-fill { position: absolute; top: 8px; left: 0; height: 16px; border-radius: 8px 0 0 8px; background: var(--blue400); pointer-events: none; transition: width 0.08s; }
+  @media (prefers-color-scheme: dark) { #s1 .bar-fill { background: var(--blue600); } }
+  #s1 .dot { position: absolute; top: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--red400); border: 3px solid var(--bg3); transform: translateX(-16px); cursor: grab; z-index: 2; transition: left 0.08s; }
+  #s1 .dot:active { cursor: grabbing; }
+  #s1 .ticks { display: flex; justify-content: space-between; margin-top: 4px; padding: 0 1px; }
+  #s1 .ticks span { font-size: 11px; color: var(--text3); }
+  #s1 .scale-lbl { font-size: 12px; color: var(--text3); margin: 10px 0 2px; }
+  #s1 .spoken { text-align: center; font-size: 14px; color: var(--text); margin-top: 1rem; padding: 10px 16px; border-radius: var(--radius); background: var(--bg2); line-height: 1.6; }
+  #s1 .spoken b { font-weight: 500; }
+  #s1 .snap-hint { text-align: center; font-size: 13px; color: var(--text3); margin-top: 0.75rem; }
+
+  /* =========================================
+     2. FRACTIONS TIMES TABLE
+     ========================================= */
+  #s2 .group-label { font-size: 14px; font-weight: 500; color: var(--text); margin: 16px 0 8px; padding-left: 4px; }
+  #s2 .group-label:first-child { margin-top: 0; }
+  #s2 .frow { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; padding: 6px 8px; border-radius: var(--radius); transition: background 0.15s; }
+  #s2 .frow:hover { background: var(--bg2); }
+  #s2 .frac { width: 50px; font-size: 16px; font-weight: 500; color: var(--text); text-align: right; flex-shrink: 0; }
+  #s2 .grid-row { display: flex; gap: 1px; flex: 1; max-width: 240px; }
+  #s2 .gc { flex: 1; height: 20px; border-radius: 2px; background: var(--bg2); border: 0.5px solid var(--border); }
+  #s2 .gc.on-halves { background: var(--blue400); border-color: var(--blue600); }
+  #s2 .gc.on-quarters { background: var(--purple400); border-color: var(--purple600); }
+  #s2 .gc.on-fifths { background: var(--teal600); border-color: var(--teal800); }
+  #s2 .gc.on-tenths { background: var(--amber400); border-color: var(--amber600); }
+  #s2 .gc.on-thirds { background: var(--coral400); border-color: var(--coral600); }
+  #s2 .gc.on-eighths { background: var(--pink400); border-color: var(--pink600); }
+  @media (prefers-color-scheme: dark) {
+    #s2 .gc.on-halves { background: var(--blue600); border-color: var(--blue400); }
+    #s2 .gc.on-quarters { background: var(--purple600); border-color: var(--purple400); }
+    #s2 .gc.on-fifths { background: var(--teal800); border-color: var(--teal400); }
+    #s2 .gc.on-tenths { background: var(--amber600); border-color: var(--amber200); }
+    #s2 .gc.on-thirds { background: var(--coral600); border-color: var(--coral400); }
+    #s2 .gc.on-eighths { background: var(--pink600); border-color: var(--pink400); }
+  }
+  #s2 .dec { width: 52px; font-size: 13px; color: var(--text2); text-align: center; flex-shrink: 0; }
+  #s2 .pct { width: 46px; font-size: 13px; font-weight: 500; color: var(--text2); text-align: center; flex-shrink: 0; }
+  #s2 .note { font-size: 12px; color: var(--text3); flex-shrink: 0; }
+  #s2 .hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; padding: 0 8px; }
+  #s2 .hdr span { font-size: 11px; color: var(--text3); font-weight: 500; }
+  #s2 .hfrac { width: 50px; text-align: right; } #s2 .hbar { flex: 1; max-width: 240px; } #s2 .hdec { width: 52px; text-align: center; } #s2 .hpct { width: 46px; text-align: center; }
+
+  /* =========================================
+     3. UNIT RATE
+     ========================================= */
+  #s3 .portions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; justify-content: center; }
+  #s3 .portion { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 6px; border-radius: var(--radius); background: var(--bg2); border: 0.5px solid var(--border); width: 58px; }
+  #s3 .p-head { width: 10px; height: 10px; border-radius: 50%; background: var(--purple600); margin: 0 auto; }
+  #s3 .p-body { width: 14px; height: 12px; border-radius: 4px 4px 2px 2px; background: var(--purple600); margin: 2px auto 0; opacity: 0.6; }
+  @media (prefers-color-scheme: dark) { #s3 .p-head { background: var(--purple400); } #s3 .p-body { background: var(--purple400); } }
+  #s3 .rice-bowl { width: 26px; height: 14px; border-radius: 0 0 13px 13px; background: var(--amber200); margin: 0 auto; position: relative; }
+  #s3 .rice-bowl::before { content: ''; position: absolute; top: -4px; left: 2px; right: 2px; height: 5px; border-radius: 3px 3px 0 0; background: var(--amber100); }
+  @media (prefers-color-scheme: dark) { #s3 .rice-bowl { background: var(--amber400); } #s3 .rice-bowl::before { background: var(--amber600); } }
+  #s3 .portion-label { font-size: 10px; color: var(--text3); }
+  #s3 .ratio-proof { border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 16px 20px; margin-bottom: 1rem; text-align: center; }
+  #s3 .ratio-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 6px; }
+  #s3 .ratio-big { font-size: 18px; font-weight: 500; color: var(--text); }
+  #s3 .ratio-op { font-size: 14px; color: var(--text3); }
+  #s3 .divider-note { font-size: 13px; color: var(--text3); margin: 4px 0; }
+  #s3 .same-badge { display: inline-block; padding: 5px 14px; border-radius: var(--radius); background: var(--teal50); color: var(--teal800); font-weight: 500; font-size: 13px; margin-top: 4px; }
+  @media (prefers-color-scheme: dark) { #s3 .same-badge { background: var(--teal900); color: var(--teal200); } }
+  #s3 .pattern-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 0.75rem; }
+  #s3 .pattern-table th { text-align: left; font-weight: 500; font-size: 11px; color: var(--text3); padding: 6px 8px; border-bottom: 0.5px solid var(--border2); }
+  #s3 .pattern-table td { padding: 6px 8px; border-bottom: 0.5px solid var(--border); color: var(--text2); }
+  #s3 .pattern-table tr.active td { color: var(--text); font-weight: 500; background: var(--bg2); }
+  #s3 .pattern-table .eq-col { color: var(--text3); text-align: center; }
+  #s3 .spoken { font-size: 14px; color: var(--text2); text-align: center; margin-top: 1rem; line-height: 1.6; }
+  #s3 .spoken b { font-weight: 500; color: var(--text); }
+
+  /* =========================================
+     4. RECIPE RATIO
+     ========================================= */
+  #s4 .vis { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 1.25rem; justify-content: center; }
+  #s4 .stack { display: flex; flex-direction: column; align-items: center; }
+  #s4 .stack-label { font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+  #s4 .block-row { display: flex; gap: 3px; margin-bottom: 3px; }
+  #s4 .block-r { width: 28px; height: 28px; border-radius: 4px; background: var(--amber200); border: 1px solid var(--amber400); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; color: var(--amber900); }
+  #s4 .block-w { width: 28px; height: 28px; border-radius: 4px; background: var(--blue400); border: 1px solid var(--blue600); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; color: var(--blue900); }
+  @media (prefers-color-scheme: dark) {
+    #s4 .block-r { background: var(--amber600); border-color: var(--amber200); color: var(--amber50); }
+    #s4 .block-w { background: var(--blue800); border-color: var(--blue400); color: var(--blue50); }
+  }
+  #s4 .brace { font-size: 13px; color: var(--text3); text-align: center; margin-top: 4px; }
+  #s4 .totals { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  #s4 .total-card { padding: 10px 16px; border-radius: var(--radius); text-align: center; }
+  #s4 .tc-rice { background: var(--amber50); } #s4 .tc-rice .tv { color: var(--amber800); } #s4 .tc-rice .tl { color: var(--amber600); }
+  #s4 .tc-water { background: var(--blue50); } #s4 .tc-water .tv { color: var(--blue800); } #s4 .tc-water .tl { color: var(--blue600); }
+  @media (prefers-color-scheme: dark) {
+    #s4 .tc-rice { background: var(--amber900); } #s4 .tc-rice .tv { color: var(--amber100); } #s4 .tc-rice .tl { color: var(--amber50); }
+    #s4 .tc-water { background: var(--blue900); } #s4 .tc-water .tv { color: var(--blue200); } #s4 .tc-water .tl { color: var(--blue100); }
+  }
+  #s4 .tv { font-size: 22px; font-weight: 500; line-height: 1.2; }
+  #s4 .tl { font-size: 12px; margin-top: 2px; }
+  #s4 .proof-box { border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 14px 20px; text-align: center; }
+  #s4 .proof-line { font-size: 15px; color: var(--text); margin: 4px 0; line-height: 1.6; }
+  #s4 .proof-line b { font-weight: 500; }
+  #s4 .dim { color: var(--text3); }
+  #s4 .same { display: inline-block; padding: 4px 12px; border-radius: var(--radius); background: var(--teal50); color: var(--teal800); font-weight: 500; font-size: 13px; margin-top: 6px; }
+  @media (prefers-color-scheme: dark) { #s4 .same { background: var(--teal900); color: var(--teal200); } }
+  #s4 .one-portion { border-radius: var(--radius); border: 1.5px dashed var(--border2); padding: 8px 12px; display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; }
+  #s4 .one-p-label { font-size: 12px; color: var(--text2); margin-left: 4px; }
+  #s4 .mini-r { width: 18px; height: 18px; border-radius: 3px; background: var(--amber200); border: 1px solid var(--amber400); }
+  #s4 .mini-w { width: 18px; height: 18px; border-radius: 3px; background: var(--blue400); border: 1px solid var(--blue600); }
+  @media (prefers-color-scheme: dark) {
+    #s4 .mini-r { background: var(--amber600); border-color: var(--amber200); }
+    #s4 .mini-w { background: var(--blue800); border-color: var(--blue400); }
+  }
+
+  /* =========================================
+     5. ALGEBRA DONUTS
+     ========================================= */
+  #s5 .steps { display: flex; gap: 4px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  #s5 .sp { padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 0.5px solid var(--border); background: var(--bg2); color: var(--text2); transition: all 0.2s; user-select: none; }
+  #s5 .sp.on { background: var(--blue50); color: var(--blue800); border-color: var(--blue200); font-weight: 500; }
+  @media (prefers-color-scheme: dark) { #s5 .sp.on { background: var(--blue900); color: var(--blue200); border-color: var(--blue600); } }
+  #s5 .scene { min-height: 280px; }
+  #s5 .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 12px 0; }
+  #s5 .bag { display: flex; flex-direction: column; align-items: center; width: 80px; }
+  #s5 .bag-flap { width: 56px; height: 12px; border-radius: 6px 6px 0 0; border: 2px solid; border-bottom: none; }
+  #s5 .bag-body { width: 80px; min-height: 96px; border-radius: 6px; border: 2px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; gap: 4px; }
+  #s5 .bag-body.dashed { border-style: dashed; }
+  #s5 .bf-blue { background: var(--blue50); border-color: var(--blue200); }
+  #s5 .bt-blue { background: var(--blue100); border-color: var(--blue200); }
+  #s5 .bf-yellow { background: var(--amber50); border-color: var(--amber100); }
+  #s5 .bt-yellow { background: var(--amber100); border-color: var(--amber100); }
+  #s5 .bf-green { background: var(--teal50); border-color: var(--teal200); }
+  #s5 .bt-green { background: var(--teal100); border-color: var(--teal200); }
+  @media (prefers-color-scheme: dark) {
+    #s5 .bf-blue { background: var(--blue900); border-color: var(--blue400); } #s5 .bt-blue { background: var(--blue800); border-color: var(--blue400); }
+    #s5 .bf-yellow { background: var(--amber900); border-color: var(--amber200); } #s5 .bt-yellow { background: var(--amber800); border-color: var(--amber200); }
+    #s5 .bf-green { background: var(--teal900); border-color: var(--teal400); } #s5 .bt-green { background: var(--teal800); border-color: var(--teal400); }
+  }
+  #s5 .bag-tag { font-size: 11px; font-weight: 500; color: var(--text2); margin-top: 4px; }
+  #s5 .dn { width: 26px; height: 26px; border-radius: 50%; background: var(--amber200); border: 2.5px solid var(--amber400); position: relative; flex-shrink: 0; }
+  #s5 .dn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; border-radius: 50%; background: var(--bg3); transform: translate(-50%, -50%); }
+  #s5 .dn-row { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+  #s5 .sym { font-size: 24px; font-weight: 500; color: var(--text2); line-height: 1; }
+  #s5 .sym-eq { color: var(--text); }
+  #s5 .result { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: var(--radius-lg); background: var(--bg2); border: 0.5px solid var(--border); }
+  #s5 .rn { font-size: 26px; font-weight: 500; color: var(--text); }
+  #s5 .count-label { font-size: 11px; color: var(--text3); text-align: center; }
+  #s5 .qm { font-size: 20px; color: var(--text3); font-weight: 500; }
+  #s5 .math { text-align: center; font-size: 16px; font-weight: 500; font-family: 'DM Sans', monospace; color: var(--text); margin: 8px 0; letter-spacing: 0.3px; }
+  #s5 .explain { text-align: center; font-size: 14px; color: var(--text2); line-height: 1.7; margin: 10px auto 0; max-width: 540px; }
+  #s5 .explain b { font-weight: 500; color: var(--text); }
+  #s5 .arrow-d { text-align: center; font-size: 20px; color: var(--text3); margin: 4px 0; }
+  #s5 .kit { display: inline-flex; align-items: center; gap: 6px; padding: 10px 12px; border-radius: var(--radius-lg); border: 2px dashed var(--border2); }
+  #s5 .crossed { opacity: 0.35; text-decoration: line-through; }
+
+  /* ===== FOOTER (pedagogical page) ===== */
+  footer { margin-top: 24px; padding: 28px 40px; border-top: 1px solid rgba(0,0,0,.06); display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 8px; max-width: 800px; margin-left: auto; margin-right: auto; }
+  footer a { color: var(--pri-d); }
+
+  @media (max-width: 600px) {
+    .page-header, .prose, .section { padding-left: 20px; padding-right: 20px; }
+    nav.site-nav { padding: 12px 16px; }
+  }
 </style>
 </head>
 <body>
-<nav>
+
+<!-- ===== NAV (from pedagogical page) ===== -->
+<nav class="site-nav">
   <a href="index.html" class="nav-l">public policy lab<span>&middot; society</span></a>
   <div class="nav-r">
     <a href="index.html">Overview</a>
@@ -62,91 +301,447 @@ footer a{color:var(--pri-d)}
   </div>
 </nav>
 
+<!-- ===== PAGE HEADER ===== -->
 <div class="page-header">
   <div class="tag">EDUCATION &middot; TEACHING TOOLS</div>
   <h1>Pedagogical toolkit for math fundamentals</h1>
 </div>
 
-<div class="content">
+<!-- ===== TOC PILLS ===== -->
+<nav class="toc">
+  <a href="#s1">Number line + grid</a>
+  <a href="#s2">Fractions times table</a>
+  <a href="#s3">Unit rate</a>
+  <a href="#s4">Recipe ratios</a>
+  <a href="#s5">Algebra as containers</a>
+</nav>
+
+
+<!-- ============================================================
+     PROSE: Number line introduction
+     ============================================================ -->
+<div class="prose">
   <p>Keep the whole fixed. Mark a point once and name it four ways: fraction, decimal, percent, and a short ratio description. Students learn that 3/5, 0.6, and 60% are the same location. Conversions become a relabeling exercise rather than a new topic.</p>
-
-  <h2>Fractions times-tables</h2>
-
-  <p>Think of this as the fractions times table. Memorize halves, quarters, fifths, and tenths first; add thirds and eighths next. Two minutes a day builds recall and frees working memory for problem setup.</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Fraction</th>
-        <th>Decimal</th>
-        <th>Percent</th>
-        <th>Why it matters</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1/2</td><td>0.5</td><td>50%</td><td>Centre of the bar</td></tr>
-      <tr><td>1/4</td><td>0.25</td><td>25%</td><td>Quarter points</td></tr>
-      <tr><td>3/4</td><td>0.75</td><td>75%</td><td>Quarter points</td></tr>
-      <tr><td>1/5</td><td>0.2</td><td>20%</td><td>Scales cleanly to 100</td></tr>
-      <tr><td>2/5</td><td>0.4</td><td>40%</td><td></td></tr>
-      <tr><td>3/5</td><td>0.6</td><td>60%</td><td></td></tr>
-      <tr><td>4/5</td><td>0.8</td><td>80%</td><td></td></tr>
-      <tr><td>1/10</td><td>0.1</td><td>10%</td><td>Tenth pattern</td></tr>
-      <tr><td>3/10</td><td>0.3</td><td>30%</td><td>Tenth pattern</td></tr>
-      <tr><td>7/10</td><td>0.7</td><td>70%</td><td>Tenth pattern</td></tr>
-    </tbody>
-  </table>
-
-  <h2>Concrete and familiar examples when introducing topics</h2>
-
-  <p>Use contexts students already feel. If a base recipe uses 100 g of rice and 300 g of water, multiplying the batch by five multiplies both amounts by five &rarr; 500 g rice and 1500 g water. Multiply by ten for a large group &rarr; 1000 g rice and 3000 g water. The ratio is the same; only the scale changes.</p>
-
-  <p>Unit rates are the same picture with one line scaled to 1. If one person needs about 100 g of rice, ten people need 1000 g. To cook for 6 people, match 6 on the People line and read 600 g on the Rice line.</p>
-
-  <p>Multicomponent recipes scale the same way. A tuna sandwich might take 60 g tuna, 20 g mayonnaise, 5 g chili, and two slices of bread. For six sandwiches, multiply every ingredient by six. The ratios stay constant while the totals grow.</p>
-
-  <h2>Algebra as containers</h2>
-
-  <p>Students get lost when letters look like just symbols instead of developing an understanding that each letter just represents an unknown but very real quantity. To represent the container approach while retaining the second principle of using concrete and easily grasped real-world examples, we start with donuts as an example. Boxes of donuts naturally come in fixed pack sizes (1 individual donut, 2 or 4 or 6 donut packs, or 12 donuts in a box) and stores sometimes use colored paper bags.</p>
-
-  <h2>Like terms and unlike terms (with donuts)</h2>
-
-  <p>We can give an example where the donut shop always gives out the box of donuts in a colored paper bag, where they use different colors for the different sizes of boxes. So we know that all blue bags hold the same count, all yellow bags hold the same count, but you can't tell from the outside &ndash; exactly like how we can know x and y represent some number, that every instance of x represents that number and every instance of y represents that number, and we just don't know what that number is so we use a letter as just a placeholder.</p>
-
-  <p>A common area of confusion for students is why the different letters can't be added together when different numbers can, what exactly the difference is and why it has to be that way. The containers frame makes it more intuitive to understand why we can't add or subtract</p>
-
-  <p>If someone hands you three blue bags and you open one and see a 2-pack, you know three blue bags mean 2+2+2 = 6 donuts &ndash; that's 3&times;2. But if you have two blue bags and one yellow bag, that doesn't give you the information to add up a total until you also find out how many are in the yellow bag. That's why 2x + x is 3x but 2x + y isn't.</p>
-
-  <p class="figure-note">Figure 3. Like bags add; unlike bags wait.</p>
-
-  <h2>Inferring the unknown from a total</h2>
-
-  <p>This can then also be used to represent solving algebraic equations. In this example, if you bring two blue bags and a yellow bag to a party, and the host brings out a plate of 10 donuts after unpacking, you can work out how many donuts were in the yellow bag. Blue bags are 2 each, so 2&times;2 = 4. This means that 4 + yellow bag = 10. That forces the yellow bag to be 6 because 10 &minus; 4 = 6. In symbols: with x=2, 2x + y = 10 implies y = 6.</p>
-
-  <p class="figure-note">Figure 4. Subtract the known bags; the remainder is the unknown bag.</p>
-
-  <h2>Mixing bags and loose donuts</h2>
-
-  <p>The expression 2x + 3 reads as two x-bags and three loose donuts. If x is a blue 2-pack, that's 2&middot;2 + 3 = 7. Students see why numbers and letters can sit in the same expression: they all still refer to actual values in real life, it's just whether we can "see" what the number is or if we're just using the placeholder</p>
-
-  <p class="figure-note">Figure 5. 2x + 3 as two bags plus three loose donuts.</p>
-
-  <h2>Distribution as party kits</h2>
-
-  <p>3(x + 2) can be thought of as three identical party kits. Each kit has one bag and two loose donuts. Total = three bags and six donuts &rarr; 3x + 6. This stops the common mistake of calling it x + 5.</p>
-
-  <p class="figure-note">Figure 6. Kits make distribution obvious.</p>
-
-  <h2>Products as nested trays</h2>
-
-  <p>x&middot;x builds a tray (x&sup2;) that holds x bags, each with x donuts. Then 3x&middot;2x means six such trays &rarr; 6x&sup2;. Exponents feel like counts of trays, not a symbol trick.</p>
-
-  <p class="figure-note">Figure 7. x&sup2; as a tray of x bags; scaling trays multiplies counts.</p>
 </div>
 
+<!-- ============================================================
+     1. FRACTION / DECIMAL / PERCENT NUMBER LINE + GRID
+     ============================================================ -->
+<div class="section" id="s1">
+  <div class="section-label">One-bar + number line</div>
+  <h2>One point, four labels</h2>
+  <p class="desc">Mark a point on the bar and name it four ways: fraction, decimal, percent, and a count out of 100. Drag the red dot to explore — the grid lets you count the squares.</p>
+  <div class="widget-card">
+    <div class="cards">
+      <div class="card c1"><div class="v" id="vf">3/5</div><div class="c">fraction</div></div>
+      <div class="card c2"><div class="v" id="vd">0.6</div><div class="c">decimal</div></div>
+      <div class="card c3"><div class="v" id="vp">60%</div><div class="c">percent</div></div>
+      <div class="card c4"><div class="v" id="vc">60 out of 100</div><div class="c">count</div></div>
+    </div>
+    <div class="grid-wrap">
+      <div>
+        <div class="grid" id="grid1"></div>
+        <div class="grid-label" id="grid1-label">60 of 100 squares filled</div>
+      </div>
+      <div class="bar-section">
+        <div class="bar-area" id="bar1-area">
+          <div class="bar-bg"></div>
+          <div class="bar-fill" id="bar1-fill" style="width:60%"></div>
+          <div class="dot" id="dot1" style="left:60%"></div>
+        </div>
+        <div class="scale-lbl">Percent</div>
+        <div class="ticks"><span>0%</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100%</span></div>
+        <div class="scale-lbl">Decimal</div>
+        <div class="ticks"><span>0</span><span>.1</span><span>.2</span><span>.3</span><span>.4</span><span>.5</span><span>.6</span><span>.7</span><span>.8</span><span>.9</span><span>1</span></div>
+        <div class="scale-lbl">Fraction</div>
+        <div class="ticks"><span>0</span><span>1/10</span><span>1/5</span><span>3/10</span><span>2/5</span><span>1/2</span><span>3/5</span><span>7/10</span><span>4/5</span><span>9/10</span><span>1</span></div>
+      </div>
+    </div>
+    <div class="spoken" id="spoken1"><b>60 squares</b> out of 100 is the same as <b>3/5</b>, which is <b>0.6</b>, which is <b>60%</b>. Four names, one amount.</div>
+    <div class="snap-hint">Drag the red dot to try different values</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PROSE: Fractions times-table introduction
+     ============================================================ -->
+<div class="prose">
+  <h2>Fractions times-tables</h2>
+  <p>Think of this as the fractions times table. Memorize halves, quarters, fifths, and tenths first; add thirds and eighths next. Two minutes a day builds recall and frees working memory for problem setup.</p>
+</div>
+
+<!-- ============================================================
+     2. FRACTIONS TIMES TABLE
+     ============================================================ -->
+<div class="section" id="s2">
+  <div class="section-label">Fractions times table</div>
+  <h2>Memorise these first</h2>
+  <p class="desc">Halves, quarters, fifths, and tenths first. Then add thirds and eighths. Two minutes a day builds recall. Each bar is divided into the right number of parts so you can count the filled segments.</p>
+  <div class="widget-card">
+    <div class="hdr"><span class="hfrac">Fraction</span><span class="hbar">How much of the bar</span><span class="hdec">Decimal</span><span class="hpct">Percent</span></div>
+
+    <div class="group-label">Halves</div>
+    <div class="frow"><span class="frac">1/2</span><div class="grid-row" id="g-h"></div><span class="dec">0.5</span><span class="pct">50%</span><span class="note">half</span></div>
+
+    <div class="group-label">Quarters</div>
+    <div class="frow"><span class="frac">1/4</span><div class="grid-row" id="g-q1"></div><span class="dec">0.25</span><span class="pct">25%</span><span class="note">quarter</span></div>
+    <div class="frow"><span class="frac">3/4</span><div class="grid-row" id="g-q3"></div><span class="dec">0.75</span><span class="pct">75%</span></div>
+
+    <div class="group-label">Fifths</div>
+    <div class="frow"><span class="frac">1/5</span><div class="grid-row" id="g-f1"></div><span class="dec">0.2</span><span class="pct">20%</span></div>
+    <div class="frow"><span class="frac">2/5</span><div class="grid-row" id="g-f2"></div><span class="dec">0.4</span><span class="pct">40%</span></div>
+    <div class="frow"><span class="frac">3/5</span><div class="grid-row" id="g-f3"></div><span class="dec">0.6</span><span class="pct">60%</span></div>
+    <div class="frow"><span class="frac">4/5</span><div class="grid-row" id="g-f4"></div><span class="dec">0.8</span><span class="pct">80%</span></div>
+
+    <div class="group-label">Tenths</div>
+    <div class="frow"><span class="frac">1/10</span><div class="grid-row" id="g-t1"></div><span class="dec">0.1</span><span class="pct">10%</span></div>
+    <div class="frow"><span class="frac">3/10</span><div class="grid-row" id="g-t3"></div><span class="dec">0.3</span><span class="pct">30%</span></div>
+    <div class="frow"><span class="frac">7/10</span><div class="grid-row" id="g-t7"></div><span class="dec">0.7</span><span class="pct">70%</span></div>
+
+    <div class="group-label" style="color:var(--text3);font-weight:400;font-size:13px">Add thirds and eighths next</div>
+    <div class="frow"><span class="frac">1/3</span><div class="grid-row" id="g-3a"></div><span class="dec">0.33...</span><span class="pct">33%</span></div>
+    <div class="frow"><span class="frac">2/3</span><div class="grid-row" id="g-3b"></div><span class="dec">0.66...</span><span class="pct">67%</span></div>
+    <div class="frow"><span class="frac">1/8</span><div class="grid-row" id="g-8a"></div><span class="dec">0.125</span><span class="pct">12.5%</span></div>
+    <div class="frow"><span class="frac">3/8</span><div class="grid-row" id="g-8b"></div><span class="dec">0.375</span><span class="pct">37.5%</span></div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PROSE: Concrete and familiar examples / Unit rates
+     ============================================================ -->
+<div class="prose">
+  <h2>Concrete and familiar examples when introducing topics</h2>
+  <p>Use contexts students already feel. If a base recipe uses 100 g of rice and 300 g of water, multiplying the batch by five multiplies both amounts by five &rarr; 500 g rice and 1500 g water. Multiply by ten for a large group &rarr; 1000 g rice and 3000 g water. The ratio is the same; only the scale changes.</p>
+  <p>Unit rates are the same picture with one line scaled to 1. If one person needs about 100 g of rice, ten people need 1000 g. To cook for 6 people, match 6 on the People line and read 600 g on the Rice line.</p>
+  <p>Multicomponent recipes scale the same way. A tuna sandwich might take 60 g tuna, 20 g mayonnaise, 5 g chili, and two slices of bread. For six sandwiches, multiply every ingredient by six. The ratios stay constant while the totals grow.</p>
+</div>
+
+<!-- ============================================================
+     3. UNIT RATE
+     ============================================================ -->
+<div class="section" id="s3">
+  <div class="section-label">Unit rates</div>
+  <h2>Every row is the same ratio</h2>
+  <p class="desc">1 person needs 100 g of rice. Slide to change the number of people — each one gets their own bowl. The table shows that dividing both numbers always gives back 1 : 100.</p>
+  <div class="widget-card">
+    <div class="ctrl">
+      <label>People</label>
+      <input type="range" min="1" max="10" value="6" step="1" id="ppl3" oninput="drawS3()">
+      <div class="out" id="out3">6 people</div>
+    </div>
+    <div class="portions" id="portions3"></div>
+    <div class="ratio-proof" id="proof3"></div>
+    <table class="pattern-table" id="table3">
+      <thead><tr><th>People</th><th>Rice</th><th class="eq-col"></th><th>Per person</th></tr></thead>
+      <tbody id="tbody3"></tbody>
+    </table>
+    <div class="spoken" id="spoken3"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     4. RECIPE RATIO
+     ============================================================ -->
+<div class="section" id="s4">
+  <div class="section-label">Scaling recipes</div>
+  <h2>Same ratio, bigger batch</h2>
+  <p class="desc">Base recipe: 100 g rice + 300 g water (1 : 3 ratio). Slide the batch multiplier — you can count the blocks stacking up. Divide both totals by the multiplier and you always get back to 100 : 300.</p>
+  <div class="widget-card">
+    <div class="ctrl">
+      <label>Batch size</label>
+      <input type="range" min="1" max="10" value="1" step="1" id="batch4" oninput="drawS4()">
+      <div class="out" id="bout4">&times;1</div>
+    </div>
+    <div class="vis" id="vis4"></div>
+    <div class="totals" id="totals4"></div>
+    <div class="proof-box" id="proof4"></div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     PROSE: Algebra as containers (all donut text)
+     ============================================================ -->
+<div class="prose">
+  <h2>Algebra as containers</h2>
+  <p>Students get lost when letters look like just symbols instead of developing an understanding that each letter just represents an unknown but very real quantity. To represent the container approach while retaining the second principle of using concrete and easily grasped real-world examples, we start with donuts as an example. Boxes of donuts naturally come in fixed pack sizes (1 individual donut, 2 or 4 or 6 donut packs, or 12 donuts in a box) and stores sometimes use colored paper bags.</p>
+
+  <h3>Like terms and unlike terms (with donuts)</h3>
+  <p>We can give an example where the donut shop always gives out the box of donuts in a colored paper bag, where they use different colors for the different sizes of boxes. So we know that all blue bags hold the same count, all yellow bags hold the same count, but you can't tell from the outside &ndash; exactly like how we can know x and y represent some number, that every instance of x represents that number and every instance of y represents that number, and we just don't know what that number is so we use a letter as just a placeholder.</p>
+  <p>A common area of confusion for students is why the different letters can't be added together when different numbers can, what exactly the difference is and why it has to be that way. The containers frame makes it more intuitive to understand why we can't add or subtract</p>
+  <p>If someone hands you three blue bags and you open one and see a 2-pack, you know three blue bags mean 2+2+2 = 6 donuts &ndash; that's 3&times;2. But if you have two blue bags and one yellow bag, that doesn't give you the information to add up a total until you also find out how many are in the yellow bag. That's why 2x + x is 3x but 2x + y isn't.</p>
+
+  <h3>Inferring the unknown from a total</h3>
+  <p>This can then also be used to represent solving algebraic equations. In this example, if you bring two blue bags and a yellow bag to a party, and the host brings out a plate of 10 donuts after unpacking, you can work out how many donuts were in the yellow bag. Blue bags are 2 each, so 2&times;2 = 4. This means that 4 + yellow bag = 10. That forces the yellow bag to be 6 because 10 &minus; 4 = 6. In symbols: with x=2, 2x + y = 10 implies y = 6.</p>
+
+  <h3>Mixing bags and loose donuts</h3>
+  <p>The expression 2x + 3 reads as two x-bags and three loose donuts. If x is a blue 2-pack, that's 2&middot;2 + 3 = 7. Students see why numbers and letters can sit in the same expression: they all still refer to actual values in real life, it's just whether we can "see" what the number is or if we're just using the placeholder</p>
+
+  <h3>Distribution as party kits</h3>
+  <p>3(x + 2) can be thought of as three identical party kits. Each kit has one bag and two loose donuts. Total = three bags and six donuts &rarr; 3x + 6. This stops the common mistake of calling it x + 5.</p>
+
+  <h3>Products as nested trays</h3>
+  <p>x&middot;x builds a tray (x&sup2;) that holds x bags, each with x donuts. Then 3x&middot;2x means six such trays &rarr; 6x&sup2;. Exponents feel like counts of trays, not a symbol trick.</p>
+</div>
+
+<!-- ============================================================
+     5. ALGEBRA AS CONTAINERS
+     ============================================================ -->
+<div class="section" id="s5">
+  <div class="section-label">Algebra as containers</div>
+  <h2>Donut bags make algebra concrete</h2>
+  <p class="desc">Letters are just bags with an unknown number of donuts inside. Same color = same count. Click each step to build from like terms all the way to exponents.</p>
+  <div class="widget-card">
+    <div class="steps" id="steps5"></div>
+    <div class="scene" id="scene5"></div>
+  </div>
+</div>
+
+
+<!-- ===== FOOTER (from pedagogical page) ===== -->
 <footer>
   <div><a href="../index.html">Public Policy Lab</a> &middot; Hulhumale, Maldives</div>
   <div><a href="index.html">&larr; Back to Society overview</a></div>
 </footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+/* ===== 1. NUMBER LINE + GRID ===== */
+(function(){
+  const SNAPS=[
+    {v:0,f:'0',d:'0',p:'0%',ct:'0 out of 100',sq:0,sp:'0 squares out of 100 is the same as 0. Nothing filled.'},
+    {v:.1,f:'1/10',d:'0.1',p:'10%',ct:'10 out of 100',sq:10,sp:'<b>10 squares</b> out of 100 is the same as <b>1/10</b>, which is <b>0.1</b>, which is <b>10%</b>. One column.'},
+    {v:.2,f:'1/5',d:'0.2',p:'20%',ct:'20 out of 100',sq:20,sp:'<b>20 squares</b> out of 100 is the same as <b>1/5</b>, which is <b>0.2</b>, which is <b>20%</b>. Two columns.'},
+    {v:.25,f:'1/4',d:'0.25',p:'25%',ct:'25 out of 100',sq:25,sp:'<b>25 squares</b> out of 100 is the same as <b>1/4</b>, which is <b>0.25</b>, which is <b>25%</b>. A quarter.'},
+    {v:1/3,f:'1/3',d:'0.33\u2026',p:'33%',ct:'33 out of 100',sq:33,sp:'<b>33 squares</b> is close to <b>1/3</b>, which is <b>0.33\u2026</b> (goes on forever). About a third.'},
+    {v:.4,f:'2/5',d:'0.4',p:'40%',ct:'40 out of 100',sq:40,sp:'<b>40 squares</b> out of 100 is the same as <b>2/5</b>, which is <b>0.4</b>, which is <b>40%</b>.'},
+    {v:.5,f:'1/2',d:'0.5',p:'50%',ct:'50 out of 100',sq:50,sp:'<b>50 squares</b> out of 100 is the same as <b>1/2</b>, which is <b>0.5</b>, which is <b>50%</b>. Exactly half.'},
+    {v:.6,f:'3/5',d:'0.6',p:'60%',ct:'60 out of 100',sq:60,sp:'<b>60 squares</b> out of 100 is the same as <b>3/5</b>, which is <b>0.6</b>, which is <b>60%</b>. Four names, one amount.'},
+    {v:2/3,f:'2/3',d:'0.66\u2026',p:'67%',ct:'67 out of 100',sq:67,sp:'<b>67 squares</b> is close to <b>2/3</b>, which is <b>0.66\u2026</b> (goes on forever). About two thirds.'},
+    {v:.7,f:'7/10',d:'0.7',p:'70%',ct:'70 out of 100',sq:70,sp:'<b>70 squares</b> out of 100 is the same as <b>7/10</b>, which is <b>0.7</b>, which is <b>70%</b>.'},
+    {v:.75,f:'3/4',d:'0.75',p:'75%',ct:'75 out of 100',sq:75,sp:'<b>75 squares</b> out of 100 is the same as <b>3/4</b>, which is <b>0.75</b>, which is <b>75%</b>. Three quarters.'},
+    {v:.8,f:'4/5',d:'0.8',p:'80%',ct:'80 out of 100',sq:80,sp:'<b>80 squares</b> out of 100 is the same as <b>4/5</b>, which is <b>0.8</b>, which is <b>80%</b>.'},
+    {v:.9,f:'9/10',d:'0.9',p:'90%',ct:'90 out of 100',sq:90,sp:'<b>90 squares</b> out of 100 is the same as <b>9/10</b>, which is <b>0.9</b>, which is <b>90%</b>. Almost full.'},
+    {v:1,f:'1',d:'1.0',p:'100%',ct:'100 out of 100',sq:100,sp:'<b>100 squares</b> out of 100 is <b>1 whole</b>, which is <b>1.0</b>, which is <b>100%</b>. Completely full.'}
+  ];
+  const grid=document.getElementById('grid1');const squares=[];
+  for(let i=0;i<100;i++){const d=document.createElement('div');d.className='sq';grid.appendChild(d);squares.push(d);}
+  function closest(val){let b=SNAPS[0],dist=999;SNAPS.forEach(s=>{const dd=Math.abs(s.v-val);if(dd<dist){dist=dd;b=s;}});return b;}
+  function update(pct){
+    const s=closest(pct);const p=s.v*100;
+    document.getElementById('dot1').style.left=p+'%';
+    document.getElementById('bar1-fill').style.width=p+'%';
+    document.getElementById('vf').textContent=s.f;
+    document.getElementById('vd').textContent=s.d;
+    document.getElementById('vp').textContent=s.p;
+    document.getElementById('vc').textContent=s.ct;
+    document.getElementById('grid1-label').textContent=s.sq+' of 100 squares filled';
+    document.getElementById('spoken1').innerHTML=s.sp;
+    squares.forEach((sq,i)=>{sq.classList.toggle('on',i<s.sq);});
+  }
+  const dot=document.getElementById('dot1'),area=document.getElementById('bar1-area');
+  let dragging=false;
+  function getPct(e){const r=area.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;return Math.max(0,Math.min(1,x/r.width));}
+  dot.addEventListener('pointerdown',e=>{dragging=true;dot.setPointerCapture(e.pointerId);});
+  dot.addEventListener('pointermove',e=>{if(dragging)update(getPct(e));});
+  dot.addEventListener('pointerup',()=>{dragging=false;});
+  area.addEventListener('click',e=>{if(e.target!==dot)update(getPct(e));});
+  update(0.6);
+})();
+
+/* ===== 2. FRACTIONS TIMES TABLE ===== */
+(function(){
+  function fillGrid(id,n,filled,cls){
+    const el=document.getElementById(id);
+    for(let i=0;i<n;i++){const c=document.createElement('div');c.className='gc'+(i<filled?' on-'+cls:'');el.appendChild(c);}
+  }
+  fillGrid('g-h',10,5,'halves');
+  fillGrid('g-q1',8,2,'quarters'); fillGrid('g-q3',8,6,'quarters');
+  fillGrid('g-f1',10,2,'fifths'); fillGrid('g-f2',10,4,'fifths'); fillGrid('g-f3',10,6,'fifths'); fillGrid('g-f4',10,8,'fifths');
+  fillGrid('g-t1',10,1,'tenths'); fillGrid('g-t3',10,3,'tenths'); fillGrid('g-t7',10,7,'tenths');
+  fillGrid('g-3a',9,3,'thirds'); fillGrid('g-3b',9,6,'thirds');
+  fillGrid('g-8a',8,1,'eighths'); fillGrid('g-8b',8,3,'eighths');
+})();
+
+/* ===== 3. UNIT RATE ===== */
+function drawS3(){
+  const n=parseInt(document.getElementById('ppl3').value);
+  const rice=n*100;
+  document.getElementById('out3').textContent=n+(n===1?' person':' people');
+  const por=document.getElementById('portions3');
+  por.innerHTML='';
+  for(let i=0;i<n;i++){
+    por.innerHTML+='<div class="portion"><div style="position:relative"><div class="p-head"></div><div class="p-body"></div></div><div class="rice-bowl"></div><div class="portion-label">100 g</div></div>';
+  }
+  const proof=document.getElementById('proof3');
+  proof.innerHTML=`
+    <div class="ratio-row"><span class="ratio-big"><span class="pill-blue">${n} people</span></span><span class="ratio-op">:</span><span class="ratio-big"><span class="pill-yellow">${rice} g rice</span></span></div>
+    ${n>1?`<div class="divider-note">divide both by ${n}</div><div style="font-size:18px;color:var(--text3)">\u2193</div>
+    <div class="ratio-row"><span style="font-size:15px;font-weight:500"><span class="pill-blue">1 person</span></span><span class="ratio-op">:</span><span style="font-size:15px;font-weight:500"><span class="pill-yellow">100 g rice</span></span></div>`:''}
+    <div><span class="same-badge">always 1 person : 100 g</span></div>`;
+  const tbody=document.getElementById('tbody3');
+  tbody.innerHTML='';
+  for(let i=1;i<=10;i++){
+    tbody.innerHTML+=`<tr${i===n?' class="active"':''}><td>${i}</td><td>${i*100} g</td><td class="eq-col">=</td><td>1 person : 100 g</td></tr>`;
+  }
+  document.getElementById('spoken3').innerHTML=n===1?
+    '<b>1 person</b> needs <b>100 g</b>. This is the unit rate \u2014 everything else is just multiplying this.':
+    `<b>${n} people</b> need <b>${rice} g</b>. Divide both by <b>${n}</b> and you get <b>1 person : 100 g</b>. The ratio is always the same.`;
+}
+drawS3();
+
+/* ===== 4. RECIPE RATIO ===== */
+function drawS4(){
+  const m=parseInt(document.getElementById('batch4').value);
+  const rice=100*m,water=300*m;
+  document.getElementById('bout4').textContent='\u00d7'+m;
+  const vis=document.getElementById('vis4');
+  vis.innerHTML='';
+  let riceHTML='<div class="stack"><div class="stack-label">Rice</div>';
+  for(let i=0;i<m;i++) riceHTML+='<div class="block-row"><div class="block-r">100g</div></div>';
+  riceHTML+=`<div class="brace">${m} \u00d7 100 g</div></div>`;
+  let waterHTML='<div class="stack"><div class="stack-label">Water</div>';
+  for(let i=0;i<m;i++) waterHTML+='<div class="block-row"><div class="block-w">100</div><div class="block-w">100</div><div class="block-w">100</div></div>';
+  waterHTML+=`<div class="brace">${m} \u00d7 300 g</div></div>`;
+  vis.innerHTML=riceHTML+waterHTML;
+  document.getElementById('totals4').innerHTML=`
+    <div class="total-card tc-rice"><div class="tv">${rice} g</div><div class="tl">rice</div></div>
+    <div class="total-card tc-water"><div class="tv">${water} g</div><div class="tl">water</div></div>`;
+  const proof=document.getElementById('proof4');
+  if(m===1){
+    proof.innerHTML=`<div class="proof-line"><b>1</b> batch = <b>100 g</b> rice : <b>300 g</b> water</div>
+      <div class="proof-line dim">This is the base recipe. Every larger batch is just copies of this.</div>
+      <div class="one-portion"><div class="mini-r"></div><div class="mini-w"></div><div class="mini-w"></div><div class="mini-w"></div><div class="one-p-label">= 1 portion: 100 g rice + 300 g water</div></div>`;
+  } else {
+    proof.innerHTML=`<div class="proof-line"><b>${rice} g</b> rice : <b>${water} g</b> water</div>
+      <div class="proof-line dim">divide both by ${m}</div>
+      <div style="font-size:18px;color:var(--text3)">\u2193</div>
+      <div class="proof-line"><b>${rice} \u00f7 ${m} = 100</b> &nbsp;:&nbsp; <b>${water} \u00f7 ${m} = 300</b></div>
+      <div><span class="same">always 100 : 300 = 1 : 3</span></div>
+      <div class="one-portion"><div class="mini-r"></div><div class="mini-w"></div><div class="mini-w"></div><div class="mini-w"></div><div class="one-p-label">each portion is still 100 g rice + 300 g water</div></div>`;
+  }
+}
+drawS4();
+
+/* ===== 5. ALGEBRA DONUTS ===== */
+(function(){
+  const D='<div class="dn"></div>';
+  const Ds=n=>Array(n).fill(D).join('');
+  function bag(col,label,inner,open){
+    return `<div class="bag"><div class="bag-flap bt-${col}"></div><div class="bag-body bf-${col}${open?' dashed':''}">${inner}</div><div class="bag-tag">${label}</div></div>`;
+  }
+  const STEPS=[
+    {title:'Like terms',render:()=>`
+      <div class="math">3 blue bags, blue = 2-pack</div>
+      <div class="row">
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+      </div>
+      <div class="arrow-d">\u2193 count them all up</div>
+      <div class="row"><div class="result"><div class="dn-row">${Ds(6)}</div><div class="rn" style="margin-left:10px">= 6</div></div></div>
+      <div class="math">x + x + x = 3x \u2192 3 \u00d7 2 = 6</div>
+      <div class="explain">All <span class="pill-blue">blue bags</span> hold the <b>same number</b>. Open one and see 2 \u2192 you know all three hold 2. <b>Same color = same count</b>, so you can add them: 2 + 2 + 2 = 6.</div>`},
+    {title:'Unlike terms',render:()=>`
+      <div class="math">2 blue bags + 1 yellow bag</div>
+      <div class="row">
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('yellow','yellow bag','<div class="qm">?</div>',false)}
+      </div>
+      <div class="arrow-d">\u2193 can we add them?</div>
+      <div class="row"><div class="result"><div class="rn">4 + ???</div></div></div>
+      <div class="math">2x + y = 4 + y</div>
+      <div class="explain">The <span class="pill-blue">blue bags</span> give us 4. But the <span class="pill-yellow">yellow bag</span> is <b>sealed</b>. We <b>can't add up the total</b> until we know what yellow holds. <b>Different colors can't be combined.</b></div>`},
+    {title:'Solve for unknown',render:()=>`
+      <div class="math">2 blue + 1 yellow = 10 total. Blue = 2. What's yellow?</div>
+      <div class="row">
+        ${bag('blue','blue = 2',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue = 2',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('yellow','yellow = ?','<div class="qm">?</div>',false)}
+        <div class="sym sym-eq">=</div>
+        <div class="result"><div class="dn-row">${Ds(10)}</div></div>
+      </div>
+      <div class="arrow-d">\u2193 take away the 4 blue donuts</div>
+      <div class="row">
+        <div class="result crossed"><div class="dn-row">${Ds(4)}</div></div>
+        <div class="sym">\u2192</div>
+        <div class="result"><div class="dn-row">${Ds(6)}</div><div class="rn" style="margin-left:8px">= 6</div></div>
+      </div>
+      <div class="arrow-d">\u2193 so the yellow bag holds</div>
+      <div class="row">${bag('yellow','yellow = 6',`<div class="dn-row">${Ds(6)}</div><div class="count-label">6 donuts!</div>`,true)}</div>
+      <div class="math">10 \u2212 4 = 6 \u2192 y = 6</div>
+      <div class="explain">10 donuts total. Blue bags account for 4. Subtract: <b>10 \u2212 4 = 6</b>. The yellow bag <b>must</b> hold 6.</div>`},
+    {title:'Bags + loose donuts',render:()=>`
+      <div class="math">2x + 3 \u2192 two bags and three loose donuts</div>
+      <div class="row">
+        ${bag('blue','blue bag (x=2)',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag (x=2)',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="dn-row" style="gap:6px">${Ds(3)}</div>
+          <div class="bag-tag" style="margin-top:6px">3 loose donuts</div>
+        </div>
+      </div>
+      <div class="arrow-d">\u2193 count everything</div>
+      <div class="row"><div class="result"><div class="dn-row">${Ds(4)}</div><div style="margin:0 6px;color:var(--text3);font-size:12px">from bags</div><div style="color:var(--text3);font-size:14px">+</div><div class="dn-row" style="margin-left:6px">${Ds(3)}</div><div style="margin:0 6px;color:var(--text3);font-size:12px">loose</div><div class="rn" style="margin-left:6px">= 7</div></div></div>
+      <div class="math">2(2) + 3 = 4 + 3 = 7</div>
+      <div class="explain">Letters and numbers <b>can sit together</b>. The bags hold a hidden count, the loose donuts are right there. If x = 2: two bags give 4, plus 3 loose = <b>7 total</b>.</div>`},
+    {title:'Distribution',render:()=>`
+      <div class="math">3(x + 2) \u2192 three identical party kits</div>
+      <div class="row" style="gap:14px">
+        <div class="kit">${bag('green','x bag','',false)}<div class="dn-row">${Ds(2)}</div></div>
+        <div class="kit">${bag('green','x bag','',false)}<div class="dn-row">${Ds(2)}</div></div>
+        <div class="kit">${bag('green','x bag','',false)}<div class="dn-row">${Ds(2)}</div></div>
+      </div>
+      <div class="explain" style="margin-bottom:8px">Each dashed box is one <b>kit</b>: one bag + two loose donuts. We have <b>3 kits</b>.</div>
+      <div class="arrow-d">\u2193 unpack all kits</div>
+      <div class="row">
+        ${bag('green','',``,false)}${bag('green','',``,false)}${bag('green','',``,false)}
+        <div class="sym">+</div>
+        <div class="dn-row" style="gap:5px">${Ds(6)}</div>
+      </div>
+      <div class="math">= 3x + 6</div>
+      <div class="explain"><b>3 kits</b> \u2192 3 bags + 6 loose donuts \u2192 <b>3x + 6</b>. Not x + 5. Each kit gets multiplied, including the loose donuts.</div>`},
+    {title:'Exponents',render:()=>`
+      <div class="math">x \u00b7 x = x\u00b2 \u2192 a tray of x bags, each with x donuts</div>
+      <div class="row">
+        <div style="display:flex;flex-direction:column;align-items:center;padding:12px;border-radius:var(--radius-lg);background:var(--bg2);border:0.5px solid var(--border)">
+          <div style="font-size:12px;color:var(--text3);margin-bottom:6px">One tray (imagine x = 3)</div>
+          <div style="display:flex;gap:4px">
+            ${bag('blue','3 donuts',`<div class="dn-row">${Ds(3)}</div>`,true)}
+            ${bag('blue','3 donuts',`<div class="dn-row">${Ds(3)}</div>`,true)}
+            ${bag('blue','3 donuts',`<div class="dn-row">${Ds(3)}</div>`,true)}
+          </div>
+          <div style="font-size:13px;font-weight:500;color:var(--text);margin-top:6px">3 bags \u00d7 3 each = 9 donuts = 3\u00b2</div>
+        </div>
+      </div>
+      <div class="arrow-d">\u2193 then 3x \u00b7 2x = six of those trays</div>
+      <div class="row" style="gap:8px">
+        ${[1,2,3,4,5,6].map(()=>'<div style="padding:8px 14px;border-radius:var(--radius);background:var(--bg2);border:0.5px solid var(--border);font-size:18px;font-weight:500;color:var(--text)">x\u00b2</div>').join('')}
+      </div>
+      <div class="math">3x \u00b7 2x = 6x\u00b2</div>
+      <div class="explain">x\u00b2 means <b>x bags with x donuts each</b>. If x = 3, one tray has 3 bags of 3 = <b>9 donuts</b>. 3x times 2x makes 6 trays \u2192 <b>6x\u00b2</b>.</div>`}
+  ];
+  let cur=0;
+  function init(){
+    document.getElementById('steps5').innerHTML=STEPS.map((s,i)=>`<div class="sp${i===cur?' on':''}" onclick="goAlg(${i})">${s.title}</div>`).join('');
+    document.getElementById('scene5').innerHTML=STEPS[cur].render();
+  }
+  window.goAlg=function(i){cur=i;init();};
+  init();
+})();
+</script>
 </body>
 </html>
