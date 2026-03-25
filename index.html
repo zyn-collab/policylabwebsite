@@ -33,11 +33,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:fl
 
 /* HERO */
 .hero{padding:100px 40px 48px;max-width:1080px;margin:0 auto}
-.hero-grid{display:grid;grid-template-columns:1fr 240px;gap:36px;align-items:center}
-.hero h1{font-family:var(--sans);font-size:clamp(24px,3.2vw,34px);line-height:1.15;letter-spacing:-.02em;margin-bottom:14px;font-weight:800}
+.hero-grid{display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:center}
+.hero h1{font-family:var(--sans);font-size:clamp(26px,3.5vw,38px);line-height:1.12;letter-spacing:-.02em;margin-bottom:14px;font-weight:800}
 .hero h1 .a{color:var(--pri-d)}
 .hero h1 .b{color:var(--teal);font-weight:400}
-.hero-desc{font-size:13.5px;color:var(--body);line-height:1.7;max-width:none;margin-bottom:0}
+.hero-desc{font-size:12.5px;color:var(--body);line-height:1.68;max-width:620px;margin-bottom:0}
 .hero-cta{display:inline-flex;align-items:center;gap:6px;background:var(--pri-d);color:#fff;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;transition:background .2s}
 .hero-cta:hover{background:var(--dark);color:#fff}
 .hero-side{border-left:2px solid rgba(0,0,0,.06);padding-left:28px}
@@ -118,7 +118,7 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 .sticky-note{padding:20px 18px 16px;border-radius:2px;box-shadow:2px 3px 7px rgba(0,0,0,.07);transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden}
 .sticky-note::before{content:'';position:absolute;top:0;left:0;width:20px;height:20px;background:linear-gradient(135deg,rgba(0,0,0,.06) 50%,transparent 50%)}
 .sticky-note:hover{transform:rotate(0deg) scale(1.03) !important;z-index:2;box-shadow:3px 5px 14px rgba(0,0,0,.12)}
-.sticky-note p{font-size:11px;line-height:1.65;color:#3a3a3a;font-family:var(--serif)}
+.sticky-note p{font-size:10px;line-height:1.6;color:#3a3a3a;font-family:var(--serif)}
 
 /* DROPDOWN */
 .nav-dropdown-wrap{position:relative;display:inline-flex;align-items:center}
@@ -130,20 +130,24 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 @media(max-width:860px){
   nav{padding:14px 20px}
   .hero{padding:100px 24px 48px}
-  .hero-grid{grid-template-columns:1fr;gap:32px}
+  .hero-grid{grid-template-columns:1fr;gap:24px}
   .wrap{padding:0 24px}
-  .domain-grid,.tool-row{grid-template-columns:1fr 1fr}
+  .domain-grid{grid-template-columns:1fr 1fr}
+  .tool-row{grid-template-columns:1fr}
   .record-grid{grid-template-columns:1fr}
   .about-grid{grid-template-columns:1fr}
   #stickyGrid{grid-template-columns:1fr 1fr !important}
   .nav-r a:nth-child(n+3):not(.nav-cta){display:none}
   .nav-dropdown-wrap:nth-child(n+3) a:not(.nav-cta){display:none}
   footer{padding:24px 20px}
+  footer .foot-grid{grid-template-columns:1fr !important}
 }
 @media(max-width:540px){
-  .domain-grid,.tool-row{grid-template-columns:1fr}
-  .hero h1{font-size:32px}
-  .hero-side{border-left:none;padding-left:0;border-top:2px solid rgba(0,0,0,.06);padding-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .domain-grid{grid-template-columns:1fr !important}
+  .tool-row{grid-template-columns:1fr !important}
+  #stickyGrid{grid-template-columns:1fr !important}
+  .hero h1{font-size:26px}
+  .hero-desc{font-size:12px}
 }
 </style>
 </head>
@@ -189,7 +193,7 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
     <a href="#domains" class="hero-cta" style="margin-top:24px">See our work &darr;</a>
   </div>
   <div style="display:flex;align-items:end;justify-content:end">
-    <img src="assets/hero-graphic.jpg" alt="Public Policy Lab office" style="width:100%;max-width:220px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.07)">
+    <img src="assets/hero-graphic.jpg" alt="Public Policy Lab office" style="width:100%;max-width:280px;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.07)">
   </div>
 </div>
 </div>
@@ -386,7 +390,8 @@ footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 40px;max-width:1080px;m
 <!-- STICKY NOTES — findings from our work -->
 <div style="padding:56px 0 48px;border-top:1px solid rgba(0,0,0,.06);overflow:hidden">
 <div style="max-width:1200px;margin:0 auto;padding:0 40px;position:relative">
-  <p style="font-family:var(--serif);font-size:15px;color:var(--muted);margin-bottom:24px;font-style:italic">From the drawing board</p>
+  <div class="sec-tag reveal">Research</div>
+  <h2 class="sec-title reveal" style="margin-bottom:20px">Snapshots from our work</h2>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px" id="stickyGrid">
 
     <div class="sticky-note" style="background:#FFF9DB;transform:rotate(-1.2deg)">
