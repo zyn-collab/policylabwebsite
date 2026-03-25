@@ -1,59 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Strong focus on basic numeracy – Public Policy Lab</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --serif: 'Source Serif 4', Georgia, serif;
-  --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --bg: #FAF9F6; --card: #fff; --fg: #1a1a1a; --body: #4a4a46;
-  --muted: #8a8a82; --pri: #6B7FA3; --pri-d: #4A5E80;
-  --warm: #B3856F; --warm-lt: #CEAA97; --sage: #7A8F7E;
-  --dark: #2A3042;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap');
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04)}
-.nav-l{font-size:13px;font-weight:700;color:var(--pri-d)}
-.nav-l span{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
-.nav-r{display:flex;gap:20px}
-.nav-r a{font-size:12px;color:var(--muted);font-weight:500;transition:color .2s}
-.nav-r a:hover{color:var(--fg)}
+  :root {
+    --bg: #FAFAF8;
+    --bg2: #F1EFE8;
+    --bg3: #fff;
+    --text: #2C2C2A;
+    --text2: #5F5E5A;
+    --text3: #888780;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --blue50: #E6F1FB; --blue100: #B5D4F4; --blue200: #85B7EB; --blue400: #378ADD; --blue600: #185FA5; --blue800: #0C447C; --blue900: #042C53;
+    --purple50: #EEEDFE; --purple100: #CECBF6; --purple200: #AFA9EC; --purple400: #7F77DD; --purple600: #534AB7; --purple800: #3C3489; --purple900: #26215C;
+    --teal50: #E1F5EE; --teal100: #9FE1CB; --teal200: #5DCAA5; --teal400: #1D9E75; --teal600: #0F6E56; --teal800: #085041; --teal900: #04342C;
+    --amber50: #FAEEDA; --amber100: #FAC775; --amber200: #EF9F27; --amber400: #BA7517; --amber600: #854F0B; --amber800: #633806; --amber900: #412402;
+    --coral50: #FAECE7; --coral400: #D85A30; --coral600: #993C1D;
+    --green50: #EAF3DE; --green100: #C0DD97; --green200: #97C459; --green400: #639922; --green600: #3B6D11; --green800: #27500A;
+    --pink400: #D4537E; --pink600: #993556;
+    --red400: #E24B4A;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --dark: #2A3042;
+    --pri: #6B7FA3; --pri-d: #4A5E80;
+    --muted: #8a8a82;
+  }
 
-.wrap{max-width:740px;margin:0 auto;padding:0 40px}
-.page-header{padding:100px 40px 40px;max-width:740px;margin:0 auto}
-.page-header .tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
-.page-header h1{font-family:var(--sans);font-size:clamp(28px,4vw,40px);line-height:1.2;letter-spacing:-.02em;margin-bottom:16px}
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18; --bg2: #2C2C2A; --bg3: #222220;
+      --text: #d8d6ce; --text2: #B4B2A9; --text3: #888780;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
+    }
+  }
 
-.content{max-width:740px;margin:0 auto;padding:0 40px 60px}
-.content h2{font-family:var(--sans);font-size:22px;font-weight:600;line-height:1.25;margin:36px 0 14px;letter-spacing:-.01em}
-.content p{font-size:14.5px;color:var(--body);line-height:1.75;margin-bottom:16px}
-.content ul,.content ol{font-size:14.5px;color:var(--body);line-height:1.75;margin:0 0 16px 24px}
-.content li{margin-bottom:6px}
-.content strong{color:var(--fg)}
-.content table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13.5px}
-.content th{background:var(--dark);color:#fff;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.content td{padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.05);vertical-align:top;line-height:1.5;color:var(--body)}
-.content .footnotes{margin-top:40px;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
-.content .footnotes p{font-size:12.5px;line-height:1.6;color:var(--muted);margin-bottom:6px}
-.content .footnotes a{color:var(--pri-d);word-break:break-all}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
 
-footer{margin-top:24px;padding:28px 40px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:8px;max-width:740px;margin-left:auto;margin-right:auto}
-footer a{color:var(--pri-d)}
+  /* Nav bar */
+  .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,249,246,.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,.04); }
+  .site-nav .nav-l { font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--pri-d); }
+  .site-nav .nav-l span { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 4px; }
+  .site-nav .nav-r { display: flex; gap: 20px; }
+  .site-nav .nav-r a { font-family: var(--sans); font-size: 12px; color: var(--muted); font-weight: 500; transition: color .2s; }
+  .site-nav .nav-r a:hover { color: var(--text); }
 
-@media(max-width:600px){
-  .page-header,.content,.wrap{padding-left:20px;padding-right:20px}
-  nav{padding:12px 16px}
-}
+  .page-header { max-width: 800px; margin: 0 auto; padding: 5rem 1.5rem 1rem; }
+  .page-header .tag { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--pri); margin-bottom: 8px; }
+  .page-header h1 { font-size: 28px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+  .page-header p { font-size: 15px; color: var(--text2); max-width: 600px; }
+
+  nav.toc { max-width: 800px; margin: 0 auto; padding: 0 1.5rem 2rem; display: flex; gap: 8px; flex-wrap: wrap; }
+  nav.toc a { padding: 6px 16px; border-radius: 20px; font-size: 13px; text-decoration: none; background: var(--bg2); color: var(--text2); border: 0.5px solid var(--border); transition: all 0.2s; }
+  nav.toc a:hover { background: var(--blue50); color: var(--blue800); border-color: var(--blue200); }
+  @media (prefers-color-scheme: dark) { nav.toc a:hover { background: var(--blue900); color: var(--blue200); border-color: var(--blue600); } }
+
+  .section { max-width: 800px; margin: 0 auto 3rem; padding: 0 1.5rem; }
+  .section-label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3); margin-bottom: 6px; }
+  .section h2 { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; letter-spacing: -0.3px; }
+  .section .desc { font-size: 14px; color: var(--text2); margin-bottom: 1.25rem; max-width: 600px; line-height: 1.6; }
+
+  /* Body text for policy brief paragraphs */
+  .body-text { font-size: 14.5px; color: var(--text2); line-height: 1.75; margin-bottom: 16px; max-width: 800px; }
+  .body-text strong { color: var(--text); font-weight: 500; }
+  .body-text a { color: var(--pri-d); }
+
+  /* CIVIC-SCOPE table */
+  .section table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13.5px; }
+  .section th { background: var(--dark); color: #fff; padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .section td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.5; color: var(--text2); }
+  .section td strong { color: var(--text); }
+  .section td p { margin-bottom: 6px; font-size: 13.5px; line-height: 1.5; }
+
+  /* Footnotes */
+  .footnotes { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); max-width: 800px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; }
+  .footnotes p { font-size: 12.5px; line-height: 1.6; color: var(--text3); margin-bottom: 6px; }
+  .footnotes a { color: var(--pri-d); word-break: break-all; }
+
+  .widget-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
+
+  /* Shared utility styles */
+  .ctrl { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .ctrl label { font-size: 13px; color: var(--text2); min-width: 60px; }
+  .ctrl .out { font-size: 15px; font-weight: 500; min-width: 80px; }
+  input[type=range] { flex: 1; height: 4px; -webkit-appearance: none; appearance: none; background: var(--bg2); border-radius: 2px; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--text); cursor: pointer; border: 2px solid var(--bg3); }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--text); cursor: pointer; border: 2px solid var(--bg3); }
+
+  .pill-blue { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; background: var(--blue50); color: var(--blue800); }
+  .pill-yellow { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; background: var(--amber50); color: var(--amber800); }
+  .pill-green { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; background: var(--teal50); color: var(--teal800); }
+  @media (prefers-color-scheme: dark) {
+    .pill-blue { background: var(--blue900); color: var(--blue200); }
+    .pill-yellow { background: var(--amber900); color: var(--amber100); }
+    .pill-green { background: var(--teal900); color: var(--teal200); }
+  }
+
+  /* =========================================
+     1. NUMBER LINE + GRID
+     ========================================= */
+  #s1 .cards { display: flex; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; justify-content: center; }
+  #s1 .card { text-align: center; padding: 10px 16px; border-radius: var(--radius-lg); min-width: 80px; }
+  #s1 .card .v { font-size: 28px; font-weight: 500; line-height: 1.1; }
+  #s1 .card .c { font-size: 12px; margin-top: 4px; }
+  #s1 .c1 { background: var(--blue50); } #s1 .c1 .v { color: var(--blue800); } #s1 .c1 .c { color: var(--blue600); }
+  #s1 .c2 { background: var(--purple50); } #s1 .c2 .v { color: var(--purple800); } #s1 .c2 .c { color: var(--purple600); }
+  #s1 .c3 { background: var(--teal50); } #s1 .c3 .v { color: var(--teal800); } #s1 .c3 .c { color: var(--teal600); }
+  #s1 .c4 { background: var(--amber50); } #s1 .c4 .v { color: var(--amber800); } #s1 .c4 .c { color: var(--amber600); }
+  @media (prefers-color-scheme: dark) {
+    #s1 .c1 { background: var(--blue900); } #s1 .c1 .v { color: var(--blue200); } #s1 .c1 .c { color: var(--blue100); }
+    #s1 .c2 { background: var(--purple900); } #s1 .c2 .v { color: var(--purple200); } #s1 .c2 .c { color: var(--purple100); }
+    #s1 .c3 { background: var(--teal900); } #s1 .c3 .v { color: var(--teal200); } #s1 .c3 .c { color: var(--teal100); }
+    #s1 .c4 { background: var(--amber900); } #s1 .c4 .v { color: var(--amber100); } #s1 .c4 .c { color: var(--amber50); }
+  }
+  #s1 .grid-wrap { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+  #s1 .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; width: 220px; flex-shrink: 0; }
+  #s1 .sq { width: 20px; height: 20px; border-radius: 3px; background: var(--bg2); border: 0.5px solid var(--border); transition: background 0.12s, border-color 0.12s; }
+  #s1 .sq.on { background: var(--blue400); border-color: var(--blue600); }
+  @media (prefers-color-scheme: dark) { #s1 .sq.on { background: var(--blue600); border-color: var(--blue400); } }
+  #s1 .grid-label { text-align: center; margin-top: 6px; font-size: 13px; color: var(--text2); }
+  #s1 .bar-section { flex: 1; min-width: 240px; }
+  #s1 .bar-area { position: relative; height: 32px; cursor: pointer; touch-action: none; }
+  #s1 .bar-bg { position: absolute; top: 8px; left: 0; right: 0; height: 16px; border-radius: 8px; background: var(--bg2); border: 0.5px solid var(--border); }
+  #s1 .bar-fill { position: absolute; top: 8px; left: 0; height: 16px; border-radius: 8px 0 0 8px; background: var(--blue400); pointer-events: none; transition: width 0.08s; }
+  @media (prefers-color-scheme: dark) { #s1 .bar-fill { background: var(--blue600); } }
+  #s1 .dot { position: absolute; top: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--red400); border: 3px solid var(--bg3); transform: translateX(-16px); cursor: grab; z-index: 2; transition: left 0.08s; }
+  #s1 .dot:active { cursor: grabbing; }
+  #s1 .ticks { display: flex; justify-content: space-between; margin-top: 4px; padding: 0 1px; }
+  #s1 .ticks span { font-size: 11px; color: var(--text3); }
+  #s1 .scale-lbl { font-size: 12px; color: var(--text3); margin: 10px 0 2px; }
+  #s1 .spoken { text-align: center; font-size: 14px; color: var(--text); margin-top: 1rem; padding: 10px 16px; border-radius: var(--radius); background: var(--bg2); line-height: 1.6; }
+  #s1 .spoken b { font-weight: 500; }
+  #s1 .snap-hint { text-align: center; font-size: 13px; color: var(--text3); margin-top: 0.75rem; }
+
+  /* =========================================
+     2. FRACTIONS TIMES TABLE
+     ========================================= */
+  #s2 .group-label { font-size: 14px; font-weight: 500; color: var(--text); margin: 16px 0 8px; padding-left: 4px; }
+  #s2 .group-label:first-child { margin-top: 0; }
+  #s2 .frow { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; padding: 6px 8px; border-radius: var(--radius); transition: background 0.15s; }
+  #s2 .frow:hover { background: var(--bg2); }
+  #s2 .frac { width: 50px; font-size: 16px; font-weight: 500; color: var(--text); text-align: right; flex-shrink: 0; }
+  #s2 .grid-row { display: flex; gap: 1px; flex: 1; max-width: 240px; }
+  #s2 .gc { flex: 1; height: 20px; border-radius: 2px; background: var(--bg2); border: 0.5px solid var(--border); }
+  #s2 .gc.on-halves { background: var(--blue400); border-color: var(--blue600); }
+  #s2 .gc.on-quarters { background: var(--purple400); border-color: var(--purple600); }
+  #s2 .gc.on-fifths { background: var(--teal600); border-color: var(--teal800); }
+  #s2 .gc.on-tenths { background: var(--amber400); border-color: var(--amber600); }
+  #s2 .gc.on-thirds { background: var(--coral400); border-color: var(--coral600); }
+  #s2 .gc.on-eighths { background: var(--pink400); border-color: var(--pink600); }
+  @media (prefers-color-scheme: dark) {
+    #s2 .gc.on-halves { background: var(--blue600); border-color: var(--blue400); }
+    #s2 .gc.on-quarters { background: var(--purple600); border-color: var(--purple400); }
+    #s2 .gc.on-fifths { background: var(--teal800); border-color: var(--teal400); }
+    #s2 .gc.on-tenths { background: var(--amber600); border-color: var(--amber200); }
+    #s2 .gc.on-thirds { background: var(--coral600); border-color: var(--coral400); }
+    #s2 .gc.on-eighths { background: var(--pink600); border-color: var(--pink400); }
+  }
+  #s2 .dec { width: 52px; font-size: 13px; color: var(--text2); text-align: center; flex-shrink: 0; }
+  #s2 .pct { width: 46px; font-size: 13px; font-weight: 500; color: var(--text2); text-align: center; flex-shrink: 0; }
+  #s2 .note { font-size: 12px; color: var(--text3); flex-shrink: 0; }
+  #s2 .hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; padding: 0 8px; }
+  #s2 .hdr span { font-size: 11px; color: var(--text3); font-weight: 500; }
+  #s2 .hfrac { width: 50px; text-align: right; } #s2 .hbar { flex: 1; max-width: 240px; } #s2 .hdec { width: 52px; text-align: center; } #s2 .hpct { width: 46px; text-align: center; }
+
+  /* =========================================
+     3. UNIT RATE
+     ========================================= */
+  #s3 .portions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; justify-content: center; }
+  #s3 .portion { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 6px; border-radius: var(--radius); background: var(--bg2); border: 0.5px solid var(--border); width: 58px; }
+  #s3 .p-head { width: 10px; height: 10px; border-radius: 50%; background: var(--purple600); margin: 0 auto; }
+  #s3 .p-body { width: 14px; height: 12px; border-radius: 4px 4px 2px 2px; background: var(--purple600); margin: 2px auto 0; opacity: 0.6; }
+  @media (prefers-color-scheme: dark) { #s3 .p-head { background: var(--purple400); } #s3 .p-body { background: var(--purple400); } }
+  #s3 .rice-bowl { width: 26px; height: 14px; border-radius: 0 0 13px 13px; background: var(--amber200); margin: 0 auto; position: relative; }
+  #s3 .rice-bowl::before { content: ''; position: absolute; top: -4px; left: 2px; right: 2px; height: 5px; border-radius: 3px 3px 0 0; background: var(--amber100); }
+  @media (prefers-color-scheme: dark) { #s3 .rice-bowl { background: var(--amber400); } #s3 .rice-bowl::before { background: var(--amber600); } }
+  #s3 .portion-label { font-size: 10px; color: var(--text3); }
+  #s3 .ratio-proof { border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 16px 20px; margin-bottom: 1rem; text-align: center; }
+  #s3 .ratio-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 6px; }
+  #s3 .ratio-big { font-size: 18px; font-weight: 500; color: var(--text); }
+  #s3 .ratio-op { font-size: 14px; color: var(--text3); }
+  #s3 .divider-note { font-size: 13px; color: var(--text3); margin: 4px 0; }
+  #s3 .same-badge { display: inline-block; padding: 5px 14px; border-radius: var(--radius); background: var(--teal50); color: var(--teal800); font-weight: 500; font-size: 13px; margin-top: 4px; }
+  @media (prefers-color-scheme: dark) { #s3 .same-badge { background: var(--teal900); color: var(--teal200); } }
+  #s3 .pattern-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 0.75rem; }
+  #s3 .pattern-table th { text-align: left; font-weight: 500; font-size: 11px; color: var(--text3); padding: 6px 8px; border-bottom: 0.5px solid var(--border2); }
+  #s3 .pattern-table td { padding: 6px 8px; border-bottom: 0.5px solid var(--border); color: var(--text2); }
+  #s3 .pattern-table tr.active td { color: var(--text); font-weight: 500; background: var(--bg2); }
+  #s3 .pattern-table .eq-col { color: var(--text3); text-align: center; }
+  #s3 .spoken { font-size: 14px; color: var(--text2); text-align: center; margin-top: 1rem; line-height: 1.6; }
+  #s3 .spoken b { font-weight: 500; color: var(--text); }
+
+  /* =========================================
+     4. RECIPE RATIO
+     ========================================= */
+  #s4 .vis { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 1.25rem; justify-content: center; }
+  #s4 .stack { display: flex; flex-direction: column; align-items: center; }
+  #s4 .stack-label { font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+  #s4 .block-row { display: flex; gap: 3px; margin-bottom: 3px; }
+  #s4 .block-r { width: 28px; height: 28px; border-radius: 4px; background: var(--amber200); border: 1px solid var(--amber400); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; color: var(--amber900); }
+  #s4 .block-w { width: 28px; height: 28px; border-radius: 4px; background: var(--blue400); border: 1px solid var(--blue600); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; color: var(--blue900); }
+  @media (prefers-color-scheme: dark) {
+    #s4 .block-r { background: var(--amber600); border-color: var(--amber200); color: var(--amber50); }
+    #s4 .block-w { background: var(--blue800); border-color: var(--blue400); color: var(--blue50); }
+  }
+  #s4 .brace { font-size: 13px; color: var(--text3); text-align: center; margin-top: 4px; }
+  #s4 .totals { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  #s4 .total-card { padding: 10px 16px; border-radius: var(--radius); text-align: center; }
+  #s4 .tc-rice { background: var(--amber50); } #s4 .tc-rice .tv { color: var(--amber800); } #s4 .tc-rice .tl { color: var(--amber600); }
+  #s4 .tc-water { background: var(--blue50); } #s4 .tc-water .tv { color: var(--blue800); } #s4 .tc-water .tl { color: var(--blue600); }
+  @media (prefers-color-scheme: dark) {
+    #s4 .tc-rice { background: var(--amber900); } #s4 .tc-rice .tv { color: var(--amber100); } #s4 .tc-rice .tl { color: var(--amber50); }
+    #s4 .tc-water { background: var(--blue900); } #s4 .tc-water .tv { color: var(--blue200); } #s4 .tc-water .tl { color: var(--blue100); }
+  }
+  #s4 .tv { font-size: 22px; font-weight: 500; line-height: 1.2; }
+  #s4 .tl { font-size: 12px; margin-top: 2px; }
+  #s4 .proof-box { border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 14px 20px; text-align: center; }
+  #s4 .proof-line { font-size: 15px; color: var(--text); margin: 4px 0; line-height: 1.6; }
+  #s4 .proof-line b { font-weight: 500; }
+  #s4 .dim { color: var(--text3); }
+  #s4 .same { display: inline-block; padding: 4px 12px; border-radius: var(--radius); background: var(--teal50); color: var(--teal800); font-weight: 500; font-size: 13px; margin-top: 6px; }
+  @media (prefers-color-scheme: dark) { #s4 .same { background: var(--teal900); color: var(--teal200); } }
+  #s4 .one-portion { border-radius: var(--radius); border: 1.5px dashed var(--border2); padding: 8px 12px; display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; }
+  #s4 .one-p-label { font-size: 12px; color: var(--text2); margin-left: 4px; }
+  #s4 .mini-r { width: 18px; height: 18px; border-radius: 3px; background: var(--amber200); border: 1px solid var(--amber400); }
+  #s4 .mini-w { width: 18px; height: 18px; border-radius: 3px; background: var(--blue400); border: 1px solid var(--blue600); }
+  @media (prefers-color-scheme: dark) {
+    #s4 .mini-r { background: var(--amber600); border-color: var(--amber200); }
+    #s4 .mini-w { background: var(--blue800); border-color: var(--blue400); }
+  }
+
+  /* =========================================
+     5. ALGEBRA DONUTS
+     ========================================= */
+  #s5 .steps { display: flex; gap: 4px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  #s5 .sp { padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 0.5px solid var(--border); background: var(--bg2); color: var(--text2); transition: all 0.2s; user-select: none; }
+  #s5 .sp.on { background: var(--blue50); color: var(--blue800); border-color: var(--blue200); font-weight: 500; }
+  @media (prefers-color-scheme: dark) { #s5 .sp.on { background: var(--blue900); color: var(--blue200); border-color: var(--blue600); } }
+  #s5 .scene { min-height: 280px; }
+  #s5 .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 12px 0; }
+  #s5 .bag { display: flex; flex-direction: column; align-items: center; width: 80px; }
+  #s5 .bag-flap { width: 56px; height: 12px; border-radius: 6px 6px 0 0; border: 2px solid; border-bottom: none; }
+  #s5 .bag-body { width: 80px; min-height: 96px; border-radius: 6px; border: 2px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; gap: 4px; }
+  #s5 .bag-body.dashed { border-style: dashed; }
+  #s5 .bf-blue { background: var(--blue50); border-color: var(--blue200); }
+  #s5 .bt-blue { background: var(--blue100); border-color: var(--blue200); }
+  #s5 .bf-yellow { background: var(--amber50); border-color: var(--amber100); }
+  #s5 .bt-yellow { background: var(--amber100); border-color: var(--amber100); }
+  #s5 .bf-green { background: var(--teal50); border-color: var(--teal200); }
+  #s5 .bt-green { background: var(--teal100); border-color: var(--teal200); }
+  @media (prefers-color-scheme: dark) {
+    #s5 .bf-blue { background: var(--blue900); border-color: var(--blue400); } #s5 .bt-blue { background: var(--blue800); border-color: var(--blue400); }
+    #s5 .bf-yellow { background: var(--amber900); border-color: var(--amber200); } #s5 .bt-yellow { background: var(--amber800); border-color: var(--amber200); }
+    #s5 .bf-green { background: var(--teal900); border-color: var(--teal400); } #s5 .bt-green { background: var(--teal800); border-color: var(--teal400); }
+  }
+  #s5 .bag-tag { font-size: 11px; font-weight: 500; color: var(--text2); margin-top: 4px; }
+  #s5 .dn { width: 26px; height: 26px; border-radius: 50%; background: var(--amber200); border: 2.5px solid var(--amber400); position: relative; flex-shrink: 0; }
+  #s5 .dn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; border-radius: 50%; background: var(--bg3); transform: translate(-50%, -50%); }
+  #s5 .dn-row { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+  #s5 .sym { font-size: 24px; font-weight: 500; color: var(--text2); line-height: 1; }
+  #s5 .sym-eq { color: var(--text); }
+  #s5 .result { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: var(--radius-lg); background: var(--bg2); border: 0.5px solid var(--border); }
+  #s5 .rn { font-size: 26px; font-weight: 500; color: var(--text); }
+  #s5 .count-label { font-size: 11px; color: var(--text3); text-align: center; }
+  #s5 .qm { font-size: 20px; color: var(--text3); font-weight: 500; }
+  #s5 .math { text-align: center; font-size: 16px; font-weight: 500; font-family: 'DM Sans', monospace; color: var(--text); margin: 8px 0; letter-spacing: 0.3px; }
+  #s5 .explain { text-align: center; font-size: 14px; color: var(--text2); line-height: 1.7; margin: 10px auto 0; max-width: 540px; }
+  #s5 .explain b { font-weight: 500; color: var(--text); }
+  #s5 .arrow-d { text-align: center; font-size: 20px; color: var(--text3); margin: 4px 0; }
+  #s5 .kit { display: inline-flex; align-items: center; gap: 6px; padding: 10px 12px; border-radius: var(--radius-lg); border: 2px dashed var(--border2); }
+  #s5 .crossed { opacity: 0.35; text-decoration: line-through; }
+
+  /* Footer */
+  .site-footer { max-width: 800px; margin: 2rem auto 0; padding: 28px 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text3); flex-wrap: wrap; gap: 8px; }
+  .site-footer a { color: var(--pri-d); }
+
+  @media (max-width: 600px) {
+    .page-header, .section, .footnotes { padding-left: 20px; padding-right: 20px; }
+    .site-nav { padding: 12px 16px; }
+    nav.toc { padding-left: 20px; padding-right: 20px; }
+    .site-footer { padding-left: 20px; padding-right: 20px; }
+  }
 </style>
 </head>
 <body>
-<nav>
+
+<!-- ============================================================
+     NAV BAR
+     ============================================================ -->
+<nav class="site-nav">
   <a href="index.html" class="nav-l">public policy lab<span>&middot; society</span></a>
   <div class="nav-r">
     <a href="index.html">Overview</a>
@@ -63,14 +307,22 @@ footer a{color:var(--pri-d)}
   </div>
 </nav>
 
+<!-- ============================================================
+     1. TITLE + INTRO
+     ============================================================ -->
 <div class="page-header">
   <div class="tag">EDUCATION &middot; CURRICULUM</div>
   <h1>Strong focus on basic numeracy</h1>
+  <p>Interactive diagrams for teaching fractions, ratios, unit rates, and early algebra. Every concept is countable, visual, and repeated.</p>
 </div>
 
-<div class="content">
-  <p><strong>Maturity:</strong> Well-established</p>
-  <p><strong>Scale:</strong> Medium but meaningful</p>
+<!-- ============================================================
+     2. CIVIC-SCOPE TABLE + HISTORICAL CONTEXT
+     ============================================================ -->
+<div class="section">
+  <div class="section-label">Policy analysis</div>
+  <h2>CIVIC-SCOPE assessment</h2>
+  <p class="desc"><strong>Maturity:</strong> Well-established &nbsp;&middot;&nbsp; <strong>Scale:</strong> Medium but meaningful</p>
 
   <table>
     <thead>
@@ -137,66 +389,470 @@ footer a{color:var(--pri-d)}
       </tr>
     </tbody>
   </table>
+</div>
 
+<!-- ============================================================
+     3. "BASIC MATH SKILLS ARE FOUNDATIONAL" (THE WHY ARGUMENT)
+     ============================================================ -->
+<div class="section">
+  <div class="section-label">The case for numeracy</div>
   <h2>Basic math skills are foundational to human capital</h2>
 
-  <p>From a policy perspective, the importance of strong math foundations for students from an early age has a massive impact on the rest of their education and lives. In particular, the foundations of arithmetic, fractions, decimals, percentages, ratios, magnitudes, numerical intuition, and basic algebra, underlie almost all of the math studies that follow throughout the rest of students' educations even throughout secondary school. These skills are very load-bearing: in one study, 76% of children who had mastered three early numeric tasks ended up going to four-year college programs, while only 26% of those who mastered none did<sup>[138]</sup>. Foundational math skills are strong predictors of later outcomes, including high school graduation, college completion, and earnings at age 30<sup>[139],[140],[141]</sup>. Interventions that boost early math learning yielded lasting improvements in cognitive skills, school performance, attendance, and other indicators<sup>[142],[143],[144]</sup>.</p>
+  <p class="body-text">From a policy perspective, the importance of strong math foundations for students from an early age has a massive impact on the rest of their education and lives. In particular, the foundations of arithmetic, fractions, decimals, percentages, ratios, magnitudes, numerical intuition, and basic algebra, underlie almost all of the math studies that follow throughout the rest of students' educations even throughout secondary school. These skills are very load-bearing: in one study, 76% of children who had mastered three early numeric tasks ended up going to four-year college programs, while only 26% of those who mastered none did<sup>[138]</sup>. Foundational math skills are strong predictors of later outcomes, including high school graduation, college completion, and earnings at age 30<sup>[139],[140],[141]</sup>. Interventions that boost early math learning yielded lasting improvements in cognitive skills, school performance, attendance, and other indicators<sup>[142],[143],[144]</sup>.</p>
 
-  <p>All future mathematics, sciences, accounting, and business education depends on strong foundations in these key aspects, and life skills and citizenry benefits such as financial literacy, budgeting, and learning to avoid scams or disinformation all draw upon these foundations. In mathematics, these key foundations underlie everything else that follows: equations, polynomials and quadratics, geometry, trigonometry, mensuration, and even calculus are all based on fractions and algebra; statistics and probability are based on fractions; all physics and mechanics is based on algebra and fractions; chemistry is based on fractions and ratios; accounting and financial literacy need fluency converting between fraction, percentage, and decimal representations of numbers. Even in meta-analyses of 54 studies with over 58,000 students, early numeracy was found to not just be a stepping stone with temporary effects on future learning, but as the base of a snowballing effect influencing the remainder of their mathematics development<sup>[145]</sup>. Without strong foundations such as comfort with fractions and numbers, most of the remaining years of maths education are spent patching confusion rather than building genuine understanding<sup>[146]</sup>.</p>
+  <p class="body-text">All future mathematics, sciences, accounting, and business education depends on strong foundations in these key aspects, and life skills and citizenry benefits such as financial literacy, budgeting, and learning to avoid scams or disinformation all draw upon these foundations. In mathematics, these key foundations underlie everything else that follows: equations, polynomials and quadratics, geometry, trigonometry, mensuration, and even calculus are all based on fractions and algebra; statistics and probability are based on fractions; all physics and mechanics is based on algebra and fractions; chemistry is based on fractions and ratios; accounting and financial literacy need fluency converting between fraction, percentage, and decimal representations of numbers. Even in meta-analyses of 54 studies with over 58,000 students, early numeracy was found to not just be a stepping stone with temporary effects on future learning, but as the base of a snowballing effect influencing the remainder of their mathematics development<sup>[145]</sup>. Without strong foundations such as comfort with fractions and numbers, most of the remaining years of maths education are spent patching confusion rather than building genuine understanding<sup>[146]</sup>.</p>
 
-  <p>Improved numeracy promotes social mobility and improves national productivity. Countries that pushed hard on coherent early-math foundations, such as South Korea and China, grew elite human capital despite limited natural resources. Their students' fluency with magnitudes and algebra supported STEM pipelines, finance, engineering, and skilled trades. Out of all subjects, higher math scores at early levels had the strongest impact on innovation, income levels, and overall GDP per capita<sup>[147]</sup>. This study in particular recommends that the main focus of education authorities should be on offering math-related training and courses to teachers in primary schools and enhancing the standard of math education<sup>[148]</sup>. For the Maldives, a consistent, high-quality foundation during primary education is one of the most cost-effective ways to expand opportunity and resilience across the economy. This increased human capital translates to increases in GDP per capita and labour productivity values<sup>[149]</sup>. Numeracy also benefits citizenship in broader ways: strong number sense translates into better budgeting, smarter shopping, understanding interest and repayment, and an ability to sanity-check claims and percentages. People who can picture 30% or 0.3 on a bar, and move between fraction/decimal/percent without effort, are harder to mislead and more confident with everyday decisions.</p>
+  <p class="body-text">Improved numeracy promotes social mobility and improves national productivity. Countries that pushed hard on coherent early-math foundations, such as South Korea and China, grew elite human capital despite limited natural resources. Their students' fluency with magnitudes and algebra supported STEM pipelines, finance, engineering, and skilled trades. Out of all subjects, higher math scores at early levels had the strongest impact on innovation, income levels, and overall GDP per capita<sup>[147]</sup>. This study in particular recommends that the main focus of education authorities should be on offering math-related training and courses to teachers in primary schools and enhancing the standard of math education<sup>[148]</sup>. For the Maldives, a consistent, high-quality foundation during primary education is one of the most cost-effective ways to expand opportunity and resilience across the economy. This increased human capital translates to increases in GDP per capita and labour productivity values<sup>[149]</sup>. Numeracy also benefits citizenship in broader ways: strong number sense translates into better budgeting, smarter shopping, understanding interest and repayment, and an ability to sanity-check claims and percentages. People who can picture 30% or 0.3 on a bar, and move between fraction/decimal/percent without effort, are harder to mislead and more confident with everyday decisions.</p>
 
-  <p>For any gaps in universal numeracy skills, a disparity between children who have families that could independently support or fund additional studies through further tutoring or hands-on help, and children who have to rely solely on what math skills they learn from the school system at whichever pace the school system goes at, will then be a disparity locked in for the rest of their education and their lives. For example, in the UK, low number confidence and poor numeracy skills discouraged people from applying for jobs and reduced earnings by &pound;1600 per year on average, negatively affecting both social mobility and the overall economy<sup>[150]</sup>. The spirit of equal access to opportunities should not allow us to lock in children at such an early age into different educational and life tracks based on the degree of foundational math skills inculcated into them. Foundational math is too important to be paced through like any other studies &ndash; it has to be something that the state does as close as possible to guarantee in every child in every way, from a laser focus on the pedagogy of math skills taught to all students, through to individual intensive support to ensure every child reaches the core understanding of basic math.</p>
+  <p class="body-text">For any gaps in universal numeracy skills, a disparity between children who have families that could independently support or fund additional studies through further tutoring or hands-on help, and children who have to rely solely on what math skills they learn from the school system at whichever pace the school system goes at, will then be a disparity locked in for the rest of their education and their lives. For example, in the UK, low number confidence and poor numeracy skills discouraged people from applying for jobs and reduced earnings by &pound;1600 per year on average, negatively affecting both social mobility and the overall economy<sup>[150]</sup>. The spirit of equal access to opportunities should not allow us to lock in children at such an early age into different educational and life tracks based on the degree of foundational math skills inculcated into them. Foundational math is too important to be paced through like any other studies &ndash; it has to be something that the state does as close as possible to guarantee in every child in every way, from a laser focus on the pedagogy of math skills taught to all students, through to individual intensive support to ensure every child reaches the core understanding of basic math.</p>
+</div>
 
-  <h2>Massive national prioritization of math foundations</h2>
-
-  <p>This importance means that there would be value in a policy approach with an overwhelming prioritization of numeracy, including the time and resources devoted toward math education, should be on ensuring that every student without fail has a strong understanding of these core areas: arithmetic; fractions, percentages, decimals, ratios and whole numbers all as interchangeable ways to represent numbers; numerical intuition; and basic algebra. These core areas cannot be just chapters given equal weight as any other chapter in math education &ndash; if students don't understand these concepts, then by definition they don't understand any of the later math which uses these concepts, regardless of whether they may test well through rote memorization, pattern recognition drills, or repeating every possible version of potential questions in tutoring classes. Insufficiently prioritizing this bar of numeracy means that children who may have a stronger aptitude or intuition for math internally develop the reasoning or connections between these elements, while students who may not have the same numerical or spatial intuition are left adrift instead of being taught the reasoning which allows them to grasp everything that comes after it.</p>
-
-  <p>The load-bearing nature of this small set of topics also means that ensuring every student in the country receives the strongest possible grounding in these topics is massively consequential for the development of a country and its people, and justifies putting in a lot of investment specifically toward these small areas. This suggests that a key national policy should be an uncompromising and intense focus on making sure every single student fully understands these through bringing top-of-the-line pedagogy, heavy investment in educational materials, and specific professional training on these specific areas to every school in the country. Aiming to put in massive investment and teacher skill development across the board to make every aspect of education elite might be too ambitious of an undertaking, but in terms of resources and practicality, ensuring an absolute elite level in just this small set of topics everywhere in the country should be feasible. This is important enough that it even justifies supplementing these targeted advancements with intensive sessions or remedial programs focused specifically on ensuring that no student remains that hasn't received the best possible study in these topics. All of these measures standardized across all Maldivian schools, making these foundations in numeracy a necessity for around Grade 5 in primary school.</p>
-
-  <h2>Immediate intervention</h2>
-
-  <p>This is an important enough area to turn focus to immediately, rather than waiting for a slow rollout. To develop a best-practices approach, roll out materials, train thousands of new teachers, assess their confidence in delivering these methods, identify testing mechanisms and ways to direct students who need further help to receive advanced support in non-stigmatized ways, and other aspects of policy design will take time. Every school year that passes is a full cohort of students, so implementing as soon as possible is crucial. The priority should be the early and lower primary grades. If children secure these foundations by around Grade 3 or 4, later reforms in upper-level maths and science will have something real to build on. If they do not, no amount of tinkering with syllabuses in Grade 9 would fix the problem.</p>
-
-  <p>The intervention can be simple but disciplined. At the start of the school year, all students in the relevant grades sit a short, pencil-and-paper diagnostic that tests a small set of core skills: place value, the four operations, fractions and basic word problems. Based on these results, teachers group students by current level for part of the week and use a fixed menu of materials focused only on those skills until they are mastered. After eight to ten weeks, students are retested and regrouped as needed. This kind of short, focused catch-up block fits within the school year and has been shown in many settings to produce large gains for children who were previously left behind.</p>
-
-  <p>This will also require educating parents on the importance of this approach. The perception of parents about what is taught in school is often discussed by teachers and governments as being overbearing, almost a case of audience capture where incentives can become more aligned toward what parents believe education should be over what best practices actually might be &ndash; and parents introduced to this idea may perceive that schools are lowering their standards by focusing heavily on more 'basic'-level material, that students receiving additional support are being singled out, or especially that a focus on foundations are not the right way to "teach students for the test", with parents often still having a very exam-focused view of education that focuses on test scores over holistic understanding. Convincing parents of how these foundations are necessary for students to do well even in standard exams throughout their lives will likely need to be a focus as part of these policies.</p>
-
-  <p>On top of strengthening teaching and assessment methods for key math fundamentals at early grades where it is most needed, with a state-of-the-art set of tools developed that does not just leave methods up to individual variation of teachers but guarantees foundations, there is also value in immediate targeted interventions across all levels to catch up any students falling behind in math foundations with intensive support.</p>
-
+<!-- ============================================================
+     PEDAGOGICAL APPROACHES (text intro before interactive demos)
+     ============================================================ -->
+<div class="section">
+  <div class="section-label">Pedagogical approach</div>
   <h2>Pedagogical approaches for universal numeracy</h2>
 
-  <p>For this, three basic approaches are emphasized, which should be straightforward enough to convey even through short professional development sessions. First, a magnitude-focused approach to number sense that treats whole numbers, fractions, decimals, percentages and ratios all as just different ways to represent how big a number is, instead of centering whole numbers and fractions as secondary. The second is an emphasis on math as a representation of real-world quantities instead of abstract numbers and text, always grounding these points in real-life situations that come intuitively to students. The third follows from the second: teaching algebra with the letters demystified as just containers holding numbers, rather than the very abstract impression students have when just seeing letters within their numbers and symbols.</p>
+  <p class="body-text">For this, three basic approaches are emphasized, which should be straightforward enough to convey even through short professional development sessions. First, a magnitude-focused approach to number sense that treats whole numbers, fractions, decimals, percentages and ratios all as just different ways to represent how big a number is, instead of centering whole numbers and fractions as secondary. The second is an emphasis on math as a representation of real-world quantities instead of abstract numbers and text, always grounding these points in real-life situations that come intuitively to students. The third follows from the second: teaching algebra with the letters demystified as just containers holding numbers, rather than the very abstract impression students have when just seeing letters within their numbers and symbols.</p>
 
-  <p>These principles are backed by research. Siegler, Thompson and Schneider (2011) write: "Prominent contemporary theories of numerical development have focused on development of knowledge about whole numbers... [These theories] post qualitative differences between an early developing, ''natural'' understanding of whole numbers and a later developing, flawed or hard-won, understanding of fractions... [An alternative theory proposes that while] whole numbers and fractions differ in many ways ... an important commonality is the centrality of knowledge of numerical magnitudes in overall understanding. The present findings with 11- and 13-year-olds indicate that accuracy of fraction magnitude representations is closely related to both fractions arithmetic proficiency and overall mathematics achievement test scores, that fraction magnitude representations account for substantial variance in mathematics achievement test scores beyond that explained by fraction arithmetic proficiency, and that developing effective strategies plays a key role in improved knowledge of fractions<sup>[151]/[152]</sup>."</p>
+  <p class="body-text">These principles are backed by research. Siegler, Thompson and Schneider (2011) write: "Prominent contemporary theories of numerical development have focused on development of knowledge about whole numbers... [These theories] post qualitative differences between an early developing, ''natural'' understanding of whole numbers and a later developing, flawed or hard-won, understanding of fractions... [An alternative theory proposes that while] whole numbers and fractions differ in many ways ... an important commonality is the centrality of knowledge of numerical magnitudes in overall understanding. The present findings with 11- and 13-year-olds indicate that accuracy of fraction magnitude representations is closely related to both fractions arithmetic proficiency and overall mathematics achievement test scores, that fraction magnitude representations account for substantial variance in mathematics achievement test scores beyond that explained by fraction arithmetic proficiency, and that developing effective strategies plays a key role in improved knowledge of fractions<sup>[151]/[152]</sup>."</p>
 
-  <p>These three planks aim to remove confusion at the exact points where many students stall, raise fluency on conversions and equations, and create a consistent language across classrooms. They target the exact choke-points that keep many students from progressing in mathematics by turning mathematical foundations into concrete concepts instead of an abstract and mystified language. A magnitude-first approach teaches all part-of-a-whole ideas on one picture, every day, and it links that picture directly to symbols. By keeping everything on one line from the start so that the same point on the bar wears five labels (fraction, decimal, percent, ratio, as well as the number itself for whole numbers), conversions are just different representations of the same number rather than new topics. As a pedagogical tool, a small "fractions times table" is also introduced to be memorized similar to the regular times tables so that students learn the common fractions along with their percentage and decimal representations (e.g. &frac12; and 50% and 0.5, 1/10 and 10% and 0.1), which reduces working-memory load and makes estimation fast and accurate. Double number lines give ratios a consistent home, and algebra begins with containers and balances before symbols, which removes the abstraction shock<sup>[153]</sup>.</p>
+  <p class="body-text">These three planks aim to remove confusion at the exact points where many students stall, raise fluency on conversions and equations, and create a consistent language across classrooms. They target the exact choke-points that keep many students from progressing in mathematics by turning mathematical foundations into concrete concepts instead of an abstract and mystified language. A magnitude-first approach teaches all part-of-a-whole ideas on one picture, every day, and it links that picture directly to symbols. By keeping everything on one line from the start so that the same point on the bar wears five labels (fraction, decimal, percent, ratio, as well as the number itself for whole numbers), conversions are just different representations of the same number rather than new topics. As a pedagogical tool, a small "fractions times table" is also introduced to be memorized similar to the regular times tables so that students learn the common fractions along with their percentage and decimal representations (e.g. &frac12; and 50% and 0.5, 1/10 and 10% and 0.1), which reduces working-memory load and makes estimation fast and accurate. Double number lines give ratios a consistent home, and algebra begins with containers and balances before symbols, which removes the abstraction shock<sup>[153]</sup>.</p>
 
-  <p>A narrow and focused program can develop materials for these topics that can be provided to every level of education: as methods and top-tier classroom visuals or demonstrations to every math teacher in every school in the country, as interactive exercises online for students and guides for parents, and as targeted remedial programs by elite educators so no students remain without strong familiarity.</p>
+  <p class="body-text">A narrow and focused program can develop materials for these topics that can be provided to every level of education: as methods and top-tier classroom visuals or demonstrations to every math teacher in every school in the country, as interactive exercises online for students and guides for parents, and as targeted remedial programs by elite educators so no students remain without strong familiarity.</p>
+</div>
 
-  <div class="footnotes">
-    <p><sup>[138]</sup> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10888489">pmc.ncbi.nlm.nih.gov/articles/PMC10888489</a></p>
-    <p><sup>[139]</sup> <a href="https://youthpolicylab.umich.edu/research/report/long-term-effects-enhanced-early-childhood-math-instruction">youthpolicylab.umich.edu &ndash; Long-term effects of enhanced early childhood math instruction</a></p>
-    <p><sup>[140]</sup> <a href="https://www.nyssba.org/news/2025/01/31/on-board-online-february-3-2025/best-predictor-of-earnings-at-age-30-for-11-year-olds-it-s-math-test-scores">www.nyssba.org &ndash; Best predictor of earnings at age 30</a></p>
-    <p><sup>[141]</sup> <a href="https://www.mathnasium.com/math-centers/oakbrook/news/early-math-skills-are-the-best-predictor-of-later-scholastic-and-professional-success">www.mathnasium.com &ndash; Early math skills as predictor of success</a></p>
-    <p><sup>[142]</sup> <a href="https://cepa.stanford.edu/content/math-matters-even-little-kids">cepa.stanford.edu &ndash; Math matters even for little kids</a></p>
-    <p><sup>[143]</sup> <a href="https://news.uci.edu/2011/04/27/kids-skilled-early-in-math-do-better-in-school">news.uci.edu &ndash; Kids skilled early in math do better in school</a></p>
-    <p><sup>[144]</sup> MIT Abdul Latif Jameel Poverty Action Lab (J-PAL) <a href="https://www.povertyactionlab.org/policy-insight/improving-student-learning-mathematics">www.povertyactionlab.org &ndash; Improving student learning in mathematics</a></p>
-    <p><sup>[145]</sup> <a href="https://www.researchgate.net/publication/384017392_Early_Numeracy_and_Mathematics_Development_A_Longitudinal_Meta-analysis_on_the_Prediction_Nature_of_Early_Numeracy">ResearchGate &ndash; Early Numeracy and Mathematics Development: A Longitudinal Meta-analysis</a></p>
-    <p><sup>[146]</sup> <a href="https://cls.ucl.ac.uk/knowledge-of-fractions-and-long-division-key-to-later-mathematics-success-2">cls.ucl.ac.uk &ndash; Knowledge of fractions and long division key to later mathematics success</a></p>
-    <p><sup>[147]</sup> OECD report "Universal Basic Skills: What Countries Stand to Gain" <a href="https://www.oecd.org/education/universal-basic-skills-9789264234833-en.htm">www.oecd.org</a></p>
-    <p><sup>[148]</sup> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10474421">pmc.ncbi.nlm.nih.gov/articles/PMC10474421</a></p>
-    <p><sup>[149]</sup> <a href="https://www.barrettrose.com/the-essential-skill-of-numeracy">www.barrettrose.com &ndash; The essential skill of numeracy</a></p>
-    <p><sup>[150]</sup> <a href="https://www.nationalnumeracy.org.uk/sites/default/files/documents/National%20Numeracy%20Research%20Briefing_Fit%20for%20Work.pdf">National Numeracy Research Briefing &ndash; Fit for Work</a></p>
-    <p><sup>[151]</sup> <a href="https://siegler.tc.columbia.edu/wp-content/uploads/2019/02/STS2011.pdf">Siegler, Thompson &amp; Schneider (2011)</a></p>
-    <p><sup>[152]</sup> <a href="https://journals.sagepub.com/doi/10.1177/0956797612440101">journals.sagepub.com/doi/10.1177/0956797612440101</a></p>
-    <p><sup>[153]</sup> <a href="https://d2tic4wvo1iusb.cloudfront.net/production/eef-guidance-reports/maths-ks-2-3/EEF-Improving-Mathematics-in-Key-Stages-2-and-3-2022-Update.pdf">EEF &ndash; Improving Mathematics in Key Stages 2 and 3</a></p>
+<!-- ============================================================
+     4. TOC PILLS LINKING TO INTERACTIVE SECTIONS
+     ============================================================ -->
+<nav class="toc">
+  <a href="#s1">Number line + grid</a>
+  <a href="#s2">Fractions times table</a>
+  <a href="#s3">Unit rate</a>
+  <a href="#s4">Recipe ratios</a>
+  <a href="#s5">Algebra as containers</a>
+</nav>
+
+<!-- ============================================================
+     5. INTERACTIVE SECTION 1: NUMBER LINE + GRID
+     ============================================================ -->
+<div class="section" id="s1">
+  <div class="section-label">One-bar + number line</div>
+  <h2>One point, four labels</h2>
+  <p class="desc">Mark a point on the bar and name it four ways: fraction, decimal, percent, and a count out of 100. Drag the red dot to explore — the grid lets you count the squares.</p>
+  <div class="widget-card">
+    <div class="cards">
+      <div class="card c1"><div class="v" id="vf">3/5</div><div class="c">fraction</div></div>
+      <div class="card c2"><div class="v" id="vd">0.6</div><div class="c">decimal</div></div>
+      <div class="card c3"><div class="v" id="vp">60%</div><div class="c">percent</div></div>
+      <div class="card c4"><div class="v" id="vc">60 out of 100</div><div class="c">count</div></div>
+    </div>
+    <div class="grid-wrap">
+      <div>
+        <div class="grid" id="grid1"></div>
+        <div class="grid-label" id="grid1-label">60 of 100 squares filled</div>
+      </div>
+      <div class="bar-section">
+        <div class="bar-area" id="bar1-area">
+          <div class="bar-bg"></div>
+          <div class="bar-fill" id="bar1-fill" style="width:60%"></div>
+          <div class="dot" id="dot1" style="left:60%"></div>
+        </div>
+        <div class="scale-lbl">Percent</div>
+        <div class="ticks"><span>0%</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100%</span></div>
+        <div class="scale-lbl">Decimal</div>
+        <div class="ticks"><span>0</span><span>.1</span><span>.2</span><span>.3</span><span>.4</span><span>.5</span><span>.6</span><span>.7</span><span>.8</span><span>.9</span><span>1</span></div>
+        <div class="scale-lbl">Fraction</div>
+        <div class="ticks"><span>0</span><span>1/10</span><span>1/5</span><span>3/10</span><span>2/5</span><span>1/2</span><span>3/5</span><span>7/10</span><span>4/5</span><span>9/10</span><span>1</span></div>
+      </div>
+    </div>
+    <div class="spoken" id="spoken1"><b>60 squares</b> out of 100 is the same as <b>3/5</b>, which is <b>0.6</b>, which is <b>60%</b>. Four names, one amount.</div>
+    <div class="snap-hint">Drag the red dot to try different values</div>
   </div>
 </div>
 
-<footer>
+<!-- ============================================================
+     6. INTERACTIVE SECTION 2: FRACTIONS TIMES TABLE
+     ============================================================ -->
+<div class="section" id="s2">
+  <div class="section-label">Fractions times table</div>
+  <h2>Memorise these first</h2>
+  <p class="desc">Halves, quarters, fifths, and tenths first. Then add thirds and eighths. Two minutes a day builds recall. Each bar is divided into the right number of parts so you can count the filled segments.</p>
+  <div class="widget-card">
+    <div class="hdr"><span class="hfrac">Fraction</span><span class="hbar">How much of the bar</span><span class="hdec">Decimal</span><span class="hpct">Percent</span></div>
+
+    <div class="group-label">Halves</div>
+    <div class="frow"><span class="frac">1/2</span><div class="grid-row" id="g-h"></div><span class="dec">0.5</span><span class="pct">50%</span><span class="note">half</span></div>
+
+    <div class="group-label">Quarters</div>
+    <div class="frow"><span class="frac">1/4</span><div class="grid-row" id="g-q1"></div><span class="dec">0.25</span><span class="pct">25%</span><span class="note">quarter</span></div>
+    <div class="frow"><span class="frac">3/4</span><div class="grid-row" id="g-q3"></div><span class="dec">0.75</span><span class="pct">75%</span></div>
+
+    <div class="group-label">Fifths</div>
+    <div class="frow"><span class="frac">1/5</span><div class="grid-row" id="g-f1"></div><span class="dec">0.2</span><span class="pct">20%</span></div>
+    <div class="frow"><span class="frac">2/5</span><div class="grid-row" id="g-f2"></div><span class="dec">0.4</span><span class="pct">40%</span></div>
+    <div class="frow"><span class="frac">3/5</span><div class="grid-row" id="g-f3"></div><span class="dec">0.6</span><span class="pct">60%</span></div>
+    <div class="frow"><span class="frac">4/5</span><div class="grid-row" id="g-f4"></div><span class="dec">0.8</span><span class="pct">80%</span></div>
+
+    <div class="group-label">Tenths</div>
+    <div class="frow"><span class="frac">1/10</span><div class="grid-row" id="g-t1"></div><span class="dec">0.1</span><span class="pct">10%</span></div>
+    <div class="frow"><span class="frac">3/10</span><div class="grid-row" id="g-t3"></div><span class="dec">0.3</span><span class="pct">30%</span></div>
+    <div class="frow"><span class="frac">7/10</span><div class="grid-row" id="g-t7"></div><span class="dec">0.7</span><span class="pct">70%</span></div>
+
+    <div class="group-label" style="color:var(--text3);font-weight:400;font-size:13px">Add thirds and eighths next</div>
+    <div class="frow"><span class="frac">1/3</span><div class="grid-row" id="g-3a"></div><span class="dec">0.33...</span><span class="pct">33%</span></div>
+    <div class="frow"><span class="frac">2/3</span><div class="grid-row" id="g-3b"></div><span class="dec">0.66...</span><span class="pct">67%</span></div>
+    <div class="frow"><span class="frac">1/8</span><div class="grid-row" id="g-8a"></div><span class="dec">0.125</span><span class="pct">12.5%</span></div>
+    <div class="frow"><span class="frac">3/8</span><div class="grid-row" id="g-8b"></div><span class="dec">0.375</span><span class="pct">37.5%</span></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     7. INTERACTIVE SECTION 3: UNIT RATE
+     ============================================================ -->
+<div class="section" id="s3">
+  <div class="section-label">Unit rates</div>
+  <h2>Every row is the same ratio</h2>
+  <p class="desc">1 person needs 100 g of rice. Slide to change the number of people — each one gets their own bowl. The table shows that dividing both numbers always gives back 1 : 100.</p>
+  <div class="widget-card">
+    <div class="ctrl">
+      <label>People</label>
+      <input type="range" min="1" max="10" value="6" step="1" id="ppl3" oninput="drawS3()">
+      <div class="out" id="out3">6 people</div>
+    </div>
+    <div class="portions" id="portions3"></div>
+    <div class="ratio-proof" id="proof3"></div>
+    <table class="pattern-table" id="table3">
+      <thead><tr><th>People</th><th>Rice</th><th class="eq-col"></th><th>Per person</th></tr></thead>
+      <tbody id="tbody3"></tbody>
+    </table>
+    <div class="spoken" id="spoken3"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     8. INTERACTIVE SECTION 4: RECIPE RATIO
+     ============================================================ -->
+<div class="section" id="s4">
+  <div class="section-label">Scaling recipes</div>
+  <h2>Same ratio, bigger batch</h2>
+  <p class="desc">Base recipe: 100 g rice + 300 g water (1 : 3 ratio). Slide the batch multiplier — you can count the blocks stacking up. Divide both totals by the multiplier and you always get back to 100 : 300.</p>
+  <div class="widget-card">
+    <div class="ctrl">
+      <label>Batch size</label>
+      <input type="range" min="1" max="10" value="1" step="1" id="batch4" oninput="drawS4()">
+      <div class="out" id="bout4">&times;1</div>
+    </div>
+    <div class="vis" id="vis4"></div>
+    <div class="totals" id="totals4"></div>
+    <div class="proof-box" id="proof4"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     9. INTERACTIVE SECTION 5: ALGEBRA AS CONTAINERS
+     ============================================================ -->
+<div class="section" id="s5">
+  <div class="section-label">Algebra as containers</div>
+  <h2>Donut bags make algebra concrete</h2>
+  <p class="desc">Letters are just bags with an unknown number of donuts inside. Same color = same count. Click each step to build from like terms all the way to exponents.</p>
+  <div class="widget-card">
+    <div class="steps" id="steps5"></div>
+    <div class="scene" id="scene5"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     10. "MASSIVE NATIONAL PRIORITIZATION" + "IMMEDIATE INTERVENTION"
+     ============================================================ -->
+<div class="section">
+  <div class="section-label">Policy recommendations</div>
+  <h2>Massive national prioritization of math foundations</h2>
+
+  <p class="body-text">This importance means that there would be value in a policy approach with an overwhelming prioritization of numeracy, including the time and resources devoted toward math education, should be on ensuring that every student without fail has a strong understanding of these core areas: arithmetic; fractions, percentages, decimals, ratios and whole numbers all as interchangeable ways to represent numbers; numerical intuition; and basic algebra. These core areas cannot be just chapters given equal weight as any other chapter in math education &ndash; if students don't understand these concepts, then by definition they don't understand any of the later math which uses these concepts, regardless of whether they may test well through rote memorization, pattern recognition drills, or repeating every possible version of potential questions in tutoring classes. Insufficiently prioritizing this bar of numeracy means that children who may have a stronger aptitude or intuition for math internally develop the reasoning or connections between these elements, while students who may not have the same numerical or spatial intuition are left adrift instead of being taught the reasoning which allows them to grasp everything that comes after it.</p>
+
+  <p class="body-text">The load-bearing nature of this small set of topics also means that ensuring every student in the country receives the strongest possible grounding in these topics is massively consequential for the development of a country and its people, and justifies putting in a lot of investment specifically toward these small areas. This suggests that a key national policy should be an uncompromising and intense focus on making sure every single student fully understands these through bringing top-of-the-line pedagogy, heavy investment in educational materials, and specific professional training on these specific areas to every school in the country. Aiming to put in massive investment and teacher skill development across the board to make every aspect of education elite might be too ambitious of an undertaking, but in terms of resources and practicality, ensuring an absolute elite level in just this small set of topics everywhere in the country should be feasible. This is important enough that it even justifies supplementing these targeted advancements with intensive sessions or remedial programs focused specifically on ensuring that no student remains that hasn't received the best possible study in these topics. All of these measures standardized across all Maldivian schools, making these foundations in numeracy a necessity for around Grade 5 in primary school.</p>
+</div>
+
+<div class="section">
+  <h2>Immediate intervention</h2>
+
+  <p class="body-text">This is an important enough area to turn focus to immediately, rather than waiting for a slow rollout. To develop a best-practices approach, roll out materials, train thousands of new teachers, assess their confidence in delivering these methods, identify testing mechanisms and ways to direct students who need further help to receive advanced support in non-stigmatized ways, and other aspects of policy design will take time. Every school year that passes is a full cohort of students, so implementing as soon as possible is crucial. The priority should be the early and lower primary grades. If children secure these foundations by around Grade 3 or 4, later reforms in upper-level maths and science will have something real to build on. If they do not, no amount of tinkering with syllabuses in Grade 9 would fix the problem.</p>
+
+  <p class="body-text">The intervention can be simple but disciplined. At the start of the school year, all students in the relevant grades sit a short, pencil-and-paper diagnostic that tests a small set of core skills: place value, the four operations, fractions and basic word problems. Based on these results, teachers group students by current level for part of the week and use a fixed menu of materials focused only on those skills until they are mastered. After eight to ten weeks, students are retested and regrouped as needed. This kind of short, focused catch-up block fits within the school year and has been shown in many settings to produce large gains for children who were previously left behind.</p>
+
+  <p class="body-text">This will also require educating parents on the importance of this approach. The perception of parents about what is taught in school is often discussed by teachers and governments as being overbearing, almost a case of audience capture where incentives can become more aligned toward what parents believe education should be over what best practices actually might be &ndash; and parents introduced to this idea may perceive that schools are lowering their standards by focusing heavily on more 'basic'-level material, that students receiving additional support are being singled out, or especially that a focus on foundations are not the right way to "teach students for the test", with parents often still having a very exam-focused view of education that focuses on test scores over holistic understanding. Convincing parents of how these foundations are necessary for students to do well even in standard exams throughout their lives will likely need to be a focus as part of these policies.</p>
+
+  <p class="body-text">On top of strengthening teaching and assessment methods for key math fundamentals at early grades where it is most needed, with a state-of-the-art set of tools developed that does not just leave methods up to individual variation of teachers but guarantees foundations, there is also value in immediate targeted interventions across all levels to catch up any students falling behind in math foundations with intensive support.</p>
+</div>
+
+<!-- ============================================================
+     11. FOOTNOTES
+     ============================================================ -->
+<div class="footnotes">
+  <p><sup>[138]</sup> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10888489">pmc.ncbi.nlm.nih.gov/articles/PMC10888489</a></p>
+  <p><sup>[139]</sup> <a href="https://youthpolicylab.umich.edu/research/report/long-term-effects-enhanced-early-childhood-math-instruction">youthpolicylab.umich.edu &ndash; Long-term effects of enhanced early childhood math instruction</a></p>
+  <p><sup>[140]</sup> <a href="https://www.nyssba.org/news/2025/01/31/on-board-online-february-3-2025/best-predictor-of-earnings-at-age-30-for-11-year-olds-it-s-math-test-scores">www.nyssba.org &ndash; Best predictor of earnings at age 30</a></p>
+  <p><sup>[141]</sup> <a href="https://www.mathnasium.com/math-centers/oakbrook/news/early-math-skills-are-the-best-predictor-of-later-scholastic-and-professional-success">www.mathnasium.com &ndash; Early math skills as predictor of success</a></p>
+  <p><sup>[142]</sup> <a href="https://cepa.stanford.edu/content/math-matters-even-little-kids">cepa.stanford.edu &ndash; Math matters even for little kids</a></p>
+  <p><sup>[143]</sup> <a href="https://news.uci.edu/2011/04/27/kids-skilled-early-in-math-do-better-in-school">news.uci.edu &ndash; Kids skilled early in math do better in school</a></p>
+  <p><sup>[144]</sup> MIT Abdul Latif Jameel Poverty Action Lab (J-PAL) <a href="https://www.povertyactionlab.org/policy-insight/improving-student-learning-mathematics">www.povertyactionlab.org &ndash; Improving student learning in mathematics</a></p>
+  <p><sup>[145]</sup> <a href="https://www.researchgate.net/publication/384017392_Early_Numeracy_and_Mathematics_Development_A_Longitudinal_Meta-analysis_on_the_Prediction_Nature_of_Early_Numeracy">ResearchGate &ndash; Early Numeracy and Mathematics Development: A Longitudinal Meta-analysis</a></p>
+  <p><sup>[146]</sup> <a href="https://cls.ucl.ac.uk/knowledge-of-fractions-and-long-division-key-to-later-mathematics-success-2">cls.ucl.ac.uk &ndash; Knowledge of fractions and long division key to later mathematics success</a></p>
+  <p><sup>[147]</sup> OECD report "Universal Basic Skills: What Countries Stand to Gain" <a href="https://www.oecd.org/education/universal-basic-skills-9789264234833-en.htm">www.oecd.org</a></p>
+  <p><sup>[148]</sup> <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10474421">pmc.ncbi.nlm.nih.gov/articles/PMC10474421</a></p>
+  <p><sup>[149]</sup> <a href="https://www.barrettrose.com/the-essential-skill-of-numeracy">www.barrettrose.com &ndash; The essential skill of numeracy</a></p>
+  <p><sup>[150]</sup> <a href="https://www.nationalnumeracy.org.uk/sites/default/files/documents/National%20Numeracy%20Research%20Briefing_Fit%20for%20Work.pdf">National Numeracy Research Briefing &ndash; Fit for Work</a></p>
+  <p><sup>[151]</sup> <a href="https://siegler.tc.columbia.edu/wp-content/uploads/2019/02/STS2011.pdf">Siegler, Thompson &amp; Schneider (2011)</a></p>
+  <p><sup>[152]</sup> <a href="https://journals.sagepub.com/doi/10.1177/0956797612440101">journals.sagepub.com/doi/10.1177/0956797612440101</a></p>
+  <p><sup>[153]</sup> <a href="https://d2tic4wvo1iusb.cloudfront.net/production/eef-guidance-reports/maths-ks-2-3/EEF-Improving-Mathematics-in-Key-Stages-2-and-3-2022-Update.pdf">EEF &ndash; Improving Mathematics in Key Stages 2 and 3</a></p>
+</div>
+
+<!-- ============================================================
+     12. FOOTER
+     ============================================================ -->
+<footer class="site-footer">
   <div><a href="../index.html">Public Policy Lab</a> &middot; Hulhumale, Maldives</div>
   <div><a href="index.html">&larr; Back to Society overview</a></div>
 </footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+/* ===== 1. NUMBER LINE + GRID ===== */
+(function(){
+  const SNAPS=[
+    {v:0,f:'0',d:'0',p:'0%',ct:'0 out of 100',sq:0,sp:'0 squares out of 100 is the same as 0. Nothing filled.'},
+    {v:.1,f:'1/10',d:'0.1',p:'10%',ct:'10 out of 100',sq:10,sp:'<b>10 squares</b> out of 100 is the same as <b>1/10</b>, which is <b>0.1</b>, which is <b>10%</b>. One column.'},
+    {v:.2,f:'1/5',d:'0.2',p:'20%',ct:'20 out of 100',sq:20,sp:'<b>20 squares</b> out of 100 is the same as <b>1/5</b>, which is <b>0.2</b>, which is <b>20%</b>. Two columns.'},
+    {v:.25,f:'1/4',d:'0.25',p:'25%',ct:'25 out of 100',sq:25,sp:'<b>25 squares</b> out of 100 is the same as <b>1/4</b>, which is <b>0.25</b>, which is <b>25%</b>. A quarter.'},
+    {v:1/3,f:'1/3',d:'0.33\u2026',p:'33%',ct:'33 out of 100',sq:33,sp:'<b>33 squares</b> is close to <b>1/3</b>, which is <b>0.33\u2026</b> (goes on forever). About a third.'},
+    {v:.4,f:'2/5',d:'0.4',p:'40%',ct:'40 out of 100',sq:40,sp:'<b>40 squares</b> out of 100 is the same as <b>2/5</b>, which is <b>0.4</b>, which is <b>40%</b>.'},
+    {v:.5,f:'1/2',d:'0.5',p:'50%',ct:'50 out of 100',sq:50,sp:'<b>50 squares</b> out of 100 is the same as <b>1/2</b>, which is <b>0.5</b>, which is <b>50%</b>. Exactly half.'},
+    {v:.6,f:'3/5',d:'0.6',p:'60%',ct:'60 out of 100',sq:60,sp:'<b>60 squares</b> out of 100 is the same as <b>3/5</b>, which is <b>0.6</b>, which is <b>60%</b>. Four names, one amount.'},
+    {v:2/3,f:'2/3',d:'0.66\u2026',p:'67%',ct:'67 out of 100',sq:67,sp:'<b>67 squares</b> is close to <b>2/3</b>, which is <b>0.66\u2026</b> (goes on forever). About two thirds.'},
+    {v:.7,f:'7/10',d:'0.7',p:'70%',ct:'70 out of 100',sq:70,sp:'<b>70 squares</b> out of 100 is the same as <b>7/10</b>, which is <b>0.7</b>, which is <b>70%</b>.'},
+    {v:.75,f:'3/4',d:'0.75',p:'75%',ct:'75 out of 100',sq:75,sp:'<b>75 squares</b> out of 100 is the same as <b>3/4</b>, which is <b>0.75</b>, which is <b>75%</b>. Three quarters.'},
+    {v:.8,f:'4/5',d:'0.8',p:'80%',ct:'80 out of 100',sq:80,sp:'<b>80 squares</b> out of 100 is the same as <b>4/5</b>, which is <b>0.8</b>, which is <b>80%</b>.'},
+    {v:.9,f:'9/10',d:'0.9',p:'90%',ct:'90 out of 100',sq:90,sp:'<b>90 squares</b> out of 100 is the same as <b>9/10</b>, which is <b>0.9</b>, which is <b>90%</b>. Almost full.'},
+    {v:1,f:'1',d:'1.0',p:'100%',ct:'100 out of 100',sq:100,sp:'<b>100 squares</b> out of 100 is <b>1 whole</b>, which is <b>1.0</b>, which is <b>100%</b>. Completely full.'}
+  ];
+  const grid=document.getElementById('grid1');const squares=[];
+  for(let i=0;i<100;i++){const d=document.createElement('div');d.className='sq';grid.appendChild(d);squares.push(d);}
+  function closest(val){let b=SNAPS[0],dist=999;SNAPS.forEach(s=>{const dd=Math.abs(s.v-val);if(dd<dist){dist=dd;b=s;}});return b;}
+  function update(pct){
+    const s=closest(pct);const p=s.v*100;
+    document.getElementById('dot1').style.left=p+'%';
+    document.getElementById('bar1-fill').style.width=p+'%';
+    document.getElementById('vf').textContent=s.f;
+    document.getElementById('vd').textContent=s.d;
+    document.getElementById('vp').textContent=s.p;
+    document.getElementById('vc').textContent=s.ct;
+    document.getElementById('grid1-label').textContent=s.sq+' of 100 squares filled';
+    document.getElementById('spoken1').innerHTML=s.sp;
+    squares.forEach((sq,i)=>{sq.classList.toggle('on',i<s.sq);});
+  }
+  const dot=document.getElementById('dot1'),area=document.getElementById('bar1-area');
+  let dragging=false;
+  function getPct(e){const r=area.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;return Math.max(0,Math.min(1,x/r.width));}
+  dot.addEventListener('pointerdown',e=>{dragging=true;dot.setPointerCapture(e.pointerId);});
+  dot.addEventListener('pointermove',e=>{if(dragging)update(getPct(e));});
+  dot.addEventListener('pointerup',()=>{dragging=false;});
+  area.addEventListener('click',e=>{if(e.target!==dot)update(getPct(e));});
+  update(0.6);
+})();
+
+/* ===== 2. FRACTIONS TIMES TABLE ===== */
+(function(){
+  function fillGrid(id,n,filled,cls){
+    const el=document.getElementById(id);
+    for(let i=0;i<n;i++){const c=document.createElement('div');c.className='gc'+(i<filled?' on-'+cls:'');el.appendChild(c);}
+  }
+  fillGrid('g-h',10,5,'halves');
+  fillGrid('g-q1',8,2,'quarters'); fillGrid('g-q3',8,6,'quarters');
+  fillGrid('g-f1',10,2,'fifths'); fillGrid('g-f2',10,4,'fifths'); fillGrid('g-f3',10,6,'fifths'); fillGrid('g-f4',10,8,'fifths');
+  fillGrid('g-t1',10,1,'tenths'); fillGrid('g-t3',10,3,'tenths'); fillGrid('g-t7',10,7,'tenths');
+  fillGrid('g-3a',9,3,'thirds'); fillGrid('g-3b',9,6,'thirds');
+  fillGrid('g-8a',8,1,'eighths'); fillGrid('g-8b',8,3,'eighths');
+})();
+
+/* ===== 3. UNIT RATE ===== */
+function drawS3(){
+  const n=parseInt(document.getElementById('ppl3').value);
+  const rice=n*100;
+  document.getElementById('out3').textContent=n+(n===1?' person':' people');
+  const por=document.getElementById('portions3');
+  por.innerHTML='';
+  for(let i=0;i<n;i++){
+    por.innerHTML+='<div class="portion"><div style="position:relative"><div class="p-head"></div><div class="p-body"></div></div><div class="rice-bowl"></div><div class="portion-label">100 g</div></div>';
+  }
+  const proof=document.getElementById('proof3');
+  proof.innerHTML=`
+    <div class="ratio-row"><span class="ratio-big"><span class="pill-blue">${n} people</span></span><span class="ratio-op">:</span><span class="ratio-big"><span class="pill-yellow">${rice} g rice</span></span></div>
+    ${n>1?`<div class="divider-note">divide both by ${n}</div><div style="font-size:18px;color:var(--text3)">\u2193</div>
+    <div class="ratio-row"><span style="font-size:15px;font-weight:500"><span class="pill-blue">1 person</span></span><span class="ratio-op">:</span><span style="font-size:15px;font-weight:500"><span class="pill-yellow">100 g rice</span></span></div>`:''}
+    <div><span class="same-badge">always 1 person : 100 g</span></div>`;
+  const tbody=document.getElementById('tbody3');
+  tbody.innerHTML='';
+  for(let i=1;i<=10;i++){
+    tbody.innerHTML+=`<tr${i===n?' class="active"':''}><td>${i}</td><td>${i*100} g</td><td class="eq-col">=</td><td>1 person : 100 g</td></tr>`;
+  }
+  document.getElementById('spoken3').innerHTML=n===1?
+    '<b>1 person</b> needs <b>100 g</b>. This is the unit rate \u2014 everything else is just multiplying this.':
+    `<b>${n} people</b> need <b>${rice} g</b>. Divide both by <b>${n}</b> and you get <b>1 person : 100 g</b>. The ratio is always the same.`;
+}
+drawS3();
+
+/* ===== 4. RECIPE RATIO ===== */
+function drawS4(){
+  const m=parseInt(document.getElementById('batch4').value);
+  const rice=100*m,water=300*m;
+  document.getElementById('bout4').textContent='\u00d7'+m;
+  const vis=document.getElementById('vis4');
+  vis.innerHTML='';
+  let riceHTML='<div class="stack"><div class="stack-label">Rice</div>';
+  for(let i=0;i<m;i++) riceHTML+='<div class="block-row"><div class="block-r">100g</div></div>';
+  riceHTML+=`<div class="brace">${m} \u00d7 100 g</div></div>`;
+  let waterHTML='<div class="stack"><div class="stack-label">Water</div>';
+  for(let i=0;i<m;i++) waterHTML+='<div class="block-row"><div class="block-w">100</div><div class="block-w">100</div><div class="block-w">100</div></div>';
+  waterHTML+=`<div class="brace">${m} \u00d7 300 g</div></div>`;
+  vis.innerHTML=riceHTML+waterHTML;
+  document.getElementById('totals4').innerHTML=`
+    <div class="total-card tc-rice"><div class="tv">${rice} g</div><div class="tl">rice</div></div>
+    <div class="total-card tc-water"><div class="tv">${water} g</div><div class="tl">water</div></div>`;
+  const proof=document.getElementById('proof4');
+  if(m===1){
+    proof.innerHTML=`<div class="proof-line"><b>1</b> batch = <b>100 g</b> rice : <b>300 g</b> water</div>
+      <div class="proof-line dim">This is the base recipe. Every larger batch is just copies of this.</div>
+      <div class="one-portion"><div class="mini-r"></div><div class="mini-w"></div><div class="mini-w"></div><div class="mini-w"></div><div class="one-p-label">= 1 portion: 100 g rice + 300 g water</div></div>`;
+  } else {
+    proof.innerHTML=`<div class="proof-line"><b>${rice} g</b> rice : <b>${water} g</b> water</div>
+      <div class="proof-line dim">divide both by ${m}</div>
+      <div style="font-size:18px;color:var(--text3)">\u2193</div>
+      <div class="proof-line"><b>${rice} \u00f7 ${m} = 100</b> &nbsp;:&nbsp; <b>${water} \u00f7 ${m} = 300</b></div>
+      <div><span class="same">always 100 : 300 = 1 : 3</span></div>
+      <div class="one-portion"><div class="mini-r"></div><div class="mini-w"></div><div class="mini-w"></div><div class="mini-w"></div><div class="one-p-label">each portion is still 100 g rice + 300 g water</div></div>`;
+  }
+}
+drawS4();
+
+/* ===== 5. ALGEBRA DONUTS ===== */
+(function(){
+  const D='<div class="dn"></div>';
+  const Ds=n=>Array(n).fill(D).join('');
+  function bag(col,label,inner,open){
+    return `<div class="bag"><div class="bag-flap bt-${col}"></div><div class="bag-body bf-${col}${open?' dashed':''}">${inner}</div><div class="bag-tag">${label}</div></div>`;
+  }
+  const STEPS=[
+    {title:'Like terms',render:()=>`
+      <div class="math">3 blue bags, blue = 2-pack</div>
+      <div class="row">
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+      </div>
+      <div class="arrow-d">\u2193 count them all up</div>
+      <div class="row"><div class="result"><div class="dn-row">${Ds(6)}</div><div class="rn" style="margin-left:10px">= 6</div></div></div>
+      <div class="math">x + x + x = 3x \u2192 3 \u00d7 2 = 6</div>
+      <div class="explain">All <span class="pill-blue">blue bags</span> hold the <b>same number</b>. Open one and see 2 \u2192 you know all three hold 2. <b>Same color = same count</b>, so you can add them: 2 + 2 + 2 = 6.</div>`},
+    {title:'Unlike terms',render:()=>`
+      <div class="math">2 blue bags + 1 yellow bag</div>
+      <div class="row">
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag',`<div class="dn-row">${Ds(2)}</div><div class="count-label">2 donuts</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('yellow','yellow bag','<div class="qm">?</div>',false)}
+      </div>
+      <div class="arrow-d">\u2193 can we add them?</div>
+      <div class="row"><div class="result"><div class="rn">4 + ???</div></div></div>
+      <div class="math">2x + y = 4 + y</div>
+      <div class="explain">The <span class="pill-blue">blue bags</span> give us 4. But the <span class="pill-yellow">yellow bag</span> is <b>sealed</b>. We <b>can't add up the total</b> until we know what yellow holds. <b>Different colors can't be combined.</b></div>`},
+    {title:'Solve for unknown',render:()=>`
+      <div class="math">2 blue + 1 yellow = 10 total. Blue = 2. What's yellow?</div>
+      <div class="row">
+        ${bag('blue','blue = 2',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue = 2',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('yellow','yellow = ?','<div class="qm">?</div>',false)}
+        <div class="sym sym-eq">=</div>
+        <div class="result"><div class="dn-row">${Ds(10)}</div></div>
+      </div>
+      <div class="arrow-d">\u2193 take away the 4 blue donuts</div>
+      <div class="row">
+        <div class="result crossed"><div class="dn-row">${Ds(4)}</div></div>
+        <div class="sym">\u2192</div>
+        <div class="result"><div class="dn-row">${Ds(6)}</div><div class="rn" style="margin-left:8px">= 6</div></div>
+      </div>
+      <div class="arrow-d">\u2193 so the yellow bag holds</div>
+      <div class="row">${bag('yellow','yellow = 6',`<div class="dn-row">${Ds(6)}</div><div class="count-label">6 donuts!</div>`,true)}</div>
+      <div class="math">10 \u2212 4 = 6 \u2192 y = 6</div>
+      <div class="explain">10 donuts total. Blue bags account for 4. Subtract: <b>10 \u2212 4 = 6</b>. The yellow bag <b>must</b> hold 6.</div>`},
+    {title:'Bags + loose donuts',render:()=>`
+      <div class="math">2x + 3 \u2192 two bags and three loose donuts</div>
+      <div class="row">
+        ${bag('blue','blue bag (x=2)',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        ${bag('blue','blue bag (x=2)',`<div class="dn-row">${Ds(2)}</div>`,true)}
+        <div class="sym">+</div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="dn-row" style="gap:6px">${Ds(3)}</div>
+          <div class="bag-tag" style="margin-top:6px">3 loose donuts</div>
+        </div>
+      </div>
+      <div class="arrow-d">\u2193 count everything</div>
+      <div class="row"><div class="result"><div class="dn-row">${Ds(4)}</div><div style="margin:0 6px;color:var(--text3);font-size:12px">from bags</div><div style="color:var(--text3);font-size:14px">+</div><div class="dn-row" style="margin-left:6px">${Ds(3)}</div><div style="margin:0 6px;color:var(--text3);font-size:12px">loose</div><div class="rn" style="margin-left:6px">= 7</div></div></div>
+      <div class="math">2(2) + 3 = 4 + 3 = 7</div>
+      <div class="explain">Letters and numbers <b>can sit together</b>. The bags hold a hidden count, the loose donuts are right there. If x = 2: two bags give 4, plus 3 loose = <b>7 total</b>.</div>`},
+    {title:'Distribution',render:()=>`
+      <div class="math">3(x + 2) \u2192 three identical party kits</div>
+      <div class="row" style="gap:14px">
+        <div class="kit">${bag('green','x bag','',false)}<div class="dn-row">${Ds(2)}</div></div>
+        <div class="kit">${bag('green','x bag','',false)}<div class="dn-row">${Ds(2)}</div></div>
+        <div class="kit">${bag('green','x bag','',false)}<div class="dn-row">${Ds(2)}</div></div>
+      </div>
+      <div class="explain" style="margin-bottom:8px">Each dashed box is one <b>kit</b>: one bag + two loose donuts. We have <b>3 kits</b>.</div>
+      <div class="arrow-d">\u2193 unpack all kits</div>
+      <div class="row">
+        ${bag('green','',``,false)}${bag('green','',``,false)}${bag('green','',``,false)}
+        <div class="sym">+</div>
+        <div class="dn-row" style="gap:5px">${Ds(6)}</div>
+      </div>
+      <div class="math">= 3x + 6</div>
+      <div class="explain"><b>3 kits</b> \u2192 3 bags + 6 loose donuts \u2192 <b>3x + 6</b>. Not x + 5. Each kit gets multiplied, including the loose donuts.</div>`},
+    {title:'Exponents',render:()=>`
+      <div class="math">x \u00b7 x = x\u00b2 \u2192 a tray of x bags, each with x donuts</div>
+      <div class="row">
+        <div style="display:flex;flex-direction:column;align-items:center;padding:12px;border-radius:var(--radius-lg);background:var(--bg2);border:0.5px solid var(--border)">
+          <div style="font-size:12px;color:var(--text3);margin-bottom:6px">One tray (imagine x = 3)</div>
+          <div style="display:flex;gap:4px">
+            ${bag('blue','3 donuts',`<div class="dn-row">${Ds(3)}</div>`,true)}
+            ${bag('blue','3 donuts',`<div class="dn-row">${Ds(3)}</div>`,true)}
+            ${bag('blue','3 donuts',`<div class="dn-row">${Ds(3)}</div>`,true)}
+          </div>
+          <div style="font-size:13px;font-weight:500;color:var(--text);margin-top:6px">3 bags \u00d7 3 each = 9 donuts = 3\u00b2</div>
+        </div>
+      </div>
+      <div class="arrow-d">\u2193 then 3x \u00b7 2x = six of those trays</div>
+      <div class="row" style="gap:8px">
+        ${[1,2,3,4,5,6].map(()=>'<div style="padding:8px 14px;border-radius:var(--radius);background:var(--bg2);border:0.5px solid var(--border);font-size:18px;font-weight:500;color:var(--text)">x\u00b2</div>').join('')}
+      </div>
+      <div class="math">3x \u00b7 2x = 6x\u00b2</div>
+      <div class="explain">x\u00b2 means <b>x bags with x donuts each</b>. If x = 3, one tray has 3 bags of 3 = <b>9 donuts</b>. 3x times 2x makes 6 trays \u2192 <b>6x\u00b2</b>.</div>`}
+  ];
+  let cur=0;
+  function init(){
+    document.getElementById('steps5').innerHTML=STEPS.map((s,i)=>`<div class="sp${i===cur?' on':''}" onclick="goAlg(${i})">${s.title}</div>`).join('');
+    document.getElementById('scene5').innerHTML=STEPS[cur].render();
+  }
+  window.goAlg=function(i){cur=i;init();};
+  init();
+})();
+</script>
 </body>
 </html>
